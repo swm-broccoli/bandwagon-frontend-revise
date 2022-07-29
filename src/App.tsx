@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import MainPage from './pages/Main';
+import LoginPage from './pages/Login';
+import UIPage from './pages/TempUI';
 
 function App() {
   return (
     <div className='App'>
-      <h1 className='text-amber-700 text-4xl underline'>Vite + React</h1>
+      <Routes>
+        <Route path='/' element={<MainPage />} />
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='ui' element={<UIPage />} />
+      </Routes>
     </div>
   );
 }
