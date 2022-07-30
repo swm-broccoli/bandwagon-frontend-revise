@@ -1,4 +1,5 @@
 import React from 'react';
+import SiteLogo from '../../components/Logo';
 
 function RecruitPage() {
   return (
