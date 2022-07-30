@@ -14,6 +14,8 @@ module.exports = {
           accent: '#2d2d2d',
           neutral: '#888888',
           error: '#eb0553',
+          'base-100': '#fff',
+          success: '#ebfff5',
         },
       },
       'lemonade',

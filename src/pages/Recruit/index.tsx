@@ -1,7 +1,12 @@
 import React from 'react';
 
 function RecruitPage() {
-  return <div>구인 구직 페이지입니다.</div>;
+  return (
+    <>
+      <div>Recruit Page</div>
+      <h1 className='text-accent'>구인구직 페이지</h1>
+    </>
+  );
 }
 
 export default RecruitPage;
