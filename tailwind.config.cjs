@@ -4,5 +4,21 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require('daisyui')],
+  daisyui: {
+    themes: [
+      {
+        bandwagon: {
+          primary: '#59c991',
+          secondary: '#59c9c2',
+          accent: '#2d2d2d',
+          neutral: '#888888',
+          error: '#eb0553',
+          'base-100': '#fff',
+          success: '#ebfff5',
+        },
+      },
+      'lemonade',
+    ],
+  },
 };
