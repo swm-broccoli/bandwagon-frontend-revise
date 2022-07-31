@@ -10,6 +10,7 @@ module.exports = {
       {
         bandwagon: {
           primary: '#59c991',
+          'primary-content': '#fff',
           secondary: '#59c9c2',
           accent: '#2d2d2d',
           neutral: '#888888',
