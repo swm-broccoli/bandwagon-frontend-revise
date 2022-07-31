@@ -1,7 +1,12 @@
 import React from 'react';
+import GlobalNavBar from '../../components/NavBar';
 
 function PasswordEditPage() {
-  return <div>비밀번호 편집 페이지입니다.</div>;
+  return (
+    <div>
+      <GlobalNavBar />
+    </div>
+  );
 }
 
 export default PasswordEditPage;
