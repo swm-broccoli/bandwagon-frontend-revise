@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import GlobalNavBar from '../../components/NavBar';
 import SubmitButton from '../../components/SubmitButton';
 import TextInput from '../../components/TextInput';
+import { Link } from 'react-router-dom';
+import GlobalFooter from '../../components/Footer';
 
 function DateInput({ label }: { label: string }) {
   return (
@@ -187,7 +189,7 @@ function SignUpPage() {
         </p>
         <SignUpForm />
       </div>
-      <footer className='footer mt-10'></footer>
+      <GlobalFooter />
     </div>
   );
 }
