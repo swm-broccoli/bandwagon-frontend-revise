@@ -68,8 +68,13 @@ function LoginPage() {
           안녕하세요. 전국 모든 밴드의 커뮤니티 밴드웨건입니다.
         </div>
         <form className='flex flex-col items-center w-full min-w-[200px] mt-10'>
-          <TextInput label='아이디' placeholder='이메일' required={true} />
-          <TextInput label='비밀번호' placeholder='비밀번호' password />
+          <TextInput label='아이디' placeholder='이메일' required />
+          <TextInput
+            label='비밀번호'
+            placeholder='비밀번호'
+            password
+            required
+          />
           <SubmitButton label='로그인' />
         </form>
         <div className='flex flex-row mt-5'>
