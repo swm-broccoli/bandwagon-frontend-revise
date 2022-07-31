@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import GlobalNavBar from '../../components/NavBar';
+import SubmitButton from '../../components/SubmitButton';
 import TextInput from '../../components/TextInput';
 
 function DateInput({ label }: { label: string }) {
@@ -34,7 +35,7 @@ function SelectionInput({
               key={selection}
               className={`btn text-base-300 font-normal ${
                 curSelection === selection
-                  ? 'bg-success border-primary text-primary hover:bg-[#bbf7d0] hover:border-primary'
+                  ? 'bg-success border-primary border-2 text-primary hover:bg-[#bbf7d0] hover:border-primary'
                   : 'bg-base-100 border-base-200 text-[#ababab] hover:bg-success hover:border-primary'
               }`}
               onClick={() => setCurSelection(selection)}
@@ -48,19 +49,93 @@ function SelectionInput({
   );
 }
 
+function CheckBox({
+  text,
+  checked = false,
+  onClick,
+}: {
+  text: string;
+  checked?: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <label className='label cursor-pointer flex flex-row justify-start pt-2'>
+      <input
+        type='checkbox'
+        className='checkbox checkbox-primary rounded-full bg-base-100 checked:color-base-100'
+        checked={checked}
+        onChange={onClick}
+      />
+      <span className='label-text text-neutral ml-3'>{text}</span>
+    </label>
+  );
+}
+
 function TermAgreeBox({ label }: { label: string }) {
   //약관 동의 박스
+  const [checkedList, setCheckedList] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+  ]);
+
   return (
     <div className='flex flex-col mt-5 w-60 md:w-80'>
       <label className='text-accent mb-2 text-sm'>{label}</label>
-      <div className='border-base-200'>
-        <label className='label cursor-pointer'>
-          <input
-            type='checkbox'
-            className='checkbox checkbox-primary rounded-full bg-base-100 checked:color-base-100'
+      <div className='border border-base-200 rounded-lg px-3 md:px-5'>
+        <div className='mt-2'>
+          <CheckBox
+            text='약관 전체 동의'
+            checked={checkedList.every((checked) => checked === true)}
+            onClick={() => {
+              if (checkedList.every((checked) => checked === true)) {
+                //만약 모두 true
+                setCheckedList([false, false, false, false]);
+              } else {
+                setCheckedList([true, true, true, true]);
+              }
+            }}
           />
-          <span className='label-text'>약관에 전체 동의합니다.</span>
-        </label>
+        </div>
+
+        <div className='divider m-0' />
+        <CheckBox
+          text='만 14세 이상입니다.'
+          checked={checkedList[0]}
+          onClick={() => {
+            setCheckedList((prev) => {
+              return prev.map((_, i) => (i === 0 ? !prev[i] : prev[i]));
+            });
+          }}
+        />
+        <CheckBox
+          text='이용약관 동의'
+          checked={checkedList[1]}
+          onClick={() => {
+            setCheckedList((prev) => {
+              return prev.map((_, i) => (i === 1 ? !prev[i] : prev[i]));
+            });
+          }}
+        />
+        <CheckBox
+          text='개인정보 수집 및 이용 동의'
+          checked={checkedList[2]}
+          onClick={() => {
+            setCheckedList((prev) => {
+              return prev.map((_, i) => (i === 2 ? !prev[i] : prev[i]));
+            });
+          }}
+        />
+        <CheckBox
+          text='마케팅 정보 수신 동의'
+          checked={checkedList[3]}
+          onClick={() => {
+            setCheckedList((prev) => {
+              return prev.map((_, i) => (i === 3 ? !prev[i] : prev[i]));
+            });
+          }}
+        />
       </div>
     </div>
   );
@@ -81,14 +156,14 @@ function SignUpForm() {
       />
       <TextInput
         label='비밀번호'
-        placeholder='1234'
+        placeholder='비밀번호'
         password
         required
         essential
       />
       <TextInput
         label='비밀번호 확인'
-        placeholder='1234'
+        placeholder='비밀번호를 한 번 더 입력해 주세요.'
         password
         required
         essential
@@ -96,6 +171,7 @@ function SignUpForm() {
       <DateInput label='생년월일' />
       <SelectionInput label='성별' selectionList={genderSelection} />
       <TermAgreeBox label='약관 동의' />
+      <SubmitButton label='가입하기' />
     </form>
   );
 }
@@ -111,6 +187,7 @@ function SignUpPage() {
         </p>
         <SignUpForm />
       </div>
+      <footer className='footer mt-10'></footer>
     </div>
   );
 }
