@@ -3,7 +3,7 @@ import EditPageInput from '../../components/EditPageInput';
 
 function AccountEditForm({ label }: { label: string }) {
   return (
-    <div className='grid auto-rows-min'>
+    <div>
       <form>
         <div className='flex flex-row justify-between'>
           <h1 className='text-bold text-2xl font-bold'>{label}</h1>
