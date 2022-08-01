@@ -1,6 +1,6 @@
 import React from 'react';
 import GlobalNavBar from '../../components/NavBar';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import MyInfoIcon from '../../assets/ico_my1@2x.png';
 import MyInfoActiveIcon from '../../assets/ico_my1_on@2x.png';
 import BandInfoIcon from '../../assets/live_music.png';
@@ -74,44 +74,40 @@ function MyPageMenu() {
       to: '/profile/band',
       icon: BandInfoIcon,
       activeIcon: BandInfoActiveIcon,
-      active: false,
     },
     {
       label: '계정 정보',
       to: '/edit/account',
       icon: AccountInfoIcon,
       activeIcon: AccountInfoActiveIcon,
-      active: false,
     },
     {
       label: '비밀번호 변경',
       to: '/edit/password',
       icon: PasswordChangeIcon,
       activeIcon: PasswordChangeActiveIcon,
-      active: false,
     },
     {
       label: '내 글',
       to: '/profile/mypost',
       icon: MyPostIcon,
       activeIcon: MyPostActiveIcon,
-      active: false,
     },
     {
       label: '내 댓글',
       to: '/profile/mycomment',
       icon: MyCommentIcon,
       activeIcon: MyCommentActiveIcon,
-      active: false,
     },
     {
       label: '찜한 글',
       to: '/profile/mylike',
       icon: MyLikeIcon,
       activeIcon: MyLikeActiveIcon,
-      active: false,
     },
   ];
+
+  let location = useLocation();
 
   return (
     <ul className='menu rounded-box border border-base-200 p-1'>
@@ -122,7 +118,7 @@ function MyPageMenu() {
           to={item.to}
           icon={item.icon}
           activeIcon={item.activeIcon}
-          active={item.active}
+          active={item.to === location.pathname}
         />
       ))}
     </ul>
