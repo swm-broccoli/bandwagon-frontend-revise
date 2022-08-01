@@ -3,6 +3,7 @@ import GlobalNavBar from '../../components/NavBar';
 import { Link, useLocation } from 'react-router-dom';
 import MyPageMenu, { myPageMenuItems } from '../../components/MyPageMenu';
 import EditPageInput from '../../components/EditPageInput';
+import MyPageTemplate from '../../components/MyPageTemplate';
 
 function PasswordChangeForm({ label }: { label: string }) {
   return (
@@ -32,19 +33,9 @@ function PasswordChangeForm({ label }: { label: string }) {
 
 function PasswordEditPage() {
   return (
-    <div>
-      <GlobalNavBar />
-      <div className='grid grid-cols-6'>
-        <div className='col-start-2 col-end-6 flex flex-col md:flex-row'>
-          <div className='w-full md:w-1/5 md:col-span-1 min-w-[150px] mt-10'>
-            <MyPageMenu menuList={myPageMenuItems} />
-          </div>
-          <div className='pl-5 pt-5 md:pt-12 w-full'>
-            <PasswordChangeForm label={`비밀번호 변경`} />
-          </div>
-        </div>
-      </div>
-    </div>
+    <MyPageTemplate>
+      <PasswordChangeForm label='비밀번호 변경' />
+    </MyPageTemplate>
   );
 }
 
