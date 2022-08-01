@@ -1,9 +1,11 @@
 function EditPageInput({
   label,
+  type = 'text',
   password = false,
   name,
 }: {
   label: string;
+  type?: string;
   name?: string;
   password?: boolean;
 }) {
@@ -14,8 +16,8 @@ function EditPageInput({
           <span className='label-text text-accent'>{label}</span>
         </label>
         <input
-          type={password ? 'password' : 'text'}
-          placeholder='Type here'
+          type={type}
+          placeholder={label}
           name={name}
           className='input input-bordered w-3/5 max-w-xs focus:outline-none focus:border-primary text-accent'
         />

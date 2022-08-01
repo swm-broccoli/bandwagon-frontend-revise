@@ -1,5 +1,6 @@
 import GlobalNavBar from './NavBar';
 import MyPageMenu, { myPageMenuItems } from './MyPageMenu';
+import GlobalFooter from './Footer';
 
 function MyPageTemplate({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,7 @@ function MyPageTemplate({ children }: { children: React.ReactNode }) {
           <div className='md:pl-5 pt-5 md:pt-12 w-full'>{children}</div>
         </div>
       </div>
+      <GlobalFooter />
     </div>
   );
 }
