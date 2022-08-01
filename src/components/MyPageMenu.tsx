@@ -26,7 +26,7 @@ function MyPageMenuItem({
     >
       <Link
         to={to}
-        className={`pl-2 py-1 md:py-3 w-full ${
+        className={`pl-2 py-1 md:py-2 w-full ${
           active
             ? 'bg-success hover:bg-[#bbf7d0]'
             : 'bg-base-100 hover:bg-base-200'
