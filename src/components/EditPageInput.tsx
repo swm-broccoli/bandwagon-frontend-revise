@@ -1,13 +1,11 @@
 function EditPageInput({
   label,
   type = 'text',
-  password = false,
   name,
 }: {
   label: string;
   type?: string;
   name?: string;
-  password?: boolean;
 }) {
   return (
     <>
