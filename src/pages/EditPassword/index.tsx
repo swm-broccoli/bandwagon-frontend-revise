@@ -2,33 +2,7 @@ import React, { FormEvent } from 'react';
 import GlobalNavBar from '../../components/NavBar';
 import { Link, useLocation } from 'react-router-dom';
 import MyPageMenu, { myPageMenuItems } from '../../components/MyPageMenu';
-
-function EditInput({
-  label,
-  password = false,
-  name,
-}: {
-  label: string;
-  name?: string;
-  password?: boolean;
-}) {
-  return (
-    <>
-      <div className='form-control w-full flex flex-row justify-start py-2'>
-        <label className='label w-1/5 py-0'>
-          <span className='label-text text-accent'>{label}</span>
-        </label>
-        <input
-          type={password ? 'password' : 'text'}
-          placeholder='Type here'
-          name={name}
-          className='input input-bordered w-3/5 max-w-xs focus:outline-none focus:border-primary text-accent'
-        />
-      </div>
-      <div className='divider m-0 w-5/6' />
-    </>
-  );
-}
+import EditPageInput from '../../components/EditPageInput';
 
 function PasswordChangeForm({ label }: { label: string }) {
   return (
@@ -42,10 +16,10 @@ function PasswordChangeForm({ label }: { label: string }) {
         </div>
 
         <div className='mt-6 row-start-2 col-span-full'>
-          <EditInput label='아이디' name='id' />
-          <EditInput label='현재 비밀번호' password name='curPassword' />
-          <EditInput label='새 비밀번호' password name='newPassword' />
-          <EditInput
+          <EditPageInput label='아이디' name='id' />
+          <EditPageInput label='현재 비밀번호' password name='curPassword' />
+          <EditPageInput label='새 비밀번호' password name='newPassword' />
+          <EditPageInput
             label='새 비밀번호 확인'
             password
             name='newPasswordConfirm'
