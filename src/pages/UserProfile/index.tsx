@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import MyPageTemplate from '../../components/MyPageTemplate';
 import ProfileReadOnlyTextField from '../../components/ProfileReadOnlyTextField';
 import ProfileSelectField from '../../components/ProfileSelectField';
@@ -12,25 +13,56 @@ import {
   UserProfileType,
 } from '../../types/types';
 
-function RecordItem({ record }: { record: PerformanceRecordType }) {
+function RecordLinkItem({ recordLink }: { recordLink: RecordLinkType }) {
   return (
-    <div className='grid grid-auto-row bg-success'>
-      <div>
-        <span>{record.title}</span>
-      </div>
+    <div className='flex flex-row text-xs m-1'>
+      <div className='w-24'>{recordLink.platform}</div>
+      <div className='divider divider-horizontal m-0' />
+      <a
+        href={recordLink.url}
+        className='link link-hover block w-full break-all'
+      >
+        {recordLink.url}
+      </a>
     </div>
   );
 }
 
-function RecordField({ records }: { records: PerformanceRecordType[] }) {
+function RecordItem({ record }: { record: PerformanceRecordType }) {
+  const [editing, setEditing] = useState(false);
+
+  return (
+    <div className='grid grid-flow-row bg-success mt-2 px-4 py-2 rounded-lg'>
+      <div className='grid grid-cols-2'>
+        <span className='text-accent col-start-1'>{record.title}</span>
+        <span className='text-neutral col-start-1 text-sm'>{record.date}</span>
+        <button
+          className='btn btn-primary btn-sm w-20 justify-self-end row-start-1 row-end-3 col-start-2'
+          onClick={() => setEditing(!editing)}
+        >
+          {editing ? '저장' : '수정'}
+        </button>
+      </div>
+      {record.recordLinks.map((recordLink) => (
+        <RecordLinkItem key={recordLink.id} recordLink={recordLink} />
+      ))}
+    </div>
+  );
+}
+
+function RecordField({
+  label,
+  records,
+}: {
+  label: string;
+  records: PerformanceRecordType[];
+}) {
   return (
     <div className='mt-6'>
-      <h1 className='text-bold text-2xl font-bold h-12'>연주 목록</h1>
-      <div className='mt-6'>
-        {records.map((record) => (
-          <RecordItem record={record} />
-        ))}
-      </div>
+      <h1 className='text-sm mb-5'>{label}</h1>
+      {records.map((record, index) => (
+        <RecordItem key={index} record={record} />
+      ))}
     </div>
   );
 }
@@ -54,7 +86,7 @@ function UserProfile() {
     userPerformances: [
       {
         id: 1,
-        title: '서울 비상사태 십 분 전',
+        title: '히미츠 - 신장개업',
         date: '2020-01-01',
         recordLinks: [
           {
@@ -64,6 +96,21 @@ function UserProfile() {
           {
             platform: '사운드클라우드',
             url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: '히미츠 - 화성침공',
+        date: '2020-01-01',
+        recordLinks: [
+          {
+            platform: '유튜브',
+            url: 'https://www.google.com',
+          },
+          {
+            platform: '사운드클라우드',
+            url: 'https://www.naver.com',
           },
         ],
       },
@@ -117,6 +164,10 @@ function UserProfile() {
                 description: newDescription,
               });
             }}
+          />
+          <RecordField
+            label='연주 목록'
+            records={curUserProfile.userPerformances}
           />
         </div>
       </div>

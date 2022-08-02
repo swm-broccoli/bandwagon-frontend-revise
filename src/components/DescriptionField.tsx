@@ -30,7 +30,7 @@ function DescriptionField({
         </button>
       </label>
       <textarea
-        className={`textarea w-full mx-0 mt-5 resize-none ${
+        className={`textarea w-full mx-0 mt-5 resize-none text-accent ${
           editing ? 'textarea-bordered bg-base-100' : 'bg-success'
         } h-60`}
         value={newDescription}
