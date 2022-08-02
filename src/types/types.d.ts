@@ -47,7 +47,7 @@ export interface PerformanceRecordType {
 export interface UserProfileType {
   name: string;
   birthday: string;
-  positions: PositionType[];
+  positions: SelectionType[];
   areas: AreaType[];
   genres: GenreType[];
   description: string;

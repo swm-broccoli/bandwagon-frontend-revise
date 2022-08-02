@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ProfileAddModal from './ProfileAddModal';
+import { SelectionType } from '../types/types';
 
 function ProfileFieldAddButton({
   label,
@@ -10,11 +11,11 @@ function ProfileFieldAddButton({
 }: {
   label: string;
   editing: boolean;
-  selected: string[];
-  setSelected: (selected: string[]) => void;
-  options: string[];
+  selected: SelectionType[];
+  setSelected: (selected: SelectionType[]) => void;
+  options: SelectionType[];
 }) {
-  const [curOption, setCurOption] = useState(options[0]);
+  const [curOption, setCurOption] = useState<SelectionType>(options[0]);
 
   if (!editing) {
     return null;
@@ -27,13 +28,13 @@ function ProfileFieldAddButton({
         }}
       >
         <select
-          value={curOption}
-          onChange={(e) => setCurOption(e.target.value)}
+          value={JSON.stringify(curOption)}
+          onChange={(e) => setCurOption(JSON.parse(e.target.value))}
           className='select select-bordered w-full'
         >
           {options.map((option, index) => (
-            <option key={index} value={option}>
-              {option}
+            <option key={index} value={JSON.stringify(option)}>
+              {option.name}
             </option>
           ))}
         </select>
@@ -88,9 +89,9 @@ function ProfileSelectField({
 }: {
   label: string;
   name: string;
-  selected: string[];
-  setSelected: (selected: string[]) => void;
-  options: string[];
+  selected: SelectionType[];
+  setSelected: (selected: SelectionType[]) => void;
+  options: SelectionType[];
 }) {
   const [editing, setEditing] = useState(false);
 
@@ -105,7 +106,7 @@ function ProfileSelectField({
             {selected.map((item, index) => (
               <ProfileSelectFieldItem
                 key={index}
-                label={item}
+                label={item.name}
                 editing={editing}
                 deleteSelected={() => {
                   setSelected(selected.filter((_, i) => i !== index));

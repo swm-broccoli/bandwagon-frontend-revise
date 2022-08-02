@@ -4,6 +4,7 @@ import ProfileReadOnlyTextField from '../../components/ProfileReadOnlyTextField'
 import ProfileSelectField from '../../components/ProfileSelectField';
 import AreaField from '../../components/AreaField';
 import areaOptions from '../../assets/options/areaOptions';
+import positionOptions from '../../assets/options/positionOptions';
 import DescriptionField from '../../components/DescriptionField';
 import {
   RecordLinkType,
@@ -38,7 +39,7 @@ function UserProfile() {
   const [curUserProfile, setCurUserProfile] = useState<UserProfileType>({
     name: '김성현',
     birthday: '1996-01-01',
-    positions: [{ id: 1, name: '일렉기타' }],
+    positions: [{ id: 1, name: 'Electric Guitar' }],
     areas: [{ id: 2, city: '서울', district: '중구' }],
     genres: [],
     description: `서울 비상사태 십 분 전
@@ -60,12 +61,14 @@ function UserProfile() {
             platform: '유튜브',
             url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
           },
+          {
+            platform: '사운드클라우드',
+            url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+          },
         ],
       },
     ],
   });
-
-  const positionOptions = ['일렉기타', '키보드', '보컬', '베이스기타', '드럼'];
 
   return (
     <div>
