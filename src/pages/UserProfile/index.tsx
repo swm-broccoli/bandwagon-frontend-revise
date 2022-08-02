@@ -5,12 +5,40 @@ import ProfileSelectField from '../../components/ProfileSelectField';
 import AreaField from '../../components/AreaField';
 import areaOptions from '../../assets/options/areaOptions';
 import DescriptionField from '../../components/DescriptionField';
+import {
+  RecordLinkType,
+  PerformanceRecordType,
+  UserProfileType,
+} from '../../types/types';
+
+function RecordItem({ record }: { record: PerformanceRecordType }) {
+  return (
+    <div className='grid grid-auto-row bg-success'>
+      <div>
+        <span>{record.title}</span>
+      </div>
+    </div>
+  );
+}
+
+function RecordField({ records }: { records: PerformanceRecordType[] }) {
+  return (
+    <div className='mt-6'>
+      <h1 className='text-bold text-2xl font-bold h-12'>연주 목록</h1>
+      <div className='mt-6'>
+        {records.map((record) => (
+          <RecordItem record={record} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function UserProfile() {
-  const [curUserProfile, setCurUserProfile] = useState({
+  const [curUserProfile, setCurUserProfile] = useState<UserProfileType>({
     name: '김성현',
     birthday: '1996-01-01',
-    positions: ['일렉기타'],
+    positions: [{ id: 1, name: '일렉기타' }],
     areas: [{ id: 2, city: '서울', district: '중구' }],
     genres: [],
     description: `서울 비상사태 십 분 전
@@ -22,7 +50,19 @@ function UserProfile() {
     먼저 다가가기는 어렵겠어요
     다음에 와줄래요
     돌아가 줘요`,
-    userPerformances: [],
+    userPerformances: [
+      {
+        id: 1,
+        title: '서울 비상사태 십 분 전',
+        date: '2020-01-01',
+        recordLinks: [
+          {
+            platform: '유튜브',
+            url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+          },
+        ],
+      },
+    ],
   });
 
   const positionOptions = ['일렉기타', '키보드', '보컬', '베이스기타', '드럼'];
