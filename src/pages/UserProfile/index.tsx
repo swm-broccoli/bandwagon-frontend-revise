@@ -18,27 +18,20 @@ function ProfileFieldEditButton({
   );
 }
 
-function ProfileTextField({ label, name }: { label: string; name: string }) {
-  const [editing, setEditing] = useState(false);
-
+function ProfileReadOnlyTextField({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
   return (
     <>
       <div className='form-control h-10 w-full flex flex-row justify-start items-center my-2'>
         <label className='label w-1/5 py-0'>
           <span className='label-text text-accent'>{label}</span>
         </label>
-        <input
-          type='text'
-          placeholder={label}
-          name={name}
-          className='input input-bordered h-10 w-3/5 mr-10 focus:outline-none focus:border-primary text-accent'
-        />
-        <ProfileFieldEditButton
-          editing={editing}
-          toggleEditing={() => {
-            setEditing((prev) => !prev);
-          }}
-        />
+        <div className='flex items-center h-10 w-3/5'>{value}</div>
       </div>
       <div className='divider m-0' />
     </>
@@ -91,6 +84,15 @@ function ProfileSelectField({
 }
 
 function UserProfile() {
+  const [curUserProfile, setCurUserProfile] = useState({
+    name: '김성현',
+    birthday: '1996-01-01',
+    positions: [],
+    areas: [],
+    genres: [],
+    description: '',
+    userPerformances: [],
+  });
   const [userPosition, setUserPosition] = useState<string[]>([
     '일렉기타',
     '보컬',
@@ -108,8 +110,11 @@ function UserProfile() {
           </div>
         </div>
         <div className='w-full mt-10'>
-          <ProfileTextField label='이름' name='username' />
-          <ProfileTextField label='나이' name='age' />
+          <ProfileReadOnlyTextField label='이름' value={curUserProfile.name} />
+          <ProfileReadOnlyTextField
+            label='나이'
+            value={curUserProfile.birthday}
+          />
           <ProfileSelectField
             label='포지션'
             name='position'
