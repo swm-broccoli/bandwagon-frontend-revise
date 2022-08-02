@@ -28,23 +28,35 @@ function RecordLinkItem({ recordLink }: { recordLink: RecordLinkType }) {
   );
 }
 
-function RecordItem({ record }: { record: PerformanceRecordType }) {
-  const [editing, setEditing] = useState(false);
+function RecordItem({
+  record,
+  editing,
+}: {
+  record: PerformanceRecordType;
+  editing: boolean;
+}) {
+  const [itemEditing, setItemEditing] = useState(false);
+
+  useEffect(() => {
+    setItemEditing(false);
+  }, [editing]);
 
   return (
     <div className='grid grid-flow-row bg-success mt-2 px-4 py-2 rounded-lg'>
       <div className='grid grid-cols-2'>
         <span className='text-accent col-start-1'>{record.title}</span>
         <span className='text-neutral col-start-1 text-sm'>{record.date}</span>
-        <button
-          className='btn btn-primary btn-sm w-20 justify-self-end row-start-1 row-end-3 col-start-2'
-          onClick={() => setEditing(!editing)}
-        >
-          {editing ? '저장' : '수정'}
-        </button>
+        {editing && (
+          <button
+            className='btn btn-primary btn-sm w-20 justify-self-end row-start-1 row-end-3 col-start-2'
+            onClick={() => setItemEditing(!itemEditing)}
+          >
+            {itemEditing ? '저장' : '수정'}
+          </button>
+        )}
       </div>
-      {record.recordLinks.map((recordLink) => (
-        <RecordLinkItem key={recordLink.id} recordLink={recordLink} />
+      {record.recordLinks.map((recordLink, index) => (
+        <RecordLinkItem key={index} recordLink={recordLink} />
       ))}
     </div>
   );
@@ -57,11 +69,24 @@ function RecordField({
   label: string;
   records: PerformanceRecordType[];
 }) {
+  const [editing, setEditing] = useState(false);
+
   return (
-    <div className='mt-6'>
-      <h1 className='text-sm mb-5'>{label}</h1>
+    <div>
+      <div className='flex flex-row justify-between items-center mb-5'>
+        <h1 className='text-sm pl-1'>{label}</h1>
+        <button
+          onClick={() => {
+            setEditing(!editing);
+          }}
+          className='btn btn-sm bg-base-100 hover:bg-base-200 border-base-200 text-accent h-8 w-14 p-0'
+        >
+          {editing ? '완료' : '수정'}
+        </button>
+      </div>
+
       {records.map((record, index) => (
-        <RecordItem key={index} record={record} />
+        <RecordItem key={index} record={record} editing={editing} />
       ))}
     </div>
   );
