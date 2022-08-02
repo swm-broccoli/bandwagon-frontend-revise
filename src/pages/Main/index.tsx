@@ -14,6 +14,14 @@ function MainPage() {
         <button className='btn btn-primary'>
           <Link to='/signup'>회원가입 페이지</Link>
         </button>
+        <button
+          className='btn btn-primary'
+          onClick={() => {
+            console.log('페이지 이동');
+          }}
+        >
+          <Link to='/edit/password'>비밀번호 변경 페이지</Link>
+        </button>
       </div>
     </>
   );
