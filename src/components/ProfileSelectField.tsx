@@ -29,7 +29,7 @@ function ProfileFieldAddButton({
         <select
           value={curOption}
           onChange={(e) => setCurOption(e.target.value)}
-          className='select select-bordered w-full max-w-xs'
+          className='select select-bordered w-full'
         >
           {options.map((option, index) => (
             <option key={index} value={option}>

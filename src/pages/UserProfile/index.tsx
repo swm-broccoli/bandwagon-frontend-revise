@@ -18,7 +18,7 @@ function AreaFieldItem({
   if (editing) {
     return (
       <div className='mr-2'>
-        {`${area.city} ${area.district}`}
+        {`${area.city} ${area.district} `}
         <button onClick={deleteArea}>X</button>
       </div>
     );
@@ -56,7 +56,7 @@ function AreaFieldAddButton({
           setAreas(areas.concat(curAreaOption));
         }}
       >
-        <div className='flex flex-row justify-center'>
+        <div className='flex flex-row w-full justify-center'>
           <select
             value={curAreaOption.city}
             onChange={(e) =>
@@ -65,7 +65,7 @@ function AreaFieldAddButton({
                   options[0],
               )
             }
-            className='select select-bordered w-full max-w-xs'
+            className='select select-bordered w-1/2 mx-2'
           >
             {cityOptions.map((city, index) => (
               <option key={index} value={city}>
@@ -84,7 +84,7 @@ function AreaFieldAddButton({
                 ) || options[0],
               );
             }}
-            className='select select-bordered w-full max-w-xs'
+            className='select select-bordered w-1/2 mx-2'
           >
             {options
               .filter((area) => {

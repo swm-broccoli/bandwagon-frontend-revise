@@ -28,7 +28,7 @@ function ProfileAddModal({
       <div className='modal'>
         <div className='modal-box relative flex flex-col items-center'>
           <h3 className='text-lg mb-6'>{label}</h3>
-          {children}
+          <div className='w-4/5'>{children}</div>
           <div className='flex justify-center mt-4 w-1/2'>
             <label
               htmlFor={modalID}
