@@ -2,14 +2,16 @@ import React from 'react';
 import ArticleCard from './ArticleCard';
 import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
+import Button from '../../components/Button';
 import RecruitTab from './RecruitTab';
 
 function RecruitPage() {
   return (
-    <>
+    <div className='flex flex-col gap-2'>
       <GlobalNavBar />
       <RecruitTab clicked={true} />
       <RecruitTab clicked={false} />
+      <Button label='글쓰기' x='w-[7.5rem] ' y='h-10 ' textSize='text-sm' />
       <ArticleCard 
       id={1}
       pic='https://i.imgur.com/rmFxZua.jpeg'
@@ -29,7 +31,7 @@ function RecruitPage() {
       isHeartChecked={true}
       />
       <GlobalFooter />
-    </>
+    </div>
   );
 }
 
