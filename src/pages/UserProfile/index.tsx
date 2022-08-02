@@ -4,7 +4,49 @@ import ProfileReadOnlyTextField from '../../components/ProfileReadOnlyTextField'
 import ProfileSelectField from '../../components/ProfileSelectField';
 import AreaField from '../../components/AreaField';
 import areaOptions from '../../assets/options/areaOptions';
-import ProfileAddModal from '../../components/ProfileAddModal';
+
+function DescriptionField({
+  label,
+  description,
+  setDescription,
+}: {
+  label: string;
+  description: string;
+  setDescription: (newDescription: string) => void;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [newDescription, setNewDescription] = useState(description);
+
+  return (
+    <div className='w-full grid grid-flow-row mt-5'>
+      <label className='label min-w-[52px] p-0 pl-1 justify-start'>
+        <span className='label-text text-accent w-4/5 mr-2'>{label}</span>
+        <button
+          onClick={() => {
+            if (editing) {
+              //저장
+              setDescription(newDescription);
+            }
+            setEditing(!editing);
+          }}
+          className='btn btn-sm bg-base-100 hover:bg-base-200 border-base-200 text-accent h-8 w-14 p-0'
+        >
+          {editing ? '완료' : '수정'}
+        </button>
+      </label>
+      <textarea
+        className={`textarea w-full mx-1 my-5 resize-none ${
+          editing ? 'textarea-bordered bg-base-100' : 'bg-success'
+        } h-full`}
+        value={newDescription}
+        onChange={(e) => {
+          setNewDescription(e.target.value);
+        }}
+        readOnly={!editing}
+      />
+    </div>
+  );
+}
 
 function UserProfile() {
   const [curUserProfile, setCurUserProfile] = useState({
@@ -13,7 +55,15 @@ function UserProfile() {
     positions: ['일렉기타'],
     areas: [{ id: 2, city: '서울', district: '중구' }],
     genres: [],
-    description: '',
+    description: `서울 비상사태 십 분 전
+    오늘 지구는 일촉즉발
+    이런 막중한 임무가 하필 내게
+    맡겨지게 된 건데
+    길게 드리워진 그림자
+    뭔지 알 수 없는 실루엣
+    먼저 다가가기는 어렵겠어요
+    다음에 와줄래요
+    돌아가 줘요`,
     userPerformances: [],
   });
 
@@ -56,6 +106,16 @@ function UserProfile() {
               });
             }}
             options={areaOptions}
+          />
+          <DescriptionField
+            label='자기소개'
+            description={curUserProfile.description}
+            setDescription={(newDescription) => {
+              setCurUserProfile({
+                ...curUserProfile,
+                description: newDescription,
+              });
+            }}
           />
         </div>
       </div>
