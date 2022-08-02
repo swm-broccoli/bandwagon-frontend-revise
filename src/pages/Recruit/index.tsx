@@ -1,12 +1,15 @@
 import React from 'react';
-import ArticleCard from '../../components/ArticleCard';
+import ArticleCard from './ArticleCard';
 import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
+import RecruitTab from './RecruitTab';
 
 function RecruitPage() {
   return (
     <>
       <GlobalNavBar />
+      <RecruitTab clicked={true} />
+      <RecruitTab clicked={false} />
       <ArticleCard 
       id={1}
       pic='https://i.imgur.com/rmFxZua.jpeg'

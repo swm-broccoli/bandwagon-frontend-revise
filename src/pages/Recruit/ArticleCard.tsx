@@ -1,8 +1,8 @@
 import React from 'react';
-import TagElement from './TagElement';
-import ExamplePic from '../assets/examplepic.jpeg';
-import Heart from '../assets/ic_heart.svg';
-import CheckedHeart from '../assets/ic_heart_checked.svg';
+import TagElement from '../../components/TagElement';
+import ExamplePic from '../../assets/examplepic.jpeg';
+import Heart from '../../assets/ic_heart.svg';
+import CheckedHeart from '../../assets/ic_heart_checked.svg';
 
 function ArticleCard (
   props:
