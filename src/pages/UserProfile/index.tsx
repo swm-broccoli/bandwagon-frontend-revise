@@ -197,13 +197,25 @@ function UserProfile() {
   const [editingUserProfile, setEditingUserProfile] =
     useState<UserProfileType>();
 
+  const [profileEditing, setProfileEditing] = useState<boolean>(false);
+
   useEffect(() => {
     setEditingUserProfile(curUserProfile);
-  });
+  }, []);
 
   return (
     <div>
-      <h1 className='text-bold text-2xl font-bold h-12'>내 정보</h1>
+      <div className='flex flex-row justify-between'>
+        <h1 className='text-bold text-2xl font-bold'>내 정보</h1>
+        <button
+          className={`btn h-10 ${
+            profileEditing ? 'bg-base-100 hover:bg-base-200' : 'btn-primary'
+          }`}
+          onClick={() => setProfileEditing(!profileEditing)}
+        >
+          {profileEditing ? '수정 완료' : '수정하기'}
+        </button>
+      </div>
       <div className='mt-6 flex flex-col items-center'>
         <div className='avatar w-1/3'>
           <div className='rounded-full'>
