@@ -11,6 +11,9 @@ function ProfileAddModal({
   addSelected: () => void;
   children: React.ReactNode;
 }) {
+  // 라벨, 취소 버튼, 추가 버튼이 포함된 모달을 여는 '+추가' 버튼을 렌더링한다.
+  // 추가 버튼을 누르면 선택된 옵션을 선택된 옵션 배열에 추가한다.
+  // 라벨과 취소/추가 버튼 사이에는 옵션 드롭박스를 렌더링한다.
   return (
     <>
       <label
@@ -64,26 +67,24 @@ function ProfileFieldAddButton({
     return null;
   } else {
     return (
-      <>
-        <ProfileAddModal
-          label={`${label} 추가`}
-          addSelected={() => {
-            setSelected(selected.concat(curOption));
-          }}
+      <ProfileAddModal
+        label={`${label} 추가`}
+        addSelected={() => {
+          setSelected(selected.concat(curOption));
+        }}
+      >
+        <select
+          value={curOption}
+          onChange={(e) => setCurOption(e.target.value)}
+          className='select select-bordered w-full max-w-xs'
         >
-          <select
-            value={curOption}
-            onChange={(e) => setCurOption(e.target.value)}
-            className='select select-bordered w-full max-w-xs'
-          >
-            {options.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </ProfileAddModal>
-      </>
+          {options.map((option, index) => (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </ProfileAddModal>
     );
   }
 }
@@ -153,7 +154,7 @@ function ProfileSelectField({
               label={item}
               editing={editing}
               deleteSelected={() => {
-                setSelected(selected.filter((s, i) => i !== index));
+                setSelected(selected.filter((_, i) => i !== index));
               }}
             />
           ))}
@@ -181,16 +182,13 @@ function UserProfile() {
   const [curUserProfile, setCurUserProfile] = useState({
     name: '김성현',
     birthday: '1996-01-01',
-    positions: [],
+    positions: ['일렉기타'],
     areas: [],
     genres: [],
     description: '',
     userPerformances: [],
   });
-  const [userPosition, setUserPosition] = useState<string[]>([
-    '일렉기타',
-    '보컬',
-  ]);
+  const [userPositions, setUserPositions] = useState(['일렉기타']);
 
   const positionOptions = ['일렉기타', '키보드', '보컬', '베이스기타', '드럼'];
 
@@ -212,9 +210,14 @@ function UserProfile() {
           <ProfileSelectField
             label='포지션'
             name='position'
-            selected={userPosition}
+            selected={curUserProfile.positions}
             options={positionOptions}
-            setSelected={setUserPosition}
+            setSelected={(newPosition) => {
+              setCurUserProfile({
+                ...curUserProfile,
+                positions: newPosition,
+              });
+            }}
           />
         </div>
       </div>
