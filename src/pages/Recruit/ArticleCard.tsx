@@ -16,7 +16,7 @@ function ArticleCard (
     isHeartChecked: boolean,
   }) {
   return (
-    <div className='w-80 h-fit grid grid-cols-[150px_400px_30px] grid-rows-[50px_44px_auto] p-5 border-solid border-[#e9e9e9] border bg-white rounded-xl md:w-[38.75rem]'>
+    <div className='w-9/12 md:w-[36%] max-w-[38.75rem] h-fit grid grid-cols-[15fr_40fr_3fr] grid-rows-[50px_44px_auto] p-5 border-solid border-[#e9e9e9] border bg-white rounded-xl'>
       <img src={ExamplePic} className='w-[7.5rem] h-[7.5rem] row-start-1 row-end-4 col-start-1 pr-30 object-cover rounded-xl'/>
       <div className='row-start-1 col-start-2 w-full h-[1.625rem] pt-[0.625rem] pb-3.5 font-medium text-lg text-accent'>
         {props.title}
@@ -28,7 +28,7 @@ function ArticleCard (
         </div>
       </div>
       <div className='flex gap-1.5 row-start-3 col-start-2 w-full h-full'>
-        {props.tags.map((text) =>
+        {props.tags.map((text, index) =>
         <TagElement tag={text} />)}
       </div>
       <div className='flex row-start-3 col-start-3 justify-end items-center'>
