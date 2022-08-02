@@ -1,7 +1,3 @@
-import React, { FormEvent } from 'react';
-import GlobalNavBar from '../../components/NavBar';
-import { Link, useLocation } from 'react-router-dom';
-import MyPageMenu, { myPageMenuItems } from '../../components/MyPageMenu';
 import EditPageInput from '../../components/EditPageInput';
 import MyPageTemplate from '../../components/MyPageTemplate';
 
