@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function GlobalFooter() {
   return (
-    <footer className='footer mt-10 bg-base-200 flex flex-row items-center justify-center'>
+    <footer className='footer bottom-0 mt-10 bg-base-200 flex flex-row items-center justify-center'>
       <div>
         <span className='footer-title'>Services</span>
         <Link to='/'>메인 페이지</Link>
