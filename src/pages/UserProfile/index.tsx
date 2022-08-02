@@ -19,7 +19,7 @@ function DescriptionField({
 
   return (
     <div className='w-full grid grid-flow-row mt-5'>
-      <label className='label min-w-[52px] p-0 pl-1 justify-start'>
+      <label className='label min-w-[52px] p-0 pl-1 justify-between'>
         <span className='label-text text-accent w-4/5 mr-2'>{label}</span>
         <button
           onClick={() => {
@@ -35,9 +35,9 @@ function DescriptionField({
         </button>
       </label>
       <textarea
-        className={`textarea w-full mx-1 my-5 resize-none ${
+        className={`textarea w-full mx-0 my-5 resize-none ${
           editing ? 'textarea-bordered bg-base-100' : 'bg-success'
-        } h-full`}
+        } h-60`}
         value={newDescription}
         onChange={(e) => {
           setNewDescription(e.target.value);

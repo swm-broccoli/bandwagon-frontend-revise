@@ -113,22 +113,25 @@ function AreaField({
 
   return (
     <>
-      <div className='form-control h-10 w-full flex flex-row justify-start items-center my-2'>
-        <label className='label w-1/5 py-0'>
-          <span className='label-text text-accent'>{label}</span>
-        </label>
-        <div className='flex flex-row items-center h-10 w-3/5 mr-2 text-accent'>
-          {areas.map((area, index) => (
-            <AreaFieldItem
-              key={index}
-              area={area}
-              editing={editing}
-              deleteArea={() => {
-                setAreas(areas.filter((_, i) => i !== index));
-              }}
-            />
-          ))}
+      <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
+        <div className='flex w-4/5 flex-row justify-start'>
+          <label className='label w-1/4 py-0'>
+            <span className='label-text text-accent'>{label}</span>
+          </label>
+          <div className='flex flex-row items-center h-10 w-3/4 mr-2 text-accent'>
+            {areas.map((area, index) => (
+              <AreaFieldItem
+                key={index}
+                area={area}
+                editing={editing}
+                deleteArea={() => {
+                  setAreas(areas.filter((_, i) => i !== index));
+                }}
+              />
+            ))}
+          </div>
         </div>
+
         <AreaFieldAddButton
           label={label}
           editing={editing}
