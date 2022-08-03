@@ -8,6 +8,7 @@ interface UserProfileStoreType {
     positions: Array<{ id: number; name: string }>,
   ) => void;
   setUserProfileAreas: (areas: Array<AreaType>) => void;
+  setUserProfileGenres: (genres: Array<{ id: number; name: string }>) => void;
 }
 
 const userProfileStore = create<UserProfileStoreType>((set) => ({
@@ -25,6 +26,14 @@ const userProfileStore = create<UserProfileStoreType>((set) => ({
       userProfile: {
         ...state.userProfile,
         areas: areas,
+      },
+    }));
+  },
+  setUserProfileGenres: (genres) => {
+    set((state) => ({
+      userProfile: {
+        ...state.userProfile,
+        genres: genres,
       },
     }));
   },

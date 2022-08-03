@@ -3,7 +3,12 @@ const initialUserProfile = {
   birthday: '1996-01-01',
   positions: [{ id: 1, name: 'Electric Guitar' }],
   areas: [{ id: 2, city: '서울', district: '중구' }],
-  genres: [],
+  genres: [
+    {
+      id: 5,
+      name: 'K-POP',
+    },
+  ],
   description: `서울 비상사태 십 분 전
   오늘 지구는 일촉즉발
   이런 막중한 임무가 하필 내게

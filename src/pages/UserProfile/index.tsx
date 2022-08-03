@@ -6,6 +6,7 @@ import ProfileSelectField from '../../components/ProfileSelectField';
 import AreaField from '../../components/AreaField';
 import areaOptions from '../../assets/options/areaOptions';
 import positionOptions from '../../assets/options/positionOptions';
+import genreOptions from '../../assets/options/genreOptions';
 import DescriptionField from '../../components/DescriptionField';
 import {
   RecordLinkType,
@@ -21,13 +22,12 @@ function UserProfile() {
   const [curUserProfile, setCurUserProfile] =
     useState<UserProfileType>(initialUserProfile);
 
-  const storedUserProfile = userProfileStore((state) => state.userProfile);
-  const setUserProfilePositions = userProfileStore(
-    (state) => state.setUserProfilePositions,
-  );
-  const setUserProfileAreas = userProfileStore(
-    (state) => state.setUserProfileAreas,
-  );
+  const {
+    userProfile: storedUserProfile,
+    setUserProfilePositions,
+    setUserProfileAreas,
+    setUserProfileGenres,
+  } = userProfileStore();
 
   const [userProfileItemChanged, setUserProfileItemChanged] =
     useState<UserProfileChangeTraceType>({
@@ -101,6 +101,13 @@ function UserProfile() {
             areas={storedUserProfile.areas}
             setAreas={setUserProfileAreas}
             options={areaOptions}
+            editing={profileEditing}
+          />
+          <ProfileSelectField
+            label='선호장르'
+            selected={storedUserProfile.genres}
+            setSelected={setUserProfileGenres}
+            options={genreOptions}
             editing={profileEditing}
           />
           <DescriptionField
