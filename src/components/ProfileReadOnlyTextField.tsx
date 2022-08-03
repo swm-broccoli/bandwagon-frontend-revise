@@ -1,9 +1,11 @@
 function ProfileReadOnlyTextField({
   label,
   value,
+  editing = false,
 }: {
   label: string;
   value: string;
+  editing?: boolean;
 }) {
   return (
     <>
@@ -11,7 +13,11 @@ function ProfileReadOnlyTextField({
         <label className='label w-1/5 py-0'>
           <span className='label-text text-accent'>{label}</span>
         </label>
-        <div className='flex items-center h-10 w-3/5'>{value}</div>
+        {editing ? (
+          <input value={value} className='input input-bordered' disabled />
+        ) : (
+          <div className='flex items-center h-10 w-3/5'>{value}</div>
+        )}
       </div>
       <div className='divider m-0' />
     </>
