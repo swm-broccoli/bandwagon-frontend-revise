@@ -43,23 +43,6 @@ function ProfileFieldAddButton({
   }
 }
 
-function ProfileFieldEditButton({
-  editing,
-  toggleEditing,
-}: {
-  editing: boolean;
-  toggleEditing: () => void;
-}) {
-  return (
-    <button
-      onClick={toggleEditing}
-      className='btn btn-sm bg-base-100 hover:bg-base-200 border-base-200 text-accent h-8 w-14 p-0'
-    >
-      {editing ? '완료' : '수정'}
-    </button>
-  );
-}
-
 function ProfileSelectFieldItem({
   label,
   editing,
