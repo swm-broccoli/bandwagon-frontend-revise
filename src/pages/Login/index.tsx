@@ -80,6 +80,9 @@ function LoginPage() {
           안녕하세요. 전국 모든 밴드의 커뮤니티 밴드웨건입니다.
         </div>
         <LoginForm />
+        <div className='border mt-4 w-60 md:w-80' />
+        <NaverLoginButton />
+        <KaKaoLoginButton />
         <div className='flex flex-row mt-5'>
           <Link to='/' className='px-5'>
             아이디 찾기
@@ -91,8 +94,6 @@ function LoginPage() {
             회원가입
           </Link>
         </div>
-        <NaverLoginButton />
-        <KaKaoLoginButton />
       </div>
     </>
   );
