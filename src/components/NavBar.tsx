@@ -31,10 +31,6 @@ function GlobalNavBar() {
       label: '채팅',
     },
     {
-      link: '/recruit',
-      label: '알림',
-    },
-    {
       link: '/profile/user',
       label: 'MY',
     },
