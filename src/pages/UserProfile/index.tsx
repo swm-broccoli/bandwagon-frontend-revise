@@ -11,8 +11,10 @@ import {
   RecordLinkType,
   PerformanceRecordType,
   UserProfileType,
+  UserProfileChangeTraceType,
 } from '../../types/types';
 import initialUserProfile from './initialUserProfile';
+import userProfileStore from './userProfileStore';
 
 const linkPlatformOptions = [
   {
@@ -194,14 +196,19 @@ function UserProfile() {
   const [curUserProfile, setCurUserProfile] =
     useState<UserProfileType>(initialUserProfile);
 
-  const [editingUserProfile, setEditingUserProfile] =
-    useState<UserProfileType>();
+  const [userProfileItemChanged, setUserProfileItemChanged] =
+    useState<UserProfileChangeTraceType>({
+      // 바뀐 내역을 추적하는 변수
+      name: false,
+      birthday: false,
+      positions: false,
+      areas: false,
+      genres: false,
+      description: false,
+      userPerformances: false,
+    });
 
   const [profileEditing, setProfileEditing] = useState<boolean>(false);
-
-  useEffect(() => {
-    setEditingUserProfile(curUserProfile);
-  }, []);
 
   return (
     <div>
@@ -235,15 +242,19 @@ function UserProfile() {
           />
           <ProfileSelectField
             label='포지션'
-            name='position'
             selected={curUserProfile.positions}
-            options={positionOptions}
-            setSelected={(newPosition) => {
+            setSelected={(newPositions) => {
               setCurUserProfile({
                 ...curUserProfile,
-                positions: newPosition,
+                positions: newPositions,
+              });
+              setUserProfileItemChanged({
+                ...userProfileItemChanged,
+                positions: true,
               });
             }}
+            options={positionOptions}
+            editing={profileEditing}
           />
           <AreaField
             label='지역'

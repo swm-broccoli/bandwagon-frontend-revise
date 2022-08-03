@@ -82,19 +82,17 @@ function ProfileSelectFieldItem({
 
 function ProfileSelectField({
   label,
-  name,
   selected,
   setSelected,
   options,
+  editing,
 }: {
   label: string;
-  name: string;
   selected: SelectionType[];
   setSelected: (selected: SelectionType[]) => void;
   options: SelectionType[];
+  editing: boolean;
 }) {
-  const [editing, setEditing] = useState(false);
-
   return (
     <>
       <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
@@ -122,12 +120,6 @@ function ProfileSelectField({
           selected={selected}
           setSelected={setSelected}
           options={options}
-        />
-        <ProfileFieldEditButton
-          editing={editing}
-          toggleEditing={() => {
-            setEditing((prev) => !prev);
-          }}
         />
       </div>
       <div className='divider m-0' />
