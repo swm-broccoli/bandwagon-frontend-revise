@@ -8,6 +8,11 @@ import {
 
 interface UserProfileStoreType {
   userProfile: UserProfileType;
+  setUserProfileByFieldName: (
+    fieldName: string,
+    value: Partial<UserProfileType>,
+  ) => void;
+
   setUserProfilePositions: (
     positions: Array<{ id: number; name: string }>,
   ) => void;
@@ -21,6 +26,15 @@ interface UserProfileStoreType {
 
 const userProfileStore = create<UserProfileStoreType>((set) => ({
   userProfile: initialUserProfile,
+  setUserProfileByFieldName: (fieldName, value) => {
+    set((state) => ({
+      ...state,
+      userProfile: {
+        ...state.userProfile,
+        [fieldName]: value,
+      },
+    }));
+  },
   setUserProfilePositions: (positions) => {
     set((state) => ({
       userProfile: {
