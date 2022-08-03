@@ -18,19 +18,27 @@ const linkPlatformOptions = [
 
 function RecordLinkItem({
   recordLink,
+  setRecordLink,
   editing,
   platformOptions,
 }: {
   recordLink: RecordLinkType;
+  setRecordLink: (recordLink: RecordLinkType) => void;
   editing: boolean;
   platformOptions: Array<{ id: number; name: string }>;
 }) {
   if (editing) {
     return (
       <div className='flex justify-between'>
-        <select className='select select-bordered select-sm'>
+        <select
+          value={recordLink.platform}
+          onChange={(e) => {
+            setRecordLink({ ...recordLink, platform: e.target.value });
+          }}
+          className='select select-bordered select-sm'
+        >
           {platformOptions.map((platform) => (
-            <option key={platform.id} value={platform.id}>
+            <option key={platform.id} value={platform.name}>
               {platform.name}
             </option>
           ))}
@@ -39,7 +47,7 @@ function RecordLinkItem({
           className='input w-full h-full'
           value={recordLink.url}
           onChange={(e) => {
-            recordLink.url = e.target.value;
+            setRecordLink({ ...recordLink, url: e.target.value });
           }}
         />
       </div>
@@ -110,6 +118,16 @@ function RecordEditingItem({
         <RecordLinkItem
           key={index}
           recordLink={recordLink}
+          setRecordLink={(updatedRecordLink) => {
+            setRecord({
+              ...record,
+              recordLinks: record.recordLinks.map((recordLink) => {
+                return updatedRecordLink.id === recordLink.id
+                  ? updatedRecordLink
+                  : recordLink;
+              }),
+            });
+          }}
           editing={editing}
           platformOptions={linkPlatformOptions}
         />
@@ -136,6 +154,7 @@ function RecordConstantItem({
           key={index}
           recordLink={recordLink}
           editing={editing}
+          setRecordLink={() => {}}
           platformOptions={linkPlatformOptions}
         />
       ))}
@@ -176,9 +195,6 @@ function RecordField({
   setRecords: (records: PerformanceRecordType[]) => void;
   editing: boolean;
 }) {
-  const [newRecords, setNewRecords] =
-    useState<PerformanceRecordType[]>(records);
-
   useEffect(() => {
     console.log(records);
   }, []);
@@ -188,17 +204,18 @@ function RecordField({
       <div className='flex flex-row justify-between items-center h-8 mb-5'>
         <h1 className='text-sm pl-1'>{label}</h1>
       </div>
-      {newRecords.map((record, index) => (
+      {records.map((record, index) => (
         <RecordItem
           key={index}
           record={record}
-          setRecord={(record) => {
-            setNewRecords(
-              newRecords.map((newRecord) => {
+          setRecord={(newRecord) => {
+            // 새 레코드와 id 같은 레코드만 교체한다.
+            setRecords(
+              records.map((record) => {
                 if (record.id === newRecord.id) {
-                  return record;
+                  return newRecord;
                 }
-                return newRecord;
+                return record;
               }),
             );
           }}

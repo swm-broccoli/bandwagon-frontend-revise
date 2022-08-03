@@ -33,6 +33,7 @@ export interface PerformanceType {
 }
 
 export interface RecordLinkType {
+  id: number;
   platform: string;
   url: string;
 }

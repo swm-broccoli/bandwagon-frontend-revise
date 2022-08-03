@@ -25,10 +25,12 @@ const initialUserProfile = {
       date: '2020-01-01',
       recordLinks: [
         {
+          id: 1,
           platform: '유튜브',
           url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
         },
         {
+          id: 2,
           platform: '사운드클라우드',
           url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
         },
@@ -40,10 +42,12 @@ const initialUserProfile = {
       date: '2020-01-01',
       recordLinks: [
         {
+          id: 3,
           platform: '유튜브',
           url: 'https://www.google.com',
         },
         {
+          id: 4,
           platform: '사운드클라우드',
           url: 'https://www.naver.com',
         },

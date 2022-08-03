@@ -57,7 +57,7 @@ const userProfileStore = create<UserProfileStoreType>((set) => ({
     set((state) => ({
       userProfile: {
         ...state.userProfile,
-        performances: performances,
+        userPerformances: performances,
       },
     }));
   },
