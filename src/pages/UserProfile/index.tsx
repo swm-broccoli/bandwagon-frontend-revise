@@ -223,10 +223,15 @@ function UserProfile() {
           </div>
         </div>
         <div className='w-full mt-10'>
-          <ProfileReadOnlyTextField label='이름' value={curUserProfile.name} />
+          <ProfileReadOnlyTextField
+            label='이름'
+            value={curUserProfile.name}
+            editing={profileEditing}
+          />
           <ProfileReadOnlyTextField
             label='나이'
             value={curUserProfile.birthday}
+            editing={profileEditing}
           />
           <ProfileSelectField
             label='포지션'
