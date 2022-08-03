@@ -5,6 +5,7 @@ import GlobalNavBar from '../../components/NavBar';
 import Button from '../../components/Button';
 import RecruitTab from './RecruitTab';
 import SearchBox from './SearchBox';
+import Pagination from '../../components/Pagination';
 
 function RecruitPage() {
   return (
@@ -36,6 +37,9 @@ function RecruitPage() {
           tags={['기타', '홍대/합정', '20대 초반']}
           isHeartChecked={true}
           />
+        </div>
+        <div className='w-auto h-fit row-start-5 col-start-2 col-end-4 justify-self-center mt-[4.5rem]'>
+          <Pagination />
         </div>
     </div>
     <GlobalFooter />
