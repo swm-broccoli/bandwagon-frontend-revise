@@ -32,14 +32,26 @@ export interface PerformanceType {
   audioUrl: string;
 }
 
+export interface RecordLinkType {
+  platform: string;
+  url: string;
+}
+
+export interface PerformanceRecordType {
+  id: number;
+  title: string;
+  date: string;
+  recordLinks: RecordLink[];
+}
+
 export interface UserProfileType {
   name: string;
   birthday: string;
-  positions: PositionType[];
+  positions: SelectionType[];
   areas: AreaType[];
   genres: GenreType[];
   description: string;
-  userPerformances: PerformanceType[];
+  userPerformances: PerformanceRecordType[];
 }
 
 export interface BandProfileType {
