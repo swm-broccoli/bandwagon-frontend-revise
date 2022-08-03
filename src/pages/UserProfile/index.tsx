@@ -2,155 +2,49 @@ import React, { useEffect, useState } from 'react';
 import MyPageTemplate from '../../components/MyPageTemplate';
 import ProfileReadOnlyTextField from '../../components/ProfileReadOnlyTextField';
 import ProfileSelectField from '../../components/ProfileSelectField';
-import { AreaType } from '../../types/types';
+import AreaField from '../../components/AreaField';
 import areaOptions from '../../assets/options/areaOptions';
-import ProfileAddModal from '../../components/ProfileAddModal';
 
-function AreaFieldItem({
-  area,
-  editing,
-  deleteArea,
-}: {
-  area: AreaType;
-  editing: boolean;
-  deleteArea: () => void;
-}) {
-  if (editing) {
-    return (
-      <div className='mr-2'>
-        {`${area.city} ${area.district} `}
-        <button onClick={deleteArea}>X</button>
-      </div>
-    );
-  } else {
-    return <div className='mr-2'>{`${area.city} ${area.district}`}</div>;
-  }
-}
-
-function AreaFieldAddButton({
+function DescriptionField({
   label,
-  editing,
-  areas,
-  setAreas,
-  options,
+  description,
+  setDescription,
 }: {
   label: string;
-  editing: boolean;
-  areas: AreaType[];
-  setAreas: (areas: AreaType[]) => void;
-  options: AreaType[];
-}) {
-  const [curAreaOption, setCurAreaOption] = useState<AreaType>(options[0]);
-
-  const cityOptions = options
-    .map((area) => area.city)
-    .filter((city, index, self) => self.indexOf(city) === index);
-
-  if (!editing) {
-    return null;
-  } else {
-    return (
-      <ProfileAddModal
-        label={`${label} 추가`}
-        addSelected={() => {
-          setAreas(areas.concat(curAreaOption));
-        }}
-      >
-        <div className='flex flex-row w-full justify-center'>
-          <select
-            value={curAreaOption.city}
-            onChange={(e) =>
-              setCurAreaOption(
-                options.find((option) => option.city === e.target.value) ||
-                  options[0],
-              )
-            }
-            className='select select-bordered w-1/2 mx-2'
-          >
-            {cityOptions.map((city, index) => (
-              <option key={index} value={city}>
-                {city}
-              </option>
-            ))}
-          </select>
-          <select
-            value={curAreaOption.district}
-            onChange={(e) => {
-              setCurAreaOption(
-                options.find(
-                  (option) =>
-                    option.city === curAreaOption.city &&
-                    option.district === e.target.value,
-                ) || options[0],
-              );
-            }}
-            className='select select-bordered w-1/2 mx-2'
-          >
-            {options
-              .filter((area) => {
-                return area.city === curAreaOption.city;
-              })
-              .map((area, index) => (
-                <option key={index} value={area.district}>
-                  {area.district}
-                </option>
-              ))}
-          </select>
-        </div>
-      </ProfileAddModal>
-    );
-  }
-}
-
-function AreaField({
-  label,
-  areas,
-  setAreas,
-  options,
-}: {
-  label: string;
-  areas: AreaType[];
-  setAreas: (areas: AreaType[]) => void;
-  options: AreaType[];
+  description: string;
+  setDescription: (newDescription: string) => void;
 }) {
   const [editing, setEditing] = useState(false);
+  const [newDescription, setNewDescription] = useState(description);
 
   return (
-    <>
-      <div className='form-control h-10 w-full flex flex-row justify-start items-center my-2'>
-        <label className='label w-1/5 py-0'>
-          <span className='label-text text-accent'>{label}</span>
-        </label>
-        <div className='flex flex-row items-center h-10 w-3/5 mr-2 text-accent'>
-          {areas.map((area, index) => (
-            <AreaFieldItem
-              key={index}
-              area={area}
-              editing={editing}
-              deleteArea={() => {
-                setAreas(areas.filter((_, i) => i !== index));
-              }}
-            />
-          ))}
-        </div>
-        <AreaFieldAddButton
-          label={label}
-          editing={editing}
-          areas={areas}
-          setAreas={setAreas}
-          options={options}
-        />
+    <div className='w-full grid grid-flow-row mt-5'>
+      <label className='label min-w-[52px] p-0 pl-1 justify-between'>
+        <span className='label-text text-accent w-4/5 mr-2'>{label}</span>
         <button
           onClick={() => {
-            setEditing((prev) => !prev);
+            if (editing) {
+              //저장
+              setDescription(newDescription);
+            }
+            setEditing(!editing);
           }}
           className='btn btn-sm bg-base-100 hover:bg-base-200 border-base-200 text-accent h-8 w-14 p-0'
         >
           {editing ? '완료' : '수정'}
         </button>
-      </div>
-      <div className='divider m-0' />
-    </>
+      </label>
+      <textarea
+        className={`textarea w-full mx-0 my-5 resize-none ${
+          editing ? 'textarea-bordered bg-base-100' : 'bg-success'
+        } h-60`}
+        value={newDescription}
+        onChange={(e) => {
+          setNewDescription(e.target.value);
+        }}
+        readOnly={!editing}
+      />
+    </div>
   );
 }
 
@@ -161,7 +55,15 @@ function UserProfile() {
     positions: ['일렉기타'],
     areas: [{ id: 2, city: '서울', district: '중구' }],
     genres: [],
-    description: '',
+    description: `서울 비상사태 십 분 전
+    오늘 지구는 일촉즉발
+    이런 막중한 임무가 하필 내게
+    맡겨지게 된 건데
+    길게 드리워진 그림자
+    뭔지 알 수 없는 실루엣
+    먼저 다가가기는 어렵겠어요
+    다음에 와줄래요
+    돌아가 줘요`,
     userPerformances: [],
   });
 
@@ -204,6 +106,16 @@ function UserProfile() {
               });
             }}
             options={areaOptions}
+          />
+          <DescriptionField
+            label='자기소개'
+            description={curUserProfile.description}
+            setDescription={(newDescription) => {
+              setCurUserProfile({
+                ...curUserProfile,
+                description: newDescription,
+              });
+            }}
           />
         </div>
       </div>

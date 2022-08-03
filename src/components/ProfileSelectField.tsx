@@ -96,22 +96,25 @@ function ProfileSelectField({
 
   return (
     <>
-      <div className='form-control h-10 w-full flex flex-row justify-start items-center my-2'>
-        <label className='label w-1/5 py-0'>
-          <span className='label-text text-accent'>{label}</span>
-        </label>
-        <div className='flex flex-row items-center h-10 w-3/5 mr-2 text-accent'>
-          {selected.map((item, index) => (
-            <ProfileSelectFieldItem
-              key={index}
-              label={item}
-              editing={editing}
-              deleteSelected={() => {
-                setSelected(selected.filter((_, i) => i !== index));
-              }}
-            />
-          ))}
+      <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
+        <div className='w-4/5 flex flex-row justify-start'>
+          <label className='label w-1/4 py-0'>
+            <span className='label-text text-accent'>{label}</span>
+          </label>
+          <div className='flex flex-row items-center h-10 w-3/4 text-accent'>
+            {selected.map((item, index) => (
+              <ProfileSelectFieldItem
+                key={index}
+                label={item}
+                editing={editing}
+                deleteSelected={() => {
+                  setSelected(selected.filter((_, i) => i !== index));
+                }}
+              />
+            ))}
+          </div>
         </div>
+
         <ProfileFieldAddButton
           label={label}
           editing={editing}
