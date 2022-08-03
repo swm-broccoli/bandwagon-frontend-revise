@@ -17,7 +17,7 @@ function RecruitPage() {
         </div>
         <SearchBox />
         <div className='row-start-3 col-start-2 text-xl mt-14'>새 글 </div>
-        <div className='row-start-4 col-start-2 col-end-4 grid grid-cols-1 lg:grid-cols-2 flex-wrap gap-[3%] justify-center'>
+        <div className='row-start-4 col-start-2 col-end-4 grid grid-cols-1 md:grid-cols-2 flex-wrap gap-[3%] justify-center'>
           <ArticleCard 
             id={1}
             pic='https://i.imgur.com/rmFxZua.jpeg'
