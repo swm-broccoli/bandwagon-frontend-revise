@@ -9,6 +9,7 @@ interface UserProfileStoreType {
   ) => void;
   setUserProfileAreas: (areas: Array<AreaType>) => void;
   setUserProfileGenres: (genres: Array<{ id: number; name: string }>) => void;
+  setUserProfileDescription: (description: string) => void;
 }
 
 const userProfileStore = create<UserProfileStoreType>((set) => ({
@@ -34,6 +35,14 @@ const userProfileStore = create<UserProfileStoreType>((set) => ({
       userProfile: {
         ...state.userProfile,
         genres: genres,
+      },
+    }));
+  },
+  setUserProfileDescription: (description) => {
+    set((state) => ({
+      userProfile: {
+        ...state.userProfile,
+        description: description,
       },
     }));
   },

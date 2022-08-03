@@ -27,6 +27,7 @@ function UserProfile() {
     setUserProfilePositions,
     setUserProfileAreas,
     setUserProfileGenres,
+    setUserProfileDescription,
   } = userProfileStore();
 
   const [userProfileItemChanged, setUserProfileItemChanged] =
@@ -112,13 +113,8 @@ function UserProfile() {
           />
           <DescriptionField
             label='자기소개'
-            description={curUserProfile.description}
-            setDescription={(newDescription) => {
-              setCurUserProfile({
-                ...curUserProfile,
-                description: newDescription,
-              });
-            }}
+            description={storedUserProfile.description}
+            setDescription={setUserProfileDescription}
           />
           <RecordField
             label='연주 목록'
