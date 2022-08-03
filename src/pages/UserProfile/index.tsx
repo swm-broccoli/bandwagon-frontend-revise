@@ -21,6 +21,11 @@ function UserProfile() {
   const [curUserProfile, setCurUserProfile] =
     useState<UserProfileType>(initialUserProfile);
 
+  const storedUserProfile = userProfileStore((state) => state.userProfile);
+  const setUserProfilePositions = userProfileStore(
+    (state) => state.setUserProfilePositions,
+  );
+
   const [userProfileItemChanged, setUserProfileItemChanged] =
     useState<UserProfileChangeTraceType>({
       // 바뀐 내역을 추적하는 변수
@@ -34,6 +39,14 @@ function UserProfile() {
     });
 
   const [profileEditing, setProfileEditing] = useState<boolean>(false);
+
+  useEffect(() => {
+    setUserProfileItemChanged({
+      ...userProfileItemChanged,
+      positions: true,
+    });
+    console.log('포지션 변경됨');
+  }, [storedUserProfile.positions]);
 
   return (
     <div>
@@ -67,17 +80,8 @@ function UserProfile() {
           />
           <ProfileSelectField
             label='포지션'
-            selected={curUserProfile.positions}
-            setSelected={(newPositions) => {
-              setCurUserProfile({
-                ...curUserProfile,
-                positions: newPositions,
-              });
-              setUserProfileItemChanged({
-                ...userProfileItemChanged,
-                positions: true,
-              });
-            }}
+            selected={storedUserProfile.positions}
+            setSelected={setUserProfilePositions}
             options={positionOptions}
             editing={profileEditing}
           />

@@ -1,4 +1,4 @@
-import create from 'zustand/react';
+import create from 'zustand';
 import initialUserProfile from './initialUserProfile';
 import { UserProfileType, UserProfileChangeTraceType } from '../../types/types';
 
