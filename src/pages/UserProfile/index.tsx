@@ -25,6 +25,9 @@ function UserProfile() {
   const setUserProfilePositions = userProfileStore(
     (state) => state.setUserProfilePositions,
   );
+  const setUserProfileAreas = userProfileStore(
+    (state) => state.setUserProfileAreas,
+  );
 
   const [userProfileItemChanged, setUserProfileItemChanged] =
     useState<UserProfileChangeTraceType>({
@@ -47,6 +50,14 @@ function UserProfile() {
     });
     console.log('포지션 변경됨');
   }, [storedUserProfile.positions]);
+
+  useEffect(() => {
+    setUserProfileItemChanged({
+      ...userProfileItemChanged,
+      areas: true,
+    });
+    console.log('활동 지역 변경됨');
+  }, [storedUserProfile.areas]);
 
   return (
     <div>
@@ -86,15 +97,11 @@ function UserProfile() {
             editing={profileEditing}
           />
           <AreaField
-            label='지역'
-            areas={curUserProfile.areas}
-            setAreas={(newAreas) => {
-              setCurUserProfile({
-                ...curUserProfile,
-                areas: newAreas,
-              });
-            }}
+            label='활동지역'
+            areas={storedUserProfile.areas}
+            setAreas={setUserProfileAreas}
             options={areaOptions}
+            editing={profileEditing}
           />
           <DescriptionField
             label='자기소개'

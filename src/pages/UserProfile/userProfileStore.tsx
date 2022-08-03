@@ -1,12 +1,13 @@
 import create from 'zustand';
 import initialUserProfile from './initialUserProfile';
-import { UserProfileType, UserProfileChangeTraceType } from '../../types/types';
+import { UserProfileType, AreaType } from '../../types/types';
 
 interface UserProfileStoreType {
   userProfile: UserProfileType;
   setUserProfilePositions: (
     positions: Array<{ id: number; name: string }>,
   ) => void;
+  setUserProfileAreas: (areas: Array<AreaType>) => void;
 }
 
 const userProfileStore = create<UserProfileStoreType>((set) => ({
@@ -16,6 +17,14 @@ const userProfileStore = create<UserProfileStoreType>((set) => ({
       userProfile: {
         ...state.userProfile,
         positions: positions,
+      },
+    }));
+  },
+  setUserProfileAreas: (areas) => {
+    set((state) => ({
+      userProfile: {
+        ...state.userProfile,
+        areas: areas,
       },
     }));
   },
