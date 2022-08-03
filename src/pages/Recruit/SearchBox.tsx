@@ -124,7 +124,7 @@ function SelectPracticeDay () {
 
 function SearchBox () {
   return (
-    <div className='w-9/12 h-fit grid grid-row-[50px_9px_repeat(5,_minmax(50px,_auto))] grid-cols-[minmax(auto,_116px)_auto] gap-4 p-10 max-w-7xl border border-solid border-base-200 rounded-xl bg-white'>
+    <div className='w-full h-fit row-start-2 col-start-2 col-end-4 grid grid-row-[50px_9px_repeat(5,_minmax(50px,_auto))] grid-cols-[minmax(auto,_116px)_auto] gap-4 p-10 max-w-7xl border border-solid border-base-200 rounded-xl bg-white mt-5'>
       <div className='flex flex-row gap-3 row-start-1 col-start-1 col-end-3 w-full h-[3.125rem]'>
         <SearchTextField />
         <Button label='조회' x='w-[6.25rem] ' y='h-full ' textSize='text-base' />
