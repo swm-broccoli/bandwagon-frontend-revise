@@ -28,6 +28,7 @@ function UserProfile() {
     setUserProfileAreas,
     setUserProfileGenres,
     setUserProfileDescription,
+    setUserProfilePerformances,
   } = userProfileStore();
 
   const [userProfileItemChanged, setUserProfileItemChanged] =
@@ -120,6 +121,8 @@ function UserProfile() {
           <RecordField
             label='연주 목록'
             records={curUserProfile.userPerformances}
+            setRecords={setUserProfilePerformances}
+            editing={profileEditing}
           />
         </div>
       </div>

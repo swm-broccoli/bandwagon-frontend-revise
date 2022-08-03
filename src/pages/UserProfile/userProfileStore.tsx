@@ -1,6 +1,10 @@
 import create from 'zustand';
 import initialUserProfile from './initialUserProfile';
-import { UserProfileType, AreaType } from '../../types/types';
+import {
+  UserProfileType,
+  AreaType,
+  PerformanceRecordType,
+} from '../../types/types';
 
 interface UserProfileStoreType {
   userProfile: UserProfileType;
@@ -10,6 +14,9 @@ interface UserProfileStoreType {
   setUserProfileAreas: (areas: Array<AreaType>) => void;
   setUserProfileGenres: (genres: Array<{ id: number; name: string }>) => void;
   setUserProfileDescription: (description: string) => void;
+  setUserProfilePerformances: (
+    performances: Array<PerformanceRecordType>,
+  ) => void;
 }
 
 const userProfileStore = create<UserProfileStoreType>((set) => ({
@@ -43,6 +50,14 @@ const userProfileStore = create<UserProfileStoreType>((set) => ({
       userProfile: {
         ...state.userProfile,
         description: description,
+      },
+    }));
+  },
+  setUserProfilePerformances: (performances) => {
+    set((state) => ({
+      userProfile: {
+        ...state.userProfile,
+        performances: performances,
       },
     }));
   },
