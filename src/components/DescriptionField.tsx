@@ -4,12 +4,13 @@ function DescriptionField({
   label,
   description,
   setDescription,
+  editing,
 }: {
   label: string;
   description: string;
   setDescription: (newDescription: string) => void;
+  editing: boolean;
 }) {
-  const [editing, setEditing] = useState(false);
   const [newDescription, setNewDescription] = useState(description);
 
   return (
@@ -22,7 +23,6 @@ function DescriptionField({
               //저장
               setDescription(newDescription);
             }
-            setEditing(!editing);
           }}
           className='btn btn-sm bg-base-100 hover:bg-base-200 border-base-200 text-accent h-8 w-14 p-0'
         >

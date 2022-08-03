@@ -115,6 +115,7 @@ function UserProfile() {
             label='자기소개'
             description={storedUserProfile.description}
             setDescription={setUserProfileDescription}
+            editing={profileEditing}
           />
           <RecordField
             label='연주 목록'
