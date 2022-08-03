@@ -17,6 +17,7 @@ import {
 import initialUserProfile from './initialUserProfile';
 import userProfileStore from './userProfileStore';
 import RecordField from '../../components/RecordField';
+import UserProfileAPI from '../../apis/UserProfileAPI';
 
 function UserProfile() {
   const [curUserProfile, setCurUserProfile] =
@@ -60,6 +61,12 @@ function UserProfile() {
     });
     console.log('활동 지역 변경됨');
   }, [storedUserProfile.areas]);
+
+  useEffect(() => {
+    UserProfileAPI.getUserProfileInfo().then((res) => {
+      console.log(res.data);
+    });
+  }, []);
 
   return (
     <div>
