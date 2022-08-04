@@ -74,35 +74,107 @@ function TermAgreeBox({ label }: { label: string }) {
   );
 }
 
+const Genders = {
+  man: '남자',
+  woman: '여자',
+};
+
+interface SignUpUserInputType {
+  name: string;
+  nickname: string;
+  email: string;
+  password: string;
+  passwordCheck: string;
+  birthday: string;
+  gender: string;
+  termAgreed: boolean;
+  emailDupChecked: boolean;
+}
+
 function SignUpForm() {
   const genderSelection = ['남자', '여자'];
 
+  const [signUpUserInput, setSignUpUserInput] = useState<SignUpUserInputType>({
+    name: '',
+    nickname: '',
+    email: '',
+    password: '',
+    passwordCheck: '',
+    birthday: '',
+    gender: '남자',
+    termAgreed: false,
+    emailDupChecked: false,
+  });
+
+  const onSignUpSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('회원가입 폼 제출');
+    console.log('입력값:', signUpUserInput);
+  };
+
   return (
-    <form className='mt-5'>
-      <TextInput label='이름' placeholder='김성현' required essential />
-      <TextInput label='닉네임' placeholder='asdf1234' required essential />
+    <form onSubmit={onSignUpSubmit} className='mt-5'>
+      <TextInput
+        label='이름'
+        value={signUpUserInput.name}
+        setValue={(newName) => {
+          setSignUpUserInput({ ...signUpUserInput, name: newName });
+        }}
+        required
+      />
+      <TextInput
+        label='닉네임'
+        value={signUpUserInput.nickname}
+        setValue={(newNickName) => {
+          setSignUpUserInput({ ...signUpUserInput, nickname: newNickName });
+        }}
+        required
+      />
       <TextInput
         label='이메일'
-        placeholder='ksh1234@gmail.com'
+        value={signUpUserInput.email}
+        setValue={(newEmail) => {
+          setSignUpUserInput({ ...signUpUserInput, email: newEmail });
+        }}
         required
-        essential
       />
       <TextInput
         label='비밀번호'
-        placeholder='비밀번호'
+        value={signUpUserInput.password}
+        setValue={(newPassword) => {
+          setSignUpUserInput({ ...signUpUserInput, password: newPassword });
+        }}
         password
         required
-        essential
       />
       <TextInput
         label='비밀번호 확인'
-        placeholder='비밀번호를 한 번 더 입력해 주세요.'
+        value={signUpUserInput.passwordCheck}
+        setValue={(newPasswordCheck) => {
+          setSignUpUserInput({
+            ...signUpUserInput,
+            passwordCheck: newPasswordCheck,
+          });
+        }}
         password
         required
-        essential
       />
-      <DateInput label='생년월일' />
-      <SelectionInput label='성별' selectionList={genderSelection} />
+
+      <DateInput
+        label='생년월일'
+        value={signUpUserInput.birthday}
+        setValue={(newBirthday) => {
+          setSignUpUserInput({ ...signUpUserInput, birthday: newBirthday });
+        }}
+      />
+      <SelectionInput
+        label='성별'
+        value={signUpUserInput.gender}
+        setValue={(newGender) => {
+          setSignUpUserInput({ ...signUpUserInput, gender: newGender });
+        }}
+        selections={genderSelection}
+      />
       <TermAgreeBox label='약관 동의' />
       <SubmitButton label='가입하기' />
     </form>
