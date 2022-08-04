@@ -84,11 +84,6 @@ function TermAgreeBox({
   );
 }
 
-const Genders = {
-  man: '남자',
-  woman: '여자',
-};
-
 interface SignUpUserInputType {
   name: string;
   nickname: string;
@@ -142,14 +137,20 @@ function SignUpForm() {
         }}
         required
       />
-      <TextInput
-        label='이메일'
-        value={signUpUserInput.email}
-        setValue={(newEmail) => {
-          setSignUpUserInput({ ...signUpUserInput, email: newEmail });
-        }}
-        required
-      />
+      <div className='flex flex-row'>
+        <TextInput
+          label='이메일'
+          value={signUpUserInput.email}
+          setValue={(newEmail) => {
+            setSignUpUserInput({ ...signUpUserInput, email: newEmail });
+          }}
+          required
+        />
+        <button className='absolute ml-[248px] md:ml-[328px] btn btn-primary self-end'>
+          중복확인
+        </button>
+      </div>
+
       <TextInput
         label='비밀번호'
         value={signUpUserInput.password}
