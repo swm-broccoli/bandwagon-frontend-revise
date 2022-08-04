@@ -1,7 +1,15 @@
 import MyPageTemplate from '../../components/MyPageTemplate';
 import EditPageInput from '../../components/EditPageInput';
+import UserAccountAPI from '../../apis/UserAccountAPI';
+import { useEffect } from 'react';
 
 function AccountEditForm({ label }: { label: string }) {
+  useEffect(() => {
+    UserAccountAPI.getUserAccountInfo().then((res) => {
+      console.log(res.data);
+    });
+  });
+
   return (
     <div>
       <form>
