@@ -4,6 +4,7 @@ import TextInput from '../../components/TextInput';
 import CheckBox from '../../components/CheckBox';
 import DateInput from '../../components/DateInput';
 import SelectionInput from '../../components/SelectionInput';
+import AuthAPI from '../../apis/AuthAPI';
 
 function TermAgreeBox({
   label,
@@ -117,6 +118,22 @@ function SignUpForm() {
     e.preventDefault();
     console.log('회원가입 폼 제출');
     console.log('입력값:', signUpUserInput);
+    userEmailDuplicationCheck();
+  };
+
+  const userEmailDuplicationCheck = () => {
+    AuthAPI.checkEmail({ email: signUpUserInput.email })
+      .then((res) => {
+        console.log(res);
+        setSignUpUserInput({
+          ...signUpUserInput,
+          emailDupChecked: true,
+        });
+        alert(`${res.data.email} 은(는) 사용 가능한 이메일입니다.`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
