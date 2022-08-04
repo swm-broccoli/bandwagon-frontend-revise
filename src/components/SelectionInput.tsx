@@ -1,19 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function SelectionInput({
   label,
-  selectionList,
+  value,
+  setValue,
+  selections,
 }: {
   label: string;
-  selectionList: string[];
+  value: string;
+  setValue: (newValue: string) => void;
+  selections: string[];
 }) {
-  const [curSelection, setCurSelection] = useState(selectionList[0]);
+  const [curSelection, setCurSelection] = useState(selections[0]);
+
+  useEffect(() => {
+    setValue(curSelection);
+  }, [curSelection]);
 
   return (
     <div className='flex flex-col mt-5 w-60 md:w-80'>
       <label className='text-accent mb-2 text-sm'>{label}</label>
       <div className='grid grid-flow-col space-x-3'>
-        {selectionList.map((selection) => {
+        {selections.map((selection) => {
           return (
             <button
               key={selection}
