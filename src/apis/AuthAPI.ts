@@ -1,13 +1,29 @@
 // 로그인, 회원가입, 비밀번호 변경 관련 API
-
-import {request} from './request';
+import { AxiosResponse } from 'axios';
+import { useLoginStore } from '../stores/LoginStore';
+import { request } from './request';
 
 interface AuthApiType {
-
+  signIn: (userInfo: {
+    email: string;
+    password: string;
+  }) => Promise<AxiosResponse>;
+  logOut: () => void;
 }
 
 const AuthAPI: AuthApiType = {
-
-}
+  signIn: (userInfo) => {
+    console.log(userInfo);
+    return request.post('api/login', userInfo);
+  },
+  logOut: () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userID');
+    localStorage.removeItem('isSocial');
+    window.location.href = '/login';
+    useLoginStore.getState().logOut();
+  },
+};
 
 export default AuthAPI;

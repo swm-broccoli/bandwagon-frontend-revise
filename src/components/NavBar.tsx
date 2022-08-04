@@ -1,41 +1,83 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SiteLogo from './Logo';
+import { useLoginStore } from '../stores/LoginStore';
+
+function NavBarItem({ label, link }: { label: string; link: string }) {
+  return (
+    <li className='menu-item'>
+      <Link to={link} className='text-[#676767] active:bg-neutral'>
+        {label}
+      </Link>
+    </li>
+  );
+}
 
 function GlobalNavBar() {
+  const isLoggedIn = useLoginStore((state) => state.isLoggedIn);
+  const logOut = useLoginStore((state) => state.logOut);
+
+  const loggedInNavBarItems = [
+    {
+      link: '/',
+      label: '광장',
+    },
+    {
+      link: '/recruit',
+      label: '구인구직',
+    },
+    {
+      link: '/',
+      label: '채팅',
+    },
+    {
+      link: '/profile/user',
+      label: 'MY',
+    },
+  ];
+  const notLoggedInNavBarItems = [
+    {
+      link: '/',
+      label: '광장',
+    },
+    {
+      link: '/login',
+      label: '로그인',
+    },
+  ];
+
   return (
     <div className='grid grid-cols-6 border-b border-[#e2e2e2]'>
       <div className='navbar col-span-full md:col-start-2 md:col-end-6 py-0 min-h-fit bg-base-100 flex flex-col md:flex-row justify-center md:justify-between'>
         <SiteLogo />
         <ul className='menu menu-horizontal flex justify-evenly'>
-          <li className='menu-item'>
-            <Link to='/' className='text-[#676767] active:bg-neutral min-w-min'>
-              광장
-            </Link>
-          </li>
-          <li className='menu-item'>
-            <Link to='/recruit' className='text-[#676767] active:bg-neutral'>
-              구인구직
-            </Link>
-          </li>
-          <li className='menu-item'>
-            <Link to='/' className='text-[#676767] active:bg-neutral'>
-              채팅
-            </Link>
-          </li>
-          <li className='menu-item'>
-            <Link to='/recruit' className='text-[#676767] active:bg-neutral'>
-              알림
-            </Link>
-          </li>
-          <li className='menu-item'>
-            <Link
-              to='/profile/user'
-              className='text-[#676767] active:bg-neutral'
-            >
-              MY
-            </Link>
-          </li>
+          {(isLoggedIn ? loggedInNavBarItems : notLoggedInNavBarItems).map(
+            (item) => (
+              <NavBarItem
+                key={item.label}
+                label={item.label}
+                link={item.link}
+              />
+            ),
+          )}
+          {isLoggedIn ? (
+            <li className='menu-item'>
+              <Link
+                to='/'
+                onClick={() => {
+                  logOut();
+                  localStorage.removeItem('accessToken');
+                  localStorage.removeItem('refreshToken');
+                  localStorage.removeItem('userID');
+                  localStorage.removeItem('isSocial');
+                  window.location.href = '/';
+                }}
+                className='text-[#676767] active:bg-neutral'
+              >
+                로그아웃
+              </Link>
+            </li>
+          ) : null}
         </ul>
       </div>
     </div>
