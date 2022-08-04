@@ -15,7 +15,7 @@ interface AuthApiType {
     email: string;
     password: string;
     passwordCheck: string;
-    gender: string;
+    gender: boolean;
     birthday: string;
   }) => Promise<AxiosResponse>;
   checkEmail: (userInfo: { email: string }) => Promise<AxiosResponse>;

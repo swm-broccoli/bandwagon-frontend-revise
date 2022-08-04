@@ -5,6 +5,7 @@ import CheckBox from '../../components/CheckBox';
 import DateInput from '../../components/DateInput';
 import SelectionInput from '../../components/SelectionInput';
 import AuthAPI from '../../apis/AuthAPI';
+import { useNavigate } from 'react-router-dom';
 
 function TermAgreeBox({
   label,
@@ -93,8 +94,6 @@ interface SignUpUserInputType {
   passwordCheck: string;
   birthday: string;
   gender: string;
-  termAgreed: boolean;
-  emailDupChecked: boolean;
 }
 
 function SignUpForm() {
@@ -108,32 +107,57 @@ function SignUpForm() {
     passwordCheck: '',
     birthday: '',
     gender: '남자',
-    termAgreed: false,
-    emailDupChecked: false,
   });
 
-  const signUpSubmissionValidate = (submission: SignUpUserInputType) => {};
-
-  const onSignUpSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log('회원가입 폼 제출');
-    console.log('입력값:', signUpUserInput);
-    userEmailDuplicationCheck();
-  };
+  const [termAgreed, setTermAgreed] = useState(false);
+  const [emailDupChecked, setEmailDupChecked] = useState(false);
 
   const userEmailDuplicationCheck = () => {
     AuthAPI.checkEmail({ email: signUpUserInput.email })
       .then((res) => {
         console.log(res);
-        setSignUpUserInput({
-          ...signUpUserInput,
-          emailDupChecked: true,
-        });
+        setEmailDupChecked(true);
         alert(`${res.data.email} 은(는) 사용 가능한 이메일입니다.`);
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const signUpSubmissionValidate = (submission: SignUpUserInputType) => {
+    if (submission.password !== submission.passwordCheck) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return false;
+    } else if (!termAgreed) {
+      alert('약관에 동의해 주세요.');
+      return false;
+    } else if (!emailDupChecked) {
+      alert('이메일 중복 체크를 해주세요.');
+    } else {
+      return true;
+      //유효성 검사 통과!
+    }
+  };
+
+  const navigate = useNavigate();
+
+  const onSignUpSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log('회원가입 폼 제출');
+    console.log('입력값:', signUpUserInput);
+    if (signUpSubmissionValidate(signUpUserInput)) {
+      AuthAPI.signUp({
+        ...signUpUserInput,
+        gender: signUpUserInput.gender === '남자' ? false : true,
+      })
+        .then((res) => {
+          alert(res.data.id + ' 로 회원가입 성공!');
+          navigate('/');
+        })
+        .catch(() => {
+          alert('회원가입 실패!');
+        });
+    }
   };
 
   return (
@@ -163,7 +187,10 @@ function SignUpForm() {
           }}
           required
         />
-        <button className='absolute ml-[248px] md:ml-[328px] btn btn-primary self-end'>
+        <button
+          onClick={userEmailDuplicationCheck}
+          className='absolute ml-[248px] md:ml-[328px] btn btn-primary self-end'
+        >
           중복확인
         </button>
       </div>
@@ -205,12 +232,7 @@ function SignUpForm() {
         }}
         selections={genderSelection}
       />
-      <TermAgreeBox
-        label='약관 동의'
-        setAgreed={(newAgreed) => {
-          setSignUpUserInput({ ...signUpUserInput, termAgreed: newAgreed });
-        }}
-      />
+      <TermAgreeBox label='약관 동의' setAgreed={setTermAgreed} />
       <SubmitButton label='가입하기' />
     </form>
   );
