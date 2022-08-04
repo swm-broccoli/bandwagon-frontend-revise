@@ -8,6 +8,15 @@ interface AuthApiType {
     email: string;
     password: string;
   }) => Promise<AxiosResponse>;
+  signUp: (userInfo: {
+    name: string;
+    nickname: string;
+    email: string;
+    password: string;
+    passwordCheck: string;
+    gender: string;
+    birthday: string;
+  }) => Promise<AxiosResponse>;
   logOut: () => void;
 }
 
@@ -16,6 +25,7 @@ const AuthAPI: AuthApiType = {
     console.log(userInfo);
     return request.post('api/login', userInfo);
   },
+  signUp: (userInfo) => request.post('api/signup', userInfo),
   logOut: () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
