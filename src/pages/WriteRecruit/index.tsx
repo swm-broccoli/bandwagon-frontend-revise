@@ -1,4 +1,5 @@
 import React from 'react';
+import BandInfoCard from '../../components/BandInfoCard';
 import Button from '../../components/Button';
 import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
@@ -27,6 +28,7 @@ function WriteRecruitPage () {
         {/* 제목 입력 */}
         <TitleTextField />
         {/* 밴드 정보 */}
+        <BandInfoCard type={true}/>
         {/* 본문 쓰기 */}
         {/* 모집 정보 (지원 조건, 추가 지원 양식) */}
       </div>
