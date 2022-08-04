@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SubmitButton from '../../components/SubmitButton';
 import TextInput from '../../components/TextInput';
 import CheckBox from '../../components/CheckBox';
 import DateInput from '../../components/DateInput';
 import SelectionInput from '../../components/SelectionInput';
 
-function TermAgreeBox({ label }: { label: string }) {
+function TermAgreeBox({
+  label,
+  setAgreed,
+}: {
+  label: string;
+  setAgreed: (newAgreed: boolean) => void;
+}) {
   //약관 동의 박스
   const [checkedList, setCheckedList] = useState<boolean[]>([
     false,
@@ -13,6 +19,10 @@ function TermAgreeBox({ label }: { label: string }) {
     false,
     false,
   ]);
+
+  useEffect(() => {
+    setAgreed(checkedList.every((checked) => checked));
+  }, [checkedList]);
 
   return (
     <div className='flex flex-col mt-5 w-60 md:w-80'>
@@ -106,6 +116,8 @@ function SignUpForm() {
     emailDupChecked: false,
   });
 
+  const signUpSubmissionValidate = (submission: SignUpUserInputType) => {};
+
   const onSignUpSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('회원가입 폼 제출');
@@ -175,7 +187,12 @@ function SignUpForm() {
         }}
         selections={genderSelection}
       />
-      <TermAgreeBox label='약관 동의' />
+      <TermAgreeBox
+        label='약관 동의'
+        setAgreed={(newAgreed) => {
+          setSignUpUserInput({ ...signUpUserInput, termAgreed: newAgreed });
+        }}
+      />
       <SubmitButton label='가입하기' />
     </form>
   );
