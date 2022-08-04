@@ -7,7 +7,7 @@ interface UserAccountFormType {
   name: string;
   nickname: string;
   email: string;
-  gender: boolean;
+  gender: string;
   birthday: string;
 }
 
@@ -23,7 +23,7 @@ function AccountEditForm({ label }: { label: string }) {
     name: '',
     nickname: '',
     email: '',
-    gender: false,
+    gender: 'false',
     birthday: '',
   });
 
@@ -50,9 +50,10 @@ function AccountEditForm({ label }: { label: string }) {
       });
   }, []);
 
-  const onEditInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onEditInfo = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     e.preventDefault();
-    console.log(userAccountInfo);
     setUserAccountInfo({
       ...userAccountInfo,
       [e.target.name]: e.target.value,
@@ -71,12 +72,6 @@ function AccountEditForm({ label }: { label: string }) {
 
         <div className='mt-6 row-start-2 col-span-full'>
           <EditPageInput
-            label='이메일'
-            name='email'
-            value={userAccountInfo.email}
-            onChange={onEditInfo}
-          />
-          <EditPageInput
             label='이름'
             name='name'
             value={userAccountInfo.name}
@@ -89,12 +84,35 @@ function AccountEditForm({ label }: { label: string }) {
             onChange={onEditInfo}
           />
           <EditPageInput
+            label='이메일'
+            name='email'
+            value={userAccountInfo.email}
+            onChange={onEditInfo}
+          />
+          <EditPageInput
             label='생년월일'
             type='date'
             name='birthday'
             value={userAccountInfo.birthday}
             onChange={onEditInfo}
           />
+          <>
+            <div className='form-control w-full flex flex-row justify-start py-2'>
+              <label className='label w-1/5 py-0'>
+                <span className='label-text text-accent'>{label}</span>
+              </label>
+              <select
+                name='gender'
+                value={userAccountInfo.gender}
+                onChange={onEditInfo}
+                className='select select-bordered w-3/5 max-w-xs focus:outline-none focus:border-primary text-accent'
+              >
+                <option value='false'>남자</option>
+                <option value='true'>여자</option>
+              </select>
+            </div>
+            <div className='divider m-0 w-5/6' />
+          </>
         </div>
       </form>
     </div>
