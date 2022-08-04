@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { Editor } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
 import BandInfoCard from '../../components/BandInfoCard';
 import Button from '../../components/Button';
 import GlobalFooter from '../../components/Footer';
@@ -11,6 +13,23 @@ function TitleTextField () {
       className='input input-bordered w-full h-[3.125rem] focus:outline-none focus:border-primary text-accent text-base'/>
   );
 };
+
+function WriteEditor () {
+  const editorRef = useRef<null | Editor>(null);
+  
+  return (
+    <div className='flex flex-col gap-4'>
+      <h3 className='text-accent text-base'>글쓰기</h3>
+      <Editor
+        initialValue="밴드를 소개해 주세요."
+        previewStyle="vertical"
+        height="600px"
+        initialEditType="wysiwyg"
+        useCommandShortcut={true}
+        ref={editorRef} />
+    </div>
+  )
+}
 
 function WriteRecruitPage () {
   return (
@@ -30,6 +49,7 @@ function WriteRecruitPage () {
         {/* 밴드 정보 */}
         <BandInfoCard type={true}/>
         {/* 본문 쓰기 */}
+        <WriteEditor />
         {/* 모집 정보 (지원 조건, 추가 지원 양식) */}
       </div>
     </div>
