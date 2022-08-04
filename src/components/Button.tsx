@@ -6,10 +6,10 @@ function Button (props: {
   y: string,
   textSize: string,
 }) {
-  const divStyle = 'flex ' + props.x + props.y + 'bg-primary rounded-lg justify-center items-center text-white ' + props.textSize;
+  const buttonStyle = 'btn btn-primary ' + props.x + props.y + 'rounded-lg text-white font-normal ' + props.textSize;
 
   return (
-    <button className={divStyle}>
+    <button className={buttonStyle}>
       {props.label}
     </button>
   );
