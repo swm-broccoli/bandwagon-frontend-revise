@@ -22,6 +22,7 @@ function MainPage() {
         >
           <Link to='/edit/password'>비밀번호 변경 페이지</Link>
         </button>
+        <Link to='ui'>임시 페이지</Link>
       </div>
     </>
   );

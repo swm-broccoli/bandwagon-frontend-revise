@@ -6,7 +6,7 @@ interface UserAccountApiType {
   updateUserAccountInfo: (newInfo: {
     name: string;
     nickname: string;
-    gender: boolean;
+    gender: string;
     birthday: string;
   }) => Promise<AxiosResponse>;
 }
