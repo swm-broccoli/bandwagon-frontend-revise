@@ -9,6 +9,11 @@ interface UserAccountApiType {
     gender: string;
     birthday: string;
   }) => Promise<AxiosResponse>;
+  updateUserAccountPassword: (newPasswordInfo: {
+    oldPassword: string;
+    newPassword: string;
+    newPasswordCheck: string;
+  }) => Promise<AxiosResponse>;
 }
 
 const UserAccountAPI: UserAccountApiType = {
@@ -17,6 +22,9 @@ const UserAccountAPI: UserAccountApiType = {
   },
   updateUserAccountInfo: (newInfo) => {
     return request.put(`/api/users`, newInfo);
+  },
+  updateUserAccountPassword: (newPasswordInfo) => {
+    return request.put(`/api/users`, newPasswordInfo);
   },
 };
 

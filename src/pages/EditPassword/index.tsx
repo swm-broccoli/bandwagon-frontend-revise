@@ -43,9 +43,35 @@ function PasswordChangeForm({ label }: { label: string }) {
     });
   };
 
+  const onPasswordChangeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    UserAccountAPI.updateUserAccountPassword({
+      oldPassword: passwordChangeForm.curPassword,
+      newPassword: passwordChangeForm.newPassword,
+      newPasswordCheck: passwordChangeForm.newPasswordCheck,
+    })
+      .then((res) => {
+        console.log(res.data);
+        if (res.status === 200) {
+          alert('비밀번호 변경 성공');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setPasswordChangeForm({
+          email: '',
+          curPassword: '',
+          newPassword: '',
+          newPasswordCheck: '',
+        });
+      });
+  };
+
   return (
     <div className='grid auto-rows-min'>
-      <form>
+      <form onSubmit={onPasswordChangeSubmit}>
         <div className='flex flex-row justify-between'>
           <h1 className='text-bold text-2xl font-bold'>{label}</h1>
           <button type='submit' className='btn btn-primary h-10'>
@@ -76,7 +102,7 @@ function PasswordChangeForm({ label }: { label: string }) {
           <EditPageInput
             label='새 비밀번호 확인'
             type='password'
-            name='newPasswordConfirm'
+            name='newPasswordCheck'
             value={passwordChangeForm.newPasswordCheck}
             onChange={onChangeForm}
           />
