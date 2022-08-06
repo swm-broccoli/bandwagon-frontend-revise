@@ -24,30 +24,23 @@ export interface PictureType {
   name: string;
 }
 
-export interface PerformanceType {
-  id: number;
-  musicTitle: string;
-  performDate: string;
-  videoUrl: string;
-  audioUrl: string;
-}
-
-export interface RecordLinkType {
-  id: number;
-  platform: string;
+export interface RecordURLType {
+  siteName: string;
   url: string;
 }
 
 export interface PerformanceRecordType {
   id: number;
-  title: string;
-  date: string;
-  recordLinks: RecordLink[];
+  musicTitle: string;
+  performDate: string;
+  urls: RecordURLType[];
 }
 
 export interface UserProfileType {
+  avatarUrl: string;
   name: string;
   birthday: string;
+  gender: boolean;
   positions: SelectionType[];
   areas: AreaType[];
   genres: GenreType[];

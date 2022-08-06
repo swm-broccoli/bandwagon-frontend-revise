@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { RecordLinkType, PerformanceRecordType } from '../types/types';
+import { RecordURLType, PerformanceRecordType } from '../types/types';
 
 const linkPlatformOptions = [
   {
@@ -16,56 +16,20 @@ const linkPlatformOptions = [
   },
 ];
 
-function RecordLinkItem({
-  recordLink,
-  setRecordLink,
+function RecordURLItem({
+  recordURL,
+  setRecordURL,
   editing,
-  platformOptions,
 }: {
-  recordLink: RecordLinkType;
-  setRecordLink: (recordLink: RecordLinkType) => void;
+  recordURL: RecordURLType;
+  setRecordURL: (recordURL: RecordURLType) => void;
   editing: boolean;
-  platformOptions: Array<{ id: number; name: string }>;
 }) {
-  if (editing) {
-    return (
-      <div className='flex justify-between'>
-        <select
-          value={recordLink.platform}
-          onChange={(e) => {
-            setRecordLink({ ...recordLink, platform: e.target.value });
-          }}
-          className='select select-bordered select-sm'
-        >
-          {platformOptions.map((platform) => (
-            <option key={platform.id} value={platform.name}>
-              {platform.name}
-            </option>
-          ))}
-        </select>
-        <input
-          className='input w-full h-full'
-          value={recordLink.url}
-          onChange={(e) => {
-            setRecordLink({ ...recordLink, url: e.target.value });
-          }}
-        />
-      </div>
-    );
-  } else {
-    return (
-      <div className='flex flex-row text-xs m-1'>
-        <div className='w-24'>{recordLink.platform}</div>
-        <div className='divider divider-horizontal m-0' />
-        <a
-          href={recordLink.url}
-          className='link link-hover block w-full break-all'
-        >
-          {recordLink.url}
-        </a>
-      </div>
-    );
-  }
+  return (
+    <div>
+      {recordURL.siteName} {recordURL.url}
+    </div>
+  );
 }
 
 function RecordEditingItem({
@@ -83,17 +47,17 @@ function RecordEditingItem({
         <input
           type='text'
           className='input input-bordered input-sm w-full text-accent'
-          value={record.title}
+          value={record.musicTitle}
           onChange={(e) => {
-            setRecord({ ...record, title: e.target.value });
+            setRecord({ ...record, musicTitle: e.target.value });
           }}
         />
         <input
           type='date'
           className='input input-bordered input-sm w-full text-neutral'
-          value={record.date}
+          value={record.performDate}
           onChange={(e) => {
-            setRecord({ ...record, date: e.target.value });
+            setRecord({ ...record, performDate: e.target.value });
           }}
         />
       </div>
@@ -104,32 +68,28 @@ function RecordEditingItem({
           onClick={() => {
             setRecord({
               ...record,
-              recordLinks: [
-                ...record.recordLinks,
-                { platform: linkPlatformOptions[0], url: '' },
-              ],
+              urls: [...record.urls, { siteName: '', url: '' }],
             });
           }}
         >
           +추가
         </button>
       </div>
-      {record.recordLinks.map((recordLink, index) => (
-        <RecordLinkItem
+      {record.urls.map((recordURL, index) => (
+        <RecordURLItem
           key={index}
-          recordLink={recordLink}
-          setRecordLink={(updatedRecordLink) => {
+          recordURL={recordURL}
+          setRecordURL={(updatedRecordURL) => {
             setRecord({
               ...record,
-              recordLinks: record.recordLinks.map((recordLink) => {
-                return updatedRecordLink.id === recordLink.id
-                  ? updatedRecordLink
-                  : recordLink;
+              urls: record.urls.map((recordURL) => {
+                return updatedRecordURL.siteName === recordURL.siteName
+                  ? updatedRecordURL
+                  : recordURL;
               }),
             });
           }}
           editing={editing}
-          platformOptions={linkPlatformOptions}
         />
       ))}
     </div>
@@ -146,16 +106,17 @@ function RecordConstantItem({
   return (
     <div className='grid grid-flow-row bg-success mt-2 px-4 py-2 rounded-lg'>
       <div className='grid grid-cols-2'>
-        <span className='text-accent col-start-1'>{record.title}</span>
-        <span className='text-neutral col-start-1 text-sm'>{record.date}</span>
+        <span className='text-accent col-start-1'>{record.musicTitle}</span>
+        <span className='text-neutral col-start-1 text-sm'>
+          {record.performDate}
+        </span>
       </div>
-      {record.recordLinks.map((recordLink, index) => (
-        <RecordLinkItem
+      {record.urls.map((recordLink, index) => (
+        <RecordURLItem
           key={index}
-          recordLink={recordLink}
+          recordURL={recordLink}
           editing={editing}
-          setRecordLink={() => {}}
-          platformOptions={linkPlatformOptions}
+          setRecordURL={() => {}}
         />
       ))}
     </div>

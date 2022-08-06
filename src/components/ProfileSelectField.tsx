@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ProfileAddModal from './ProfileAddModal';
 import { SelectionType } from '../types/types';
+import TagElement from './TagElement';
 
 function ProfileFieldAddButton({
   label,
@@ -59,7 +60,7 @@ function ProfileSelectFieldItem({
       </div>
     );
   } else {
-    return <div className='mr-2'>{label}</div>;
+    return <TagElement tag={label} />;
   }
 }
 
