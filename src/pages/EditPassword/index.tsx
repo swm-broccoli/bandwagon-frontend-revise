@@ -61,7 +61,7 @@ function PasswordChangeForm({ label }: { label: string }) {
       })
       .finally(() => {
         setPasswordChangeForm({
-          email: '',
+          ...passwordChangeForm,
           curPassword: '',
           newPassword: '',
           newPasswordCheck: '',
