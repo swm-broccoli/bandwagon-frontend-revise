@@ -74,6 +74,58 @@ function UserProfile() {
             value={curUserProfile.birthday}
             editing={profileEditing}
           />
+          <ProfileReadOnlyTextField
+            label='성별'
+            value={curUserProfile.gender ? '여자' : '남자'}
+            editing={profileEditing}
+          />
+          <ProfileSelectField
+            label='포지션'
+            selected={curUserProfile.positions}
+            setSelected={(newPositions) => {
+              setCurUserProfile({
+                ...curUserProfile,
+                positions: newPositions,
+              });
+            }}
+            options={positionOptions}
+            editing={profileEditing}
+          />
+          <AreaField
+            label='지역'
+            areas={curUserProfile.areas}
+            setAreas={(newAreas) => {
+              setCurUserProfile({
+                ...curUserProfile,
+                areas: newAreas,
+              });
+            }}
+            options={areaOptions}
+            editing={profileEditing}
+          />
+          <ProfileSelectField
+            label='장르'
+            selected={curUserProfile.genres}
+            setSelected={(newGenres) => {
+              setCurUserProfile({
+                ...curUserProfile,
+                genres: newGenres,
+              });
+            }}
+            options={genreOptions}
+            editing={profileEditing}
+          />
+          <DescriptionField
+            label='자기소개'
+            description={curUserProfile.description}
+            setDescription={(newDescription) => {
+              setCurUserProfile({
+                ...curUserProfile,
+                description: newDescription,
+              });
+            }}
+            editing={profileEditing}
+          />
         </div>
       </div>
     </div>
