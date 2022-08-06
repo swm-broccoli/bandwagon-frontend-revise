@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MyPageTemplate from '../../components/MyPageTemplate';
 import ProfileReadOnlyTextField from '../../components/ProfileReadOnlyTextField';
 import ProfileSelectField from '../../components/ProfileSelectField';
@@ -14,58 +14,34 @@ import {
   UserProfileType,
   UserProfileChangeTraceType,
 } from '../../types/types';
-import initialUserProfile from './initialUserProfile';
-import userProfileStore from './userProfileStore';
 import RecordField from '../../components/RecordField';
 import UserProfileAPI from '../../apis/UserProfileAPI';
+import initialUserProfile from './initialUserProfile';
+
+function parsrUserProfile(userProfile: UserProfileType) {
+  return {
+    ...userProfile,
+    birthday: userProfile.birthday.split('T')[0],
+  };
+}
 
 function UserProfile() {
   const [curUserProfile, setCurUserProfile] =
     useState<UserProfileType>(initialUserProfile);
 
-  const {
-    userProfile: storedUserProfile,
-    setUserProfilePositions,
-    setUserProfileAreas,
-    setUserProfileGenres,
-    setUserProfileDescription,
-    setUserProfilePerformances,
-  } = userProfileStore();
-
-  const [userProfileItemChanged, setUserProfileItemChanged] =
-    useState<UserProfileChangeTraceType>({
-      // 바뀐 내역을 추적하는 변수
-      name: false,
-      birthday: false,
-      positions: false,
-      areas: false,
-      genres: false,
-      description: false,
-      userPerformances: false,
-    });
-
   const [profileEditing, setProfileEditing] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setUserProfileItemChanged({
-      ...userProfileItemChanged,
-      positions: true,
-    });
-    console.log('포지션 변경됨');
-  }, [storedUserProfile.positions]);
-
-  useEffect(() => {
-    setUserProfileItemChanged({
-      ...userProfileItemChanged,
-      areas: true,
-    });
-    console.log('활동 지역 변경됨');
-  }, [storedUserProfile.areas]);
-
-  useEffect(() => {
-    UserProfileAPI.getUserProfileInfo().then((res) => {
-      console.log(res.data);
-    });
+    UserProfileAPI.getUserProfileInfo()
+      .then((res) => {
+        console.log(res.data);
+        setCurUserProfile(parsrUserProfile(res.data));
+      })
+      .catch((err) => {
+        console.log('에러 발생', err);
+        navigate('/');
+      });
   }, []);
 
   return (
@@ -84,7 +60,7 @@ function UserProfile() {
       <div className='mt-6 flex flex-col items-center'>
         <div className='avatar w-1/3'>
           <div className='rounded-full'>
-            <img src='https://picsum.photos/200' alt='avatar' />
+            <img src={curUserProfile.avatarUrl} alt='avatar' />
           </div>
         </div>
         <div className='w-full mt-10'>
@@ -94,41 +70,8 @@ function UserProfile() {
             editing={profileEditing}
           />
           <ProfileReadOnlyTextField
-            label='나이'
+            label='생년월일'
             value={curUserProfile.birthday}
-            editing={profileEditing}
-          />
-          <ProfileSelectField
-            label='포지션'
-            selected={storedUserProfile.positions}
-            setSelected={setUserProfilePositions}
-            options={positionOptions}
-            editing={profileEditing}
-          />
-          <AreaField
-            label='활동지역'
-            areas={storedUserProfile.areas}
-            setAreas={setUserProfileAreas}
-            options={areaOptions}
-            editing={profileEditing}
-          />
-          <ProfileSelectField
-            label='선호장르'
-            selected={storedUserProfile.genres}
-            setSelected={setUserProfileGenres}
-            options={genreOptions}
-            editing={profileEditing}
-          />
-          <DescriptionField
-            label='자기소개'
-            description={storedUserProfile.description}
-            setDescription={setUserProfileDescription}
-            editing={profileEditing}
-          />
-          <RecordField
-            label='연주 목록'
-            records={storedUserProfile.userPerformances}
-            setRecords={setUserProfilePerformances}
             editing={profileEditing}
           />
         </div>

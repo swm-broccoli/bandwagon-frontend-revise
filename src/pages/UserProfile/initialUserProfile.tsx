@@ -1,6 +1,8 @@
 const initialUserProfile = {
-  name: '김성현',
+  avatarUrl: 'https://picsum.photos/200',
+  name: '김형식',
   birthday: '1996-01-01',
+  gender: false,
   positions: [{ id: 1, name: 'Electric Guitar' }],
   areas: [{ id: 2, city: '서울', district: '중구' }],
   genres: [
@@ -21,34 +23,30 @@ const initialUserProfile = {
   userPerformances: [
     {
       id: 1,
-      title: '히미츠 - 신장개업',
-      date: '2020-01-01',
-      recordLinks: [
+      musicTitle: '히미츠 - 신장개업',
+      performDate: '2020-01-01',
+      urls: [
         {
-          id: 1,
-          platform: '유튜브',
+          siteName: '유튜브',
           url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
         },
         {
-          id: 2,
-          platform: '사운드클라우드',
+          siteName: '사운드클라우드',
           url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
         },
       ],
     },
     {
       id: 2,
-      title: '히미츠 - 화성침공',
-      date: '2020-01-01',
-      recordLinks: [
+      musicTitle: '히미츠 - 화성침공',
+      performDate: '2020-01-01',
+      urls: [
         {
-          id: 3,
-          platform: '유튜브',
+          siteName: '유튜브',
           url: 'https://www.google.com',
         },
         {
-          id: 4,
-          platform: '사운드클라우드',
+          siteName: '사운드클라우드',
           url: 'https://www.naver.com',
         },
       ],
