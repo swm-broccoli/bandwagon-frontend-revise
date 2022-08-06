@@ -9,7 +9,6 @@ import positionOptions from '../../assets/options/positionOptions';
 import genreOptions from '../../assets/options/genreOptions';
 import DescriptionField from '../../components/DescriptionField';
 import {
-  RecordLinkType,
   PerformanceRecordType,
   UserProfileType,
   UserProfileChangeTraceType,
@@ -22,6 +21,7 @@ function parsrUserProfile(userProfile: UserProfileType) {
   return {
     ...userProfile,
     birthday: userProfile.birthday.split('T')[0],
+    description: userProfile.description || '타입 추론을 잘하는 김형식입니다.',
   };
 }
 
@@ -122,6 +122,17 @@ function UserProfile() {
               setCurUserProfile({
                 ...curUserProfile,
                 description: newDescription,
+              });
+            }}
+            editing={profileEditing}
+          />
+          <RecordField
+            label='연주 기록'
+            records={curUserProfile.userPerformances}
+            setRecords={(newRecords) => {
+              setCurUserProfile({
+                ...curUserProfile,
+                userPerformances: newRecords,
               });
             }}
             editing={profileEditing}

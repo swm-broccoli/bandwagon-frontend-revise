@@ -24,7 +24,7 @@ export interface PictureType {
   name: string;
 }
 
-export interface RecordLinkType {
+export interface RecordURLType {
   siteName: string;
   url: string;
 }
@@ -33,7 +33,7 @@ export interface PerformanceRecordType {
   id: number;
   musicTitle: string;
   performDate: string;
-  urls: RecordLinkType[];
+  urls: RecordURLType[];
 }
 
 export interface UserProfileType {
