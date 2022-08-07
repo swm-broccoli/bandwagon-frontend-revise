@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MyPageTemplate from '../../components/MyPageTemplate';
 import ProfileReadOnlyTextField from '../../components/ProfileReadOnlyTextField';
 import ProfileSelectField from '../../components/ProfileSelectField';
@@ -8,16 +8,17 @@ import areaOptions from '../../assets/options/areaOptions';
 import positionOptions from '../../assets/options/positionOptions';
 import genreOptions from '../../assets/options/genreOptions';
 import DescriptionField from '../../components/DescriptionField';
-import {
-  PerformanceRecordType,
-  UserProfileType,
-  UserProfileChangeTraceType,
-} from '../../types/types';
+import { UserProfileType } from '../../types/types';
 import RecordField from '../../components/RecordField';
 import UserProfileAPI from '../../apis/UserProfileAPI';
 import initialUserProfile from './initialUserProfile';
+import {
+  useQuery,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 
-function parsrUserProfile(userProfile: UserProfileType) {
+function parseUserProfile(userProfile: UserProfileType) {
   return {
     ...userProfile,
     birthday: userProfile.birthday.split('T')[0],
@@ -29,20 +30,50 @@ function UserProfile() {
   const [curUserProfile, setCurUserProfile] =
     useState<UserProfileType>(initialUserProfile);
 
+  const [serverUserProfile, setServerUserProfile] = useState<UserProfileType>({
+    avatarUrl: '',
+    name: '',
+    birthday: '',
+    gender: false,
+    positions: [],
+    genres: [],
+    areas: [],
+    description: '',
+    userPerformances: [],
+  });
+
   const [profileEditing, setProfileEditing] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     UserProfileAPI.getUserProfileInfo()
       .then((res) => {
-        console.log(res.data);
-        setCurUserProfile(parsrUserProfile(res.data));
+        console.log('서버에서 도착한 데이터', res.data);
+        setCurUserProfile(parseUserProfile(res.data));
+        setServerUserProfile(parseUserProfile(res.data));
       })
       .catch((err) => {
         console.log('에러 발생', err);
         navigate('/');
       });
   }, []);
+
+  const onProfileEditDone = () => {
+    if (profileEditing) {
+      //수정 완료 상태로 접어들었다
+      if (serverUserProfile.description !== curUserProfile.description) {
+        console.log('서버에 저장할 내용이 있음.' + curUserProfile.description);
+        UserProfileAPI.setUserDescription(curUserProfile.description)
+          .then((res) => {
+            console.log('서버에 저장 성공', res);
+          })
+          .catch((err) => {
+            console.log('서버에 저장 실패', err);
+          });
+      }
+    }
+    setProfileEditing(!profileEditing);
+  };
 
   return (
     <div>
@@ -52,7 +83,7 @@ function UserProfile() {
           className={`btn h-10 ${
             profileEditing ? 'bg-base-100 hover:bg-base-200' : 'btn-primary'
           }`}
-          onClick={() => setProfileEditing(!profileEditing)}
+          onClick={onProfileEditDone}
         >
           {profileEditing ? '수정 완료' : '수정하기'}
         </button>
@@ -143,11 +174,15 @@ function UserProfile() {
   );
 }
 
+const queryClient = new QueryClient();
+
 function UserProfilePage() {
   return (
-    <MyPageTemplate>
-      <UserProfile />
-    </MyPageTemplate>
+    <QueryClientProvider client={queryClient}>
+      <MyPageTemplate>
+        <UserProfile />
+      </MyPageTemplate>
+    </QueryClientProvider>
   );
 }
 

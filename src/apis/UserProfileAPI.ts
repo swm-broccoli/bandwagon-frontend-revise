@@ -20,10 +20,7 @@ const UserProfileAPI: UserProfileApiType = {
   },
   addUserPosition: (positionID) => {
     const userID = localStorage.getItem('userID');
-    return request.post(
-      `/api/users/${userID}/positions/${positionID}`,
-      positionID,
-    );
+    return request.post(`/api/users/${userID}/positions/${positionID}`);
   },
   deleteUserPosition: (positionID) => {
     const userID = localStorage.getItem('userID');
