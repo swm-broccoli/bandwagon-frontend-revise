@@ -1,21 +1,6 @@
-import { VNodeWalker } from '@toast-ui/editor/types/ui';
 import { useEffect, useState } from 'react';
 import { RecordURLType, PerformanceRecordType } from '../types/types';
-
-const linkPlatformOptions = [
-  {
-    id: 1,
-    name: '유튜브',
-  },
-  {
-    id: 2,
-    name: '사운드클라우드',
-  },
-  {
-    id: 3,
-    name: '오디오클라우드',
-  },
-];
+import ProfileAddModal from './ProfileAddModal';
 
 function RecordURLItem({
   recordURL,
@@ -191,6 +176,12 @@ function RecordItem({
   } else {
     return <RecordConstantItem record={record} editing={editing} />;
   }
+}
+
+export interface PerformanceRecordAddType {
+  musicTitle: string;
+  performDate: string;
+  urls: RecordURLType[];
 }
 
 function RecordField({
