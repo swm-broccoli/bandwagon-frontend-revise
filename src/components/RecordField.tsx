@@ -19,10 +19,12 @@ const linkPlatformOptions = [
 function RecordURLItem({
   recordURL,
   setRecordURL,
+  deleteRecordURL,
   editing,
 }: {
   recordURL: RecordURLType;
   setRecordURL: (recordURL: RecordURLType) => void;
+  deleteRecordURL: () => void;
   editing: boolean;
 }) {
   if (!editing) {
@@ -35,22 +37,25 @@ function RecordURLItem({
     );
   } else {
     return (
-      <div className='grid grid-cols-7 mb-1'>
+      <div className='flex flex-row mb-1'>
         <input
-          className='input input-bordered input-sm col-span-2'
+          className='input input-bordered input-sm w-2/6'
           value={recordURL.siteName}
           onChange={(e) => {
             setRecordURL({ ...recordURL, siteName: e.target.value });
           }}
         />
-        <div className='divider divider-horizontal' />
+        <div className='divider divider-horizontal m-1' />
         <input
-          className='input input-bordered input-sm col-span-4'
+          className='input input-bordered input-sm w-4/6'
           value={recordURL.url}
           onChange={(e) => {
             setRecordURL({ ...recordURL, url: e.target.value });
           }}
         />
+        <button className='ml-1' onClick={deleteRecordURL}>
+          X
+        </button>
       </div>
     );
   }
@@ -110,6 +115,14 @@ function RecordEditingItem({
                 return recordURLIndex === _index
                   ? updatedRecordURL
                   : _recordURL;
+              }),
+            });
+          }}
+          deleteRecordURL={() => {
+            setRecord({
+              ...record,
+              urls: record.urls.filter((_recordURL, _index) => {
+                return recordURLIndex !== _index;
               }),
             });
           }}
