@@ -1,3 +1,4 @@
+import { VNodeWalker } from '@toast-ui/editor/types/ui';
 import { useEffect, useState } from 'react';
 import { RecordURLType, PerformanceRecordType } from '../types/types';
 
@@ -64,18 +65,20 @@ function RecordURLItem({
 function RecordEditingItem({
   record,
   setRecord,
+  deleteRecord,
   editing,
 }: {
   record: PerformanceRecordType;
   setRecord: (record: PerformanceRecordType) => void;
+  deleteRecord: () => void;
   editing: boolean;
 }) {
   return (
     <div className='grid grid-flow-row border border-base-200 mt-2 px-4 py-2 rounded-lg'>
-      <div className='grid grid-cols-5'>
+      <div className='flex flex-row'>
         <input
           type='text'
-          className='input input-bordered input-sm col-span-3 text-accent'
+          className='input input-bordered input-sm w-3/5 text-accent'
           value={record.musicTitle}
           onChange={(e) => {
             setRecord({ ...record, musicTitle: e.target.value });
@@ -83,12 +86,15 @@ function RecordEditingItem({
         />
         <input
           type='date'
-          className='input input-bordered input-sm col-span-2 text-neutral'
+          className='input input-bordered input-sm w-2/5 text-neutral'
           value={record.performDate}
           onChange={(e) => {
             setRecord({ ...record, performDate: e.target.value });
           }}
         />
+        <button className='ml-1' onClick={deleteRecord}>
+          X
+        </button>
       </div>
       <div className='flex flex-row justify-between items-center'>
         <h4 className='text-sm'>🔗 연주기록 링크 추가</h4>
@@ -154,6 +160,7 @@ function RecordConstantItem({
           key={index}
           recordURL={recordLink}
           editing={editing}
+          deleteRecordURL={() => {}}
           setRecordURL={() => {}}
         />
       ))}
@@ -164,10 +171,12 @@ function RecordConstantItem({
 function RecordItem({
   record,
   setRecord,
+  deleteRecord,
   editing,
 }: {
   record: PerformanceRecordType;
   setRecord: (record: PerformanceRecordType) => void;
+  deleteRecord: () => void;
   editing: boolean;
 }) {
   if (editing) {
@@ -176,6 +185,7 @@ function RecordItem({
         record={record}
         setRecord={setRecord}
         editing={editing}
+        deleteRecord={deleteRecord}
       />
     );
   } else {
@@ -217,6 +227,9 @@ function RecordField({
                 return record;
               }),
             );
+          }}
+          deleteRecord={() => {
+            setRecords(records.filter((_record) => _record.id !== record.id));
           }}
           editing={editing}
         />
