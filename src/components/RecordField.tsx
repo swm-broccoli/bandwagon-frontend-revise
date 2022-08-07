@@ -25,11 +25,35 @@ function RecordURLItem({
   setRecordURL: (recordURL: RecordURLType) => void;
   editing: boolean;
 }) {
-  return (
-    <div>
-      {recordURL.siteName} {recordURL.url}
-    </div>
-  );
+  if (!editing) {
+    return (
+      <div className='grid grid-cols-7 mb-1'>
+        <div className='col-span-2'>{recordURL.siteName}</div>
+        <div className='divider divider-horizontal' />
+        <div className='col-span-4 break-all'>{recordURL.url}</div>
+      </div>
+    );
+  } else {
+    return (
+      <div className='grid grid-cols-7 mb-1'>
+        <input
+          className='input input-bordered input-sm col-span-2'
+          value={recordURL.siteName}
+          onChange={(e) => {
+            setRecordURL({ ...recordURL, siteName: e.target.value });
+          }}
+        />
+        <div className='divider divider-horizontal' />
+        <input
+          className='input input-bordered input-sm col-span-4'
+          value={recordURL.url}
+          onChange={(e) => {
+            setRecordURL({ ...recordURL, url: e.target.value });
+          }}
+        />
+      </div>
+    );
+  }
 }
 
 function RecordEditingItem({
@@ -42,11 +66,11 @@ function RecordEditingItem({
   editing: boolean;
 }) {
   return (
-    <div className='grid grid-flow-row bg-success mt-2 px-4 py-2 rounded-lg'>
-      <div className='grid grid-cols-2'>
+    <div className='grid grid-flow-row border border-base-200 mt-2 px-4 py-2 rounded-lg'>
+      <div className='grid grid-cols-5'>
         <input
           type='text'
-          className='input input-bordered input-sm w-full text-accent'
+          className='input input-bordered input-sm col-span-3 text-accent'
           value={record.musicTitle}
           onChange={(e) => {
             setRecord({ ...record, musicTitle: e.target.value });
@@ -54,7 +78,7 @@ function RecordEditingItem({
         />
         <input
           type='date'
-          className='input input-bordered input-sm w-full text-neutral'
+          className='input input-bordered input-sm col-span-2 text-neutral'
           value={record.performDate}
           onChange={(e) => {
             setRecord({ ...record, performDate: e.target.value });
@@ -62,7 +86,7 @@ function RecordEditingItem({
         />
       </div>
       <div className='flex flex-row justify-between items-center'>
-        <h4 className='text-sm'>연주기록 링크 추가</h4>
+        <h4 className='text-sm'>🔗 연주기록 링크 추가</h4>
         <button
           className='btn btn-sm bg-base-100 border-base-300 hover:bg-base-200'
           onClick={() => {
@@ -75,17 +99,17 @@ function RecordEditingItem({
           +추가
         </button>
       </div>
-      {record.urls.map((recordURL, index) => (
+      {record.urls.map((recordURL, recordURLIndex) => (
         <RecordURLItem
-          key={index}
+          key={recordURLIndex}
           recordURL={recordURL}
           setRecordURL={(updatedRecordURL) => {
             setRecord({
               ...record,
-              urls: record.urls.map((recordURL) => {
-                return updatedRecordURL.siteName === recordURL.siteName
+              urls: record.urls.map((_recordURL, _index) => {
+                return recordURLIndex === _index
                   ? updatedRecordURL
-                  : recordURL;
+                  : _recordURL;
               }),
             });
           }}
@@ -103,6 +127,7 @@ function RecordConstantItem({
   record: PerformanceRecordType;
   editing: boolean;
 }) {
+  // 연주 기록이 수정중이 아닐 때 기록 하나를 보여줌
   return (
     <div className='grid grid-flow-row bg-success mt-2 px-4 py-2 rounded-lg'>
       <div className='grid grid-cols-2'>

@@ -32,7 +32,7 @@ function UserProfile() {
   const [profileEditing, setProfileEditing] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  /*useEffect(() => {
     UserProfileAPI.getUserProfileInfo()
       .then((res) => {
         console.log(res.data);
@@ -42,7 +42,7 @@ function UserProfile() {
         console.log('에러 발생', err);
         navigate('/');
       });
-  }, []);
+  }, []);*/
 
   return (
     <div>
