@@ -36,7 +36,7 @@ const UserProfileAPI: UserProfileApiType = {
   },
   addUserArea: (areaID) => {
     const userID = localStorage.getItem('userID');
-    return request.post(`/api/users/${userID}/areas/${areaID}`, areaID);
+    return request.post(`/api/users/${userID}/areas/${areaID}`);
   },
   deleteUserArea: (areaID) => {
     const userID = localStorage.getItem('userID');

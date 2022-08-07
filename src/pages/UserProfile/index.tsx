@@ -61,7 +61,36 @@ function UserProfile() {
   const onProfileEditDone = () => {
     if (profileEditing) {
       //수정 완료 상태로 접어들었다
+      for (const position of curUserProfile.positions) {
+        if (serverUserProfile.positions.includes(position) === false) {
+          UserProfileAPI.addUserPosition(position.id)
+            .then((res) => {
+              console.log(res);
+              console.log(position, '추가 성공');
+            })
+            .catch((err) => {
+              console.log(err);
+              console.log(position, '추가 실패');
+            });
+        }
+      }
+
+      for (const area of curUserProfile.areas) {
+        if (serverUserProfile.areas.includes(area) === false) {
+          UserProfileAPI.addUserArea(area.id)
+            .then((res) => {
+              console.log(res);
+              console.log(area, '추가 성공');
+            })
+            .catch((err) => {
+              console.log(err);
+              console.log(area, '추가 실패');
+            });
+        }
+      }
+
       if (serverUserProfile.description !== curUserProfile.description) {
+        //자기소개가 다를 경우 서버로 전송
         console.log('서버에 저장할 내용이 있음.' + curUserProfile.description);
         UserProfileAPI.setUserDescription(curUserProfile.description)
           .then((res) => {
