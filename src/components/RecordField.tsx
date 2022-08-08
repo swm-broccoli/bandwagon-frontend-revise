@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RecordURLType, PerformanceRecordType } from '../types/types';
 import ProfileAddModal from './ProfileAddModal';
+import { v4 } from 'uuid';
 
 function RecordURLItem({
   recordURL,
@@ -207,7 +208,12 @@ function RecordField({
           <button
             onClick={() => {
               setRecords([
-                { id: 0, musicTitle: '', performDate: '1970-01-01', urls: [] },
+                {
+                  id: Date.now(),
+                  musicTitle: '',
+                  performDate: '1970-01-01',
+                  urls: [],
+                },
                 ...records,
               ]);
             }}

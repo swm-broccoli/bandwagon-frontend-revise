@@ -19,6 +19,10 @@ function parseUserProfile(userProfile: UserProfileType) {
     ...userProfile,
     birthday: userProfile.birthday.split('T')[0],
     description: userProfile.description || '타입 추론을 잘하는 김형식입니다.',
+    userPerformances: userProfile.userPerformances.map((performance) => ({
+      ...performance,
+      performDate: performance.performDate.split('T')[0],
+    })),
   };
 }
 
@@ -192,6 +196,46 @@ function UserProfile() {
           .catch((err) => {
             console.log('서버에 저장 실패', err);
           });
+      }
+
+      //연주 기록 관련 업데이트
+      for (const performance of serverUserProfile.userPerformances) {
+        if (
+          curUserProfile.userPerformances.find(
+            (p) => p.id === performance.id,
+          ) === undefined
+        ) {
+          UserProfileAPI.deleteUserPerformance(performance.id)
+            .then(() => {
+              console.log(performance.musicTitle, '삭제 성공');
+            })
+            .catch((err) => {
+              console.log(performance.musicTitle, '삭제 실패', err);
+            });
+        }
+      }
+
+      for (const performance of curUserProfile.userPerformances) {
+        // 서버에는 없지만 사용자가 새로 추가한 연주 기록이 있으면 서버에 추가한다
+        if (
+          serverUserProfile.userPerformances.find(
+            (p) => p.id === performance.id,
+          ) === undefined
+        ) {
+          console.log(performance);
+          UserProfileAPI.addUserPerformance({
+            musicTitle: performance.musicTitle,
+            performDate: performance.performDate,
+            urls: performance.urls,
+          })
+            .then((res) => {
+              console.log(res);
+              console.log(performance.musicTitle, '추가 성공');
+            })
+            .catch((err) => {
+              console.log(performance.musicTitle, '추가 실패', err);
+            });
+        }
       }
     }
     setProfileEditing(!profileEditing);

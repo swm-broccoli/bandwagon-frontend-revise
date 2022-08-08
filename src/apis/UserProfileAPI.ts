@@ -80,10 +80,7 @@ const UserProfileAPI: UserProfileApiType = {
   },
   addUserPerformance: (performance) => {
     const userID = localStorage.getItem('userID');
-    return request.post(`/api/users/${userID}/performance`, {
-      ...performance,
-      urls: JSON.stringify(performance.urls),
-    });
+    return request.post(`/api/users/${userID}/performance`, performance);
   },
   deleteUserPerformance: (performanceID) => {
     const userID = localStorage.getItem('userID');
