@@ -37,13 +37,13 @@ function ReadRecruitPage () {
     <>
       <GlobalNavBar />
       <div className='flex justify-center w-full h-fit'>
-        <div className='grid grid-cols-[1fr_6fr_1fr] auto-rows-auto w-full h-fit gap-y-5 py-10 max-w-5xl'>
+        <div className='grid grid-cols-[1fr_6fr_1fr] md:grid-cols-[2fr_6fr_2fr_1fr] auto-rows-auto w-full h-fit gap-y-5 py-10 max-w-7xl'>
           <BasicInfoBox />
           <div className='row-start-2 col-start-2'>
             <BandInfoCard type={false} />
           </div>
           <ReadArticleCard />
-          <BandApplyBox />
+          <div className='row-start-4 col-start-2 md:row-start-2 md:col-start-3 md:mt-9 md:justify-self-end'><BandApplyBox /></div>
         </div>
       </div>
       <GlobalFooter />

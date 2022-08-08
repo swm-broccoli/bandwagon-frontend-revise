@@ -7,7 +7,7 @@ import ico_x from '../../assets/ico_x.svg';
 
 function PrequisiteTooltip () {
   return (
-    <div className='hidden group-hover:flex flex-col gap-[0.325rem] w-60 h-fit p-4 mt-8 -ml-44 bg-white border border-solid border-[#f2f2f2] rounded-xl shadow-md absolute'>
+    <div className='hidden group-hover:flex flex-col gap-[0.325rem] w-56 h-fit p-4 mt-8 -ml-40 bg-white border border-solid border-[#f2f2f2] rounded-xl shadow-md absolute'>
       <PrequisiteElement satisfied={true} />
       <PrequisiteElement satisfied={false} />
       <p className='mt-1 text-accent text-xs'>※ 조건이 맞지 않아 지원이 불가합니다.</p>
@@ -19,11 +19,11 @@ function PrequisiteElement (props: {satisfied: boolean}) {
   return (
     <>
     {props.satisfied ?
-      <div className='flex w-52 h-7 gap-2 pl-4 bg-[#f4f9f9] rounded-2xl items-center'>
+      <div className='flex w-48 h-7 gap-2 pl-4 bg-[#f4f9f9] rounded-2xl items-center'>
         <img src={ico_circle} />
         <p className='text-accent text-sm'>나이 30대 초반</p>
       </div> :
-      <div className='flex w-52 h-7 gap-2 bg-[#f9f4f7] pl-4 rounded-2xl items-center'>
+      <div className='flex w-48 h-7 gap-2 bg-[#f9f4f7] pl-4 rounded-2xl items-center'>
       <img src={ico_x} />
       <p className='text-accent text-sm'>선호 장르 케이팝</p>
     </div>
@@ -34,7 +34,7 @@ function PrequisiteElement (props: {satisfied: boolean}) {
 
 function BandApplyBox () {
   return (
-    <div className='row-start-4 col-start-2 flex flex-row w-full max-w-3xl h-fit justify-between p-4'>
+    <div className='flex flex-row md:flex-col md:gap-7 md:p-0 h-fit justify-between p-4'>
       <div className='flex flex-col gap-[0.325rem]'>
         <button>
           <img src={btn_like} />
