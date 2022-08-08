@@ -28,6 +28,7 @@ const UserProfileAPI: UserProfileApiType = {
     });
   },
   addUserPosition: (positionID) => {
+    console.log(positionID, '포지션 추가됨');
     const userID = localStorage.getItem('userID');
     return request.post(`/api/users/${userID}/positions/${positionID}`);
   },

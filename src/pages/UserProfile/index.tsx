@@ -91,7 +91,8 @@ function UserProfile() {
       for (const position of serverUserProfile.positions) {
         // 서버에는 있지만 사용자가 삭제한 포지션이 있으면 서버로 삭제 내역을 보냄
         if (
-          curUserProfile.positions.find((p) => p === position) === undefined
+          curUserProfile.positions.find((p) => p.id === position.id) ===
+          undefined
         ) {
           UserProfileAPI.deleteUserPosition(position.id)
             .then(() => {
@@ -146,6 +147,37 @@ function UserProfile() {
             })
             .catch((err) => {
               console.log('추가 실패', err);
+            });
+        }
+      }
+
+      for (const genre of serverUserProfile.genres) {
+        // 서버에는 있지만 사용자가 삭제한 장르가 있으면 서버로 삭제 내역을 보냄
+        if (
+          curUserProfile.genres.find((g) => g.id === genre.id) === undefined
+        ) {
+          UserProfileAPI.deleteUserGenre(genre.id)
+            .then(() => {
+              console.log(genre.name, '삭제 성공');
+            })
+            .catch((err) => {
+              console.log(genre.name, '삭제 실패', err);
+            });
+        }
+      }
+
+      for (const genre of curUserProfile.genres) {
+        // 서버에 없지만 사용자가 편집한 프로필에서 새로 추가한 장르가 있으면 서버로 보낸다
+        if (
+          serverUserProfile.genres.find((g) => g.id === genre.id) === undefined
+        ) {
+          UserProfileAPI.addUserGenre(genre.id)
+            .then((res) => {
+              console.log(res);
+              console.log(genre.name, '추가 성공');
+            })
+            .catch((err) => {
+              console.log(genre.name, '추가 실패', err);
             });
         }
       }
