@@ -1,6 +1,18 @@
 // 마이 페이지, 계정 정보 수정 관련 API
 import { AxiosResponse } from 'axios';
 import { request } from './request';
+import { PerformanceRecordType } from '../types/types';
+
+export interface RecordURLType {
+  siteName: string;
+  url: string;
+}
+
+interface AddPerformanceType {
+  musicTitle: string;
+  performDate: string;
+  urls: RecordURLType[];
+}
 
 interface UserProfileApiType {
   getUserProfileInfo: () => Promise<AxiosResponse>;
@@ -12,6 +24,13 @@ interface UserProfileApiType {
   addUserArea: (areaID: number) => Promise<AxiosResponse>;
   deleteUserArea: (areaID: number) => Promise<AxiosResponse>;
   setUserDescription: (description: string) => Promise<AxiosResponse>;
+  addUserPerformance: (
+    performance: AddPerformanceType,
+  ) => Promise<AxiosResponse>;
+  deleteUserPerformance: (performanceID: number) => Promise<AxiosResponse>;
+  updateUserPerformance: (
+    newPerformance: PerformanceRecordType,
+  ) => Promise<AxiosResponse>;
 }
 
 const UserProfileAPI: UserProfileApiType = {
@@ -58,6 +77,27 @@ const UserProfileAPI: UserProfileApiType = {
     return request.put(`/api/users/${userID}/description`, {
       description: description,
     });
+  },
+  addUserPerformance: (performance) => {
+    const userID = localStorage.getItem('userID');
+    return request.post(`/api/users/${userID}/performance`, {
+      ...performance,
+      urls: JSON.stringify(performance.urls),
+    });
+  },
+  deleteUserPerformance: (performanceID) => {
+    const userID = localStorage.getItem('userID');
+    return request.delete(`/api/users/${userID}/performance/${performanceID}`);
+  },
+  updateUserPerformance: (newPerformance) => {
+    const userID = localStorage.getItem('userID');
+    return request.put(
+      `/api/users/${userID}/performance/${newPerformance.id}`,
+      {
+        ...newPerformance,
+        urls: JSON.stringify(newPerformance.urls),
+      },
+    );
   },
 };
 
