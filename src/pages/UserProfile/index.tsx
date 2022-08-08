@@ -12,62 +12,7 @@ import { UserProfileType } from '../../types/types';
 import RecordField from '../../components/RecordField';
 import UserProfileAPI from '../../apis/UserProfileAPI';
 import initialUserProfile from './initialUserProfile';
-import {
-  useQuery,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
-import { MdPhotoCamera } from 'react-icons/md';
-
-function ProfileAvatar({
-  avatarURL,
-  setAvatarURL,
-  editing,
-}: {
-  avatarURL: string;
-  setAvatarURL: (newURL: string) => void;
-  editing: boolean;
-}) {
-  const avatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files![0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      setAvatarURL(reader.result as string);
-    };
-    reader.readAsDataURL(file);
-  };
-
-  useEffect(() => {
-    console.log(avatarURL);
-  }, [avatarURL]);
-
-  return (
-    <>
-      <div className='avatar w-1/3'>
-        <div className='rounded-full'>
-          <img src={avatarURL} alt='프로필 사진' />
-        </div>
-        {editing ? (
-          <>
-            <label
-              htmlFor='user-avatar'
-              className='bottom-0 right-0 w-10 h-10 p-0 absolute btn btn-sm bg-base-200 hover:bg-base-300 outline outline-base-100 border-none rounded-full'
-            >
-              <MdPhotoCamera size={20} />
-            </label>
-            <input
-              className='hidden'
-              type='file'
-              id='user-avatar'
-              accept='image/*'
-              onChange={avatarChange}
-            />
-          </>
-        ) : null}
-      </div>
-    </>
-  );
-}
+import { UserProfileAvatar } from './styles';
 
 function parseUserProfile(userProfile: UserProfileType) {
   return {
@@ -78,6 +23,7 @@ function parseUserProfile(userProfile: UserProfileType) {
 }
 
 const dataURLtoFile = (dataurl: string, fileName: string) => {
+  //base64 문자열을 File 로 변경해 주는 함수
   var arr = dataurl.split(','),
     mime = arr[0].match(/:(.*?);/)![1],
     bstr = atob(arr[1]),
@@ -203,7 +149,7 @@ function UserProfile() {
         </button>
       </div>
       <div className='mt-6 flex flex-col items-center'>
-        <ProfileAvatar
+        <UserProfileAvatar
           avatarURL={curUserProfile.avatarUrl}
           setAvatarURL={(newAvatarURL) => {
             setCurUserProfile({ ...curUserProfile, avatarUrl: newAvatarURL });
@@ -290,15 +236,11 @@ function UserProfile() {
   );
 }
 
-const queryClient = new QueryClient();
-
 function UserProfilePage() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <MyPageTemplate>
-        <UserProfile />
-      </MyPageTemplate>
-    </QueryClientProvider>
+    <MyPageTemplate>
+      <UserProfile />
+    </MyPageTemplate>
   );
 }
 
