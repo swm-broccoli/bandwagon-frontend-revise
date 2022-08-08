@@ -203,6 +203,19 @@ function RecordField({
     <div>
       <div className='flex flex-row justify-between items-center h-8 mb-5'>
         <h1 className='text-sm pl-1'>{label}</h1>
+        {editing ? (
+          <button
+            onClick={() => {
+              setRecords([
+                { id: 0, musicTitle: '', performDate: '1970-01-01', urls: [] },
+                ...records,
+              ]);
+            }}
+            className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'
+          >
+            +추가
+          </button>
+        ) : null}
       </div>
       {records.map((record, index) => (
         <RecordItem
