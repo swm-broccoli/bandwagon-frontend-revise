@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MyPageTemplate from '../../components/MyPageTemplate';
 import ProfileReadOnlyTextField from '../../components/ProfileReadOnlyTextField';
@@ -17,6 +17,62 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
+import { MdPhotoCamera } from 'react-icons/md';
+
+function ProfileAvatar({
+  avatarURL,
+  setAvatarURL,
+  editing,
+}: {
+  avatarURL: string;
+  setAvatarURL: (newURL: string) => void;
+  editing: boolean;
+}) {
+  const avatarRef = useRef<HTMLImageElement>(null);
+
+  const avatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files![0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (avatarRef.current) {
+        avatarRef.current.src = reader.result as string;
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  useEffect(() => {
+    if (avatarRef.current) {
+      avatarRef.current.src = avatarURL;
+    }
+  }, []);
+
+  return (
+    <>
+      <div className='avatar w-1/3'>
+        <div className='rounded-full'>
+          <img ref={avatarRef} alt='프로필 사진' />
+        </div>
+        {editing ? (
+          <>
+            <label
+              htmlFor='avatar'
+              className='bottom-0 right-0 w-10 h-10 p-0 absolute btn btn-sm bg-base-200 hover:bg-base-300 outline outline-base-100 border-none rounded-full'
+            >
+              <MdPhotoCamera size={20} />
+            </label>
+            <input
+              className='hidden'
+              type='file'
+              id='avatar'
+              onChange={avatarChange}
+            />
+          </>
+        ) : null}
+      </div>
+    </>
+  );
+}
 
 function parseUserProfile(userProfile: UserProfileType) {
   return {
@@ -118,11 +174,13 @@ function UserProfile() {
         </button>
       </div>
       <div className='mt-6 flex flex-col items-center'>
-        <div className='avatar w-1/3'>
-          <div className='rounded-full'>
-            <img src={curUserProfile.avatarUrl} alt='avatar' />
-          </div>
-        </div>
+        <ProfileAvatar
+          avatarURL={curUserProfile.avatarUrl}
+          setAvatarURL={(newAvatarURL) => {
+            setCurUserProfile({ ...curUserProfile, avatarUrl: newAvatarURL });
+          }}
+          editing={profileEditing}
+        />
         <div className='w-full mt-10'>
           <ProfileReadOnlyTextField
             label='이름'

@@ -4,6 +4,7 @@ import { request } from './request';
 
 interface UserProfileApiType {
   getUserProfileInfo: () => Promise<AxiosResponse>;
+  updateUserAvatar: (avatar: string) => Promise<AxiosResponse>;
   addUserPosition: (positionID: number) => Promise<AxiosResponse>;
   deleteUserPosition: (positionID: number) => Promise<AxiosResponse>;
   addUserGenre: (genreID: number) => Promise<AxiosResponse>;
@@ -17,6 +18,10 @@ const UserProfileAPI: UserProfileApiType = {
   getUserProfileInfo: () => {
     const userID = localStorage.getItem('userID');
     return request.get(`/api/users/${userID}/mypage`);
+  },
+  updateUserAvatar: (avatar: string) => {
+    const userID = localStorage.getItem('userID');
+    return request.put(`/api/users/${userID}/avatar`, { image: avatar });
   },
   addUserPosition: (positionID) => {
     const userID = localStorage.getItem('userID');
