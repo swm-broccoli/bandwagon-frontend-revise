@@ -89,15 +89,16 @@ function UserProfile() {
       }
 
       for (const position of serverUserProfile.positions) {
+        // 서버에는 있지만 사용자가 삭제한 포지션이 있으면 서버로 삭제 내역을 보냄
         if (
           curUserProfile.positions.find((p) => p === position) === undefined
         ) {
           UserProfileAPI.deleteUserPosition(position.id)
             .then(() => {
-              console.log('포지션 삭제 성공');
+              console.log(position.name, '삭제 성공');
             })
             .catch((err) => {
-              console.log('포지션 삭제 실패', err);
+              console.log(position.name, '삭제 실패', err);
             });
         }
       }
@@ -111,25 +112,42 @@ function UserProfile() {
           UserProfileAPI.addUserPosition(position.id)
             .then((res) => {
               console.log(res);
-              console.log(position, '추가 성공');
+              console.log(position.name, '추가 성공');
             })
             .catch((err) => {
               console.log(err);
-              console.log(position, '추가 실패');
+              console.log(position.name, '추가 실패');
+            });
+        }
+      }
+
+      for (const area of serverUserProfile.areas) {
+        // 서버에는 있지만 사용자가 삭제한 장소가 있으면 서버로 삭제 내역을 보냄
+        if (curUserProfile.areas.find((a) => a === area) === undefined) {
+          UserProfileAPI.deleteUserArea(area.id)
+            .then(() => {
+              console.log(`${area.city} ${area.district} 삭제 성공`);
+            })
+            .catch((err) => {
+              console.log('삭제 실패', err);
             });
         }
       }
 
       for (const area of curUserProfile.areas) {
-        UserProfileAPI.deleteUserArea(area.id)
-          .then((res) => {
-            console.log(res);
-            console.log(area, '추가 성공');
-          })
-          .catch((err) => {
-            console.log(err);
-            console.log(area, '추가 실패');
-          });
+        // 서버에 없지만 사용자가 편집한 프로필에서 새로 추가한 장소가 있으면 서버로 보낸다
+        if (
+          serverUserProfile.areas.find((a) => a.id === area.id) === undefined
+        ) {
+          UserProfileAPI.addUserArea(area.id)
+            .then((res) => {
+              console.log(res);
+              console.log(`${area.city} ${area.district} 추가 성공`);
+            })
+            .catch((err) => {
+              console.log('추가 실패', err);
+            });
+        }
       }
 
       if (serverUserProfile.description !== curUserProfile.description) {
