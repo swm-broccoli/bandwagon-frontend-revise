@@ -25,7 +25,10 @@ function ProfileFieldAddButton({
       <ProfileAddModal
         label={`${label} 추가`}
         addSelected={() => {
-          setSelected(selected.concat(curOption));
+          if (!selected.find((item) => item.id === curOption.id)) {
+            // 없는 것만 추가한다
+            setSelected(selected.concat(curOption));
+          }
         }}
       >
         <select
@@ -91,7 +94,9 @@ function ProfileSelectField({
                 label={item.name}
                 editing={editing}
                 deleteSelected={() => {
-                  setSelected(selected.filter((_, i) => i !== index));
+                  setSelected(
+                    selected.filter((selection) => item !== selection),
+                  );
                 }}
               />
             ))}

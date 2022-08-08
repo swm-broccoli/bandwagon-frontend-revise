@@ -69,10 +69,6 @@ function UserProfile() {
       });
   }, []);
 
-  useEffect(() => {
-    console.log('아바타 변경됨');
-  }, [curUserProfile.avatarUrl]);
-
   const onProfileEditDone = () => {
     if (profileEditing) {
       //수정 완료 상태로 접어들었다
@@ -92,8 +88,26 @@ function UserProfile() {
           });
       }
 
+      for (const position of serverUserProfile.positions) {
+        if (
+          curUserProfile.positions.find((p) => p === position) === undefined
+        ) {
+          UserProfileAPI.deleteUserPosition(position.id)
+            .then(() => {
+              console.log('포지션 삭제 성공');
+            })
+            .catch((err) => {
+              console.log('포지션 삭제 실패', err);
+            });
+        }
+      }
+
       for (const position of curUserProfile.positions) {
-        if (serverUserProfile.positions.includes(position) === false) {
+        // 서버에 없지만 사용자가 편집한 프로필에서 새로 추가한 포지션이 있으면 서버로 보낸다
+        if (
+          serverUserProfile.positions.find((p) => p.id === position.id) ===
+          undefined
+        ) {
           UserProfileAPI.addUserPosition(position.id)
             .then((res) => {
               console.log(res);
@@ -107,17 +121,15 @@ function UserProfile() {
       }
 
       for (const area of curUserProfile.areas) {
-        if (serverUserProfile.areas.includes(area) === false) {
-          UserProfileAPI.addUserArea(area.id)
-            .then((res) => {
-              console.log(res);
-              console.log(area, '추가 성공');
-            })
-            .catch((err) => {
-              console.log(err);
-              console.log(area, '추가 실패');
-            });
-        }
+        UserProfileAPI.deleteUserArea(area.id)
+          .then((res) => {
+            console.log(res);
+            console.log(area, '추가 성공');
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log(area, '추가 실패');
+          });
       }
 
       if (serverUserProfile.description !== curUserProfile.description) {

@@ -32,6 +32,7 @@ const UserProfileAPI: UserProfileApiType = {
     return request.post(`/api/users/${userID}/positions/${positionID}`);
   },
   deleteUserPosition: (positionID) => {
+    console.log(`${positionID} 삭제중`);
     const userID = localStorage.getItem('userID');
     return request.delete(`/api/users/${userID}/positions/${positionID}`);
   },
