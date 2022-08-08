@@ -28,35 +28,29 @@ function ProfileAvatar({
   setAvatarURL: (newURL: string) => void;
   editing: boolean;
 }) {
-  const avatarRef = useRef<HTMLImageElement>(null);
-
   const avatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files![0];
     const reader = new FileReader();
     reader.onload = () => {
-      if (avatarRef.current) {
-        avatarRef.current.src = reader.result as string;
-      }
+      setAvatarURL(reader.result as string);
     };
     reader.readAsDataURL(file);
   };
 
   useEffect(() => {
-    if (avatarRef.current) {
-      avatarRef.current.src = avatarURL;
-    }
-  }, []);
+    console.log(avatarURL);
+  }, [avatarURL]);
 
   return (
     <>
       <div className='avatar w-1/3'>
         <div className='rounded-full'>
-          <img ref={avatarRef} alt='프로필 사진' />
+          <img src={avatarURL} alt='프로필 사진' />
         </div>
         {editing ? (
           <>
             <label
-              htmlFor='avatar'
+              htmlFor='user-avatar'
               className='bottom-0 right-0 w-10 h-10 p-0 absolute btn btn-sm bg-base-200 hover:bg-base-300 outline outline-base-100 border-none rounded-full'
             >
               <MdPhotoCamera size={20} />
@@ -64,7 +58,8 @@ function ProfileAvatar({
             <input
               className='hidden'
               type='file'
-              id='avatar'
+              id='user-avatar'
+              accept='image/*'
               onChange={avatarChange}
             />
           </>
@@ -81,6 +76,20 @@ function parseUserProfile(userProfile: UserProfileType) {
     description: userProfile.description || '타입 추론을 잘하는 김형식입니다.',
   };
 }
+
+const dataURLtoFile = (dataurl: string, fileName: string) => {
+  var arr = dataurl.split(','),
+    mime = arr[0].match(/:(.*?);/)![1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new File([u8arr], fileName, { type: mime });
+};
 
 function UserProfile() {
   const [curUserProfile, setCurUserProfile] =
@@ -114,9 +123,29 @@ function UserProfile() {
       });
   }, []);
 
+  useEffect(() => {
+    console.log('아바타 변경됨');
+  }, [curUserProfile.avatarUrl]);
+
   const onProfileEditDone = () => {
     if (profileEditing) {
       //수정 완료 상태로 접어들었다
+      if (curUserProfile.avatarUrl !== serverUserProfile.avatarUrl) {
+        //사진이 바뀌었다면 서버에 업로드해야함
+        UserProfileAPI.updateUserAvatar(
+          dataURLtoFile(curUserProfile.avatarUrl, 'avatar.png'),
+        )
+          .then(() => {
+            console.log('사진 업로드 성공');
+          })
+          .catch((err) => {
+            console.log('사진 업로드 실패', err);
+          })
+          .finally(() => {
+            setProfileEditing(false);
+          });
+      }
+
       for (const position of curUserProfile.positions) {
         if (serverUserProfile.positions.includes(position) === false) {
           UserProfileAPI.addUserPosition(position.id)
