@@ -137,9 +137,14 @@ export function BandMemberList({
           <span className='label-text text-accent'>{label}</span>
         </label>
         {editing && frontmanReading ? (
-          <button className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'>
-            +추가
-          </button>
+          <>
+            <span className='text-base text-gray-500'>
+              이름을 누르면 편집 가능합니다.
+            </span>
+            <button className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'>
+              +추가
+            </button>
+          </>
         ) : null}
       </div>
       <ul className='w-full flex flex-row flex-wrap gap-x-7 gap-y-2'>
