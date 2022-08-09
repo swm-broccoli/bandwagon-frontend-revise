@@ -70,3 +70,17 @@ export interface BandProfileType {
   bandGigs: PerformanceType[];
   bandPhotos: PictureType[];
 }
+
+export interface PrequisiteElementType {
+  id: number;
+}
+
+export interface PrequisiteRequestType {
+  dtyle: string;
+  min: number;
+  max: number;
+  gender: boolean;
+  areas: PrequisiteElementType[];
+  genres: PrequisiteElementType[];
+  positions: PrequisiteElementType[];
+}
