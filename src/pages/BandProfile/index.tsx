@@ -12,17 +12,41 @@ import genreOptions from '../../assets/options/genreOptions';
 import DescriptionField from '../../components/DescriptionField';
 import RecordField from '../../components/RecordField';
 
+function BandProfileAlbumItem({
+  photo,
+  editing,
+  deletePhoto,
+}: {
+  photo: PictureType;
+  deletePhoto: () => void;
+  editing: boolean;
+}) {
+  //shrink-0 으로 설정하여 사진이 축소되지 않도록 함
+  return (
+    <div className='flex flex-row shrink-0 mr-4 items-start'>
+      <img
+        className='w-32 h-32 rounded-xl mr-1'
+        src={photo.name}
+        alt={`밴드 사진`}
+      />
+      {editing ? <button onClick={deletePhoto}>X</button> : null}
+    </div>
+  );
+}
+
 function BandProfileAlbum({
   label,
   bandPhotos,
+  setBandPhotos,
   editing,
 }: {
   label: string;
   bandPhotos: PictureType[];
+  setBandPhotos: (bandPhotos: PictureType[]) => void;
   editing: boolean;
 }) {
   return (
-    <div className='w-full bg-success'>
+    <div className='w-full'>
       <div className='flex flex-row justify-between items-center h-8 mb-5'>
         <h1>{label}</h1>
         {editing ? (
@@ -31,9 +55,18 @@ function BandProfileAlbum({
           </button>
         ) : null}
       </div>
-      <div className='flex flex-row overflow-scroll'>
+      <div className='flex flex-row overflow-x-auto items-center'>
         {bandPhotos.map((photo) => (
-          <img src={photo.name} alt='사잔' key={photo.id} />
+          <BandProfileAlbumItem
+            key={photo.id}
+            photo={photo}
+            deletePhoto={() => {
+              setBandPhotos(
+                bandPhotos.filter((_photo) => _photo.id !== photo.id),
+              );
+            }}
+            editing={editing}
+          />
         ))}
       </div>
       <div className='divider m-0 mt-5' />
@@ -140,6 +173,12 @@ function BandProfile() {
           <BandProfileAlbum
             label='밴드 사진첩'
             bandPhotos={curBandProfile.bandPhotos}
+            setBandPhotos={(newBandPhotos) => {
+              setCurBandProfile({
+                ...curBandProfile,
+                bandPhotos: newBandPhotos,
+              });
+            }}
             editing={profileEditing}
           />
           <RecordField
