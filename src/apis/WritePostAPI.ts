@@ -3,7 +3,6 @@ import { request } from './request';
 
 interface WritePostApiType {
   UploadArticle: (postInfo: {
-    id: number;
     title: string;
     body: string | undefined;
   }) => Promise<AxiosResponse>;

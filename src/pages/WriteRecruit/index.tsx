@@ -6,6 +6,7 @@ import Button from '../../components/Button';
 import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
 import WritePostAPI from '../../apis/WritePostAPI';
+import { useNavigate } from 'react-router-dom';
 
 function TitleTextField (props: {
   title: string,
@@ -41,16 +42,18 @@ function WriteEditor (props: {
 function WriteRecruitPage () {
   const [title, setTitle] = useState('');
   const editorRef = useRef<Editor>(null);
+  const navigate = useNavigate();
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log(editorRef.current?.getInstance().getHTML().toString());
 
     WritePostAPI.UploadArticle({
-      id: 1,
       title: title,
       body: editorRef.current?.getInstance().getHTML().toString()})
       .then((res) => {
-        console.log(res);
+        console.log(res.data.id);
+        window.alert('글이 작성되었습니다.')
+        navigate('/recruit/' + res.data.id);
       })
       .catch((err) => {
         console.log(err);
