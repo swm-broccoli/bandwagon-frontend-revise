@@ -18,6 +18,10 @@ function parseUserProfile(userProfile: UserProfileType) {
   return {
     ...userProfile,
     description: userProfile.description || '타입 추론을 잘하는 김형식입니다.',
+    userPerformances: userProfile.userPerformances.map((performance) => ({
+      ...performance,
+      performDate: performance.performDate.split('T')[0],
+    })),
   };
 }
 
@@ -86,8 +90,6 @@ function UserProfile() {
             setProfileEditing(false);
           });
       }
-      console.log('유저가 수정한 포지션', curUserProfile.positions);
-      console.log('기존 서버의 포지션', serverUserProfile.positions);
 
       for (const position of serverUserProfile.positions) {
         // 서버에는 있지만 사용자가 삭제한(즉 수정중인 상태에 없는) 포지션이 있으면 서버로 삭제 내역을 보냄
@@ -96,8 +98,8 @@ function UserProfile() {
           undefined
         ) {
           UserProfileAPI.deleteUserPosition(position.id)
-            .then((res) => {
-              console.log(res.data);
+            .then(() => {
+              console.log(position.name, '삭제 성공');
             })
             .catch((err) => {
               console.log(position.name, '삭제 실패', err);

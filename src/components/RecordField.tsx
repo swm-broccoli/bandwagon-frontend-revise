@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RecordURLType, PerformanceRecordType } from '../types/types';
 import ProfileAddModal from './ProfileAddModal';
+import { v4 } from 'uuid';
 
 function getTodayDate() {
   const today = new Date();
