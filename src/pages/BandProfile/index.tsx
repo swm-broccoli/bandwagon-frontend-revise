@@ -3,7 +3,7 @@ import MyPageTemplate from '../../components/MyPageTemplate';
 import ProfileSelectField from '../../components/ProfileSelectField';
 import AreaField from '../../components/AreaField';
 import initialBandProfile from './initialBandProfile';
-import { BandProfileAvatar, BandMemberList } from './styles';
+import { BandProfileAvatar, BandMemberList, BandProfileAlbum } from './styles';
 import { BandProfileType, PictureType } from '../../types/types';
 import ProfileReadOnlyTextField from '../../components/ProfileReadOnlyTextField';
 import areaOptions from '../../assets/options/areaOptions';
@@ -11,74 +11,95 @@ import weekdayOptions from '../../assets/options/weekdayOptions';
 import genreOptions from '../../assets/options/genreOptions';
 import DescriptionField from '../../components/DescriptionField';
 import RecordField from '../../components/RecordField';
+import BandProfileAPI from '../../apis/BandProfileAPI';
+import noBandPicture from '../../assets/noband.png';
 
-function BandProfileAlbumItem({
-  photo,
-  editing,
-  deletePhoto,
-}: {
-  photo: PictureType;
-  deletePhoto: () => void;
-  editing: boolean;
-}) {
-  //shrink-0 으로 설정하여 사진이 축소되지 않도록 함
+function parseBandProfile(bandProfile: BandProfileType) {
+  return {
+    ...bandProfile,
+    description: bandProfile.description || '',
+  };
+}
+
+function BandMakingForm() {
+  const [bandName, setBandName] = useState<string>('');
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    //폼은 제출시 자동 새로고침된다
+    console.log(bandName, '밴드로 제출됨');
+    BandProfileAPI.createBand(bandName)
+      .then((res) => {
+        if (res.status === 200) {
+          setBandName('');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
-    <div className='flex flex-row shrink-0 mr-4 items-start'>
-      <img
-        className='w-32 h-32 rounded-xl mr-1'
-        src={photo.name}
-        alt={`밴드 사진`}
+    <form onSubmit={handleSubmit} className='flex flex-col'>
+      <label className='text-lg'>만들 밴드 이름</label>
+      <input
+        value={bandName}
+        onChange={(e) => {
+          setBandName(e.target.value);
+        }}
+        className='input input-bordered mt-3'
       />
-      {editing ? <button onClick={deletePhoto}>X</button> : null}
-    </div>
+      <button type='submit' className='btn btn-primary btn-sm h-10 mt-3'>
+        만들기
+      </button>
+    </form>
   );
 }
 
-function BandProfileAlbum({
-  label,
-  bandPhotos,
-  setBandPhotos,
-  editing,
-}: {
-  label: string;
-  bandPhotos: PictureType[];
-  setBandPhotos: (bandPhotos: PictureType[]) => void;
-  editing: boolean;
-}) {
+function EmptyBandProfile({ emptyBandPicture }: { emptyBandPicture: string }) {
+  const [bandMaking, setBandMaking] = useState<boolean>(false);
+
   return (
-    <div className='w-full'>
-      <div className='flex flex-row justify-between items-center h-8 mb-5'>
-        <h1>{label}</h1>
-        {editing ? (
-          <button className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'>
-            +추가
-          </button>
-        ) : null}
+    <section>
+      <h1 className='text-bold text-2xl font-bold'>밴드 정보</h1>
+      <div className='grid grid-flow-row justify-center'>
+        <img src={emptyBandPicture} alt='밴드가 없을 때 사진' />
+        가입한 밴드가 존재하지 않습니다!
+        <button
+          onClick={() => {
+            setBandMaking((prev) => !prev);
+          }}
+          className='btn btn-sm bg-base-100 hover:bg-base-200 h-8 '
+        >
+          새 밴드 만들기
+        </button>
+        {bandMaking ? <BandMakingForm /> : null}
       </div>
-      <div className='flex flex-row overflow-x-auto items-center'>
-        {bandPhotos.map((photo) => (
-          <BandProfileAlbumItem
-            key={photo.id}
-            photo={photo}
-            deletePhoto={() => {
-              setBandPhotos(
-                bandPhotos.filter((_photo) => _photo.id !== photo.id),
-              );
-            }}
-            editing={editing}
-          />
-        ))}
-      </div>
-      <div className='divider m-0 mt-5' />
-    </div>
+    </section>
   );
 }
 
 function BandProfile() {
   const [profileEditing, setProfileEditing] = useState<boolean>(false);
 
-  const [curBandProfile, setCurBandProfile] =
-    useState<BandProfileType>(initialBandProfile);
+  const [curBandProfile, setCurBandProfile] = useState<BandProfileType>();
+
+  useEffect(() => {
+    BandProfileAPI.getBandProfileInfo()
+      .then((res) => {
+        console.log(res.data);
+        if (res.status === 200) {
+          // 제대로 응답을 받았을 경우에는 응답으로 온 프로필을 밴드 프로필로
+          setCurBandProfile(parseBandProfile(res.data));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  if (!curBandProfile) {
+    return <EmptyBandProfile emptyBandPicture={noBandPicture} />;
+  }
 
   return (
     <div>

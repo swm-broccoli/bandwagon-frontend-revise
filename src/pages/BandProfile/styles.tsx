@@ -1,6 +1,17 @@
 import { MdPhotoCamera } from 'react-icons/md';
-import { BandMemberType } from '../../types/types';
+import { BandMemberType, PictureType } from '../../types/types';
 import TagElement from '../../components/TagElement';
+
+//각 포지션을 한글 표기로 바꾸는 배열
+const positionToKorean: { [item: string]: string } = {
+  'Electric Guitar': '일렉기타',
+  'Acoustic Guitar': '어쿠스틱',
+  Drum: '드럼',
+  'Bass Guitar': '베이스',
+  Keyboard: '키보드',
+  Vocal: '보컬',
+  Others: '그 외',
+};
 
 export function BandProfileAvatar({
   avatarURL,
@@ -48,16 +59,6 @@ export function BandProfileAvatar({
   );
 }
 
-const positionToKorean: { [item: string]: string } = {
-  'Electric Guitar': '일렉기타',
-  'Acoustic Guitar': '어쿠스틱',
-  Drum: '드럼',
-  'Bass Guitar': '베이스',
-  Keyboard: '키보드',
-  Vocal: '보컬',
-  Others: '그 외',
-};
-
 function BandMemberListItem({
   member,
   deleteMember,
@@ -70,7 +71,13 @@ function BandMemberListItem({
   return (
     <li className='flex flex-row items-center'>
       <p className='text-accent text-base mr-2.5'>{member.name}</p>
-      <TagElement tag={positionToKorean[member.positions[0].name]} />
+      <TagElement
+        tag={
+          member.positions.length
+            ? positionToKorean[member.positions[0].name]
+            : ''
+        }
+      />
       {editing ? <button onClick={deleteMember}>X</button> : null}
     </li>
   );
@@ -113,6 +120,68 @@ export function BandMemberList({
           />
         ))}
       </ul>
+      <div className='divider m-0 mt-5' />
+    </div>
+  );
+}
+
+function BandProfileAlbumItem({
+  photo,
+  editing,
+  deletePhoto,
+}: {
+  photo: PictureType;
+  deletePhoto: () => void;
+  editing: boolean;
+}) {
+  //shrink-0 으로 설정하여 사진이 축소되지 않도록 함
+  return (
+    <div className='flex flex-row shrink-0 mr-4 items-start'>
+      <img
+        className='w-32 h-32 rounded-xl mr-1'
+        src={photo.name}
+        alt={`밴드 사진`}
+      />
+      {editing ? <button onClick={deletePhoto}>X</button> : null}
+    </div>
+  );
+}
+
+export function BandProfileAlbum({
+  label,
+  bandPhotos,
+  setBandPhotos,
+  editing,
+}: {
+  label: string;
+  bandPhotos: PictureType[];
+  setBandPhotos: (bandPhotos: PictureType[]) => void;
+  editing: boolean;
+}) {
+  return (
+    <div className='w-full'>
+      <div className='flex flex-row justify-between items-center h-8 mb-5'>
+        <h1>{label}</h1>
+        {editing ? (
+          <button className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'>
+            +추가
+          </button>
+        ) : null}
+      </div>
+      <div className='flex flex-row overflow-x-auto items-center'>
+        {bandPhotos.map((photo) => (
+          <BandProfileAlbumItem
+            key={photo.id}
+            photo={photo}
+            deletePhoto={() => {
+              setBandPhotos(
+                bandPhotos.filter((_photo) => _photo.id !== photo.id),
+              );
+            }}
+            editing={editing}
+          />
+        ))}
+      </div>
       <div className='divider m-0 mt-5' />
     </div>
   );
