@@ -7,7 +7,7 @@ function Select (props:
     <select className='select select-bordered w-fit md:w-60 h-[3.125rem]'>
     <option disabled selected>{props.label}</option>
     {props.options.map((option, index) =>
-    <option>{option}</option>)}
+    <option key={index}>{option}</option>)}
     </select>
   );
 };

@@ -5,11 +5,12 @@ function Button (props: {
   x: string,
   y: string,
   textSize: string,
+  onclick: (e: React.MouseEvent<HTMLButtonElement>) => void,
 }) {
   const buttonStyle = 'btn btn-primary ' + props.x + props.y + 'rounded-lg text-white font-normal ' + props.textSize;
 
   return (
-    <button className={buttonStyle}>
+    <button className={buttonStyle} onClick={props.onclick}>
       {props.label}
     </button>
   );
