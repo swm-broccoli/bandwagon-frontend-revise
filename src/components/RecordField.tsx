@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RecordURLType, PerformanceRecordType } from '../types/types';
 import ProfileAddModal from './ProfileAddModal';
+import { v4 } from 'uuid';
 
 function RecordURLItem({
   recordURL,
@@ -203,6 +204,24 @@ function RecordField({
     <div>
       <div className='flex flex-row justify-between items-center h-8 mb-5'>
         <h1 className='text-sm pl-1'>{label}</h1>
+        {editing ? (
+          <button
+            onClick={() => {
+              setRecords([
+                {
+                  id: Date.now(),
+                  musicTitle: '',
+                  performDate: '1970-01-01',
+                  urls: [],
+                },
+                ...records,
+              ]);
+            }}
+            className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'
+          >
+            +추가
+          </button>
+        ) : null}
       </div>
       {records.map((record, index) => (
         <RecordItem

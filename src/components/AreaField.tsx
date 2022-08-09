@@ -49,7 +49,10 @@ function AreaFieldAddButton({
       <ProfileAddModal
         label={`${label} 추가`}
         addSelected={() => {
-          setAreas(areas.concat(curAreaOption));
+          if (!areas.find((item) => item.id === curAreaOption.id)) {
+            // 없는 것만 추가한다
+            setAreas(areas.concat(curAreaOption));
+          }
         }}
       >
         <div className='flex flex-row w-full justify-center'>
@@ -125,7 +128,7 @@ function AreaField({
                 area={area}
                 editing={editing}
                 deleteArea={() => {
-                  setAreas(areas.filter((_, i) => i !== index));
+                  setAreas(areas.filter((_area) => _area !== area));
                 }}
               />
             ))}

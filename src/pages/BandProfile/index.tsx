@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import MyPageTemplate from '../../components/MyPageTemplate';
 
 function BandProfilePage() {
