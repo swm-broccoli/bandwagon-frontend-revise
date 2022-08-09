@@ -9,6 +9,16 @@ interface AuthApiType {
     password: string;
   }) => Promise<AxiosResponse>;
   logOut: () => void;
+  signUp: (userInfo: {
+    name: string;
+    nickname: string;
+    email: string;
+    password: string;
+    passwordCheck: string;
+    gender: boolean;
+    birthday: string;
+  }) => Promise<AxiosResponse>;
+  checkEmail: (userInfo: { email: string }) => Promise<AxiosResponse>;
 }
 
 const AuthAPI: AuthApiType = {
@@ -24,6 +34,8 @@ const AuthAPI: AuthApiType = {
     window.location.href = '/login';
     useLoginStore.getState().logOut();
   },
+  signUp: (userInfo) => request.post('api/signup', userInfo),
+  checkEmail: (userInfo) => request.post('api/duplicate', userInfo),
 };
 
 export default AuthAPI;

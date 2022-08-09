@@ -48,18 +48,11 @@ function LoginForm() {
       onSubmit={signInSubmit}
       className='flex flex-col items-center w-full min-w-[200px] mt-10'
     >
-      <TextInput
-        label='아이디'
-        value={id}
-        setValue={setId}
-        placeholder='이메일'
-        required
-      />
+      <TextInput label='이메일' value={id} setValue={setId} required />
       <TextInput
         label='비밀번호'
         value={password}
         setValue={setPassword}
-        placeholder='비밀번호'
         password
         required
       />

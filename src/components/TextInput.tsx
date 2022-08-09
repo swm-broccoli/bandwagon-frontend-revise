@@ -13,33 +13,29 @@ function InputMsg({ message }: { message: { type: string; msg: string } }) {
 
 function TextInput({
   label,
-  placeholder,
   value,
   setValue,
   password = false,
   required = false,
-  essential = false,
+  // 회원가입 등 입력 항목에서 필수 항목인지
   message = null,
-}: // 회원가입 등 입력 항목에서 필수 항목인지
-{
+}: {
   label: string;
-  placeholder: string;
   value: string;
   setValue: (value: string) => void;
   password?: boolean;
   required?: boolean;
-  essential?: boolean;
   message?: { type: string; msg: string } | null;
 }) {
   return (
     <div className='flex flex-col mt-5'>
       <label className='text-accent mb-2 text-sm'>
-        {label} {essential ? <span className='text-error'>*</span> : null}
+        {label} {required ? <span className='text-error'>*</span> : null}
       </label>
       <input
         required={required}
         type={password ? 'password' : 'text'}
-        placeholder={placeholder}
+        placeholder={label}
         className={`input input-bordered w-60 md:w-80 focus:outline-none focus:border-primary focus:required:invalid:border-error text-accent ${
           message?.type === 'fail' ? 'border-error' : ''
         }`}
