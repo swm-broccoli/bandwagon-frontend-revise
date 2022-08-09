@@ -48,23 +48,20 @@ export interface UserProfileType {
   userPerformances: PerformanceRecordType[];
 }
 
-export interface UserProfileChangeTraceType {
-  //유저 프로필에서 변경된 점을 추적해서 변경시 true가 되는 지점 추적
-  name: boolean;
-  birthday: boolean;
-  positions: boolean;
-  areas: boolean;
-  genres: boolean;
-  description: boolean;
-  userPerformances: boolean;
+export interface BandMemberType {
+  id: number;
+  name: string;
+  positions: SelectionType[];
 }
 
 export interface BandProfileType {
   id: number;
+  avatarUrl: string;
   name: string;
-  bandMembers: string[];
+  bandMembers: BandMemberType[];
   areas: AreaType[];
   genres: SelectionType[];
+  days: SelectionType[];
   description: string;
   bandPractices: PerformanceType[];
   bandGigs: PerformanceType[];

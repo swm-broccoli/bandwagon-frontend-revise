@@ -17,12 +17,7 @@ import { UserProfileAvatar } from './styles';
 function parseUserProfile(userProfile: UserProfileType) {
   return {
     ...userProfile,
-    birthday: userProfile.birthday.split('T')[0],
     description: userProfile.description || '타입 추론을 잘하는 김형식입니다.',
-    userPerformances: userProfile.userPerformances.map((performance) => ({
-      ...performance,
-      performDate: performance.performDate.split('T')[0],
-    })),
   };
 }
 
@@ -91,16 +86,18 @@ function UserProfile() {
             setProfileEditing(false);
           });
       }
+      console.log('유저가 수정한 포지션', curUserProfile.positions);
+      console.log('기존 서버의 포지션', serverUserProfile.positions);
 
       for (const position of serverUserProfile.positions) {
-        // 서버에는 있지만 사용자가 삭제한 포지션이 있으면 서버로 삭제 내역을 보냄
+        // 서버에는 있지만 사용자가 삭제한(즉 수정중인 상태에 없는) 포지션이 있으면 서버로 삭제 내역을 보냄
         if (
           curUserProfile.positions.find((p) => p.id === position.id) ===
           undefined
         ) {
           UserProfileAPI.deleteUserPosition(position.id)
-            .then(() => {
-              console.log(position.name, '삭제 성공');
+            .then((res) => {
+              console.log(res.data);
             })
             .catch((err) => {
               console.log(position.name, '삭제 실패', err);
@@ -237,14 +234,7 @@ function UserProfile() {
             });
         } else {
           // 사용자가 수정중인 연주기록에도 있고 서버 기록에도 있으면 수정된 것이다
-          UserProfileAPI.updateUserPerformance(performance)
-            .then((res) => {
-              console.log(res);
-              console.log(performance.musicTitle, '수정 성공');
-            })
-            .catch((err) => {
-              console.log(performance.musicTitle, '수정 실패', err);
-            });
+          UserProfileAPI.updateUserPerformance(performance);
         }
       }
     }

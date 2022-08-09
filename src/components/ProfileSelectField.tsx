@@ -95,7 +95,7 @@ function ProfileSelectField({
                 editing={editing}
                 deleteSelected={() => {
                   setSelected(
-                    selected.filter((selection) => item !== selection),
+                    selected.filter((selection) => item.id !== selection.id),
                   );
                 }}
               />

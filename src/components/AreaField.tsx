@@ -128,7 +128,7 @@ function AreaField({
                 area={area}
                 editing={editing}
                 deleteArea={() => {
-                  setAreas(areas.filter((_area) => _area !== area));
+                  setAreas(areas.filter((_area) => _area.id !== area.id));
                 }}
               />
             ))}
