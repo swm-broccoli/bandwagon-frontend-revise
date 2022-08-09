@@ -68,7 +68,7 @@ const initialBandProfile: BandProfileType = {
     {
       id: 1,
       musicTitle: '술 한잔해요',
-      performDate: '2019-12-03T00:00:00.000+00:00',
+      performDate: '2019-12-03',
       urls: [
         {
           siteName: 'Youtube',
@@ -85,7 +85,7 @@ const initialBandProfile: BandProfileType = {
     {
       id: 1,
       musicTitle: 'Gravity',
-      performDate: '2020-03-03T00:00:00.000+00:00',
+      performDate: '2020-03-03',
       urls: [
         {
           siteName: 'Youtube',

@@ -1,10 +1,17 @@
 import { useEffect, useState } from 'react';
 import MyPageTemplate from '../../components/MyPageTemplate';
 import TagElement from '../../components/TagElement';
+import ProfileSelectField from '../../components/ProfileSelectField';
+import AreaField from '../../components/AreaField';
 import initialBandProfile from './initialBandProfile';
 import { BandProfileAvatar } from './styles';
 import { BandProfileType, BandMemberType } from '../../types/types';
 import ProfileReadOnlyTextField from '../../components/ProfileReadOnlyTextField';
+import areaOptions from '../../assets/options/areaOptions';
+import weekdayOptions from '../../assets/options/weekdayOptions';
+import genreOptions from '../../assets/options/genreOptions';
+import DescriptionField from '../../components/DescriptionField';
+import RecordField from '../../components/RecordField';
 
 const positionToKorean: { [item: string]: string } = {
   'Electric Guitar': '일렉기타',
@@ -46,7 +53,7 @@ function BandMemberList({
   editing: boolean;
 }) {
   return (
-    <div className='h-10 w-full flex flex-col my-2'>
+    <div className='w-full flex flex-col my-2'>
       <div className='flex flex-row justify-between'>
         <label className='label w-1/4 py-0 mb-5'>
           <span className='label-text text-accent'>{label}</span>
@@ -57,7 +64,6 @@ function BandMemberList({
           </button>
         ) : null}
       </div>
-
       <ul className='w-full flex flex-row flex-wrap gap-x-7 gap-y-2'>
         {bandMembers.map((member, index) => (
           <BandMemberListItem
@@ -72,6 +78,7 @@ function BandMemberList({
           />
         ))}
       </ul>
+      <div className='divider m-0 mt-5' />
     </div>
   );
 }
@@ -121,6 +128,75 @@ function BandProfile() {
               setCurBandProfile({
                 ...curBandProfile,
                 bandMembers: newBandMembers,
+              });
+            }}
+            editing={profileEditing}
+          />
+          <AreaField
+            label='활동 지역'
+            areas={curBandProfile.areas}
+            setAreas={(newAreas) => {
+              setCurBandProfile({
+                ...curBandProfile,
+                areas: newAreas,
+              });
+            }}
+            options={areaOptions}
+            editing={profileEditing}
+          />
+          <ProfileSelectField
+            label='활동 요일'
+            selected={curBandProfile.days}
+            setSelected={(newDays) => {
+              setCurBandProfile({
+                ...curBandProfile,
+                days: newDays,
+              });
+            }}
+            options={weekdayOptions}
+            editing={profileEditing}
+          />
+          <ProfileSelectField
+            label='선호 장르'
+            selected={curBandProfile.genres}
+            setSelected={(newGenres) => {
+              setCurBandProfile({
+                ...curBandProfile,
+                genres: newGenres,
+              });
+            }}
+            options={genreOptions}
+            editing={profileEditing}
+          />
+          <DescriptionField
+            label='밴드 소개'
+            description={curBandProfile.description}
+            setDescription={(newDescription) => {
+              setCurBandProfile({
+                ...curBandProfile,
+                description: newDescription,
+              });
+            }}
+            editing={profileEditing}
+          />
+          <RecordField
+            label='연주 기록'
+            records={curBandProfile.bandPractices}
+            setRecords={(newRecords) => {
+              setCurBandProfile({
+                ...curBandProfile,
+                bandPractices: newRecords,
+              });
+            }}
+            editing={profileEditing}
+          />
+          <RecordField
+            label='공연 기록'
+            records={curBandProfile.bandGigs}
+            setRecords={(newRecords) => {
+              setCurBandProfile({
+                ...curBandProfile,
+                bandGigs: newRecords,
               });
             }}
             editing={profileEditing}

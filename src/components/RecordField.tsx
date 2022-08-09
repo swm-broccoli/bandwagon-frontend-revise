@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { RecordURLType, PerformanceRecordType } from '../types/types';
 import ProfileAddModal from './ProfileAddModal';
-import { v4 } from 'uuid';
+
+function getTodayDate() {
+  const today = new Date();
+  return today.toISOString().split('T')[0];
+}
 
 function RecordURLItem({
   recordURL,
@@ -211,7 +215,7 @@ function RecordField({
                 {
                   id: Date.now(),
                   musicTitle: '',
-                  performDate: '1970-01-01',
+                  performDate: getTodayDate(),
                   urls: [],
                 },
                 ...records,
@@ -244,6 +248,7 @@ function RecordField({
           editing={editing}
         />
       ))}
+      <div className='divider m-0 mt-5' />
     </div>
   );
 }
