@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import MyPageTemplate from '../../components/MyPageTemplate';
-import TagElement from '../../components/TagElement';
 import ProfileSelectField from '../../components/ProfileSelectField';
 import AreaField from '../../components/AreaField';
 import initialBandProfile from './initialBandProfile';
-import { BandProfileAvatar } from './styles';
-import { BandProfileType, BandMemberType } from '../../types/types';
+import { BandProfileAvatar, BandMemberList } from './styles';
+import { BandProfileType, PictureType } from '../../types/types';
 import ProfileReadOnlyTextField from '../../components/ProfileReadOnlyTextField';
 import areaOptions from '../../assets/options/areaOptions';
 import weekdayOptions from '../../assets/options/weekdayOptions';
@@ -13,71 +12,30 @@ import genreOptions from '../../assets/options/genreOptions';
 import DescriptionField from '../../components/DescriptionField';
 import RecordField from '../../components/RecordField';
 
-const positionToKorean: { [item: string]: string } = {
-  'Electric Guitar': '일렉기타',
-  'Acoustic Guitar': '어쿠스틱',
-  Drum: '드럼',
-  'Bass Guitar': '베이스',
-  Keyboard: '키보드',
-  Vocal: '보컬',
-  Others: '그 외',
-};
-
-function BandMemberListItem({
-  member,
-  deleteMember,
-  editing,
-}: {
-  member: BandMemberType;
-  deleteMember: () => void;
-  editing: boolean;
-}) {
-  return (
-    <li className='flex flex-row items-center'>
-      <p className='text-accent text-base mr-2.5'>{member.name}</p>
-      <TagElement tag={positionToKorean[member.positions[0].name]} />
-      {editing ? <button onClick={deleteMember}>X</button> : null}
-    </li>
-  );
-}
-
-function BandMemberList({
+function BandProfileAlbum({
   label,
-  bandMembers,
-  setBandMembers,
+  bandPhotos,
   editing,
 }: {
   label: string;
-  bandMembers: BandMemberType[];
-  setBandMembers: (bandMembers: BandMemberType[]) => void;
+  bandPhotos: PictureType[];
   editing: boolean;
 }) {
   return (
-    <div className='w-full flex flex-col my-2'>
-      <div className='flex flex-row justify-between'>
-        <label className='label w-1/4 py-0 mb-5'>
-          <span className='label-text text-accent'>{label}</span>
-        </label>
+    <div className='w-full bg-success'>
+      <div className='flex flex-row justify-between items-center h-8 mb-5'>
+        <h1>{label}</h1>
         {editing ? (
           <button className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'>
             +추가
           </button>
         ) : null}
       </div>
-      <ul className='w-full flex flex-row flex-wrap gap-x-7 gap-y-2'>
-        {bandMembers.map((member, index) => (
-          <BandMemberListItem
-            key={index}
-            member={member}
-            editing={editing}
-            deleteMember={() => {
-              setBandMembers(
-                bandMembers.filter((_member) => _member.id !== member.id),
-              );
-            }}
-          />
+      <div className='flex flex-row overflow-scroll'>
+        {bandPhotos.map((photo) => (
+          <img src={photo.name} alt='사잔' key={photo.id} />
         ))}
-      </ul>
+      </div>
       <div className='divider m-0 mt-5' />
     </div>
   );
@@ -177,6 +135,11 @@ function BandProfile() {
                 description: newDescription,
               });
             }}
+            editing={profileEditing}
+          />
+          <BandProfileAlbum
+            label='밴드 사진첩'
+            bandPhotos={curBandProfile.bandPhotos}
             editing={profileEditing}
           />
           <RecordField
