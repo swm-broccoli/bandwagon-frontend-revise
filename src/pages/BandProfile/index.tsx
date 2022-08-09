@@ -3,7 +3,12 @@ import MyPageTemplate from '../../components/MyPageTemplate';
 import ProfileSelectField from '../../components/ProfileSelectField';
 import AreaField from '../../components/AreaField';
 import initialBandProfile from './initialBandProfile';
-import { BandProfileAvatar, BandMemberList, BandProfileAlbum } from './styles';
+import {
+  BandProfileAvatar,
+  BandMemberList,
+  BandProfileAlbum,
+  ProfileTextField,
+} from './styles';
 import { BandProfileType, PictureType } from '../../types/types';
 import ProfileReadOnlyTextField from '../../components/ProfileReadOnlyTextField';
 import areaOptions from '../../assets/options/areaOptions';
@@ -128,9 +133,15 @@ function BandProfile() {
           editing={profileEditing}
         />
         <div className='w-full mt-10'>
-          <ProfileReadOnlyTextField
+          <ProfileTextField
             label='밴드명'
             value={curBandProfile.name}
+            setValue={(newName) => {
+              setCurBandProfile({
+                ...curBandProfile,
+                name: newName,
+              });
+            }}
             editing={profileEditing}
           />
           <BandMemberList
