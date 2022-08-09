@@ -122,11 +122,13 @@ export function BandMemberList({
   bandMembers,
   setBandMembers,
   editing,
+  frontmanReading,
 }: {
   label: string;
   bandMembers: BandMemberType[];
   setBandMembers: (bandMembers: BandMemberType[]) => void;
   editing: boolean;
+  frontmanReading: boolean;
 }) {
   return (
     <div className='w-full flex flex-col my-2'>
@@ -134,7 +136,7 @@ export function BandMemberList({
         <label className='label w-1/4 py-0 mb-5'>
           <span className='label-text text-accent'>{label}</span>
         </label>
-        {editing ? (
+        {editing && frontmanReading ? (
           <button className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'>
             +추가
           </button>

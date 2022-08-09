@@ -154,6 +154,7 @@ function BandProfile() {
               });
             }}
             editing={profileEditing}
+            frontmanReading={curBandProfile.isReaderFrontman}
           />
           <AreaField
             label='활동 지역'

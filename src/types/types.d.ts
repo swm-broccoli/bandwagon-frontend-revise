@@ -51,7 +51,9 @@ export interface UserProfileType {
 export interface BandMemberType {
   id: number;
   name: string;
+  birthday: string;
   positions: SelectionType[];
+  isFrontman: boolean;
 }
 
 export interface BandProfileType {
@@ -66,4 +68,5 @@ export interface BandProfileType {
   bandPractices: PerformanceType[];
   bandGigs: PerformanceType[];
   bandPhotos: PictureType[];
+  isReaderFrontman: boolean;
 }
