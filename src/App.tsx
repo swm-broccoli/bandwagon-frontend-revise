@@ -9,6 +9,8 @@ import UserProfilePage from './pages/UserProfile';
 import PasswordEditPage from './pages/EditPassword';
 import AccountEditPage from './pages/EditAccount';
 import RecruitPage from './pages/Recruit';
+import WriteRecruitPage from './pages/WriteRecruit';
+import ReadRecruitPage from './pages/ReadRecruit';
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
           <Route path='account' element={<AccountEditPage />} />
         </Route>
         <Route path='recruit' element={<RecruitPage />} />
+        <Route path='recruit/write' element={<WriteRecruitPage />} />
+        <Route path="/recruit/:articleID" element={<ReadRecruitPage />} />
         <Route path='ui' element={<UIPage />} />
       </Routes>
     </div>
