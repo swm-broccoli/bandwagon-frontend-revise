@@ -25,11 +25,11 @@ interface UserProfileApiType {
   deleteUserArea: (areaID: number) => Promise<AxiosResponse>;
   setUserDescription: (description: string) => Promise<AxiosResponse>;
   addUserPerformance: (
-    performance: AddPerformanceType,
+    newPerformance: AddPerformanceType,
   ) => Promise<AxiosResponse>;
   deleteUserPerformance: (performanceID: number) => Promise<AxiosResponse>;
   updateUserPerformance: (
-    newPerformance: PerformanceRecordType,
+    updatedPerformance: PerformanceRecordType,
   ) => Promise<AxiosResponse>;
 }
 
@@ -78,21 +78,22 @@ const UserProfileAPI: UserProfileApiType = {
       description: description,
     });
   },
-  addUserPerformance: (performance) => {
+  addUserPerformance: (newPerformance) => {
     const userID = localStorage.getItem('userID');
-    return request.post(`/api/users/${userID}/performance`, performance);
+    return request.post(`/api/users/${userID}/performance`, newPerformance);
   },
   deleteUserPerformance: (performanceID) => {
     const userID = localStorage.getItem('userID');
     return request.delete(`/api/users/${userID}/performance/${performanceID}`);
   },
-  updateUserPerformance: (newPerformance) => {
+  updateUserPerformance: (updatedPerformance) => {
     const userID = localStorage.getItem('userID');
     return request.put(
-      `/api/users/${userID}/performance/${newPerformance.id}`,
+      `/api/users/${userID}/performance/${updatedPerformance.id}`,
       {
-        ...newPerformance,
-        urls: JSON.stringify(newPerformance.urls),
+        musicTitle: updatedPerformance.musicTitle,
+        performDate: updatedPerformance.performDate,
+        urls: updatedPerformance.urls,
       },
     );
   },

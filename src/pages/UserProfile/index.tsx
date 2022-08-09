@@ -235,6 +235,16 @@ function UserProfile() {
             .catch((err) => {
               console.log(performance.musicTitle, '추가 실패', err);
             });
+        } else {
+          // 사용자가 수정중인 연주기록에도 있고 서버 기록에도 있으면 수정된 것이다
+          UserProfileAPI.updateUserPerformance(performance)
+            .then((res) => {
+              console.log(res);
+              console.log(performance.musicTitle, '수정 성공');
+            })
+            .catch((err) => {
+              console.log(performance.musicTitle, '수정 실패', err);
+            });
         }
       }
     }
