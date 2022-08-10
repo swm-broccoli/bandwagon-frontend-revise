@@ -102,6 +102,11 @@ function BandProfile() {
       });
   }, []);
 
+  const onBandProfileEditDone = () => {
+    if (profileEditing) {
+    }
+  };
+
   if (!curBandProfile) {
     return <EmptyBandProfile emptyBandPicture={noBandPicture} />;
   }
@@ -215,7 +220,7 @@ function BandProfile() {
             editing={profileEditing}
           />
           <RecordField
-            label='연주 기록'
+            label='연습 기록'
             records={curBandProfile.bandPractices}
             setRecords={(newRecords) => {
               setCurBandProfile({

@@ -199,7 +199,7 @@ export function BandMemberList({
   editing: boolean;
   frontmanReading: boolean;
 }) {
-  // todo : 밴드 멤버 이름 누르면 편집 가능하게 하기.
+  // 프론트맨이 아니면 편집 안 되도록 한다.
   return (
     <div className='w-full flex flex-col my-2'>
       <div className='flex flex-row justify-between'>
@@ -271,7 +271,7 @@ export function BandProfileAlbum({
 }) {
   return (
     <div className='w-full'>
-      <div className='flex flex-row justify-between items-center h-8 mb-5'>
+      <div className='flex flex-row justify-between items-center text-sm h-8 mb-5'>
         <h1>{label}</h1>
         {editing ? (
           <button className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'>
