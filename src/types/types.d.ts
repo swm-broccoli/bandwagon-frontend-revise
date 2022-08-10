@@ -52,6 +52,9 @@ export interface BandMemberType {
   id: number;
   name: string;
   positions: SelectionType[];
+  avatarUrl: string;
+  birthday: Date;
+  age: number;
 }
 
 export interface BandProfileType {

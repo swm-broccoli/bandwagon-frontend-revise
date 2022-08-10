@@ -49,7 +49,8 @@ function WriteRecruitPage () {
 
     WritePostAPI.UploadArticle({
       title: title,
-      body: editorRef.current?.getInstance().getHTML().toString()})
+      body: editorRef.current?.getInstance().getHTML().toString(),
+      dtype: 'Band'})
       .then((res) => {
         console.log(res.data.id);
         window.alert('글이 작성되었습니다.')
