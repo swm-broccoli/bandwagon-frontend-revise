@@ -9,7 +9,7 @@ function BandPrequisitesCard () {
   const [prequisites, setPrequisites] = useState<string[]>([]);
 
   return (
-    <div className='w-full h-fitflex flex-col bg-white border border-solid border-[#e5e5e5] rounded-xl p-5'>
+    <div className='w-full h-fit flex flex-col bg-white border border-solid border-[#e5e5e5] rounded-xl p-5 gap-5'>
       <div className='grid grid-cols-2 items-center'>
         <h3 className='col-start-1 text-accent text-base'>지원 조건</h3>
         <div className='col-start-2 justify-self-end'>
@@ -35,7 +35,7 @@ function BandPrequisitesCard () {
 
 function BandFormCard () {
   return (
-    <div className='w-full h-fitflex flex-col bg-white border border-solid border-[#e5e5e5] rounded-xl p-5'>
+    <div className='w-full h-fit flex flex-col bg-white border border-solid border-[#e5e5e5] rounded-xl p-5'>
       <div className='grid grid-cols-2 items-center'>
         <h3 className='col-start-1 text-accent text-base'>추가 지원 양식</h3>
         <div className='col-start-2 justify-self-end'>
