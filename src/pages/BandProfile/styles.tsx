@@ -133,7 +133,7 @@ function BandMemberListItem({
     );
   } else {
     return (
-      <li className='flex flex-row items-center w-full border rounded-lg p-2'>
+      <li className='flex flex-col items-center w-full border rounded-lg p-2'>
         <div className='relative flex flex-row justify-start items-center w-full'>
           <p className='text-accent text-base mr-2.5'>{member.name}</p>
           <select
@@ -154,15 +154,16 @@ function BandMemberListItem({
             X
           </button>
         </div>
-
-        {member.positions.length
-          ? member.positions.map((position) => (
-              <TagElement
-                key={position.id}
-                tag={positionToKorean[position.name]}
-              />
-            ))
-          : null}
+        <div className='flex flex-row w-full mt-2 justify-start'>
+          {member.positions.length
+            ? member.positions.map((position) => (
+                <TagElement
+                  key={position.id}
+                  tag={positionToKorean[position.name]}
+                />
+              ))
+            : null}
+        </div>
       </li>
     );
   }
