@@ -1,7 +1,9 @@
-import React from "react";
-import Button from "../../components/Button";
-import Select from "../../components/Select";
+import React from 'react';
+import Button from '../../components/Button';
+import Select from '../../components/Select';
+import genreOptions from '../../assets/options/genreOptions';
 import btn_x from '../../assets/btn_x.svg';
+import AreaSelect from '../../components/AreaSelect';
 
 const sessionList = ['보컬', '기타', '베이스', '키보드', '드럼'];
 const genreList = ['Pop', 'Rock', 'Metal'];
@@ -72,7 +74,7 @@ function SelectGenre () {
   return (
     <div className='flex flex-col flex-wrap gap-4 row-start-4 col-start-2'>
       <div className='flex flex-row flex-wrap gap-[0.625rem]'>
-        <Select label='장르를 선택하세요' options={genreList} />
+        <Select label='장르를 선택하세요' options={genreOptions} />
         <Button label='+ 추가' x='w-20 ' y='h-[3.125rem] ' textSize='text-base' />
       </div>
       <ul>
@@ -99,8 +101,7 @@ function SelectArea () {
   return (
     <div className='flex flex-col flex-wrap gap-4 row-start-6 col-start-2'>
       <div className='flex flex-row flex-wrap gap-[0.625rem]'>
-        <Select label='시/도 선택하세요' options={provinceList} />
-        <Select label='시/군/구 선택하세요' options={cityList} />
+        <AreaSelect />
         <Button label='+ 추가' x='w-20 ' y='h-[3.125rem] ' textSize='text-base' />
       </div>
       <ul>

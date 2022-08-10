@@ -71,3 +71,17 @@ export interface BandProfileType {
   bandPhotos: PictureType[];
   isReaderFrontman: boolean;
 }
+
+export interface PrequisiteElementType {
+  id: number;
+}
+
+export interface PrequisiteRequestType {
+  dtyle: string;
+  min: number;
+  max: number;
+  gender: boolean;
+  areas: PrequisiteElementType[];
+  genres: PrequisiteElementType[];
+  positions: PrequisiteElementType[];
+}

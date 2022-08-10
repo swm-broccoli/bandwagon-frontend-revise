@@ -1,7 +1,8 @@
 import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
-import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor } from '@toast-ui/react-editor';
 import BandInfoCard from '../../components/BandInfoCard';
+import RequirementBox from './RequirementBox';
 import Button from '../../components/Button';
 import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
@@ -88,6 +89,7 @@ function WriteRecruitPage () {
             ref={editorRef} />
         </div>
         {/* 모집 정보 (지원 조건, 추가 지원 양식) */}
+        <RequirementBox />
       </div>
     </div>
     <GlobalFooter />
