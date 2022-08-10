@@ -1,6 +1,7 @@
 import { MdPhotoCamera } from 'react-icons/md';
 import { BandMemberType, PictureType } from '../../types/types';
 import TagElement from '../../components/TagElement';
+import positionOptions from '../../assets/options/positionOptions';
 
 //각 포지션을 한글 표기로 바꾸는 배열
 const positionToKorean: { [item: string]: string } = {
@@ -95,26 +96,76 @@ export function ProfileTextField({
 
 function BandMemberListItem({
   member,
+  setMember,
   deleteMember,
   editing,
 }: {
   member: BandMemberType;
+  setMember: (newMember: BandMemberType) => void;
   deleteMember: () => void;
   editing: boolean;
 }) {
-  return (
-    <li className='flex flex-row items-center'>
-      <p className='text-accent text-base mr-2.5'>{member.name}</p>
-      <TagElement
-        tag={
-          member.positions.length
-            ? positionToKorean[member.positions[0].name]
-            : ''
-        }
-      />
-      {editing ? <button onClick={deleteMember}>X</button> : null}
-    </li>
-  );
+  const addPosition = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const curValue = JSON.parse(e.target.value);
+    console.log(curValue);
+    console.log(member.positions);
+    if (member.positions.find((p) => p === curValue) === undefined) {
+      setMember({
+        ...member,
+        positions: [...member.positions, curValue],
+      });
+    }
+  };
+
+  if (!editing) {
+    return (
+      <li className='flex flex-row items-center border rounded-lg p-2'>
+        <p className='text-accent text-base mr-2.5'>{member.name}</p>
+        {member.positions.length
+          ? member.positions.map((position) => (
+              <TagElement
+                key={position.id}
+                tag={positionToKorean[position.name]}
+              />
+            ))
+          : null}
+      </li>
+    );
+  } else {
+    return (
+      <li className='flex flex-row items-center w-full border rounded-lg p-2'>
+        <div className='relative flex flex-row justify-start items-center w-full'>
+          <p className='text-accent text-base mr-2.5'>{member.name}</p>
+          <select
+            defaultValue={''}
+            onChange={addPosition}
+            className='select select-sm bg-base-200 hover:bg-base-300 rounded-full appearance-none'
+          >
+            <option value='' disabled>
+              포지션 추가
+            </option>
+            {positionOptions.map((option) => (
+              <option key={option.id} value={JSON.stringify(option)}>
+                {positionToKorean[option.name]}
+              </option>
+            ))}
+          </select>
+          <button className='absolute right-1' onClick={deleteMember}>
+            X
+          </button>
+        </div>
+
+        {member.positions.length
+          ? member.positions.map((position) => (
+              <TagElement
+                key={position.id}
+                tag={positionToKorean[position.name]}
+              />
+            ))
+          : null}
+      </li>
+    );
+  }
 }
 
 export function BandMemberList({
@@ -130,6 +181,7 @@ export function BandMemberList({
   editing: boolean;
   frontmanReading: boolean;
 }) {
+  // todo : 밴드 멤버 이름 누르면 편집 가능하게 하기.
   return (
     <div className='w-full flex flex-col my-2'>
       <div className='flex flex-row justify-between'>
@@ -137,14 +189,9 @@ export function BandMemberList({
           <span className='label-text text-accent'>{label}</span>
         </label>
         {editing && frontmanReading ? (
-          <>
-            <span className='text-base text-gray-500'>
-              이름을 누르면 편집 가능합니다.
-            </span>
-            <button className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'>
-              +추가
-            </button>
-          </>
+          <button className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'>
+            +추가
+          </button>
         ) : null}
       </div>
       <ul className='w-full flex flex-row flex-wrap gap-x-7 gap-y-2'>
@@ -152,6 +199,11 @@ export function BandMemberList({
           <BandMemberListItem
             key={index}
             member={member}
+            setMember={(newMember) => {
+              setBandMembers(
+                bandMembers.map((m, i) => (i === index ? newMember : m)),
+              );
+            }}
             editing={editing}
             deleteMember={() => {
               setBandMembers(
