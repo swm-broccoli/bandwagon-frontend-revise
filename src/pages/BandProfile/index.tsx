@@ -270,6 +270,19 @@ function BandProfile() {
               });
           }
         }
+
+        if (curBandProfile.description !== serverBandProfile.description) {
+          BandProfileAPI.updateBandDescription(
+            curBandProfile.id,
+            curBandProfile.description,
+          )
+            .then(() => {
+              console.log(`밴드소개 업데이트 : ${curBandProfile.description}`);
+            })
+            .catch((err) => {
+              console.log('업데이트 실패', err);
+            });
+        }
       }
     }
     setProfileEditing(!profileEditing);
