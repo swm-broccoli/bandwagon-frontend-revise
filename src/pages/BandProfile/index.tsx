@@ -133,17 +133,18 @@ function BandProfile() {
   useEffect(() => {
     BandProfileAPI.getBandProfileInfo()
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
         if (res.status === 200) {
           // 제대로 응답을 받았을 경우에는 응답으로 온 프로필을 밴드 프로필로
           setCurBandProfile(parseBandProfile(res.data));
           setServerBandProfile(parseBandProfile(res.data));
         }
+        //아닌 경우 밴드가 없거나 뭔가 오류가 발생했다는 뜻이므로 빈 프로필을 보여준다
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [profileEditing]);
 
   const onBandProfileEditDone = () => {
     if (profileEditing) {
@@ -201,7 +202,7 @@ function BandProfile() {
           serverBandProfile.areas.find((a) => a.id === area.id) === undefined
         ) {
           BandProfileAPI.addBandArea(curBandProfile.id, area.id)
-            .then((res) => {
+            .then(() => {
               console.log(`${area.city} ${area.district} 추가 성공`);
             })
             .catch((err) => {
@@ -215,7 +216,7 @@ function BandProfile() {
           if (curBandProfile.days.find((d) => d.id === day.id) === undefined) {
             BandProfileAPI.deleteBandDay(curBandProfile.id, day.id)
               .then(() => {
-                console.log(`${day.name} 삭제 성공`);
+                console.log(`${JSON.stringify(day)} 삭제 성공`);
               })
               .catch((err) => {
                 console.log('삭제 실패', err);
@@ -230,8 +231,7 @@ function BandProfile() {
           ) {
             BandProfileAPI.addBandDay(curBandProfile.id, day.id)
               .then((res) => {
-                console.log(res);
-                console.log(`${day.name} 추가 성공`);
+                console.log(`${day.id} 추가 성공`);
               })
               .catch((err) => {
                 console.log('추가 실패', err);
