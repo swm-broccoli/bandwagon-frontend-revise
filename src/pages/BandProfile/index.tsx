@@ -148,6 +148,7 @@ function BandProfile() {
   const onBandProfileEditDone = () => {
     if (profileEditing) {
       console.log('수정 완료 동작');
+
       if (curBandProfile.avatarUrl !== serverBandProfile.avatarUrl) {
         //사진이 바뀌었다면 서버에 업로드해야함
         BandProfileAPI.updateBandAvatar(
@@ -164,146 +165,174 @@ function BandProfile() {
             setProfileEditing(false);
           });
       }
+
+      for (const area of serverBandProfile.areas) {
+        // 서버에는 있지만 사용자가 삭제한 장소가 있으면 서버로 삭제 내역을 보냄
+        if (curBandProfile.areas.find((a) => a === area) === undefined) {
+          BandProfileAPI.deleteBandArea(curBandProfile.id, area.id)
+            .then(() => {
+              console.log(`${area.city} ${area.district} 삭제 성공`);
+            })
+            .catch((err) => {
+              console.log('삭제 실패', err);
+            });
+        }
+      }
+      for (const area of curBandProfile.areas) {
+        // 서버에 없지만 사용자가 편집한 프로필에서 새로 추가한 장소가 있으면 서버로 보낸다
+        if (
+          serverBandProfile.areas.find((a) => a.id === area.id) === undefined
+        ) {
+          BandProfileAPI.addBandArea(curBandProfile.id, area.id)
+            .then((res) => {
+              console.log(res);
+              console.log(`${area.city} ${area.district} 추가 성공`);
+            })
+            .catch((err) => {
+              console.log('추가 실패', err);
+            });
+        }
+      }
     }
     setProfileEditing(!profileEditing);
   };
 
   if (!curBandProfile) {
     return <EmptyBandProfile emptyBandPicture={noBandPicture} />;
-  }
-
-  return (
-    <div>
-      <div className='flex flex-row justify-between'>
-        <h1 className='text-bold text-2xl font-bold'>밴드 정보</h1>
-        <button
-          className={`btn h-10 ${
-            profileEditing ? 'bg-base-100 hover:bg-base-200' : 'btn-primary'
-          }`}
-          onClick={onBandProfileEditDone}
-        >
-          {profileEditing ? '수정 완료' : '수정하기'}
-        </button>
-      </div>
-      <div className='mt-6 flex flex-col items-center'>
-        <BandProfileAvatar
-          avatarURL={curBandProfile.avatarUrl}
-          setAvatarURL={(newAvatarUrl) => {
-            setCurBandProfile({
-              ...curBandProfile,
-              avatarUrl: newAvatarUrl,
-            });
-          }}
-          editing={profileEditing}
-        />
-        <div className='w-full mt-10'>
-          <ProfileTextField
-            label='밴드명'
-            value={curBandProfile.name}
-            setValue={(newName) => {
+  } else {
+    return (
+      <div>
+        <div className='flex flex-row justify-between'>
+          <h1 className='text-bold text-2xl font-bold'>밴드 정보</h1>
+          <button
+            className={`btn h-10 ${
+              profileEditing ? 'bg-base-100 hover:bg-base-200' : 'btn-primary'
+            }`}
+            onClick={onBandProfileEditDone}
+          >
+            {profileEditing ? '수정 완료' : '수정하기'}
+          </button>
+        </div>
+        <div className='mt-6 flex flex-col items-center'>
+          <BandProfileAvatar
+            avatarURL={curBandProfile.avatarUrl}
+            setAvatarURL={(newAvatarUrl) => {
               setCurBandProfile({
                 ...curBandProfile,
-                name: newName,
+                avatarUrl: newAvatarUrl,
               });
             }}
             editing={profileEditing}
           />
-          <BandMemberList
-            label='밴드 멤버'
-            bandMembers={curBandProfile.bandMembers}
-            setBandMembers={(newBandMembers) => {
-              setCurBandProfile({
-                ...curBandProfile,
-                bandMembers: newBandMembers,
-              });
-            }}
-            editing={profileEditing}
-            frontmanReading={curBandProfile.isReaderFrontman}
-          />
-          <AreaField
-            label='활동 지역'
-            areas={curBandProfile.areas}
-            setAreas={(newAreas) => {
-              setCurBandProfile({
-                ...curBandProfile,
-                areas: newAreas,
-              });
-            }}
-            options={areaOptions}
-            editing={profileEditing}
-          />
-          <ProfileSelectField
-            label='활동 요일'
-            selected={curBandProfile.days}
-            setSelected={(newDays) => {
-              setCurBandProfile({
-                ...curBandProfile,
-                days: newDays,
-              });
-            }}
-            options={weekdayOptions}
-            editing={profileEditing}
-          />
-          <ProfileSelectField
-            label='선호 장르'
-            selected={curBandProfile.genres}
-            setSelected={(newGenres) => {
-              setCurBandProfile({
-                ...curBandProfile,
-                genres: newGenres,
-              });
-            }}
-            options={genreOptions}
-            editing={profileEditing}
-          />
-          <DescriptionField
-            label='밴드 소개'
-            description={curBandProfile.description}
-            setDescription={(newDescription) => {
-              setCurBandProfile({
-                ...curBandProfile,
-                description: newDescription,
-              });
-            }}
-            editing={profileEditing}
-          />
-          <BandProfileAlbum
-            label='밴드 사진첩'
-            bandPhotos={curBandProfile.bandPhotos}
-            setBandPhotos={(newBandPhotos) => {
-              setCurBandProfile({
-                ...curBandProfile,
-                bandPhotos: newBandPhotos,
-              });
-            }}
-            editing={profileEditing}
-          />
-          <RecordField
-            label='연습 기록'
-            records={curBandProfile.bandPractices}
-            setRecords={(newRecords) => {
-              setCurBandProfile({
-                ...curBandProfile,
-                bandPractices: newRecords,
-              });
-            }}
-            editing={profileEditing}
-          />
-          <RecordField
-            label='공연 기록'
-            records={curBandProfile.bandGigs}
-            setRecords={(newRecords) => {
-              setCurBandProfile({
-                ...curBandProfile,
-                bandGigs: newRecords,
-              });
-            }}
-            editing={profileEditing}
-          />
+          <div className='w-full mt-10'>
+            <ProfileTextField
+              label='밴드명'
+              value={curBandProfile.name}
+              setValue={(newName) => {
+                setCurBandProfile({
+                  ...curBandProfile,
+                  name: newName,
+                });
+              }}
+              editing={profileEditing}
+            />
+            <BandMemberList
+              label='밴드 멤버'
+              bandMembers={curBandProfile.bandMembers}
+              setBandMembers={(newBandMembers) => {
+                setCurBandProfile({
+                  ...curBandProfile,
+                  bandMembers: newBandMembers,
+                });
+              }}
+              editing={profileEditing}
+              frontmanReading={curBandProfile.isReaderFrontman}
+            />
+            <AreaField
+              label='활동 지역'
+              areas={curBandProfile.areas}
+              setAreas={(newAreas) => {
+                setCurBandProfile({
+                  ...curBandProfile,
+                  areas: newAreas,
+                });
+              }}
+              options={areaOptions}
+              editing={profileEditing}
+            />
+            <ProfileSelectField
+              label='활동 요일'
+              selected={curBandProfile.days}
+              setSelected={(newDays) => {
+                setCurBandProfile({
+                  ...curBandProfile,
+                  days: newDays,
+                });
+              }}
+              options={weekdayOptions}
+              editing={profileEditing}
+            />
+            <ProfileSelectField
+              label='선호 장르'
+              selected={curBandProfile.genres}
+              setSelected={(newGenres) => {
+                setCurBandProfile({
+                  ...curBandProfile,
+                  genres: newGenres,
+                });
+              }}
+              options={genreOptions}
+              editing={profileEditing}
+            />
+            <DescriptionField
+              label='밴드 소개'
+              description={curBandProfile.description}
+              setDescription={(newDescription) => {
+                setCurBandProfile({
+                  ...curBandProfile,
+                  description: newDescription,
+                });
+              }}
+              editing={profileEditing}
+            />
+            <BandProfileAlbum
+              label='밴드 사진첩'
+              bandPhotos={curBandProfile.bandPhotos}
+              setBandPhotos={(newBandPhotos) => {
+                setCurBandProfile({
+                  ...curBandProfile,
+                  bandPhotos: newBandPhotos,
+                });
+              }}
+              editing={profileEditing}
+            />
+            <RecordField
+              label='연습 기록'
+              records={curBandProfile.bandPractices}
+              setRecords={(newRecords) => {
+                setCurBandProfile({
+                  ...curBandProfile,
+                  bandPractices: newRecords,
+                });
+              }}
+              editing={profileEditing}
+            />
+            <RecordField
+              label='공연 기록'
+              records={curBandProfile.bandGigs}
+              setRecords={(newRecords) => {
+                setCurBandProfile({
+                  ...curBandProfile,
+                  bandGigs: newRecords,
+                });
+              }}
+              editing={profileEditing}
+            />
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 function BandProfilePage() {
