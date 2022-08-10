@@ -13,7 +13,12 @@ import RecordField from '../../components/RecordField';
 import UserProfileAPI from '../../apis/UserProfileAPI';
 import initialUserProfile from './initialUserProfile';
 import { UserProfileAvatar } from './styles';
-import { updateUserAvatar } from './userProfileUpdate';
+import {
+  updateUserAreas,
+  updateUserAvatar,
+  updateUserGenres,
+  updateUserPositions,
+} from './userProfileUpdate';
 
 function parseUserProfile(userProfile: UserProfileType) {
   return {
@@ -80,99 +85,14 @@ function UserProfile() {
       //사진이 바뀌었다면 서버에 업로드해야함
       updateUserAvatar(curUserProfile.avatarUrl, serverUserProfile.avatarUrl);
 
-      for (const position of serverUserProfile.positions) {
-        // 서버에는 있지만 사용자가 삭제한(즉 수정중인 상태에 없는) 포지션이 있으면 서버로 삭제 내역을 보냄
-        if (
-          curUserProfile.positions.find((p) => p.id === position.id) ===
-          undefined
-        ) {
-          UserProfileAPI.deleteUserPosition(position.id)
-            .then(() => {
-              console.log(position.name, '삭제 성공');
-            })
-            .catch((err) => {
-              console.log(position.name, '삭제 실패', err);
-            });
-        }
-      }
+      updateUserPositions(
+        curUserProfile.positions,
+        serverUserProfile.positions,
+      );
 
-      for (const position of curUserProfile.positions) {
-        // 서버에 없지만 사용자가 편집한 프로필에서 새로 추가한 포지션이 있으면 서버로 보낸다
-        if (
-          serverUserProfile.positions.find((p) => p.id === position.id) ===
-          undefined
-        ) {
-          UserProfileAPI.addUserPosition(position.id)
-            .then((res) => {
-              console.log(res);
-              console.log(position.name, '추가 성공');
-            })
-            .catch((err) => {
-              console.log(err);
-              console.log(position.name, '추가 실패');
-            });
-        }
-      }
+      updateUserAreas(curUserProfile.areas, serverUserProfile.areas);
 
-      for (const area of serverUserProfile.areas) {
-        // 서버에는 있지만 사용자가 삭제한 장소가 있으면 서버로 삭제 내역을 보냄
-        if (curUserProfile.areas.find((a) => a.id === area.id) === undefined) {
-          UserProfileAPI.deleteUserArea(area.id)
-            .then(() => {
-              console.log(`${area.city} ${area.district} 삭제 성공`);
-            })
-            .catch((err) => {
-              console.log('삭제 실패', err);
-            });
-        }
-      }
-
-      for (const area of curUserProfile.areas) {
-        // 서버에 없지만 사용자가 편집한 프로필에서 새로 추가한 장소가 있으면 서버로 보낸다
-        if (
-          serverUserProfile.areas.find((a) => a.id === area.id) === undefined
-        ) {
-          UserProfileAPI.addUserArea(area.id)
-            .then((res) => {
-              console.log(res);
-              console.log(`${area.city} ${area.district} 추가 성공`);
-            })
-            .catch((err) => {
-              console.log('추가 실패', err);
-            });
-        }
-      }
-
-      for (const genre of serverUserProfile.genres) {
-        // 서버에는 있지만 사용자가 삭제한 장르가 있으면 서버로 삭제 내역을 보냄
-        if (
-          curUserProfile.genres.find((g) => g.id === genre.id) === undefined
-        ) {
-          UserProfileAPI.deleteUserGenre(genre.id)
-            .then(() => {
-              console.log(genre.name, '삭제 성공');
-            })
-            .catch((err) => {
-              console.log(genre.name, '삭제 실패', err);
-            });
-        }
-      }
-
-      for (const genre of curUserProfile.genres) {
-        // 서버에 없지만 사용자가 편집한 프로필에서 새로 추가한 장르가 있으면 서버로 보낸다
-        if (
-          serverUserProfile.genres.find((g) => g.id === genre.id) === undefined
-        ) {
-          UserProfileAPI.addUserGenre(genre.id)
-            .then((res) => {
-              console.log(res);
-              console.log(genre.name, '추가 성공');
-            })
-            .catch((err) => {
-              console.log(genre.name, '추가 실패', err);
-            });
-        }
-      }
+      updateUserGenres(curUserProfile.genres, serverUserProfile.genres);
 
       if (serverUserProfile.description !== curUserProfile.description) {
         //자기소개가 다를 경우 서버로 전송
