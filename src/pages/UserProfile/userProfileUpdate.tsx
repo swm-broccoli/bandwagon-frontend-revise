@@ -1,5 +1,9 @@
 import UserProfileAPI from '../../apis/UserProfileAPI';
-import { AreaType, SelectionType } from '../../types/types';
+import {
+  AreaType,
+  SelectionType,
+  PerformanceRecordType,
+} from '../../types/types';
 
 const dataURLtoFile = (dataurl: string, fileName: string) => {
   //base64 문자열을 File 로 변경해 주는 함수
@@ -126,6 +130,67 @@ export function updateUserGenres(
         .catch((err) => {
           console.log(genre.name, '추가 실패', err);
         });
+    }
+  }
+}
+
+export function updateUserDescription(
+  curUserDescription: string,
+  serverUserDescription: string,
+) {
+  if (serverUserDescription !== curUserDescription) {
+    //자기소개가 다를 경우 서버로 전송
+    console.log('서버에 저장할 내용이 있음.' + curUserDescription);
+    UserProfileAPI.setUserDescription(curUserDescription)
+      .then((res) => {
+        console.log('서버에 저장 성공', res);
+      })
+      .catch((err) => {
+        console.log('서버에 저장 실패', err);
+      });
+  }
+}
+
+export function updateUserPerformances(
+  curUserPerformances: PerformanceRecordType[],
+  serverUserPerformances: PerformanceRecordType[],
+) {
+  //연주 기록 관련 업데이트
+  for (const performance of serverUserPerformances) {
+    if (
+      curUserPerformances.find((p) => p.id === performance.id) === undefined
+    ) {
+      UserProfileAPI.deleteUserPerformance(performance.id)
+        .then(() => {
+          console.log(performance.musicTitle, '삭제 성공');
+        })
+        .catch((err) => {
+          console.log(performance.musicTitle, '삭제 실패', err);
+        });
+    }
+  }
+
+  for (const performance of curUserPerformances) {
+    // 서버에는 없지만 사용자가 새로 추가한 연주 기록이 있으면 서버에 추가한다
+    if (
+      serverUserPerformances.find((p) => p.id === performance.id) === undefined
+    ) {
+      console.log(performance);
+      UserProfileAPI.addUserPerformance({
+        musicTitle: performance.musicTitle,
+        performDate: performance.performDate,
+        urls: performance.urls,
+      })
+        .then((res) => {
+          console.log(res);
+          console.log(performance.musicTitle, '추가 성공');
+        })
+        .catch((err) => {
+          console.log(performance.musicTitle, '추가 실패', err);
+        });
+    } else {
+      // 사용자가 수정중인 연주기록에도 있고 서버 기록에도 있으면 수정된 것이다
+      UserProfileAPI.updateUserPerformance(performance);
     }
   }
 }
