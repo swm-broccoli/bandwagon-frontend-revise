@@ -29,7 +29,7 @@ function App() {
         </Route>
         <Route path='recruit' element={<RecruitPage />} />
         <Route path='recruit/write' element={<WriteRecruitPage />} />
-        <Route path="/recruit/:articleID" element={<ReadRecruitPage />} />
+        <Route path="/recruit/:postID" element={<ReadRecruitPage />} />
         <Route path='ui' element={<UIPage />} />
       </Routes>
     </div>

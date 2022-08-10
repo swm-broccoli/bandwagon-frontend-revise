@@ -5,7 +5,7 @@ import BandInfoCard from '../../components/BandInfoCard';
 import Button from '../../components/Button';
 import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
-import WritePostAPI from '../../apis/WritePostAPI';
+import RecruitPostAPI from '../../apis/RecruitPostAPI';
 import { useNavigate } from 'react-router-dom';
 
 function TitleTextField (props: {
@@ -47,7 +47,7 @@ function WriteRecruitPage () {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log(editorRef.current?.getInstance().getHTML().toString());
 
-    WritePostAPI.UploadArticle({
+    RecruitPostAPI.UploadArticle({
       title: title,
       body: editorRef.current?.getInstance().getHTML().toString(),
       dtype: 'Band'})

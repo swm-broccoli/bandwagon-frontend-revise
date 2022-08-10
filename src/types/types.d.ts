@@ -70,3 +70,12 @@ export interface BandProfileType {
   bandGigs: PerformanceType[];
   bandPhotos: PictureType[];
 }
+
+export interface PostType {
+  id: number;
+  title: string;
+  body: string;
+  dtype: string;
+  userEmail: string;
+  bandId: number;
+}

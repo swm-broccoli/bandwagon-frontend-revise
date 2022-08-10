@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import WritePostAPI from '../apis/WritePostAPI';
+import RecruitPostAPI from '../apis/RecruitPostAPI';
 import profilePic from '../assets/examplepic.jpeg'
 import { AreaType, BandMemberType, BandProfileType, SelectionType } from '../types/types';
 import TagElement from './TagElement';
@@ -48,28 +48,14 @@ function TextListInfo (props: {
 };
 
 function AgeInfo(props: {
-  members: BandMemberType[] | undefined
+  min: number,
+  max: number
 }) {
-  const nowDate = new Date();
-  const [minAge, setMinAge] = useState(1000);
-  const [maxAge, setMaxAge] = useState(0);
-
-  useEffect(() => {
-    props.members?.map((member, index) => {
-      if (member.age < minAge) {
-        setMinAge(member.age);
-      }
-      if (member.age > maxAge) {
-        setMaxAge(member.age); 
-      }
-    });
-  }, []);
-
   return (
     <div className='flex flex-col gap-[0.325rem]'>
     <h3 className='text-[#888888] text-sm'>나이대</h3>
     <p className='text-accent text-base'>
-      {minAge.toString() + '세 ~ ' + maxAge.toString() + '세'}
+      {props.min.toString() + '세 ~ ' + props.max.toString() + '세'}
     </p>
     </div>
   )
@@ -128,12 +114,16 @@ function GenreInfo (props: {genres: SelectionType[] | undefined}) {
 };
 
 // true -> 글쓰기, false -> 글 보기
-function BandInfoCard (props: {type: boolean}) {
+function BandInfoCard (props: {
+  type: boolean,
+  bandId: number | undefined}) {
   const [bandInfo, setBandInfo] = useState<BandProfileType>();
+  const [minAge, setMinAge] = useState(1000);
+  const [maxAge, setMaxAge] = useState(0);
 
   useEffect(() => {
     if (props.type) {
-      WritePostAPI.LoadBandInfo()
+      RecruitPostAPI.LoadMyBandInfo()
         .then((res) => {
           console.log(res.data);
           setBandInfo(res.data);
@@ -141,8 +131,26 @@ function BandInfoCard (props: {type: boolean}) {
         .catch((err) => {
           console.log(err);
         });
+      bandInfo?.bandMembers.map((member, index) => {
+        console.log(member.age);
+        if (member.age < minAge) setMinAge(member.age);
+        if (member.age > maxAge) setMaxAge(member.age); 
+      });
     } else {
-      // 해당 글 밴드 정보 불러오기
+      console.log(props.bandId);
+      RecruitPostAPI.LoadBandInfo(props.bandId)
+        .then((res) => {
+          console.log(res.data);
+          setBandInfo(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      bandInfo?.bandMembers.map((member, index) => {
+        console.log(member.age);
+        if (member.age < minAge) setMinAge(member.age);
+        if (member.age > maxAge) setMaxAge(member.age); 
+      });
     };
   }, []);
 
@@ -162,7 +170,7 @@ function BandInfoCard (props: {type: boolean}) {
           <TextInfo label='밴드명' text={bandInfo?.name} />
         </div>
         <div className='md:row-start-2 md:col-start-2'>
-          <AgeInfo members={bandInfo?.bandMembers} />
+          <AgeInfo min={minAge} max={maxAge} />
         </div>
         <MemberInfo members={bandInfo?.bandMembers}/>
         <div className='md:row-start-4 md:col-start-1 md:self-end'>
