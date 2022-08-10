@@ -69,7 +69,7 @@ function AgeInfo(props: {
     <div className='flex flex-col gap-[0.325rem]'>
     <h3 className='text-[#888888] text-sm'>나이대</h3>
     <p className='text-accent text-base'>
-      {minAge.toString + '세 ~ ' + maxAge.toString + '세'}
+      {minAge.toString() + '세 ~ ' + maxAge.toString() + '세'}
     </p>
     </div>
   )
