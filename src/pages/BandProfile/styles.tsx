@@ -157,10 +157,27 @@ function BandMemberListItem({
         <div className='flex flex-row w-full mt-2 justify-start'>
           {member.positions.length
             ? member.positions.map((position) => (
-                <TagElement
-                  key={position.id}
-                  tag={positionToKorean[position.name]}
-                />
+                <>
+                  <TagElement
+                    key={position.id}
+                    tag={positionToKorean[position.name]}
+                  />
+                  {editing ? (
+                    <button
+                      onClick={() => {
+                        setMember({
+                          ...member,
+                          positions: member.positions.filter(
+                            (p) => p.id !== position.id,
+                          ),
+                        });
+                      }}
+                      className='mr-1'
+                    >
+                      X
+                    </button>
+                  ) : null}
+                </>
               ))
             : null}
         </div>
