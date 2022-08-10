@@ -50,6 +50,7 @@ export interface UserProfileType {
 
 export interface BandMemberType {
   id: number;
+  avatarUrl: string;
   name: string;
   birthday: string;
   positions: SelectionType[];

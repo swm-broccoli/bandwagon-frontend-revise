@@ -3,6 +3,7 @@ import { BandMemberType, PictureType } from '../../types/types';
 import TagElement from '../../components/TagElement';
 import positionOptions from '../../assets/options/positionOptions';
 import { useEffect, useState } from 'react';
+import ProfileAddModal from '../../components/ProfileAddModal';
 
 //각 포지션을 한글 표기로 바꾸는 배열
 const positionToKorean: { [item: string]: string } = {
@@ -183,6 +184,29 @@ function BandMemberListItem({
   }
 }
 
+function BandMemberAddButton({
+  label,
+  addMember,
+}: {
+  label: string;
+  addMember: () => void;
+}) {
+  const [newMemberEmail, setNewMemberEmail] = useState('');
+
+  return (
+    <ProfileAddModal label={`${label} 추가`} addSelected={addMember}>
+      <input
+        placeholder='추가할 멤버의 이메일 입력'
+        className='input input-bordered w-full'
+        value={newMemberEmail}
+        onChange={(e) => {
+          setNewMemberEmail(e.target.value);
+        }}
+      />
+    </ProfileAddModal>
+  );
+}
+
 export function BandMemberList({
   label,
   bandMembers,
@@ -204,9 +228,7 @@ export function BandMemberList({
           <span className='label-text text-accent'>{label}</span>
         </label>
         {editing && frontmanReading ? (
-          <button className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'>
-            +추가
-          </button>
+          <BandMemberAddButton label={label} addMember={() => {}} />
         ) : null}
       </div>
       <ul className='w-full flex flex-row flex-wrap gap-x-7 gap-y-2'>
