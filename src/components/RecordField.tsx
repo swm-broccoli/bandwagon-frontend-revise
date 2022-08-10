@@ -201,10 +201,6 @@ function RecordField({
   setRecords: (records: PerformanceRecordType[]) => void;
   editing: boolean;
 }) {
-  useEffect(() => {
-    console.log(records);
-  }, []);
-
   return (
     <div>
       <div className='flex flex-row justify-between items-center h-8 mb-5'>
