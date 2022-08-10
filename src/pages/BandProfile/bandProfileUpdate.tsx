@@ -2,8 +2,10 @@ import BandProfileAPI from '../../apis/BandProfileAPI';
 import {
   AreaType,
   PerformanceRecordType,
+  PictureType,
   SelectionType,
 } from '../../types/types';
+import { v4 } from 'uuid';
 
 const dataURLtoFile = (dataurl: string, fileName: string) => {
   //base64 문자열을 File 로 변경해 주는 함수
@@ -257,5 +259,29 @@ export function updateBandGigs(
       // 사용자가 수정중인 연주기록에도 있고 서버 기록에도 있으면 수정된 것이다(물론 같을 수도 있지만))
       BandProfileAPI.updateBandPractice(bandID, gig);
     }
+  }
+}
+
+export function updateBandAlbum(
+  bandID: number,
+  bandPhotos: PictureType[],
+  deletedPhotoIDs: number[],
+) {
+  //앨범 업데이트
+  for (const photo of bandPhotos) {
+    if (photo.id < 0) {
+      //기존 사진은 id가 양수이다. 따라서 id가 음수인 사진이 들어 있다면 그건 새로 삽입된 사진이다.
+      let hash = v4();
+      console.log(hash, '번 사진 추가');
+
+      BandProfileAPI.addBandPhoto(
+        bandID,
+        dataURLtoFile(photo.name, `band-album${hash}.png`),
+      );
+    }
+  }
+  for (const id of deletedPhotoIDs) {
+    console.log('삭제된 사진 id:', id);
+    BandProfileAPI.deleteBandPhoto(bandID, id);
   }
 }

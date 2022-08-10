@@ -25,6 +25,7 @@ import {
   updateBandDescription,
   updateBandPractices,
   updateBandGigs,
+  updateBandAlbum,
 } from './bandProfileUpdate';
 import EmptyBandProfile from './EmptyBandProfile';
 import { vacantBandProfile } from './initialBandProfile';
@@ -44,6 +45,8 @@ function BandProfile() {
 
   const [serverBandProfile, setServerBandProfile] =
     useState<BandProfileType>(vacantBandProfile);
+
+  const [deletedPhotoIDs, setDeletedPhotoIDs] = useState<number[]>([]);
 
   useEffect(() => {
     BandProfileAPI.getBandProfileInfo()
@@ -112,9 +115,18 @@ function BandProfile() {
         curBandProfile.bandGigs,
         serverBandProfile.bandGigs,
       );
+
+      updateBandAlbum(
+        curBandProfile.id,
+        curBandProfile.bandPhotos,
+        deletedPhotoIDs,
+      );
     }
-    setServerBandProfile(curBandProfile);
     //서버에 있는 상태를 현재 유저의 편집 상태로 동기화했다.
+    setServerBandProfile(curBandProfile);
+    // 유저가 삭제한 사진의 상태를 모두 반영했으므로 삭제한 사진 아이디를 비운다.
+    setDeletedPhotoIDs([]);
+    //
     setProfileEditing(!profileEditing);
   };
 
@@ -224,6 +236,11 @@ function BandProfile() {
                   ...curBandProfile,
                   bandPhotos: newBandPhotos,
                 });
+              }}
+              deletedPhtoIDs={deletedPhotoIDs}
+              setDeletedPhotoIDs={(newDeletedPhotoIDs) => {
+                console.log(newDeletedPhotoIDs);
+                setDeletedPhotoIDs(newDeletedPhotoIDs);
               }}
               editing={profileEditing}
             />
