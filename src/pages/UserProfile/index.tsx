@@ -127,7 +127,7 @@ function UserProfile() {
 
       for (const area of serverUserProfile.areas) {
         // 서버에는 있지만 사용자가 삭제한 장소가 있으면 서버로 삭제 내역을 보냄
-        if (curUserProfile.areas.find((a) => a === area) === undefined) {
+        if (curUserProfile.areas.find((a) => a.id === area.id) === undefined) {
           UserProfileAPI.deleteUserArea(area.id)
             .then(() => {
               console.log(`${area.city} ${area.district} 삭제 성공`);
