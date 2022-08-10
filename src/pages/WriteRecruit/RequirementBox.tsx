@@ -4,7 +4,12 @@ import Select from '../../components/Select';
 import PrequisiteElement from './PrequisiteElement';
 
 function BandPrequisitesCard () {
-  const options = ['세션', '나이', '성별', '지역', '장르'];
+  const options = [
+    {id: 1, name: '세션'},
+    {id: 2, name: '나이'},
+    {id: 3, name: '성별'},
+    {id: 4, name: '지역'},
+    {id: 5, name: '장르'}];
   const [option, setOption] = useState('');
   const [prequisites, setPrequisites] = useState<string[]>([]);
 
