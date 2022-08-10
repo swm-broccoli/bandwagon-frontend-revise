@@ -99,10 +99,12 @@ function BandProfile() {
         serverBandProfile.description,
       );
     }
+    setServerBandProfile(curBandProfile);
+    //서버에 있는 상태를 현재 유저의 편집 상태로 동기화했다.
     setProfileEditing(!profileEditing);
   };
 
-  if (!curBandProfile) {
+  if (curBandProfile.id === -1) {
     return <EmptyBandProfile emptyBandPicture={noBandPicture} />;
   } else {
     return (
