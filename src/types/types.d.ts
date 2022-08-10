@@ -65,8 +65,8 @@ export interface BandProfileType {
   genres: SelectionType[];
   days: SelectionType[];
   description: string;
-  bandPractices: PerformanceType[];
-  bandGigs: PerformanceType[];
+  bandPractices: PerformanceRecordType[];
+  bandGigs: PerformanceRecordType[];
   bandPhotos: PictureType[];
   isReaderFrontman: boolean;
 }

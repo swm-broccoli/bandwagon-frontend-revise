@@ -23,6 +23,8 @@ import {
   updateBandName,
   updateBandGenres,
   updateBandDescription,
+  updateBandPractices,
+  updateBandGigs,
 } from './bandProfileUpdate';
 import EmptyBandProfile from './EmptyBandProfile';
 import { vacantBandProfile } from './initialBandProfile';
@@ -97,6 +99,18 @@ function BandProfile() {
         curBandProfile.id,
         curBandProfile.description,
         serverBandProfile.description,
+      );
+
+      updateBandPractices(
+        curBandProfile.id,
+        curBandProfile.bandPractices,
+        serverBandProfile.bandPractices,
+      );
+
+      updateBandGigs(
+        curBandProfile.id,
+        curBandProfile.bandGigs,
+        serverBandProfile.bandGigs,
       );
     }
     setServerBandProfile(curBandProfile);
