@@ -2,15 +2,14 @@ import { useEffect, useState } from 'react';
 import MyPageTemplate from '../../components/MyPageTemplate';
 import ProfileSelectField from '../../components/ProfileSelectField';
 import AreaField from '../../components/AreaField';
-import initialBandProfile from './initialBandProfile';
 import {
   BandProfileAvatar,
   BandMemberList,
   BandProfileAlbum,
   ProfileTextField,
 } from './styles';
+import initialBandProfile from './initialBandProfile';
 import { BandProfileType, PictureType } from '../../types/types';
-import ProfileReadOnlyTextField from '../../components/ProfileReadOnlyTextField';
 import areaOptions from '../../assets/options/areaOptions';
 import weekdayOptions from '../../assets/options/weekdayOptions';
 import genreOptions from '../../assets/options/genreOptions';
@@ -25,6 +24,21 @@ function parseBandProfile(bandProfile: BandProfileType) {
     description: bandProfile.description || '',
   };
 }
+
+const dataURLtoFile = (dataurl: string, fileName: string) => {
+  //base64 문자열을 File 로 변경해 주는 함수
+  var arr = dataurl.split(','),
+    mime = arr[0].match(/:(.*?);/)![1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new File([u8arr], fileName, { type: mime });
+};
 
 function BandMakingForm() {
   const [bandName, setBandName] = useState<string>('');
@@ -86,7 +100,35 @@ function EmptyBandProfile({ emptyBandPicture }: { emptyBandPicture: string }) {
 function BandProfile() {
   const [profileEditing, setProfileEditing] = useState<boolean>(false);
 
-  const [curBandProfile, setCurBandProfile] = useState<BandProfileType>();
+  const [curBandProfile, setCurBandProfile] = useState<BandProfileType>({
+    id: -1,
+    avatarUrl: '',
+    name: '',
+    bandMembers: [],
+    areas: [],
+    genres: [],
+    days: [],
+    description: '',
+    bandPractices: [],
+    bandGigs: [],
+    bandPhotos: [],
+    isReaderFrontman: false,
+  });
+
+  const [serverBandProfile, setServerBandProfile] = useState<BandProfileType>({
+    id: -1,
+    avatarUrl: '',
+    name: '',
+    bandMembers: [],
+    areas: [],
+    genres: [],
+    days: [],
+    description: '',
+    bandPractices: [],
+    bandGigs: [],
+    bandPhotos: [],
+    isReaderFrontman: false,
+  });
 
   useEffect(() => {
     BandProfileAPI.getBandProfileInfo()
@@ -95,6 +137,7 @@ function BandProfile() {
         if (res.status === 200) {
           // 제대로 응답을 받았을 경우에는 응답으로 온 프로필을 밴드 프로필로
           setCurBandProfile(parseBandProfile(res.data));
+          setServerBandProfile(parseBandProfile(res.data));
         }
       })
       .catch((err) => {
@@ -104,7 +147,25 @@ function BandProfile() {
 
   const onBandProfileEditDone = () => {
     if (profileEditing) {
+      console.log('수정 완료 동작');
+      if (curBandProfile.avatarUrl !== serverBandProfile.avatarUrl) {
+        //사진이 바뀌었다면 서버에 업로드해야함
+        BandProfileAPI.updateBandAvatar(
+          curBandProfile.id,
+          dataURLtoFile(curBandProfile.avatarUrl, 'avatar.png'),
+        )
+          .then(() => {
+            console.log('사진 업로드 성공');
+          })
+          .catch((err) => {
+            console.log('사진 업로드 실패', err);
+          })
+          .finally(() => {
+            setProfileEditing(false);
+          });
+      }
     }
+    setProfileEditing(!profileEditing);
   };
 
   if (!curBandProfile) {
@@ -119,9 +180,7 @@ function BandProfile() {
           className={`btn h-10 ${
             profileEditing ? 'bg-base-100 hover:bg-base-200' : 'btn-primary'
           }`}
-          onClick={() => {
-            setProfileEditing(!profileEditing);
-          }}
+          onClick={onBandProfileEditDone}
         >
           {profileEditing ? '수정 완료' : '수정하기'}
         </button>

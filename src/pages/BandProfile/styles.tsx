@@ -157,11 +157,8 @@ function BandMemberListItem({
         <div className='flex flex-row w-full mt-2 justify-start'>
           {member.positions.length
             ? member.positions.map((position) => (
-                <>
-                  <TagElement
-                    key={position.id}
-                    tag={positionToKorean[position.name]}
-                  />
+                <div className='flex flex-row' key={position.id}>
+                  <TagElement tag={positionToKorean[position.name]} />
                   {editing ? (
                     <button
                       onClick={() => {
@@ -177,7 +174,7 @@ function BandMemberListItem({
                       X
                     </button>
                   ) : null}
-                </>
+                </div>
               ))
             : null}
         </div>
