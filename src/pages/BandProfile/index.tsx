@@ -133,7 +133,6 @@ function BandProfile() {
   useEffect(() => {
     BandProfileAPI.getBandProfileInfo()
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           // 제대로 응답을 받았을 경우에는 응답으로 온 프로필을 밴드 프로필로
           setCurBandProfile(parseBandProfile(res.data));
@@ -144,7 +143,7 @@ function BandProfile() {
       .catch((err) => {
         console.log(err);
       });
-  }, [profileEditing]);
+  }, []);
 
   const onBandProfileEditDone = () => {
     if (profileEditing) {

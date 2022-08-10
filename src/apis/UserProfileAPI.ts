@@ -36,7 +36,9 @@ interface UserProfileApiType {
 const UserProfileAPI: UserProfileApiType = {
   getUserProfileInfo: () => {
     const userID = localStorage.getItem('userID');
-    return request.get(`/api/users/${userID}/mypage`);
+    return request.get(`/api/users/${userID}/mypage`, {
+      validateStatus: () => true,
+    });
   },
   updateUserAvatar: (avatar: File) => {
     const userID = localStorage.getItem('userID');
