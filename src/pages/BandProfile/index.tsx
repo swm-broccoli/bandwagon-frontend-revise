@@ -17,6 +17,14 @@ import DescriptionField from '../../components/DescriptionField';
 import RecordField from '../../components/RecordField';
 import BandProfileAPI from '../../apis/BandProfileAPI';
 import noBandPicture from '../../assets/noband.png';
+import {
+  updateBandAreas,
+  updateBandAvatarUrl,
+  updateBandDays,
+  updateBandName,
+  updateBandGenres,
+  updateBandDescription,
+} from './bandProfileUpdate';
 
 function parseBandProfile(bandProfile: BandProfileType) {
   return {
@@ -24,21 +32,6 @@ function parseBandProfile(bandProfile: BandProfileType) {
     description: bandProfile.description || '',
   };
 }
-
-const dataURLtoFile = (dataurl: string, fileName: string) => {
-  //base64 문자열을 File 로 변경해 주는 함수
-  var arr = dataurl.split(','),
-    mime = arr[0].match(/:(.*?);/)![1],
-    bstr = atob(arr[1]),
-    n = bstr.length,
-    u8arr = new Uint8Array(n);
-
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-
-  return new File([u8arr], fileName, { type: mime });
-};
 
 function BandMakingForm() {
   const [bandName, setBandName] = useState<string>('');
@@ -150,140 +143,41 @@ function BandProfile() {
     if (profileEditing) {
       console.log('수정 완료 동작');
 
-      // 밴드 프로필 사진 수정
-      if (curBandProfile.avatarUrl !== serverBandProfile.avatarUrl) {
-        //사진이 바뀌었다면 서버에 업로드해야함
-        BandProfileAPI.updateBandAvatar(
-          curBandProfile.id,
-          dataURLtoFile(curBandProfile.avatarUrl, 'avatar.png'),
-        )
-          .then(() => {
-            console.log('사진 업로드 성공');
-          })
-          .catch((err) => {
-            console.log('사진 업로드 실패', err);
-          })
-          .finally(() => {
-            setProfileEditing(false);
-          });
-      }
+      updateBandAvatarUrl(
+        curBandProfile.id,
+        curBandProfile.avatarUrl,
+        serverBandProfile.avatarUrl,
+      );
 
-      if (curBandProfile.name !== serverBandProfile.name) {
-        //사진이 바뀌었다면 서버에 업로드해야함
-        BandProfileAPI.updateBandName(curBandProfile.id, curBandProfile.name)
-          .then(() => {
-            console.log('밴드 이름 변경 성공');
-          })
-          .catch((err) => {
-            console.log('밴드 이름 변경 실패', err);
-          })
-          .finally(() => {
-            setProfileEditing(false);
-          });
-      }
+      updateBandName(
+        curBandProfile.id,
+        curBandProfile.name,
+        serverBandProfile.name,
+      );
 
-      // 밴드 활동 지역을 서버와 동기화
-      for (const area of serverBandProfile.areas) {
-        // 서버에는 있지만 사용자가 삭제한 장소가 있으면 서버로 삭제 내역을 보냄
-        if (curBandProfile.areas.find((a) => a.id === area.id) === undefined) {
-          BandProfileAPI.deleteBandArea(curBandProfile.id, area.id)
-            .then(() => {
-              console.log(`${area.city} ${area.district} 삭제 성공`);
-            })
-            .catch((err) => {
-              console.log('삭제 실패', err);
-            });
-        }
-      }
+      updateBandAreas(
+        curBandProfile.id,
+        curBandProfile.areas,
+        serverBandProfile.areas,
+      );
 
-      for (const area of curBandProfile.areas) {
-        // 서버에 없지만 사용자가 편집한 프로필에서 새로 추가한 장소가 있으면 서버로 보낸다
-        if (
-          serverBandProfile.areas.find((a) => a.id === area.id) === undefined
-        ) {
-          BandProfileAPI.addBandArea(curBandProfile.id, area.id)
-            .then(() => {
-              console.log(`${area.city} ${area.district} 추가 성공`);
-            })
-            .catch((err) => {
-              console.log('추가 실패', err);
-            });
-        }
+      updateBandDays(
+        curBandProfile.id,
+        curBandProfile.days,
+        serverBandProfile.days,
+      );
 
-        // 밴드 활동 요일을 서버와 동기화
-        for (const day of serverBandProfile.days) {
-          // 서버에는 있지만 사용자가 삭제한 요일이 있으면 서버로 삭제 내역을 보냄
-          if (curBandProfile.days.find((d) => d.id === day.id) === undefined) {
-            BandProfileAPI.deleteBandDay(curBandProfile.id, day.id)
-              .then(() => {
-                console.log(`${JSON.stringify(day)} 삭제 성공`);
-              })
-              .catch((err) => {
-                console.log('삭제 실패', err);
-              });
-          }
-        }
+      updateBandGenres(
+        curBandProfile.id,
+        curBandProfile.genres,
+        serverBandProfile.genres,
+      );
 
-        for (const day of curBandProfile.days) {
-          // 서버에 없지만 사용자가 편집한 프로필에서 새로 추가한 요일이 있으면 서버로 보낸다
-          if (
-            serverBandProfile.days.find((d) => d.id === day.id) === undefined
-          ) {
-            BandProfileAPI.addBandDay(curBandProfile.id, day.id)
-              .then((res) => {
-                console.log(`${day.id} 추가 성공`);
-              })
-              .catch((err) => {
-                console.log('추가 실패', err);
-              });
-          }
-        }
-
-        // 밴드 활동 장르를 서버와 동기화
-        for (const genre of serverBandProfile.genres) {
-          // 서버에는 있지만 사용자가 삭제한 장르가 있으면 서버로 삭제 내역을 보냄
-          if (
-            curBandProfile.genres.find((g) => g.id === genre.id) === undefined
-          ) {
-            BandProfileAPI.deleteBandGenre(curBandProfile.id, genre.id)
-              .then(() => {
-                console.log(`${genre.name} 삭제 성공`);
-              })
-              .catch((err) => {
-                console.log('삭제 실패', err);
-              });
-          }
-        }
-
-        for (const genre of curBandProfile.genres) {
-          // 서버에 없지만 사용자가 편집한 프로필에서 새로 추가한 장르가 있으면 서버로 보낸다
-          if (
-            serverBandProfile.genres.find((g) => g.id === genre.id) ===
-            undefined
-          ) {
-            BandProfileAPI.addBandGenre(curBandProfile.id, genre.id)
-              .then(() => {
-                console.log(`${genre.name} 추가 성공`);
-              })
-              .catch((err) => {
-                console.log('추가 실패', err);
-              });
-          }
-        }
-
-        if (curBandProfile.description !== serverBandProfile.description) {
-          BandProfileAPI.updateBandDescription(
-            curBandProfile.id,
-            curBandProfile.description,
-          )
-            .then(() => {
-              console.log(`밴드소개 업데이트 : ${curBandProfile.description}`);
-            })
-            .catch((err) => {
-              console.log('업데이트 실패', err);
-            });
-        }
-      }
+      updateBandDescription(
+        curBandProfile.id,
+        curBandProfile.description,
+        serverBandProfile.description,
+      );
     }
     setProfileEditing(!profileEditing);
   };
