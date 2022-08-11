@@ -281,14 +281,14 @@ export function BandProfileAlbum({
   label,
   bandPhotos,
   setBandPhotos,
-  deletedPhtoIDs,
+  deletedPhotoIDs,
   setDeletedPhotoIDs,
   editing,
 }: {
   label: string;
   bandPhotos: PictureType[];
   setBandPhotos: (bandPhotos: PictureType[]) => void;
-  deletedPhtoIDs: number[];
+  deletedPhotoIDs: number[];
   setDeletedPhotoIDs: (newDeletedPhtoIDs: number[]) => void;
   editing: boolean;
 }) {
@@ -339,7 +339,7 @@ export function BandProfileAlbum({
               console.log(photo.id);
               if (photo.id >= 0) {
                 //만약 서버에 있었던 사진이라면 id가 양수이다. 따라서 기존에 있었던 사진은 삭제한다.
-                setDeletedPhotoIDs([...deletedPhtoIDs, photo.id]);
+                setDeletedPhotoIDs([...deletedPhotoIDs, photo.id]);
               }
               setBandPhotos(
                 bandPhotos.filter((_photo) => _photo.id !== photo.id),
