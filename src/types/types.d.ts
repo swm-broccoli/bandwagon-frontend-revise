@@ -51,10 +51,12 @@ export interface UserProfileType {
 export interface BandMemberType {
   id: number;
   name: string;
+  birthday: string;
   positions: SelectionType[];
   avatarUrl: string;
   birthday: Date;
   age: number;
+  isFrontman: boolean;
 }
 
 export interface BandProfileType {
@@ -69,6 +71,7 @@ export interface BandProfileType {
   bandPractices: PerformanceType[];
   bandGigs: PerformanceType[];
   bandPhotos: PictureType[];
+  isReaderFrontman: boolean;
 }
 
 export interface PostType {
@@ -78,4 +81,18 @@ export interface PostType {
   dtype: string;
   userEmail: string;
   bandId: number;
+}
+
+export interface PrequisiteElementType {
+  id: number;
+}
+
+export interface PrequisiteRequestType {
+  dtyle: string;
+  min: number;
+  max: number;
+  gender: boolean;
+  areas: PrequisiteElementType[];
+  genres: PrequisiteElementType[];
+  positions: PrequisiteElementType[];
 }

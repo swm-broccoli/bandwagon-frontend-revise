@@ -1,6 +1,18 @@
 import { MdPhotoCamera } from 'react-icons/md';
-import { BandMemberType } from '../../types/types';
+import { BandMemberType, PictureType } from '../../types/types';
 import TagElement from '../../components/TagElement';
+import positionOptions from '../../assets/options/positionOptions';
+
+//각 포지션을 한글 표기로 바꾸는 배열
+const positionToKorean: { [item: string]: string } = {
+  'Electric Guitar': '일렉기타',
+  'Acoustic Guitar': '어쿠스틱',
+  Drum: '드럼',
+  'Bass Guitar': '베이스',
+  Keyboard: '키보드',
+  Vocal: '보컬',
+  Others: '그 외',
+};
 
 export function BandProfileAvatar({
   avatarURL,
@@ -48,32 +60,127 @@ export function BandProfileAvatar({
   );
 }
 
-const positionToKorean: { [item: string]: string } = {
-  'Electric Guitar': '일렉기타',
-  'Acoustic Guitar': '어쿠스틱',
-  Drum: '드럼',
-  'Bass Guitar': '베이스',
-  Keyboard: '키보드',
-  Vocal: '보컬',
-  Others: '그 외',
-};
+export function ProfileTextField({
+  label,
+  value,
+  setValue,
+  editing = false,
+}: {
+  label: string;
+  value: string;
+  setValue: (newValue: string) => void;
+  editing?: boolean;
+}) {
+  return (
+    <>
+      <div className='form-control h-10 w-full flex flex-row justify-start items-center my-2'>
+        <label className='label w-1/5 py-0'>
+          <span className='label-text text-accent'>{label}</span>
+        </label>
+        {editing ? (
+          <input
+            value={value}
+            className='input input-bordered'
+            onChange={(e) => {
+              setValue(e.target.value);
+            }}
+          />
+        ) : (
+          <div className='flex items-center h-10 w-3/5'>{value}</div>
+        )}
+      </div>
+      <div className='divider m-0' />
+    </>
+  );
+}
 
 function BandMemberListItem({
   member,
+  setMember,
   deleteMember,
   editing,
 }: {
   member: BandMemberType;
+  setMember: (newMember: BandMemberType) => void;
   deleteMember: () => void;
   editing: boolean;
 }) {
-  return (
-    <li className='flex flex-row items-center'>
-      <p className='text-accent text-base mr-2.5'>{member.name}</p>
-      <TagElement tag={positionToKorean[member.positions[0].name]} />
-      {editing ? <button onClick={deleteMember}>X</button> : null}
-    </li>
-  );
+  const addPosition = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const curValue = JSON.parse(e.target.value);
+    console.log(curValue);
+    console.log(member.positions);
+    if (member.positions.find((p) => p === curValue) === undefined) {
+      setMember({
+        ...member,
+        positions: [...member.positions, curValue],
+      });
+    }
+  };
+
+  if (!editing) {
+    return (
+      <li className='flex flex-row items-center border rounded-lg p-2'>
+        <p className='text-accent text-base mr-2.5'>{member.name}</p>
+        {member.positions.length
+          ? member.positions.map((position) => (
+              <TagElement
+                key={position.id}
+                tag={positionToKorean[position.name]}
+              />
+            ))
+          : null}
+      </li>
+    );
+  } else {
+    return (
+      <li className='flex flex-col items-center w-full border rounded-lg p-2'>
+        <div className='relative flex flex-row justify-start items-center w-full'>
+          <p className='text-accent text-base mr-2.5'>{member.name}</p>
+          <select
+            defaultValue={''}
+            onChange={addPosition}
+            className='select select-sm bg-base-200 hover:bg-base-300 rounded-full appearance-none'
+          >
+            <option value='' disabled>
+              포지션 추가
+            </option>
+            {positionOptions.map((option) => (
+              <option key={option.id} value={JSON.stringify(option)}>
+                {positionToKorean[option.name]}
+              </option>
+            ))}
+          </select>
+          <button className='absolute right-1' onClick={deleteMember}>
+            X
+          </button>
+        </div>
+        <div className='flex flex-row w-full mt-2 justify-start'>
+          {member.positions.length
+            ? member.positions.map((position) => (
+                <div className='flex flex-row' key={position.id}>
+                  <TagElement tag={positionToKorean[position.name]} />
+                  {editing ? (
+                    <button
+                      onClick={() => {
+                        setMember({
+                          ...member,
+                          positions: member.positions.filter(
+                            (p) => p.id !== position.id,
+                          ),
+                        });
+                      }}
+                      className='mr-1'
+                    >
+                      X
+                    </button>
+                  ) : null}
+                </div>
+              ))
+            : null}
+        </div>
+      </li>
+    );
+  }
 }
 
 export function BandMemberList({
@@ -81,19 +188,22 @@ export function BandMemberList({
   bandMembers,
   setBandMembers,
   editing,
+  frontmanReading,
 }: {
   label: string;
   bandMembers: BandMemberType[];
   setBandMembers: (bandMembers: BandMemberType[]) => void;
   editing: boolean;
+  frontmanReading: boolean;
 }) {
+  // 프론트맨이 아니면 편집 안 되도록 한다.
   return (
     <div className='w-full flex flex-col my-2'>
       <div className='flex flex-row justify-between'>
         <label className='label w-1/4 py-0 mb-5'>
           <span className='label-text text-accent'>{label}</span>
         </label>
-        {editing ? (
+        {editing && frontmanReading ? (
           <button className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'>
             +추가
           </button>
@@ -104,6 +214,11 @@ export function BandMemberList({
           <BandMemberListItem
             key={index}
             member={member}
+            setMember={(newMember) => {
+              setBandMembers(
+                bandMembers.map((m, i) => (i === index ? newMember : m)),
+              );
+            }}
             editing={editing}
             deleteMember={() => {
               setBandMembers(
@@ -113,6 +228,68 @@ export function BandMemberList({
           />
         ))}
       </ul>
+      <div className='divider m-0 mt-5' />
+    </div>
+  );
+}
+
+function BandProfileAlbumItem({
+  photo,
+  editing,
+  deletePhoto,
+}: {
+  photo: PictureType;
+  deletePhoto: () => void;
+  editing: boolean;
+}) {
+  //shrink-0 으로 설정하여 사진이 축소되지 않도록 함
+  return (
+    <div className='flex flex-row shrink-0 mr-4 items-start'>
+      <img
+        className='w-32 h-32 rounded-xl mr-1'
+        src={photo.name}
+        alt={`밴드 사진`}
+      />
+      {editing ? <button onClick={deletePhoto}>X</button> : null}
+    </div>
+  );
+}
+
+export function BandProfileAlbum({
+  label,
+  bandPhotos,
+  setBandPhotos,
+  editing,
+}: {
+  label: string;
+  bandPhotos: PictureType[];
+  setBandPhotos: (bandPhotos: PictureType[]) => void;
+  editing: boolean;
+}) {
+  return (
+    <div className='w-full'>
+      <div className='flex flex-row justify-between items-center text-sm h-8 mb-5'>
+        <h1>{label}</h1>
+        {editing ? (
+          <button className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'>
+            +추가
+          </button>
+        ) : null}
+      </div>
+      <div className='flex flex-row overflow-x-auto items-center'>
+        {bandPhotos.map((photo) => (
+          <BandProfileAlbumItem
+            key={photo.id}
+            photo={photo}
+            deletePhoto={() => {
+              setBandPhotos(
+                bandPhotos.filter((_photo) => _photo.id !== photo.id),
+              );
+            }}
+            editing={editing}
+          />
+        ))}
+      </div>
       <div className='divider m-0 mt-5' />
     </div>
   );
