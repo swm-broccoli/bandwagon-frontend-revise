@@ -33,21 +33,6 @@ function parseUserProfile(userProfile: UserProfileType) {
   };
 }
 
-const dataURLtoFile = (dataurl: string, fileName: string) => {
-  //base64 문자열을 File 로 변경해 주는 함수
-  var arr = dataurl.split(','),
-    mime = arr[0].match(/:(.*?);/)![1],
-    bstr = atob(arr[1]),
-    n = bstr.length,
-    u8arr = new Uint8Array(n);
-
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-
-  return new File([u8arr], fileName, { type: mime });
-};
-
 function UserProfile() {
   const [curUserProfile, setCurUserProfile] =
     useState<UserProfileType>(initialUserProfile);
