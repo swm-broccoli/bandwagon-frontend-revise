@@ -50,6 +50,7 @@ export interface UserProfileType {
 
 export interface BandMemberType {
   id: number;
+  email: string;
   avatarUrl: string;
   name: string;
   birthday: string;

@@ -218,12 +218,16 @@ export function BandMemberList({
   label,
   bandMembers,
   setBandMembers,
+  deletedMemberIDs,
+  setDeletedMemberIDs,
   editing,
   frontmanReading,
 }: {
   label: string;
   bandMembers: BandMemberType[];
   setBandMembers: (bandMembers: BandMemberType[]) => void;
+  deletedMemberIDs: number[];
+  setDeletedMemberIDs: (deletedMemberIDs: number[]) => void;
   editing: boolean;
   frontmanReading: boolean;
 }) {
@@ -243,7 +247,8 @@ export function BandMemberList({
         setBandMembers([
           ...bandMembers,
           {
-            id: tempNewMemberID,
+            id: tempNewMemberID, // 새로 추가한 멤버의 ID는 음수가 된다.
+            email: email,
             avatarUrl: res.data.avatarUrl,
             name: res.data.name,
             birthday: res.data.birthday,
@@ -298,6 +303,11 @@ export function BandMemberList({
                 setBandMembers(
                   bandMembers.filter((_member) => _member.id !== member.id),
                 );
+                if (member.id >= 0) {
+                  setDeletedMemberIDs([...deletedMemberIDs, member.id]);
+                  // 삭제된 유저의 밴드 멤버 ID를 저장
+                  // 단 기존 유저일 경우(즉 ID가 양수)
+                }
               }
             }}
           />

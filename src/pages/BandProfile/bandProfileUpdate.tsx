@@ -4,6 +4,7 @@ import {
   PerformanceRecordType,
   PictureType,
   SelectionType,
+  BandMemberType,
 } from '../../types/types';
 import { v4 } from 'uuid';
 
@@ -283,5 +284,23 @@ export function updateBandAlbum(
   for (const id of deletedPhotoIDs) {
     console.log('삭제된 사진 id:', id);
     BandProfileAPI.deleteBandPhoto(bandID, id);
+  }
+}
+
+export function updateBandMembers(
+  bandID: number,
+  bandMembers: BandMemberType[],
+  deletedMemberIDs: number[],
+) {
+  for (const member of bandMembers) {
+    if (member.id < 0) {
+      // ID가 음수면 새로 추가된 멤버
+      console.log(member, '를 멤버로 추가');
+      BandProfileAPI.addBandMember(bandID, member.email);
+    }
+  }
+  for (const id of deletedMemberIDs) {
+    console.log('삭제된 멤버 id:', id);
+    BandProfileAPI.deleteBandMember(bandID, id);
   }
 }
