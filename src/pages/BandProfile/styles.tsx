@@ -240,23 +240,28 @@ export function BandMemberList({
         const curUserID = localStorage.getItem('userID');
         if (curUserID === email) {
           alert('자기 자신은 밴드에 추가할 수 없습니다.');
+        } else if (
+          bandMembers.find((member) => member.email === email) !== undefined
+        ) {
+          // TODO : 이미 밴드에 있는 사람이면 에러가 뜬다. 그 경우의 에러 메시지 추가하기
+          alert('이미 밴드에 있는 사람입니다.');
+        } else {
+          console.log(res.data);
+          // 새로 받아온 멤버를 추가한다
+          setBandMembers([
+            ...bandMembers,
+            {
+              id: tempNewMemberID, // 새로 추가한 멤버의 ID는 음수가 된다.
+              email: email,
+              avatarUrl: res.data.avatarUrl,
+              name: res.data.name,
+              birthday: res.data.birthday,
+              positions: [],
+              isFrontman: false,
+            },
+          ]);
+          setTempNewMemberID((prev) => prev - 1);
         }
-        // TODO : 이미 밴드에 있는 사람이면 에러가 뜬다. 그 경우의 에러 메시지 추가하기
-        console.log(res.data);
-        // 새로 받아온 멤버를 추가한다
-        setBandMembers([
-          ...bandMembers,
-          {
-            id: tempNewMemberID, // 새로 추가한 멤버의 ID는 음수가 된다.
-            email: email,
-            avatarUrl: res.data.avatarUrl,
-            name: res.data.name,
-            birthday: res.data.birthday,
-            positions: [],
-            isFrontman: false,
-          },
-        ]);
-        setTempNewMemberID((prev) => prev - 1);
       })
       .catch((err) => {
         console.log(err);
