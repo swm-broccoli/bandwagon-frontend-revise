@@ -110,7 +110,7 @@ function BandMemberListItem({
   const addPosition = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const curValue = JSON.parse(e.target.value);
     console.log(curValue);
-    if (member.positions.find((p) => p === curValue) === undefined) {
+    if (member.positions.find((p) => p.id === curValue.id) === undefined) {
       setMember({
         ...member,
         positions: [...member.positions, curValue],
