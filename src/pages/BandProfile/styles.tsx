@@ -4,6 +4,7 @@ import TagElement from '../../components/TagElement';
 import positionOptions from '../../assets/options/positionOptions';
 import { useEffect, useState } from 'react';
 import ProfileAddModal from '../../components/ProfileAddModal';
+import BandProfileAPI from '../../apis/BandProfileAPI';
 
 //각 포지션을 한글 표기로 바꾸는 배열
 const positionToKorean: { [item: string]: string } = {
@@ -186,15 +187,21 @@ function BandMemberListItem({
 
 function BandMemberAddButton({
   label,
-  addMember,
+  addMemberByEmail,
 }: {
   label: string;
-  addMember: () => void;
+  addMemberByEmail: (email: string) => void;
 }) {
   const [newMemberEmail, setNewMemberEmail] = useState('');
 
   return (
-    <ProfileAddModal label={`${label} 추가`} addSelected={addMember}>
+    <ProfileAddModal
+      label={`${label} 추가`}
+      addSelected={() => {
+        addMemberByEmail(newMemberEmail);
+        setNewMemberEmail('');
+      }}
+    >
       <input
         placeholder='추가할 멤버의 이메일 입력'
         className='input input-bordered w-full'
@@ -221,6 +228,16 @@ export function BandMemberList({
   frontmanReading: boolean;
 }) {
   // 프론트맨이 아니면 편집 안 되도록 한다.
+  const addMemberByEmail = (email: string) => {
+    BandProfileAPI.getNewMemberInfo(email)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className='w-full flex flex-col my-2'>
       <div className='flex flex-row justify-between'>
@@ -228,7 +245,10 @@ export function BandMemberList({
           <span className='label-text text-accent'>{label}</span>
         </label>
         {editing && frontmanReading ? (
-          <BandMemberAddButton label={label} addMember={() => {}} />
+          <BandMemberAddButton
+            label={label}
+            addMemberByEmail={addMemberByEmail}
+          />
         ) : null}
       </div>
       <ul className='w-full flex flex-row flex-wrap gap-x-7 gap-y-2'>
