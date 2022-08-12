@@ -90,7 +90,7 @@ function RecordEditingItem({
       <div className='flex flex-row justify-between items-center'>
         <h4 className='text-sm'>🔗 연주기록 링크 추가</h4>
         <button
-          className='btn btn-sm bg-base-100 border-base-300 hover:bg-base-200'
+          className='btn btn-sm bg-base-100 border-base-300 hover:bg-base-200 mr-[14.55px]'
           onClick={() => {
             setRecord({
               ...record,

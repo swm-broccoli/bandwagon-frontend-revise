@@ -1,6 +1,21 @@
 import { BandProfileType } from '../../types/types';
 
-const initialBandProfile: BandProfileType = {
+export const vacantBandProfile: BandProfileType = {
+  id: -1,
+  avatarUrl: '',
+  name: '',
+  bandMembers: [],
+  areas: [],
+  genres: [],
+  days: [],
+  description: '',
+  bandPractices: [],
+  bandGigs: [],
+  bandPhotos: [],
+  isReaderFrontman: false,
+};
+
+export const initialBandProfile: BandProfileType = {
   id: 1,
   name: '브로콜리 소마저',
   avatarUrl: 'https://picsum.photos/200',
@@ -8,16 +23,19 @@ const initialBandProfile: BandProfileType = {
     {
       id: 12,
       name: 'Test',
+      birthday: '2020-01-01',
       positions: [
         {
           id: 1,
           name: 'Electric Guitar',
         },
       ],
+      isFrontman: true,
     },
     {
       id: 15,
       name: 'Test3',
+      birthday: '2020-01-01',
       positions: [
         {
           id: 2,
@@ -28,6 +46,7 @@ const initialBandProfile: BandProfileType = {
           name: 'Drum',
         },
       ],
+      isFrontman: false,
     },
   ],
   areas: [
@@ -128,6 +147,5 @@ const initialBandProfile: BandProfileType = {
       name: 'https://picsum.photos/206',
     },
   ],
+  isReaderFrontman: false,
 };
-
-export default initialBandProfile;

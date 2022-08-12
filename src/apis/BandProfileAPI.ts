@@ -66,6 +66,8 @@ interface BandProfileApiType {
     bandID: number,
     updatedGig: PerformanceRecordType,
   ) => Promise<AxiosResponse>;
+  addBandPhoto: (bandID: number, newPhoto: File) => Promise<AxiosResponse>;
+  deleteBandPhoto: (bandID: number, photoID: number) => Promise<AxiosResponse>;
 }
 
 const BandProfileAPI: BandProfileApiType = {
@@ -167,6 +169,16 @@ const BandProfileAPI: BandProfileApiType = {
       performDate: updatedGig.performDate,
       urls: updatedGig.urls,
     });
+  },
+  addBandPhoto: (bandID: number, newPhoto: File) => {
+    const formData = new FormData();
+    formData.append('image', newPhoto);
+    return request.post(`/api/band/${bandID}/photos`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+  deleteBandPhoto: (bandID: number, photoID: number) => {
+    return request.delete(`/api/band/${bandID}/photos/${photoID}`);
   },
 };
 

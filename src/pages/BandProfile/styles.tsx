@@ -2,6 +2,8 @@ import { MdPhotoCamera } from 'react-icons/md';
 import { BandMemberType, PictureType } from '../../types/types';
 import TagElement from '../../components/TagElement';
 import positionOptions from '../../assets/options/positionOptions';
+import { useEffect, useState } from 'react';
+import ProfileAddModal from '../../components/ProfileAddModal';
 
 //각 포지션을 한글 표기로 바꾸는 배열
 const positionToKorean: { [item: string]: string } = {
@@ -108,7 +110,6 @@ function BandMemberListItem({
   const addPosition = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const curValue = JSON.parse(e.target.value);
     console.log(curValue);
-    console.log(member.positions);
     if (member.positions.find((p) => p === curValue) === undefined) {
       setMember({
         ...member,
@@ -183,6 +184,29 @@ function BandMemberListItem({
   }
 }
 
+function BandMemberAddButton({
+  label,
+  addMember,
+}: {
+  label: string;
+  addMember: () => void;
+}) {
+  const [newMemberEmail, setNewMemberEmail] = useState('');
+
+  return (
+    <ProfileAddModal label={`${label} 추가`} addSelected={addMember}>
+      <input
+        placeholder='추가할 멤버의 이메일 입력'
+        className='input input-bordered w-full'
+        value={newMemberEmail}
+        onChange={(e) => {
+          setNewMemberEmail(e.target.value);
+        }}
+      />
+    </ProfileAddModal>
+  );
+}
+
 export function BandMemberList({
   label,
   bandMembers,
@@ -204,9 +228,7 @@ export function BandMemberList({
           <span className='label-text text-accent'>{label}</span>
         </label>
         {editing && frontmanReading ? (
-          <button className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'>
-            +추가
-          </button>
+          <BandMemberAddButton label={label} addMember={() => {}} />
         ) : null}
       </div>
       <ul className='w-full flex flex-row flex-wrap gap-x-7 gap-y-2'>
@@ -259,21 +281,53 @@ export function BandProfileAlbum({
   label,
   bandPhotos,
   setBandPhotos,
+  deletedPhtoIDs,
+  setDeletedPhotoIDs,
   editing,
 }: {
   label: string;
   bandPhotos: PictureType[];
   setBandPhotos: (bandPhotos: PictureType[]) => void;
+  deletedPhtoIDs: number[];
+  setDeletedPhotoIDs: (newDeletedPhtoIDs: number[]) => void;
   editing: boolean;
 }) {
+  const [tempPhotoID, setTempPhotoID] = useState(-1);
+
+  const addPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files![0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      setBandPhotos([
+        ...bandPhotos,
+        { id: tempPhotoID, name: reader.result as string },
+      ]);
+      setTempPhotoID((prev) => prev - 1);
+      console.log('사진 추가');
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div className='w-full'>
       <div className='flex flex-row justify-between items-center text-sm h-8 mb-5'>
         <h1>{label}</h1>
         {editing ? (
-          <button className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'>
-            +추가
-          </button>
+          <>
+            <label
+              htmlFor='band-album'
+              className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'
+            >
+              +추가
+            </label>
+            <input
+              className='hidden'
+              type='file'
+              id='band-album'
+              accept='image/*'
+              onChange={addPhoto}
+            />
+          </>
         ) : null}
       </div>
       <div className='flex flex-row overflow-x-auto items-center'>
@@ -282,6 +336,11 @@ export function BandProfileAlbum({
             key={photo.id}
             photo={photo}
             deletePhoto={() => {
+              console.log(photo.id);
+              if (photo.id >= 0) {
+                //만약 서버에 있었던 사진이라면 id가 양수이다. 따라서 기존에 있었던 사진은 삭제한다.
+                setDeletedPhotoIDs([...deletedPhtoIDs, photo.id]);
+              }
               setBandPhotos(
                 bandPhotos.filter((_photo) => _photo.id !== photo.id),
               );

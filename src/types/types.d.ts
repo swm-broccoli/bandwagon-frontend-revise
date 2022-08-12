@@ -50,6 +50,7 @@ export interface UserProfileType {
 
 export interface BandMemberType {
   id: number;
+  avatarUrl: string;
   name: string;
   birthday: string;
   positions: SelectionType[];
@@ -65,8 +66,8 @@ export interface BandProfileType {
   genres: SelectionType[];
   days: SelectionType[];
   description: string;
-  bandPractices: PerformanceType[];
-  bandGigs: PerformanceType[];
+  bandPractices: PerformanceRecordType[];
+  bandGigs: PerformanceRecordType[];
   bandPhotos: PictureType[];
   isReaderFrontman: boolean;
 }
