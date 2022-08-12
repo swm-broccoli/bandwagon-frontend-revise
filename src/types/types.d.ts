@@ -86,3 +86,13 @@ export interface PrequisiteRequestType {
   genres: PrequisiteElementType[];
   positions: PrequisiteElementType[];
 }
+
+export interface SignUpUserInputType {
+  name: string;
+  nickname: string;
+  email: string;
+  password: string;
+  passwordCheck: string;
+  birthday: string;
+  gender: string;
+}

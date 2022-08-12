@@ -5,6 +5,8 @@ import DateInput from '../../components/DateInput';
 import SelectionInput from '../../components/SelectionInput';
 import AuthAPI from '../../apis/AuthAPI';
 import { useNavigate } from 'react-router-dom';
+import { SignUpUserInputType } from '../../types/types';
+import { validateSignUpForm } from './validateSignUpForm';
 
 interface CheckBoxItemType {
   text: string;
@@ -90,16 +92,6 @@ function TermAgreeBox({
   );
 }
 
-interface SignUpUserInputType {
-  name: string;
-  nickname: string;
-  email: string;
-  password: string;
-  passwordCheck: string;
-  birthday: string;
-  gender: string;
-}
-
 function SignUpForm() {
   const genderSelection = ['남자', '여자'];
 
@@ -129,8 +121,10 @@ function SignUpForm() {
   };
 
   const signUpSubmissionValidate = (submission: SignUpUserInputType) => {
-    if (submission.password !== submission.passwordCheck) {
-      alert('비밀번호가 일치하지 않습니다.');
+    const validateInputResult = validateSignUpForm(submission);
+    if (validateInputResult) {
+      // 유효성 검사 실패해서 그 실패 원인이 담겨 있다
+      alert(validateInputResult);
       return false;
     } else if (!termAgreed) {
       alert('약관에 동의해 주세요.');
