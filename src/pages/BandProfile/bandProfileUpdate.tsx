@@ -257,7 +257,7 @@ export function updateBandGigs(
         });
     } else {
       // 사용자가 수정중인 연주기록에도 있고 서버 기록에도 있으면 수정된 것이다(물론 같을 수도 있지만))
-      BandProfileAPI.updateBandPractice(bandID, gig);
+      BandProfileAPI.updateBandGig(bandID, gig);
     }
   }
 }

@@ -13,6 +13,14 @@ import RecordField from '../../components/RecordField';
 import UserProfileAPI from '../../apis/UserProfileAPI';
 import initialUserProfile from './initialUserProfile';
 import { UserProfileAvatar } from './styles';
+import {
+  updateUserAreas,
+  updateUserAvatar,
+  updateUserDescription,
+  updateUserGenres,
+  updateUserPerformances,
+  updateUserPositions,
+} from './userProfileUpdate';
 
 function parseUserProfile(userProfile: UserProfileType) {
   return {
@@ -24,21 +32,6 @@ function parseUserProfile(userProfile: UserProfileType) {
     })),
   };
 }
-
-const dataURLtoFile = (dataurl: string, fileName: string) => {
-  //base64 문자열을 File 로 변경해 주는 함수
-  var arr = dataurl.split(','),
-    mime = arr[0].match(/:(.*?);/)![1],
-    bstr = atob(arr[1]),
-    n = bstr.length,
-    u8arr = new Uint8Array(n);
-
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n);
-  }
-
-  return new File([u8arr], fileName, { type: mime });
-};
 
 function UserProfile() {
   const [curUserProfile, setCurUserProfile] =
@@ -74,172 +67,31 @@ function UserProfile() {
 
   const onProfileEditDone = () => {
     if (profileEditing) {
-      //수정 완료 상태로 접어들었다
-      if (curUserProfile.avatarUrl !== serverUserProfile.avatarUrl) {
-        //사진이 바뀌었다면 서버에 업로드해야함
-        UserProfileAPI.updateUserAvatar(
-          dataURLtoFile(curUserProfile.avatarUrl, 'avatar.png'),
-        )
-          .then(() => {
-            console.log('사진 업로드 성공');
-          })
-          .catch((err) => {
-            console.log('사진 업로드 실패', err);
-          })
-          .finally(() => {
-            setProfileEditing(false);
-          });
-      }
+      //수정 완료 상태로 간다
 
-      for (const position of serverUserProfile.positions) {
-        // 서버에는 있지만 사용자가 삭제한(즉 수정중인 상태에 없는) 포지션이 있으면 서버로 삭제 내역을 보냄
-        if (
-          curUserProfile.positions.find((p) => p.id === position.id) ===
-          undefined
-        ) {
-          UserProfileAPI.deleteUserPosition(position.id)
-            .then(() => {
-              console.log(position.name, '삭제 성공');
-            })
-            .catch((err) => {
-              console.log(position.name, '삭제 실패', err);
-            });
-        }
-      }
+      //사진이 바뀌었다면 서버에 업로드해야함
+      updateUserAvatar(curUserProfile.avatarUrl, serverUserProfile.avatarUrl);
 
-      for (const position of curUserProfile.positions) {
-        // 서버에 없지만 사용자가 편집한 프로필에서 새로 추가한 포지션이 있으면 서버로 보낸다
-        if (
-          serverUserProfile.positions.find((p) => p.id === position.id) ===
-          undefined
-        ) {
-          UserProfileAPI.addUserPosition(position.id)
-            .then((res) => {
-              console.log(res);
-              console.log(position.name, '추가 성공');
-            })
-            .catch((err) => {
-              console.log(err);
-              console.log(position.name, '추가 실패');
-            });
-        }
-      }
+      updateUserPositions(
+        curUserProfile.positions,
+        serverUserProfile.positions,
+      );
 
-      for (const area of serverUserProfile.areas) {
-        // 서버에는 있지만 사용자가 삭제한 장소가 있으면 서버로 삭제 내역을 보냄
-        if (curUserProfile.areas.find((a) => a.id === area.id) === undefined) {
-          UserProfileAPI.deleteUserArea(area.id)
-            .then(() => {
-              console.log(`${area.city} ${area.district} 삭제 성공`);
-            })
-            .catch((err) => {
-              console.log('삭제 실패', err);
-            });
-        }
-      }
+      updateUserAreas(curUserProfile.areas, serverUserProfile.areas);
 
-      for (const area of curUserProfile.areas) {
-        // 서버에 없지만 사용자가 편집한 프로필에서 새로 추가한 장소가 있으면 서버로 보낸다
-        if (
-          serverUserProfile.areas.find((a) => a.id === area.id) === undefined
-        ) {
-          UserProfileAPI.addUserArea(area.id)
-            .then((res) => {
-              console.log(res);
-              console.log(`${area.city} ${area.district} 추가 성공`);
-            })
-            .catch((err) => {
-              console.log('추가 실패', err);
-            });
-        }
-      }
+      updateUserGenres(curUserProfile.genres, serverUserProfile.genres);
 
-      for (const genre of serverUserProfile.genres) {
-        // 서버에는 있지만 사용자가 삭제한 장르가 있으면 서버로 삭제 내역을 보냄
-        if (
-          curUserProfile.genres.find((g) => g.id === genre.id) === undefined
-        ) {
-          UserProfileAPI.deleteUserGenre(genre.id)
-            .then(() => {
-              console.log(genre.name, '삭제 성공');
-            })
-            .catch((err) => {
-              console.log(genre.name, '삭제 실패', err);
-            });
-        }
-      }
+      updateUserDescription(
+        curUserProfile.description,
+        serverUserProfile.description,
+      );
 
-      for (const genre of curUserProfile.genres) {
-        // 서버에 없지만 사용자가 편집한 프로필에서 새로 추가한 장르가 있으면 서버로 보낸다
-        if (
-          serverUserProfile.genres.find((g) => g.id === genre.id) === undefined
-        ) {
-          UserProfileAPI.addUserGenre(genre.id)
-            .then((res) => {
-              console.log(res);
-              console.log(genre.name, '추가 성공');
-            })
-            .catch((err) => {
-              console.log(genre.name, '추가 실패', err);
-            });
-        }
-      }
-
-      if (serverUserProfile.description !== curUserProfile.description) {
-        //자기소개가 다를 경우 서버로 전송
-        console.log('서버에 저장할 내용이 있음.' + curUserProfile.description);
-        UserProfileAPI.setUserDescription(curUserProfile.description)
-          .then((res) => {
-            console.log('서버에 저장 성공', res);
-          })
-          .catch((err) => {
-            console.log('서버에 저장 실패', err);
-          });
-      }
-
-      //연주 기록 관련 업데이트
-      for (const performance of serverUserProfile.userPerformances) {
-        if (
-          curUserProfile.userPerformances.find(
-            (p) => p.id === performance.id,
-          ) === undefined
-        ) {
-          UserProfileAPI.deleteUserPerformance(performance.id)
-            .then(() => {
-              console.log(performance.musicTitle, '삭제 성공');
-            })
-            .catch((err) => {
-              console.log(performance.musicTitle, '삭제 실패', err);
-            });
-        }
-      }
-
-      for (const performance of curUserProfile.userPerformances) {
-        // 서버에는 없지만 사용자가 새로 추가한 연주 기록이 있으면 서버에 추가한다
-        if (
-          serverUserProfile.userPerformances.find(
-            (p) => p.id === performance.id,
-          ) === undefined
-        ) {
-          console.log(performance);
-          UserProfileAPI.addUserPerformance({
-            musicTitle: performance.musicTitle,
-            performDate: performance.performDate,
-            urls: performance.urls,
-          })
-            .then((res) => {
-              console.log(res);
-              console.log(performance.musicTitle, '추가 성공');
-            })
-            .catch((err) => {
-              console.log(performance.musicTitle, '추가 실패', err);
-            });
-        } else {
-          // 사용자가 수정중인 연주기록에도 있고 서버 기록에도 있으면 수정된 것이다
-          UserProfileAPI.updateUserPerformance(performance);
-        }
-      }
+      updateUserPerformances(
+        curUserProfile.userPerformances,
+        serverUserProfile.userPerformances,
+      );
     }
+    setServerUserProfile(curUserProfile);
     setProfileEditing(!profileEditing);
   };
 

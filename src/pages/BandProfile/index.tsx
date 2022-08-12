@@ -46,6 +46,7 @@ function BandProfile() {
   const [serverBandProfile, setServerBandProfile] =
     useState<BandProfileType>(vacantBandProfile);
 
+  const [deletedMemberIDs, setDeletedMemberIDs] = useState<string[]>([]);
   const [deletedPhotoIDs, setDeletedPhotoIDs] = useState<number[]>([]);
 
   useEffect(() => {
@@ -124,9 +125,9 @@ function BandProfile() {
     }
     //서버에 있는 상태를 현재 유저의 편집 상태로 동기화했다.
     setServerBandProfile(curBandProfile);
-    // 유저가 삭제한 사진의 상태를 모두 반영했으므로 삭제한 사진 아이디를 비운다.
+    // 유저가 삭제한 상태를 모두 반영했으므로 삭제한 아이디를 초기화한다.
     setDeletedPhotoIDs([]);
-    //
+    setDeletedMemberIDs([]);
     setProfileEditing(!profileEditing);
   };
 
@@ -237,7 +238,7 @@ function BandProfile() {
                   bandPhotos: newBandPhotos,
                 });
               }}
-              deletedPhtoIDs={deletedPhotoIDs}
+              deletedPhotoIDs={deletedPhotoIDs}
               setDeletedPhotoIDs={(newDeletedPhotoIDs) => {
                 console.log(newDeletedPhotoIDs);
                 setDeletedPhotoIDs(newDeletedPhotoIDs);

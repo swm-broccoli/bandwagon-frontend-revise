@@ -17,6 +17,7 @@ interface BandProfileApiType {
   getBandProfileInfo: () => Promise<AxiosResponse>;
   updateBandAvatar: (bandID: number, newAvatar: File) => Promise<AxiosResponse>;
   updateBandName: (bandID: number, newName: string) => Promise<AxiosResponse>;
+  getNewMemberInfo: (newMemberEmail: string) => Promise<AxiosResponse>;
   addBandMember: (
     bandID: number,
     newMemberEmail: string,
@@ -91,6 +92,9 @@ const BandProfileAPI: BandProfileApiType = {
     return request.post(`/api/band/${bandID}/name`, {
       name: newName,
     });
+  },
+  getNewMemberInfo: (newMemberEmail: string) => {
+    return request.get(`/api/users/${newMemberEmail}/mypage`);
   },
   addBandMember: (bandID: number, newMemberEmail: string) => {
     return request.post(`/api/band/${bandID}/member`, {
