@@ -127,6 +127,7 @@ function BandProfile() {
       updateBandMembers(
         curBandProfile.id,
         curBandProfile.bandMembers,
+        serverBandProfile.bandMembers,
         deletedMemberIDs,
       );
     }

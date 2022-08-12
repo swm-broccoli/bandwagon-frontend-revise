@@ -1,4 +1,5 @@
 import BandProfileAPI from '../../apis/BandProfileAPI';
+import { AxiosResponse } from 'axios';
 import {
   AreaType,
   PerformanceRecordType,
@@ -287,20 +288,60 @@ export function updateBandAlbum(
   }
 }
 
-export function updateBandMembers(
+export async function updateBandMembers(
   bandID: number,
-  bandMembers: BandMemberType[],
+  curBandMembers: BandMemberType[],
+  serverBandMembers: BandMemberType[],
   deletedMemberIDs: number[],
 ) {
-  for (const member of bandMembers) {
+  // 서버의 멤버 목록을 다 삭제한 후에 사용자의 수정 내역을 보내줘야 하므로 Async 를 써준다
+  let deleteMemberPromises: Promise<AxiosResponse>[] = [];
+  const curUserID = localStorage.getItem('userID');
+  serverBandMembers.forEach((member) => {
+    // 서버에 저장되어 있는 기존의 밴드 멤버들을 모두 제거한다
+    if (curUserID !== member.email) {
+      deleteMemberPromises.push(
+        BandProfileAPI.deleteBandMember(bandID, member.id),
+      );
+    }
+  });
+
+  // 서버에 있는 유저 목록을 다 날린다
+  await Promise.all(deleteMemberPromises);
+
+  let addMemberPromises: Promise<AxiosResponse>[] = [];
+
+  curBandMembers.forEach((member) => {
+    // 사용자가 추가한 멤버들을 모두 추가한다
+    addMemberPromises.push(BandProfileAPI.addBandMember(bandID, member.email));
+  });
+  //새로운 멤버들을 이메일로 추가한다
+  await Promise.all(addMemberPromises);
+
+  let addMemberPositionsPromises: Promise<AxiosResponse>[] = [];
+
+  curBandMembers.forEach((member) => {
+    member.positions.forEach((position) => {
+      // 사용자가 추가한 멤버들의 직책을 모두 추가한다
+      addMemberPositionsPromises.push(
+        BandProfileAPI.addBandMemberPosition(bandID, member.id, position.id),
+      );
+    });
+  });
+  // 각 멤버들의 포지션
+  await Promise.all(addMemberPositionsPromises);
+
+  for (const member of curBandMembers) {
+    // 사용자가 수정중인 멤버 목록을 모두 추가한다
+
     if (member.id < 0) {
       // ID가 음수면 새로 추가된 멤버
+      // 해당 멤버와 그 멤버의 포지션을 서버에 추가
       console.log(member, '를 멤버로 추가');
       BandProfileAPI.addBandMember(bandID, member.email);
+      for (const position of member.positions) {
+        BandProfileAPI.addBandMemberPosition(bandID, member.id, position.id);
+      }
     }
-  }
-  for (const id of deletedMemberIDs) {
-    console.log('삭제된 멤버 id:', id);
-    BandProfileAPI.deleteBandMember(bandID, id);
   }
 }
