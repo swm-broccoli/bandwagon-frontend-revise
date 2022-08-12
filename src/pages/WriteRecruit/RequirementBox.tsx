@@ -15,6 +15,9 @@ function BandPrequisitesCard () {
   const {
     currentId,
     prequisiteList,
+    minStore,
+    maxStore,
+    genderStore,
     addPrequisite} = useBandRequirementStore();
 
   return (
@@ -25,7 +28,13 @@ function BandPrequisitesCard () {
           <ProfileAddModal
             label='지원 조건 추가'
             addSelected={() => {
-              addPrequisite(currentId, option)}}
+              if (minStore && maxStore && option == '나이') {
+                window.alert('나이 조건은 하나만 추가 가능합니다!');
+              } else if (genderStore && option == '성별') {
+                window.alert('성별 조건은 하나만 추가 가능합니다!');
+              } else {
+                addPrequisite(currentId, option);
+              }}}
             children={
               <Select label='추가할 지원 조건을 선택하세요' options={options} setOption={setOption} />
             } />

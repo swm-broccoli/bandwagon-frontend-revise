@@ -14,7 +14,7 @@ interface bandRequirementStoreType {
   genreStore: PrequisiteElementType[] | null,
   positionStore: PrequisiteElementType[] | null,
   addPrequisite: (preqId: number, type: string) => void,
-  deletePrequisite: (preqId: number) => void,
+  deletePrequisite: (preqId: number, type: string) => void,
 }
 
 export const useBandRequirementStore = create<bandRequirementStoreType>()(devtools((set) => ({
@@ -28,13 +28,35 @@ export const useBandRequirementStore = create<bandRequirementStoreType>()(devtoo
   genreStore: null,
   positionStore: null,
   addPrequisite: (preqId, type) => {
+    if (type == '나이') {
+      set((state) => ({
+        minStore: 1,
+        maxStore: 1
+      }))
+    } else if (type == '성별') {
+      set((state) => ({
+        genderStore: true
+      }))
+    }
+
     set((state) => ({
       prequisiteList: [...state.prequisiteList, {
         id: preqId,
         type: type}],
       currentId: state.currentId + 1}));
   },
-  deletePrequisite: (preqId: number) => {
+  deletePrequisite: (preqId: number, type: string) => {
+    if (type == '나이') {
+      set((state) => ({
+        minStore: null,
+        maxStore: null
+      }))
+    } else if (type == '성별') {
+      set((state) => ({
+        genderStore: null
+      }))
+    }
+
     set((state) => ({
       prequisiteList: state.prequisiteList.filter(
         (preq) => preq.id !== preqId)
