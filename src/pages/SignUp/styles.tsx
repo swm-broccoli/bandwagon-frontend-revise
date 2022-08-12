@@ -192,6 +192,7 @@ function SignUpForm() {
           required
         />
         <button
+          type='button'
           onClick={userEmailDuplicationCheck}
           className='absolute ml-[248px] md:ml-[328px] btn btn-primary self-end'
         >
