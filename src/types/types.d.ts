@@ -86,6 +86,7 @@ export interface PostType {
 }
 
 export interface PrequisiteElementType {
+  preqId: number;
   id: number;
 }
 
