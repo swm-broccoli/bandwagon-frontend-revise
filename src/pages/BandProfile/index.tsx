@@ -26,6 +26,7 @@ import {
   updateBandPractices,
   updateBandGigs,
   updateBandAlbum,
+  updateBandMembers,
 } from './bandProfileUpdate';
 import EmptyBandProfile from './EmptyBandProfile';
 import { vacantBandProfile } from './initialBandProfile';
@@ -46,7 +47,7 @@ function BandProfile() {
   const [serverBandProfile, setServerBandProfile] =
     useState<BandProfileType>(vacantBandProfile);
 
-  const [deletedMemberIDs, setDeletedMemberIDs] = useState<string[]>([]);
+  const [deletedMemberIDs, setDeletedMemberIDs] = useState<number[]>([]);
   const [deletedPhotoIDs, setDeletedPhotoIDs] = useState<number[]>([]);
 
   useEffect(() => {
@@ -122,6 +123,13 @@ function BandProfile() {
         curBandProfile.bandPhotos,
         deletedPhotoIDs,
       );
+
+      updateBandMembers(
+        curBandProfile.id,
+        curBandProfile.bandMembers,
+        serverBandProfile.bandMembers,
+        deletedMemberIDs,
+      );
     }
     //서버에 있는 상태를 현재 유저의 편집 상태로 동기화했다.
     setServerBandProfile(curBandProfile);
@@ -178,6 +186,11 @@ function BandProfile() {
                   ...curBandProfile,
                   bandMembers: newBandMembers,
                 });
+              }}
+              deletedMemberIDs={deletedMemberIDs}
+              setDeletedMemberIDs={(newDeletedMemberIDs) => {
+                console.log('삭제된 멤버 아이디: ', newDeletedMemberIDs);
+                setDeletedMemberIDs(newDeletedMemberIDs);
               }}
               editing={profileEditing}
               frontmanReading={curBandProfile.isReaderFrontman}

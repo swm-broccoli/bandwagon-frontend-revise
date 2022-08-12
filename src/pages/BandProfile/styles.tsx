@@ -4,6 +4,7 @@ import TagElement from '../../components/TagElement';
 import positionOptions from '../../assets/options/positionOptions';
 import { useEffect, useState } from 'react';
 import ProfileAddModal from '../../components/ProfileAddModal';
+import BandProfileAPI from '../../apis/BandProfileAPI';
 
 //각 포지션을 한글 표기로 바꾸는 배열
 const positionToKorean: { [item: string]: string } = {
@@ -110,7 +111,7 @@ function BandMemberListItem({
   const addPosition = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const curValue = JSON.parse(e.target.value);
     console.log(curValue);
-    if (member.positions.find((p) => p === curValue) === undefined) {
+    if (member.positions.find((p) => p.id === curValue.id) === undefined) {
       setMember({
         ...member,
         positions: [...member.positions, curValue],
@@ -186,15 +187,21 @@ function BandMemberListItem({
 
 function BandMemberAddButton({
   label,
-  addMember,
+  addMemberByEmail,
 }: {
   label: string;
-  addMember: () => void;
+  addMemberByEmail: (email: string) => void;
 }) {
-  const [newMemberEmail, setNewMemberEmail] = useState('');
+  const [newMemberEmail, setNewMemberEmail] = useState<string>('');
 
   return (
-    <ProfileAddModal label={`${label} 추가`} addSelected={addMember}>
+    <ProfileAddModal
+      label={`${label} 추가`}
+      addSelected={() => {
+        addMemberByEmail(newMemberEmail);
+        setNewMemberEmail('');
+      }}
+    >
       <input
         placeholder='추가할 멤버의 이메일 입력'
         className='input input-bordered w-full'
@@ -211,16 +218,56 @@ export function BandMemberList({
   label,
   bandMembers,
   setBandMembers,
+  deletedMemberIDs,
+  setDeletedMemberIDs,
   editing,
   frontmanReading,
 }: {
   label: string;
   bandMembers: BandMemberType[];
   setBandMembers: (bandMembers: BandMemberType[]) => void;
+  deletedMemberIDs: number[];
+  setDeletedMemberIDs: (deletedMemberIDs: number[]) => void;
   editing: boolean;
   frontmanReading: boolean;
 }) {
+  const [tempNewMemberID, setTempNewMemberID] = useState<number>(-1);
   // 프론트맨이 아니면 편집 안 되도록 한다.
+  const addMemberByEmail = (email: string) => {
+    BandProfileAPI.getNewMemberInfo(email)
+      .then((res) => {
+        // res에는 새로 추가할 사용자의 정보가 들어 있다.
+        const curUserID = localStorage.getItem('userID');
+        if (curUserID === email) {
+          alert('자기 자신은 밴드에 추가할 수 없습니다.');
+        } else if (
+          bandMembers.find((member) => member.email === email) !== undefined
+        ) {
+          // TODO : 이미 밴드에 있는 사람이면 에러가 뜬다. 그 경우의 에러 메시지 추가하기
+          alert('이미 밴드에 있는 사람입니다.');
+        } else {
+          console.log(res.data);
+          // 새로 받아온 멤버를 추가한다
+          setBandMembers([
+            ...bandMembers,
+            {
+              id: tempNewMemberID, // 새로 추가한 멤버의 ID는 음수가 된다.
+              email: email,
+              avatarUrl: res.data.avatarUrl,
+              name: res.data.name,
+              birthday: res.data.birthday,
+              positions: [],
+              isFrontman: false,
+            },
+          ]);
+          setTempNewMemberID((prev) => prev - 1);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className='w-full flex flex-col my-2'>
       <div className='flex flex-row justify-between'>
@@ -228,7 +275,10 @@ export function BandMemberList({
           <span className='label-text text-accent'>{label}</span>
         </label>
         {editing && frontmanReading ? (
-          <BandMemberAddButton label={label} addMember={() => {}} />
+          <BandMemberAddButton
+            label={label}
+            addMemberByEmail={addMemberByEmail}
+          />
         ) : null}
       </div>
       <ul className='w-full flex flex-row flex-wrap gap-x-7 gap-y-2'>
@@ -243,9 +293,27 @@ export function BandMemberList({
             }}
             editing={editing}
             deleteMember={() => {
-              setBandMembers(
-                bandMembers.filter((_member) => _member.id !== member.id),
-              );
+              if (frontmanReading === false) {
+                // 읽고 있는 사람이 프론트맨이 아니다
+                alert('프론트맨만 밴드 멤버를 삭제할 수 있습니다.');
+              } else if (frontmanReading && member.isFrontman === true) {
+                /* 
+                프론트맨만 밴드 멤버를 삭제할 수 있다. 그런데 프론트맨이 프론트맨을 삭제하는 경우
+                자기 자신을 삭제하는 것이므로 당연히 에러이다
+                */
+                alert(
+                  '자기 자신을 삭제할 수 없습니다. 탈퇴 기능을 이용해 주세요.',
+                );
+              } else {
+                setBandMembers(
+                  bandMembers.filter((_member) => _member.id !== member.id),
+                );
+                if (member.id >= 0) {
+                  setDeletedMemberIDs([...deletedMemberIDs, member.id]);
+                  // 삭제된 유저의 밴드 멤버 ID를 저장
+                  // 단 기존 유저일 경우(즉 ID가 양수)
+                }
+              }
             }}
           />
         ))}
