@@ -44,18 +44,18 @@ function ReadArticleCard (props: {article: string | undefined}) {
 function ReadRecruitPage () {
   const { postID } = useParams();
   const [postInfo, setPostInfo] = useState<PostType>();
+  const [bandId, setBandId] = useState<number>();
 
   useEffect(() => {
-    console.log(postID);
     RecruitPostAPI.LoadPost(postID)
       .then((res) => {
         console.log(res.data);
         setPostInfo(res.data);
+        setBandId(res.data.bandId);
       })
       .catch((err) => {
         console.log(err);
       });
-
   }, []);
   
   return (
@@ -65,7 +65,7 @@ function ReadRecruitPage () {
         <div className='grid grid-cols-[1fr_6fr_1fr] md:grid-cols-[2fr_6fr_2fr_1fr] auto-rows-auto w-full h-fit gap-y-5 py-10 max-w-7xl'>
           <BasicInfoBox title={postInfo?.title} />
           <div className='row-start-2 col-start-2'>
-            <BandInfoCard type={false} bandId={postInfo?.bandId} />
+            <BandInfoCard type={false} bandId={bandId} />
           </div>
           <ReadArticleCard article={postInfo?.body}/>
           <div className='row-start-4 col-start-2 md:row-start-2 md:col-start-3 md:mt-9 md:justify-self-end'>

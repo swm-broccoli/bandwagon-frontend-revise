@@ -131,13 +131,7 @@ function BandInfoCard (props: {
         .catch((err) => {
           console.log(err);
         });
-      bandInfo?.bandMembers.map((member, index) => {
-        console.log(member.age);
-        if (member.age < minAge) setMinAge(member.age);
-        if (member.age > maxAge) setMaxAge(member.age); 
-      });
-    } else {
-      console.log(props.bandId);
+    } else if (props.bandId) {
       RecruitPostAPI.LoadBandInfo(props.bandId)
         .then((res) => {
           console.log(res.data);
@@ -146,42 +140,49 @@ function BandInfoCard (props: {
         .catch((err) => {
           console.log(err);
         });
-      bandInfo?.bandMembers.map((member, index) => {
-        console.log(member.age);
-        if (member.age < minAge) setMinAge(member.age);
-        if (member.age > maxAge) setMaxAge(member.age); 
-      });
     };
-  }, []);
+  }, [props.bandId])
+
+  useEffect(() => {
+    bandInfo?.bandMembers.map((member, index) => {
+      if (member.age < minAge) setMinAge(member.age);
+      if (member.age > maxAge) setMaxAge(member.age); 
+    });
+  }, [bandInfo]);
 
   return (
-    <div className='flex flex-col gap-3 w-full h-fit'>
-      <div className='grid grid-cols-2 items-center'>
-        <h3 className='col-start-1 text-accent text-base'>밴드 정보</h3>
-        {props.type ?
-          <Link to='/profile/band' className='col-start-2 justify-self-end text-sm text-primary'>
-            수정
-          </Link> : <></>
-        }
-      </div>
-      <div className='flex flex-col md:grid md:grid-cols-2 md:auto-rows-auto w-full h-fit px-[14%] py-7 border border-[#e5e5e5] border-solid rounded-xl gap-7'>
-        <ProfilePic avatarUrl={bandInfo?.avatarUrl} />
-        <div className='md:row-start-1 md:col-start-2 md:self-end'>
-          <TextInfo label='밴드명' text={bandInfo?.name} />
+    <>
+    {bandInfo ?
+        <div className='flex flex-col gap-3 w-full h-fit'>
+        <div className='grid grid-cols-2 items-center'>
+          <h3 className='col-start-1 text-accent text-base'>밴드 정보</h3>
+          {props.type ?
+            <Link to='/profile/band' className='col-start-2 justify-self-end text-sm text-primary'>
+              수정
+            </Link> : <></>
+          }
         </div>
-        <div className='md:row-start-2 md:col-start-2'>
-          <AgeInfo min={minAge} max={maxAge} />
+        <div className='flex flex-col md:grid md:grid-cols-2 md:auto-rows-auto w-full h-fit px-[14%] py-7 border border-[#e5e5e5] border-solid rounded-xl gap-7'>
+          <ProfilePic avatarUrl={bandInfo?.avatarUrl} />
+          <div className='md:row-start-1 md:col-start-2 md:self-end'>
+            <TextInfo label='밴드명' text={bandInfo?.name} />
+          </div>
+          <div className='md:row-start-2 md:col-start-2'>
+            <AgeInfo min={minAge} max={maxAge} />
+          </div>
+          <MemberInfo members={bandInfo?.bandMembers}/>
+          <div className='md:row-start-4 md:col-start-1 md:self-end'>
+            <TextListInfo label='활동 요일' text={bandInfo?.days} />
+          </div>
+          <div className='md:row-start-4 md:col-start-2 md:self-end'>
+            <AreaInfo text={bandInfo?.areas} />
+          </div>
+          <GenreInfo genres={bandInfo?.genres}/>
         </div>
-        <MemberInfo members={bandInfo?.bandMembers}/>
-        <div className='md:row-start-4 md:col-start-1 md:self-end'>
-          <TextListInfo label='활동 요일' text={bandInfo?.days} />
-        </div>
-        <div className='md:row-start-4 md:col-start-2 md:self-end'>
-          <AreaInfo text={bandInfo?.areas} />
-        </div>
-        <GenreInfo genres={bandInfo?.genres}/>
-      </div>
-    </div>
+      </div> :
+      <></>
+    }
+    </>
   );
 };
 
