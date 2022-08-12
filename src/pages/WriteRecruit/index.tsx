@@ -77,7 +77,7 @@ function WriteRecruitPage () {
         {/* 제목 입력 */}
         <TitleTextField title={title} setTitle={setTitle}/>
         {/* 밴드 정보 */}
-        <BandInfoCard type={true}/>
+        <BandInfoCard type={true} bandId={undefined}/>
         {/* 본문 쓰기 */}
         <div className='flex flex-col gap-4'>
           <h3 className='text-accent text-base'>글쓰기</h3>

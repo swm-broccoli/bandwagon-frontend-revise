@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import areaOptions from '../../assets/options/areaOptions';
 import positionOptions from '../../assets/options/positionOptions';
 import genreOptions from '../../assets/options/genreOptions';
 import Select from '../../components/Select';
 import btn_x from '../../assets/btn_x.svg'
 import AreaSelect from '../../components/AreaSelect';
+import { useBandRequirementStore } from '../../stores/BandRequirementStore';
 
-function PositionPrequisiteElement () {
+function PositionPrequisiteElement (props: {id: number}) {
   const [position, setPosition] = useState('');
 
   return (
@@ -18,7 +19,7 @@ function PositionPrequisiteElement () {
   );
 };
 
-function AgePrequisiteElement () {
+function AgePrequisiteElement (props: {id: number}) {
   return (
     <div className='flex flex-wrap gap-3 items-center'>
       <input       
@@ -34,7 +35,7 @@ function AgePrequisiteElement () {
   );
 };
 
-function GenderPrequisiteElement () {
+function GenderPrequisiteElement (props: {id: number}) {
   const genderOptions = [{id: 0, name: '남자'}, {id: 1, name: '여자'}]
   const [gender, setGender] = useState('');
 
@@ -47,7 +48,7 @@ function GenderPrequisiteElement () {
   );
 };
 
-function AreaPrequisiteElement () {
+function AreaPrequisiteElement (props: {id: number}) {
   const [area, setArea] = useState('');
 
   return (
@@ -59,7 +60,7 @@ function AreaPrequisiteElement () {
   );
 };
 
-function GenrePrequisiteElement () {
+function GenrePrequisiteElement (props: {id: number}) {
   const [genre, setGenre] = useState('');
 
   return (
@@ -71,18 +72,18 @@ function GenrePrequisiteElement () {
   );
 };
 
-function PrequisiteElement (props: {type: string}) {
+function PrequisiteElement (props: {id: number, type: string}) {
   switch (props.type) {
     case '세션':
-      return <PositionPrequisiteElement />;
+      return <PositionPrequisiteElement id={props.id}/>;
     case '나이':
-      return <AgePrequisiteElement />;
+      return <AgePrequisiteElement id={props.id}/>;
     case '성별':
-      return <GenderPrequisiteElement />;
+      return <GenderPrequisiteElement id={props.id}/>;
     case '지역':
-      return <AreaPrequisiteElement />;
+      return <AreaPrequisiteElement id={props.id}/>;
     case '장르':
-      return <GenrePrequisiteElement />;
+      return <GenrePrequisiteElement id={props.id}/>;
     default:
       return (
         <></>
