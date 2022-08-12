@@ -5,13 +5,24 @@ import Select from '../../components/Select';
 import btn_x from '../../assets/btn_x.svg'
 import AreaSelect from '../../components/AreaSelect';
 import { useBandRequirementStore } from '../../stores/BandRequirementStore';
+import { AreaType, SelectionType } from '../../types/types';
 
 function PositionPrequisiteElement (props: {id: number, type: string}) {
-  const [position, setPosition] = useState('');
+  const [position, setPosition] = useState<SelectionType>({
+    id: 0,
+    name: ''});
+  const {changePosition} = useBandRequirementStore();
+
+  useEffect(() => {
+    changePosition(props.id, position.id)
+  }, [position]);
 
   return (
     <div className='flex gap-7 items-center'>
-      <Select label='세션 선택' options={positionOptions} setOption={setPosition}/>
+      <Select
+        label='세션 선택'
+        options={positionOptions}
+        setOption={setPosition} />
       <p className='text-accent text-base'>를 연주</p>
       <DeleteButton id={props.id} type={props.type}/>
     </div>
@@ -19,15 +30,27 @@ function PositionPrequisiteElement (props: {id: number, type: string}) {
 };
 
 function AgePrequisiteElement (props: {id: number, type: string}) {
+  const [min, setMin] = useState('');
+  const [max, setMax] = useState('');
+  const {changeAge} = useBandRequirementStore();
+
+  useEffect(() => {
+    changeAge(parseInt(min), parseInt(max));
+  }, [min, max]);
+
   return (
     <div className='flex flex-wrap gap-3 items-center'>
       <input       
       placeholder='최소 나이 입력'
-      className='input input-bordered w-fit h-[3.125rem] focus:outline-none focus:border-primary text-accent text-base'/>
+      className='input input-bordered w-fit h-[3.125rem] focus:outline-none focus:border-primary text-accent text-base'
+      value={min}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMin(e.target.value)}/>
       <p className='text-accent text-base'>~</p>
       <input       
       placeholder='최대 나이 입력'
-      className='input input-bordered w-fit h-[3.125rem] focus:outline-none focus:border-primary text-accent text-base'/>
+      className='input input-bordered w-fit h-[3.125rem] focus:outline-none focus:border-primary text-accent text-base'
+      value={max}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMax(e.target.value)}/>
       <p className='text-accent text-base'>의 나이대</p>
       <DeleteButton id={props.id} type={props.type}/>
     </div>
@@ -36,7 +59,18 @@ function AgePrequisiteElement (props: {id: number, type: string}) {
 
 function GenderPrequisiteElement (props: {id: number, type: string}) {
   const genderOptions = [{id: 0, name: '남자'}, {id: 1, name: '여자'}]
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState<SelectionType>({
+    id: 0,
+    name: ''});
+  const {changeGender} = useBandRequirementStore();
+
+  useEffect(() => {
+    if (gender.id) {
+      changeGender(true);
+    } else {
+      changeGender(false);
+    }
+  }, [gender]);
 
   return (
     <div className='flex gap-7 items-center'>
@@ -48,7 +82,16 @@ function GenderPrequisiteElement (props: {id: number, type: string}) {
 };
 
 function AreaPrequisiteElement (props: {id: number, type: string}) {
-  const [area, setArea] = useState('');
+  const [area, setArea] = useState<AreaType>({
+    id: 0,
+    city: '',
+    district: ''
+  });
+  const {changeArea} = useBandRequirementStore();
+
+  useEffect(() => {
+    changeArea(props.id, area.id)
+  }, [area]);
 
   return (
     <div className='flex gap-7 items-center'>
@@ -60,7 +103,14 @@ function AreaPrequisiteElement (props: {id: number, type: string}) {
 };
 
 function GenrePrequisiteElement (props: {id: number, type: string}) {
-  const [genre, setGenre] = useState('');
+  const [genre, setGenre] = useState<SelectionType>({
+    id: 0,
+    name: ''});
+    const {changeGenre} = useBandRequirementStore();
+
+    useEffect(() => {
+      changeGenre(props.id, genre.id)
+    }, [genre]);
 
   return (
     <div className='flex gap-7 items-center'>
