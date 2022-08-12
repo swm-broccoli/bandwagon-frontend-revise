@@ -111,9 +111,10 @@ function SignUpForm() {
   const userEmailDuplicationCheck = () => {
     AuthAPI.checkEmail({ email: signUpUserInput.email })
       .then((res) => {
-        console.log(res);
-        setEmailDupChecked(true);
-        alert(`${res.data.email} 은(는) 사용 가능한 이메일입니다.`);
+        if (res.data) {
+          setEmailDupChecked(true);
+          alert(`${res.data.email} 은(는) 사용 가능한 이메일입니다.`);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -143,6 +144,7 @@ function SignUpForm() {
     e.preventDefault();
     console.log('회원가입 폼 제출');
     console.log('입력값:', signUpUserInput);
+    console.log('이메일 중복 체크:', emailDupChecked);
     if (signUpSubmissionValidate(signUpUserInput)) {
       AuthAPI.signUp({
         ...signUpUserInput,
