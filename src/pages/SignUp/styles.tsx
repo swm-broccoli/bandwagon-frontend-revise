@@ -202,6 +202,7 @@ function SignUpForm() {
         }}
         password
         required
+        message='알파벳과 숫자, 특수문자를 포함하여 8-20자로 입력해주세요.'
       />
       <TextInput
         label='비밀번호 확인'
@@ -214,6 +215,7 @@ function SignUpForm() {
         }}
         password
         required
+        message='비밀번호를 한번 더 입력해주세요.'
       />
 
       <DateInput

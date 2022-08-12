@@ -19,7 +19,8 @@ function validatePassword(password: string) {
 }
 
 export function validateSignUpForm(signUpForm: SignUpUserInputType): string {
-  if (!validateUserName(signUpForm.name)) {
+  // 테스트를 위해 일단 이름, 이메일, 비밀번호 테스트는 미사용
+  /*if (!validateUserName(signUpForm.name)) {
     return '한글 이름을 입력해주세요.';
   }
   if (!validateEmail(signUpForm.email)) {
@@ -27,7 +28,7 @@ export function validateSignUpForm(signUpForm: SignUpUserInputType): string {
   }
   if (!validatePassword(signUpForm.password)) {
     return '비밀번호를 형식에 맞게 입력해주세요.';
-  }
+  }*/
   if (signUpForm.password !== signUpForm.passwordCheck) {
     return '비밀번호 확인이 일치하지 않습니다.';
   }
