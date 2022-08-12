@@ -35,7 +35,7 @@ function BandPrequisitesCard () {
           {prequisiteList.map((prequisite, index) =>
           <div key={index}>
             <PrequisiteElement 
-              id={prequisite.preqId}
+              id={prequisite.id}
               type={prequisite.type} />
           </div>)}
         </div>

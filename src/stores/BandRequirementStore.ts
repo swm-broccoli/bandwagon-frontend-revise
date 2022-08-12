@@ -1,10 +1,11 @@
+import React from 'react';
 import create from 'zustand';
 import {devtools} from 'zustand/middleware';
 import { PrequisiteElementType } from '../types/types';
 
 interface bandRequirementStoreType {
   currentId: number,
-  prequisiteList: {preqId: number, type: string}[],
+  prequisiteList: {id: number, type: string}[],
   prequisiteCount: number[],
   minStore: number | null,
   maxStore: number | null,
@@ -12,7 +13,8 @@ interface bandRequirementStoreType {
   areaStore: PrequisiteElementType[] | null,
   genreStore: PrequisiteElementType[] | null,
   positionStore: PrequisiteElementType[] | null,
-  addPrequisite: (preqId: number, type: string) => void
+  addPrequisite: (preqId: number, type: string) => void,
+  deletePrequisite: (preqId: number) => void,
 }
 
 export const useBandRequirementStore = create<bandRequirementStoreType>()(devtools((set) => ({
@@ -28,8 +30,14 @@ export const useBandRequirementStore = create<bandRequirementStoreType>()(devtoo
   addPrequisite: (preqId, type) => {
     set((state) => ({
       prequisiteList: [...state.prequisiteList, {
-        preqId: preqId,
+        id: preqId,
         type: type}],
       currentId: state.currentId + 1}));
+  },
+  deletePrequisite: (preqId: number) => {
+    set((state) => ({
+      prequisiteList: state.prequisiteList.filter(
+        (preq) => preq.id !== preqId)
+    }))
   }
 })));

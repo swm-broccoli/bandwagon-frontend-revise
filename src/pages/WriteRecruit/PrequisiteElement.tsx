@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import areaOptions from '../../assets/options/areaOptions';
 import positionOptions from '../../assets/options/positionOptions';
 import genreOptions from '../../assets/options/genreOptions';
 import Select from '../../components/Select';
@@ -14,7 +13,7 @@ function PositionPrequisiteElement (props: {id: number}) {
     <div className='flex gap-7 items-center'>
       <Select label='세션 선택' options={positionOptions} setOption={setPosition}/>
       <p className='text-accent text-base'>를 연주</p>
-      <button><img src={btn_x} /></button>
+      <DeleteButton id={props.id} />
     </div>
   );
 };
@@ -30,7 +29,7 @@ function AgePrequisiteElement (props: {id: number}) {
       placeholder='최대 나이 입력'
       className='input input-bordered w-fit h-[3.125rem] focus:outline-none focus:border-primary text-accent text-base'/>
       <p className='text-accent text-base'>의 나이대</p>
-      <button><img src={btn_x} /></button>
+      <DeleteButton id={props.id} />
     </div>
   );
 };
@@ -43,7 +42,7 @@ function GenderPrequisiteElement (props: {id: number}) {
     <div className='flex gap-7 items-center'>
       <Select label='성별 선택' options={genderOptions} setOption={setGender}/>
       <p className='text-accent text-base'>의 성별</p>
-      <button><img src={btn_x} /></button>
+      <DeleteButton id={props.id} />
     </div>
   );
 };
@@ -55,7 +54,7 @@ function AreaPrequisiteElement (props: {id: number}) {
     <div className='flex gap-7 items-center'>
       <AreaSelect setOption={setArea}/>
       <p className='text-accent text-base'>에서 활동</p>
-      <button><img src={btn_x} /></button>
+      <DeleteButton id={props.id} />
     </div>
   );
 };
@@ -67,10 +66,21 @@ function GenrePrequisiteElement (props: {id: number}) {
     <div className='flex gap-7 items-center'>
       <Select label='장르 선택' options={genreOptions} setOption={setGenre}/>
       <p className='text-accent text-base'>장르를 선호</p>
-      <button><img src={btn_x} /></button>
+      <DeleteButton id={props.id} />
     </div>
   );
 };
+
+function DeleteButton (props: {id: number}) {
+  const {deletePrequisite} = useBandRequirementStore();
+
+  function handleClick () {
+    console.log('delete', props.id);
+    deletePrequisite(props.id);
+  }
+
+  return <button onClick={handleClick}><img src={btn_x} /></button>
+}
 
 function PrequisiteElement (props: {id: number, type: string}) {
   switch (props.type) {
