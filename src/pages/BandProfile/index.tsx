@@ -87,7 +87,6 @@ function BandProfile() {
         curBandProfile.areas,
         serverBandProfile.areas,
       );
-
       updateBandDays(
         curBandProfile.id,
         curBandProfile.days,
