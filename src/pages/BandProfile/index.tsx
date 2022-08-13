@@ -27,6 +27,7 @@ import {
   updateBandGigs,
   updateBandAlbum,
   updateBandMembers,
+  updateBandProfile,
 } from './bandProfileUpdate';
 import EmptyBandProfile from './EmptyBandProfile';
 import { vacantBandProfile } from './initialBandProfile';
@@ -70,65 +71,7 @@ function BandProfile() {
     if (profileEditing) {
       console.log('수정 완료 동작');
 
-      updateBandAvatarUrl(
-        curBandProfile.id,
-        curBandProfile.avatarUrl,
-        serverBandProfile.avatarUrl,
-      );
-
-      updateBandName(
-        curBandProfile.id,
-        curBandProfile.name,
-        serverBandProfile.name,
-      );
-
-      updateBandAreas(
-        curBandProfile.id,
-        curBandProfile.areas,
-        serverBandProfile.areas,
-      );
-      /*updateBandDays(
-        curBandProfile.id,
-        curBandProfile.days,
-        serverBandProfile.days,
-      );
-
-      updateBandGenres(
-        curBandProfile.id,
-        curBandProfile.genres,
-        serverBandProfile.genres,
-      );
-
-      updateBandDescription(
-        curBandProfile.id,
-        curBandProfile.description,
-        serverBandProfile.description,
-      );
-
-      updateBandPractices(
-        curBandProfile.id,
-        curBandProfile.bandPractices,
-        serverBandProfile.bandPractices,
-      );
-
-      updateBandGigs(
-        curBandProfile.id,
-        curBandProfile.bandGigs,
-        serverBandProfile.bandGigs,
-      );
-
-      updateBandAlbum(
-        curBandProfile.id,
-        curBandProfile.bandPhotos,
-        deletedPhotoIDs,
-      );
-
-      updateBandMembers(
-        curBandProfile.id,
-        curBandProfile.bandMembers,
-        serverBandProfile.bandMembers,
-        deletedMemberIDs,
-      );*/
+      updateBandProfile(curBandProfile, serverBandProfile);
     }
     //서버에 있는 상태를 현재 유저의 편집 상태로 동기화했다.
     setServerBandProfile(curBandProfile);

@@ -25,7 +25,7 @@ const dataURLtoFile = (dataurl: string, fileName: string) => {
   return new File([u8arr], fileName, { type: mime });
 };
 
-function updateBandProfile(
+export function updateBandProfile(
   curBandProfile: BandProfileType,
   serverBandProfile: BandProfileType,
 ) {
@@ -39,6 +39,42 @@ function updateBandProfile(
     curBandProfile.id,
     curBandProfile.name,
     serverBandProfile.name,
+  );
+
+  updateBandAreas(
+    curBandProfile.id,
+    curBandProfile.areas,
+    serverBandProfile.areas,
+  );
+
+  updateBandDays(
+    curBandProfile.id,
+    curBandProfile.days,
+    serverBandProfile.days,
+  );
+
+  updateBandGenres(
+    curBandProfile.id,
+    curBandProfile.genres,
+    serverBandProfile.genres,
+  );
+
+  updateBandDescription(
+    curBandProfile.id,
+    curBandProfile.description,
+    serverBandProfile.description,
+  );
+
+  updateBandPractices(
+    curBandProfile.id,
+    curBandProfile.bandPractices,
+    serverBandProfile.bandPractices,
+  );
+
+  updateBandGigs(
+    curBandProfile.id,
+    curBandProfile.bandGigs,
+    serverBandProfile.bandGigs,
   );
 }
 
@@ -174,6 +210,7 @@ export function updateBandPractices(
   curBandPractices: PerformanceRecordType[],
   serverBandPractices: PerformanceRecordType[],
 ) {
+  console.log(curBandPractices);
   //연습 기록 관련 업데이트
   for (const performance of curBandPractices) {
     // musicTitle이 널이면 삭제된 기록이다
@@ -218,40 +255,43 @@ export function updateBandGigs(
   curBandGigs: PerformanceRecordType[],
   serverBandGigs: PerformanceRecordType[],
 ) {
-  //공연 기록 관련 업데이트
-  /*for (const gig of serverBandGigs) {
-    // 서버에 있지만 유저가 삭제한 연습 기록 서버에서도 지우기
-    if (curBandGigs.find((g) => g.id === gig.id) === undefined) {
+  console.log(curBandGigs);
+  for (const gig of curBandGigs) {
+    // musicTitle이 널이면 삭제된 기록이다
+    if (gig.musicTitle === null) {
       BandProfileAPI.deleteBandGig(bandID, gig.id)
         .then(() => {
-          console.log(gig.musicTitle, '삭제 성공');
+          console.log('공연 기록 삭제 성공 : ', gig.id);
         })
         .catch((err) => {
-          console.log(gig.musicTitle, '삭제 실패', err);
+          console.log('공연 기록 삭제 실패', err);
         });
     }
-  }
-
-  for (const gig of curBandGigs) {
-    // 서버에는 없지만 사용자가 새로 추가한 연주 기록이 있으면 서버에 추가한다
-    if (serverBandGigs.find((g) => g.id === gig.id) === undefined) {
+    // id가 음수면 추가된 기록이다
+    else if (gig.id < 0) {
       BandProfileAPI.addBandGig(bandID, {
         musicTitle: gig.musicTitle,
         performDate: gig.performDate,
         urls: gig.urls,
       })
-        .then((res) => {
-          console.log(res);
-          console.log(gig.musicTitle, '추가 성공');
+        .then(() => {
+          console.log('연습 기록 추가 성공 : ', gig.id);
         })
         .catch((err) => {
-          console.log(gig.musicTitle, '추가 실패', err);
+          console.log('연습 기록 추가 실패', err);
         });
-    } else {
-      // 사용자가 수정중인 연주기록에도 있고 서버 기록에도 있으면 수정된 것이다(물론 같을 수도 있지만))
-      BandProfileAPI.updateBandGig(bandID, gig);
     }
-  }*/
+    // 그 외에는 편집된 기록이다
+    else {
+      BandProfileAPI.updateBandGig(bandID, gig)
+        .then(() => {
+          console.log('연습 기록 업데이트 성공 : ', gig.id);
+        })
+        .catch((err) => {
+          console.log('연습 기록 업데이트 실패', err);
+        });
+    }
+  }
 }
 
 export function updateBandAlbum(
