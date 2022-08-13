@@ -30,7 +30,7 @@ export interface RecordURLType {
 }
 
 export interface PerformanceRecordType {
-  id: number;
+  id: number | null;
   musicTitle: string;
   performDate: string;
   urls: RecordURLType[];
