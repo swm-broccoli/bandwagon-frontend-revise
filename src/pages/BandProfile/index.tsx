@@ -87,7 +87,7 @@ function BandProfile() {
         curBandProfile.areas,
         serverBandProfile.areas,
       );
-      updateBandDays(
+      /*updateBandDays(
         curBandProfile.id,
         curBandProfile.days,
         serverBandProfile.days,
@@ -128,7 +128,7 @@ function BandProfile() {
         curBandProfile.bandMembers,
         serverBandProfile.bandMembers,
         deletedMemberIDs,
-      );
+      );*/
     }
     //서버에 있는 상태를 현재 유저의 편집 상태로 동기화했다.
     setServerBandProfile(curBandProfile);

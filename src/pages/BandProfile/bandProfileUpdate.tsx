@@ -86,7 +86,8 @@ export async function updateBandAreas(
   serverBandAreas: AreaType[],
 ) {
   //활동 지역 전부 삭제 후 다시 추가. 삭제를 먼저 하므로 await 사용해 순서 보장
-  const bandAreaDeletePromises: Promise<AxiosResponse>[] = serverBandAreas.map(
+
+  /*const bandAreaDeletePromises: Promise<AxiosResponse>[] = serverBandAreas.map(
     (area) => {
       return BandProfileAPI.deleteBandArea(bandID, area.id);
     },
@@ -96,19 +97,28 @@ export async function updateBandAreas(
     (area) => {
       return BandProfileAPI.addBandArea(bandID, area.id);
     },
-  );
+  );*/
 
-  await Promise.all(bandAreaDeletePromises)
+  console.log(serverBandAreas, '에서 ', curBandAreas);
+
+  Promise.all(
+    serverBandAreas.map((area) => {
+      return BandProfileAPI.deleteBandArea(bandID, area.id);
+    }),
+  )
     .then((responses) => {
       console.log(responses, '서버에 저장되어 있던 밴드 지역들 삭제 성공');
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-  await Promise.all(bandAreaAddPromises)
-    .then((responses) => {
-      console.log(responses, '유저 수정 내역에 있는 밴드 지역들 추가 성공');
+      Promise.all(
+        curBandAreas.map((area) => {
+          return BandProfileAPI.addBandArea(bandID, area.id);
+        }),
+      )
+        .then((responses) => {
+          console.log(responses, '유저 수정 내역에 있는 밴드 지역들 추가 성공');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);
@@ -199,39 +209,40 @@ export function updateBandPractices(
   serverBandPractices: PerformanceRecordType[],
 ) {
   //연습 기록 관련 업데이트
-  for (const performance of serverBandPractices) {
-    // 서버에 있지만 유저가 삭제한 연습 기록 서버에서도 지우기
-    if (curBandPractices.find((p) => p.id === performance.id) === undefined) {
+  for (const performance of curBandPractices) {
+    // musicTitle이 널이면 삭제된 기록이다
+    if (performance.musicTitle === null) {
       BandProfileAPI.deleteBandPractice(bandID, performance.id)
         .then(() => {
-          console.log(performance.musicTitle, '삭제 성공');
+          console.log('연습 기록 삭제 성공 : ', performance.id);
         })
         .catch((err) => {
-          console.log(performance.musicTitle, '삭제 실패', err);
+          console.log('연습 기록 삭제 실패', err);
         });
     }
-  }
-
-  for (const performance of curBandPractices) {
-    // 서버에는 없지만 사용자가 새로 추가한 연주 기록이 있으면 서버에 추가한다
-    if (
-      serverBandPractices.find((p) => p.id === performance.id) === undefined
-    ) {
+    // id가 음수면 추가된 기록이다
+    else if (performance.id < 0) {
       BandProfileAPI.addBandPractice(bandID, {
         musicTitle: performance.musicTitle,
         performDate: performance.performDate,
         urls: performance.urls,
       })
-        .then((res) => {
-          console.log(res);
-          console.log(performance.musicTitle, '추가 성공');
+        .then(() => {
+          console.log('연습 기록 추가 성공 : ', performance.id);
         })
         .catch((err) => {
-          console.log(performance.musicTitle, '추가 실패', err);
+          console.log('연습 기록 추가 실패', err);
         });
-    } else {
-      // 사용자가 수정중인 연주기록에도 있고 서버 기록에도 있으면 수정된 것이다(물론 같을 수도 있지만))
-      BandProfileAPI.updateBandPractice(bandID, performance);
+    }
+    // 그 외에는 편집된 기록이다
+    else {
+      BandProfileAPI.updateBandPractice(bandID, performance)
+        .then(() => {
+          console.log('연습 기록 업데이트 성공 : ', performance.id);
+        })
+        .catch((err) => {
+          console.log('연습 기록 업데이트 실패', err);
+        });
     }
   }
 }
@@ -242,7 +253,7 @@ export function updateBandGigs(
   serverBandGigs: PerformanceRecordType[],
 ) {
   //공연 기록 관련 업데이트
-  for (const gig of serverBandGigs) {
+  /*for (const gig of serverBandGigs) {
     // 서버에 있지만 유저가 삭제한 연습 기록 서버에서도 지우기
     if (curBandGigs.find((g) => g.id === gig.id) === undefined) {
       BandProfileAPI.deleteBandGig(bandID, gig.id)
@@ -274,7 +285,7 @@ export function updateBandGigs(
       // 사용자가 수정중인 연주기록에도 있고 서버 기록에도 있으면 수정된 것이다(물론 같을 수도 있지만))
       BandProfileAPI.updateBandGig(bandID, gig);
     }
-  }
+  }*/
 }
 
 export function updateBandAlbum(

@@ -70,7 +70,7 @@ function RecordEditingItem({
         <input
           type='text'
           className='input input-bordered input-sm w-3/5 text-accent'
-          value={record.musicTitle}
+          value={record.musicTitle === null ? '' : record.musicTitle}
           onChange={(e) => {
             setRecord({ ...record, musicTitle: e.target.value });
           }}
@@ -228,7 +228,7 @@ function RecordField({
         ) : null}
       </div>
       {records.map((record, index) =>
-        record.id ? (
+        record.musicTitle !== null ? (
           <RecordItem
             key={index}
             record={record}
@@ -244,13 +244,13 @@ function RecordField({
               );
             }}
             deleteRecord={() => {
-              // 삭제한 기록은 id를 널 로 만든다.
+              // 삭제한 기록은 musicTitle를 널 로 만든다.
               setRecords(
                 records.map((_record, _index) => {
                   if (index === _index) {
                     return {
                       ..._record,
-                      id: null,
+                      musicTitle: null,
                     };
                   } else {
                     return _record;

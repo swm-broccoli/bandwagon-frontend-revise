@@ -123,9 +123,11 @@ const BandProfileAPI: BandProfileApiType = {
     );
   },
   addBandArea: (bandID: number, areaID: number) => {
+    console.log('add Band Area', bandID, areaID);
     return request.post(`/api/band/${bandID}/areas/${areaID}`);
   },
   deleteBandArea: (bandID: number, areaID: number) => {
+    console.log('delete Band Area', bandID, areaID);
     return request.delete(`/api/band/${bandID}/areas/${areaID}`);
   },
   addBandDay: (bandID: number, dayID: number) => {
