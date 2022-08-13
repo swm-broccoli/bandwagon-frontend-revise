@@ -134,29 +134,22 @@ export async function updateBandGenres(
   curBandGenres: SelectionType[],
   serverBandGenres: SelectionType[],
 ) {
-  const serverBandGenreDeletePromises = serverBandGenres.map((genre) => {
-    return BandProfileAPI.deleteBandGenre(bandID, genre.id);
-  });
-
-  const curBandGenreAddPromises = curBandGenres.map((genre) => {
-    return BandProfileAPI.addBandGenre(bandID, genre.id);
-  });
-
-  await Promise.all(serverBandGenreDeletePromises)
-    .then((responses) => {
-      console.log(responses, '서버에 저장되어 있던 밴드 장르들 삭제 성공');
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-  await Promise.all(curBandGenreAddPromises)
-    .then((responses) => {
-      console.log(responses, '유저 수정 내역에 있던 밴드 장르들 추가 성공');
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  try {
+    await Promise.all(
+      serverBandGenres.map((genre) => {
+        return BandProfileAPI.deleteBandGenre(bandID, genre.id);
+      }),
+    );
+    console.log('기존 선호 장르 삭제 성공');
+    await Promise.all(
+      curBandGenres.map((genre) => {
+        return BandProfileAPI.addBandGenre(bandID, genre.id);
+      }),
+    );
+    console.log('새로운 선호 장르 추가 성공');
+  } catch (err) {
+    console.log('선호 장르 업데이트 실패', err);
+  }
 }
 
 export function updateBandDescription(
