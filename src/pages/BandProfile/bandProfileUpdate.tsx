@@ -86,43 +86,23 @@ export async function updateBandAreas(
   serverBandAreas: AreaType[],
 ) {
   //활동 지역 전부 삭제 후 다시 추가. 삭제를 먼저 하므로 await 사용해 순서 보장
-
-  /*const bandAreaDeletePromises: Promise<AxiosResponse>[] = serverBandAreas.map(
-    (area) => {
-      return BandProfileAPI.deleteBandArea(bandID, area.id);
-    },
-  );
-
-  const bandAreaAddPromises: Promise<AxiosResponse>[] = curBandAreas.map(
-    (area) => {
-      return BandProfileAPI.addBandArea(bandID, area.id);
-    },
-  );*/
-
-  console.log(serverBandAreas, '에서 ', curBandAreas);
-
-  Promise.all(
-    serverBandAreas.map((area) => {
-      return BandProfileAPI.deleteBandArea(bandID, area.id);
-    }),
-  )
-    .then((responses) => {
-      console.log(responses, '서버에 저장되어 있던 밴드 지역들 삭제 성공');
-      Promise.all(
-        curBandAreas.map((area) => {
-          return BandProfileAPI.addBandArea(bandID, area.id);
-        }),
-      )
-        .then((responses) => {
-          console.log(responses, '유저 수정 내역에 있는 밴드 지역들 추가 성공');
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  try {
+    await Promise.all(
+      serverBandAreas.map((area) => {
+        // deleteBandArea 가 리턴되는 순간 이미 axios 요청은 간다.
+        return BandProfileAPI.deleteBandArea(bandID, area.id);
+      }),
+    );
+    console.log('기존 지역 삭제 성공');
+    await Promise.all(
+      curBandAreas.map((area) => {
+        return BandProfileAPI.addBandArea(bandID, area.id);
+      }),
+    );
+    console.log('새로운 지역 추가 성공');
+  } catch (err) {
+    console.log('지역 업데이트 실패', err);
+  }
 }
 
 export async function updateBandDays(
@@ -131,29 +111,22 @@ export async function updateBandDays(
   serverBandDays: SelectionType[],
 ) {
   // 밴드 활동 요일을 서버와 동기화
-  const ServerBandDayDeletePromises = serverBandDays.map((day) => {
-    return BandProfileAPI.deleteBandDay(bandID, day.id);
-  });
-
-  const CurBandDayAddPromises = curBandDays.map((day) => {
-    return BandProfileAPI.addBandDay(bandID, day.id);
-  });
-
-  await Promise.all(ServerBandDayDeletePromises)
-    .then((responses) => {
-      console.log(responses, '서버에 저장되어 있던 밴드 요일들 삭제 성공');
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-  await Promise.all(CurBandDayAddPromises)
-    .then((responses) => {
-      console.log(responses, '유저 수정 내역에 있던 밴드 요일들 추가 성공');
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  try {
+    await Promise.all(
+      serverBandDays.map((day) => {
+        return BandProfileAPI.deleteBandDay(bandID, day.id);
+      }),
+    );
+    console.log('기존 요일 삭제 성공');
+    await Promise.all(
+      curBandDays.map((day) => {
+        return BandProfileAPI.addBandDay(bandID, day.id);
+      }),
+    );
+    console.log('새로운 요일 추가 성공');
+  } catch (err) {
+    console.log('활동 요일 업데이트 실패', err);
+  }
 }
 
 export async function updateBandGenres(
