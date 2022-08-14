@@ -129,7 +129,9 @@ function BandProfile() {
             >
               {profileEditing ? '수정 완료' : '수정하기'}
             </button>
-            <button className='btn btn-error'>탈퇴하기</button>
+            <button className='btn btn-error'>
+              {curBandProfile.isReaderFrontman ? '해체하기' : '탈퇴하기'}
+            </button>
           </div>
         </div>
         <div className='mt-6 flex flex-col items-center'>
