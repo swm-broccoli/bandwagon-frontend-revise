@@ -72,14 +72,22 @@ function BandProfile() {
       <div>
         <div className='flex flex-row justify-between'>
           <h1 className='text-bold text-2xl font-bold'>밴드 정보</h1>
-          <button
-            className={`btn h-10 ${
-              profileEditing ? 'bg-base-100 hover:bg-base-200' : 'btn-primary'
-            }`}
-            onClick={onBandProfileEditDone}
-          >
-            {profileEditing ? '수정 완료' : '수정하기'}
-          </button>
+          <div className='btn-group'>
+            {curBandProfile.isReaderFrontman && !profileEditing ? (
+              <button className='btn w-20 p-0 btn-primary'>
+                프론트맨
+                <br /> 양도하기
+              </button>
+            ) : null}
+            <button
+              className={`btn w-20 p-0 ${
+                profileEditing ? 'bg-base-100 hover:bg-base-200' : 'btn-primary'
+              }`}
+              onClick={onBandProfileEditDone}
+            >
+              {profileEditing ? '수정 완료' : '수정하기'}
+            </button>
+          </div>
         </div>
         <div className='mt-6 flex flex-col items-center'>
           <BandProfileAvatar
