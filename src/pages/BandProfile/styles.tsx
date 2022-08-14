@@ -129,7 +129,12 @@ function BandMemberListItem({
     // 편집 중이 아닐 경우
     return (
       <li className='flex flex-row items-center border rounded-lg p-2'>
-        <p className='text-accent text-base mr-2.5'>{member.name}</p>
+        <p className='text-accent text-base mr-2.5'>
+          {member.name}
+          {isFrontman ? (
+            <span className='badge badge-secondary ml-1'>Frontman</span>
+          ) : null}
+        </p>
         {member.positions.length
           ? member.positions.map((position) => (
               <TagElement
