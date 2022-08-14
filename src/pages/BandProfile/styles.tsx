@@ -102,12 +102,14 @@ function BandMemberListItem({
   setMember,
   deleteMember,
   editing,
+  isFrontman,
   frontmanReading,
 }: {
   member: BandMemberType;
   setMember: (newMember: BandMemberType) => void;
   deleteMember: () => void;
   editing: boolean;
+  isFrontman: boolean;
   frontmanReading: boolean;
 }) {
   const addPosition = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -166,6 +168,9 @@ function BandMemberListItem({
                 X
               </button>
             </>
+          ) : null}
+          {isFrontman ? (
+            <span className='badge badge-secondary ml-1'>Frontman</span>
           ) : null}
         </div>
         <div className='flex flex-row w-full mt-2 justify-start'>
@@ -328,6 +333,7 @@ export function BandMemberList({
               }
             }}
             frontmanReading={frontmanReading}
+            isFrontman={member.isFrontman}
           />
         ))}
       </ul>
