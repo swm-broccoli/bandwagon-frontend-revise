@@ -87,6 +87,38 @@ function BandProfile() {
     }
   };
 
+  const onBandQuit = (bandID: number) => {
+    let BandQuitConfirm = confirm(`밴드를 정말로 탈퇴하시겠습니까?`);
+    if (BandQuitConfirm) {
+      BandProfileAPI.quitCurrentBand(bandID)
+        .then((res) => {
+          console.log(res, '밴드 탈퇴 성공');
+        })
+        .catch((err) => {
+          console.log(err, '밴드 탈퇴 실패');
+        });
+      alert(`밴드를 탈퇴했습니다.`);
+    } else {
+      console.log('취소됨');
+    }
+  };
+
+  const onBandBreakup = (bandID: number) => {
+    let BandBreakupConfirm = confirm(`밴드를 정말로 해체하시겠습니까?`);
+    if (BandBreakupConfirm) {
+      BandProfileAPI.breakupCurrentBand(bandID)
+        .then((res) => {
+          console.log(res, '밴드 해체 성공');
+        })
+        .catch((err) => {
+          console.log(err, '밴드 해체 실패');
+        });
+      alert(`밴드를 해체했습니다.`);
+    } else {
+      console.log('취소됨');
+    }
+  };
+
   // 정보를 못 받아왔다면 id가 -1인 상태이다
   if (curBandProfile.id === -1) {
     return <EmptyBandProfile emptyBandPicture={noBandPicture} />;
@@ -129,7 +161,16 @@ function BandProfile() {
             >
               {profileEditing ? '수정 완료' : '수정하기'}
             </button>
-            <button className='btn btn-error'>
+            <button
+              className='btn btn-error'
+              onClick={() => {
+                if (curBandProfile.isReaderFrontman) {
+                  onBandBreakup(curBandProfile.id);
+                } else {
+                  onBandQuit(curBandProfile.id);
+                }
+              }}
+            >
               {curBandProfile.isReaderFrontman ? '해체하기' : '탈퇴하기'}
             </button>
           </div>
