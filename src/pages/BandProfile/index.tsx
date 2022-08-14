@@ -50,7 +50,7 @@ function BandProfile() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [profileEditing]);
 
   const onBandProfileEditDone = () => {
     if (profileEditing) {
