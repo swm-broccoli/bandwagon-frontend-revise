@@ -8,7 +8,7 @@ import {
   BandProfileAlbum,
   ProfileTextField,
 } from './styles';
-import { BandProfileType } from '../../types/types';
+import { BandMemberType, BandProfileType } from '../../types/types';
 import areaOptions from '../../assets/options/areaOptions';
 import weekdayOptions from '../../assets/options/weekdayOptions';
 import genreOptions from '../../assets/options/genreOptions';
@@ -64,6 +64,30 @@ function BandProfile() {
     setProfileEditing(!profileEditing);
   };
 
+  const onBandFrontmanChange = (newFrontman: BandMemberType) => {
+    if (newFrontman.isFrontman) {
+      alert('이미 프론트맨인 사람입니다.');
+    } else {
+      let FrontmanChangeConfirm = confirm(
+        `${newFrontman.name}님을 정말로 새 프론트맨으로 설정하시겠습니까?`,
+      );
+      if (FrontmanChangeConfirm) {
+        alert(`${newFrontman.name}님을 새 프론트맨으로 지정했습니다.`);
+      } else {
+        console.log('취소됨');
+      }
+      if (FrontmanChangeConfirm) {
+        BandProfileAPI.changeBandFrontman(curBandProfile.id, newFrontman.id)
+          .then((res) => {
+            console.log(res, '프론트맨 변경 성공');
+          })
+          .catch((err) => {
+            console.log(err, '프론트맨 변경 실패');
+          });
+      }
+    }
+  };
+
   // 정보를 못 받아왔다면 id가 -1인 상태이다
   if (curBandProfile.id === -1) {
     return <EmptyBandProfile emptyBandPicture={noBandPicture} />;
@@ -74,10 +98,29 @@ function BandProfile() {
           <h1 className='text-bold text-2xl font-bold'>밴드 정보</h1>
           <div className='btn-group'>
             {curBandProfile.isReaderFrontman && !profileEditing ? (
-              <button className='btn w-20 p-0 btn-primary'>
-                프론트맨
-                <br /> 양도하기
-              </button>
+              <div className='dropdown'>
+                <label tabIndex={0} className='btn btn-primary w-20 p-0'>
+                  프론트맨
+                  <br /> 양도하기
+                </label>
+                <ul
+                  tabIndex={0}
+                  className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'
+                >
+                  {curBandProfile.bandMembers.map((member) => (
+                    <li key={member.id}>
+                      <a
+                        className='active:bg-base-200 active:text-accent'
+                        onClick={() => {
+                          onBandFrontmanChange(member);
+                        }}
+                      >
+                        {member.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ) : null}
             <button
               className={`btn w-20 p-0 ${
