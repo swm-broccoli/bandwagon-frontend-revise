@@ -15,6 +15,10 @@ interface AddPerformanceType {
 interface BandProfileApiType {
   createBand: (bandName: string) => Promise<AxiosResponse<any>>;
   getBandProfileInfo: () => Promise<AxiosResponse>;
+  changeBandFrontman: (
+    bandID: number,
+    newFrontmanMemberId: number,
+  ) => Promise<AxiosResponse>;
   updateBandAvatar: (bandID: number, newAvatar: File) => Promise<AxiosResponse>;
   updateBandName: (bandID: number, newName: string) => Promise<AxiosResponse>;
   getNewMemberInfo: (newMemberEmail: string) => Promise<AxiosResponse>;
@@ -80,6 +84,9 @@ const BandProfileAPI: BandProfileApiType = {
   getBandProfileInfo: () => {
     // status 검증을 안 하고 무조건 통과시킨다. 따라서 404 Response 에러도 그대로 돌아온다.
     return request.get(`/api/band`, { validateStatus: () => true });
+  },
+  changeBandFrontman: (bandID: number, newFrontmanMemberId: number) => {
+    return request.post(`/api/band/${bandID}/frontman/${newFrontmanMemberId}`);
   },
   updateBandAvatar: (bandID: number, newAvatar: File) => {
     const formData = new FormData();
