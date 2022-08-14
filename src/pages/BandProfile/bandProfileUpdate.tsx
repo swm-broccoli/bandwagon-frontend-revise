@@ -78,6 +78,12 @@ export function updateBandProfile(
   );
 
   updateBandAlbum(curBandProfile.id, curBandProfile.bandPhotos);
+
+  updateBandMembers(
+    curBandProfile.id,
+    curBandProfile.bandMembers,
+    serverBandProfile.bandMembers,
+  );
 }
 
 export function updateBandAvatarUrl(
@@ -326,43 +332,54 @@ export async function updateBandMembers(
   serverBandMembers: BandMemberType[],
 ) {
   // 서버의 멤버 목록을 다 삭제한 후에 사용자의 수정 내역을 보내줘야 하므로 Async 를 써준다
-  let deleteMemberPromises: Promise<AxiosResponse>[] = [];
   const curUserID = localStorage.getItem('userID');
-  serverBandMembers.forEach((member) => {
-    // 서버에 저장되어 있는 기존의 밴드 멤버들을 모두 제거한다
-    if (curUserID !== member.email) {
-      deleteMemberPromises.push(
-        BandProfileAPI.deleteBandMember(bandID, member.id),
+
+  for (const member of curBandMembers) {
+    if (member.email !== curUserID) {
+      // 자기 자신을 빼고 모든 멤버에 대해 연산
+      if (member.email === null) {
+        // 이메일이 널이면 삭제된 멤버이다.
+        BandProfileAPI.deleteBandMember(bandID, member.id);
+      } else if (member.id < 0) {
+        // id가 음수이면 새로 추가된 멤버이다.
+        BandProfileAPI.addBandMember(bandID, member.email).then((res) => {
+          console.log(res, '새로운 멤버 추가 성공');
+          // 새로운 멤버의 포지션도 추가해 준다.
+          Promise.all(
+            member.positions.map((position) => {
+              return BandProfileAPI.addBandMemberPosition(
+                bandID,
+                res.data.id,
+                position.id,
+              );
+            }),
+          );
+        });
+      } else {
+        //id가 양수이면 기존에 있던 멤버이다
+        console.log('기존 멤버 업데이트');
+        Promise.all(
+          member.positions.map((position) => {
+            return BandProfileAPI.addBandMemberPosition(
+              bandID,
+              member.id,
+              position.id,
+            );
+          }),
+        );
+      }
+    } else {
+      // 자기 자신에 대하여서도 포지션은 업데이트해줘야 한다.
+      console.log('자기 자신 업데이트');
+      Promise.all(
+        member.positions.map((position) => {
+          return BandProfileAPI.addBandMemberPosition(
+            bandID,
+            member.id,
+            position.id,
+          );
+        }),
       );
     }
-  });
-
-  // 서버에 있는 유저 목록을 다 날린다
-  await Promise.all(deleteMemberPromises);
-
-  let addMemberPromises: Promise<AxiosResponse>[] = [];
-
-  curBandMembers.forEach((member) => {
-    // 사용자가 추가한 멤버들을 모두 추가한다
-    if (curUserID !== member.email) {
-      addMemberPromises.push(
-        BandProfileAPI.addBandMember(bandID, member.email),
-      );
-    }
-  });
-  //새로운 멤버들을 이메일로 추가한다
-  await Promise.all(addMemberPromises);
-
-  let addMemberPositionsPromises: Promise<AxiosResponse>[] = [];
-
-  curBandMembers.forEach((member) => {
-    member.positions.forEach((position) => {
-      // 사용자가 추가한 멤버들의 직책을 모두 추가한다
-      addMemberPositionsPromises.push(
-        BandProfileAPI.addBandMemberPosition(bandID, member.id, position.id),
-      );
-    });
-  });
-  // 각 멤버들의 포지션
-  await Promise.all(addMemberPositionsPromises);
+  }
 }

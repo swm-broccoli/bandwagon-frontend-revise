@@ -109,6 +109,7 @@ const BandProfileAPI: BandProfileApiType = {
     memberID: number,
     positionID: number,
   ) => {
+    console.log('포지션 추가 성공 ');
     return request.post(
       `/api/band/${bandID}/member/${memberID}/positions/${positionID}`,
     );

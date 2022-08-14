@@ -50,7 +50,7 @@ export interface UserProfileType {
 
 export interface BandMemberType {
   id: number;
-  email: string;
+  email: string | null;
   avatarUrl: string;
   name: string;
   birthday: string;

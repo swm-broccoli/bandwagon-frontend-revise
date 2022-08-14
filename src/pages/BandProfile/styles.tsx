@@ -118,8 +118,10 @@ function BandMemberListItem({
       });
     }
   };
-
-  if (!editing) {
+  if (member.email === null) {
+    // 이메일이 널인 멤버는 삭제된 것이므로 표시하지 않는다.
+    return null;
+  } else if (!editing) {
     return (
       <li className='flex flex-row items-center border rounded-lg p-2'>
         <p className='text-accent text-base mr-2.5'>{member.name}</p>
@@ -302,7 +304,12 @@ export function BandMemberList({
                 );
               } else {
                 setBandMembers(
-                  bandMembers.filter((_member) => _member.id !== member.id),
+                  bandMembers.map((_member) =>
+                    _member.id === member.id
+                      ? // 삭제된 멤버의 email을 널로 처리해서 삭제를 표시한다.
+                        { ..._member, email: null }
+                      : _member,
+                  ),
                 );
               }
             }}
