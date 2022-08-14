@@ -102,11 +102,13 @@ function BandMemberListItem({
   setMember,
   deleteMember,
   editing,
+  frontmanReading,
 }: {
   member: BandMemberType;
   setMember: (newMember: BandMemberType) => void;
   deleteMember: () => void;
   editing: boolean;
+  frontmanReading: boolean;
 }) {
   const addPosition = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const curValue = JSON.parse(e.target.value);
@@ -118,8 +120,11 @@ function BandMemberListItem({
       });
     }
   };
-
-  if (!editing) {
+  if (member.email === null) {
+    // 이메일이 널인 멤버는 삭제된 것이므로 표시하지 않는다.
+    return null;
+  } else if (!editing) {
+    // 편집 중이 아닐 경우
     return (
       <li className='flex flex-row items-center border rounded-lg p-2'>
         <p className='text-accent text-base mr-2.5'>{member.name}</p>
@@ -134,34 +139,41 @@ function BandMemberListItem({
       </li>
     );
   } else {
+    // 편집 중일 경우
     return (
       <li className='flex flex-col items-center w-full border rounded-lg p-2'>
         <div className='relative flex flex-row justify-start items-center w-full'>
           <p className='text-accent text-base mr-2.5'>{member.name}</p>
-          <select
-            defaultValue={''}
-            onChange={addPosition}
-            className='select select-sm bg-base-200 hover:bg-base-300 rounded-full appearance-none'
-          >
-            <option value='' disabled>
-              포지션 추가
-            </option>
-            {positionOptions.map((option) => (
-              <option key={option.id} value={JSON.stringify(option)}>
-                {positionToKorean[option.name]}
-              </option>
-            ))}
-          </select>
-          <button className='absolute right-1' onClick={deleteMember}>
-            X
-          </button>
+
+          {/* 프론트맨에게만 포지션 추가와 삭제 버튼이 보여야 한다.*/}
+          {frontmanReading ? (
+            <>
+              <select
+                defaultValue={''}
+                onChange={addPosition}
+                className='select select-sm bg-base-200 hover:bg-base-300 rounded-full appearance-none'
+              >
+                <option value='' disabled>
+                  포지션 추가
+                </option>
+                {positionOptions.map((option) => (
+                  <option key={option.id} value={JSON.stringify(option)}>
+                    {positionToKorean[option.name]}
+                  </option>
+                ))}
+              </select>
+              <button className='absolute right-1' onClick={deleteMember}>
+                X
+              </button>
+            </>
+          ) : null}
         </div>
         <div className='flex flex-row w-full mt-2 justify-start'>
           {member.positions.length
             ? member.positions.map((position) => (
                 <div className='flex flex-row' key={position.id}>
                   <TagElement tag={positionToKorean[position.name]} />
-                  {editing ? (
+                  {frontmanReading ? (
                     <button
                       onClick={() => {
                         setMember({
@@ -218,16 +230,12 @@ export function BandMemberList({
   label,
   bandMembers,
   setBandMembers,
-  deletedMemberIDs,
-  setDeletedMemberIDs,
   editing,
   frontmanReading,
 }: {
   label: string;
   bandMembers: BandMemberType[];
   setBandMembers: (bandMembers: BandMemberType[]) => void;
-  deletedMemberIDs: number[];
-  setDeletedMemberIDs: (deletedMemberIDs: number[]) => void;
   editing: boolean;
   frontmanReading: boolean;
 }) {
@@ -274,11 +282,15 @@ export function BandMemberList({
         <label className='label w-1/4 py-0 mb-5'>
           <span className='label-text text-accent'>{label}</span>
         </label>
-        {editing && frontmanReading ? (
-          <BandMemberAddButton
-            label={label}
-            addMemberByEmail={addMemberByEmail}
-          />
+        {editing ? (
+          frontmanReading ? (
+            <BandMemberAddButton
+              label={label}
+              addMemberByEmail={addMemberByEmail}
+            />
+          ) : (
+            <small>멤버 편집은 프론트맨만 할 수 있습니다.</small>
+          )
         ) : null}
       </div>
       <ul className='w-full flex flex-row flex-wrap gap-x-7 gap-y-2'>
@@ -306,15 +318,16 @@ export function BandMemberList({
                 );
               } else {
                 setBandMembers(
-                  bandMembers.filter((_member) => _member.id !== member.id),
+                  bandMembers.map((_member) =>
+                    _member.id === member.id
+                      ? // 삭제된 멤버의 email을 널로 처리해서 삭제를 표시한다.
+                        { ..._member, email: null }
+                      : _member,
+                  ),
                 );
-                if (member.id >= 0) {
-                  setDeletedMemberIDs([...deletedMemberIDs, member.id]);
-                  // 삭제된 유저의 밴드 멤버 ID를 저장
-                  // 단 기존 유저일 경우(즉 ID가 양수)
-                }
               }
             }}
+            frontmanReading={frontmanReading}
           />
         ))}
       </ul>
@@ -333,31 +346,31 @@ function BandProfileAlbumItem({
   editing: boolean;
 }) {
   //shrink-0 으로 설정하여 사진이 축소되지 않도록 함
-  return (
-    <div className='flex flex-row shrink-0 mr-4 items-start'>
-      <img
-        className='w-32 h-32 rounded-xl mr-1'
-        src={photo.name}
-        alt={`밴드 사진`}
-      />
-      {editing ? <button onClick={deletePhoto}>X</button> : null}
-    </div>
-  );
+  if (photo.name === null) {
+    return null;
+  } else {
+    return (
+      <div className='flex flex-row shrink-0 mr-4 items-start'>
+        <img
+          className='w-32 h-32 rounded-xl mr-1'
+          src={photo.name}
+          alt={`밴드 사진`}
+        />
+        {editing ? <button onClick={deletePhoto}>X</button> : null}
+      </div>
+    );
+  }
 }
 
 export function BandProfileAlbum({
   label,
   bandPhotos,
   setBandPhotos,
-  deletedPhotoIDs,
-  setDeletedPhotoIDs,
   editing,
 }: {
   label: string;
   bandPhotos: PictureType[];
   setBandPhotos: (bandPhotos: PictureType[]) => void;
-  deletedPhotoIDs: number[];
-  setDeletedPhotoIDs: (newDeletedPhtoIDs: number[]) => void;
   editing: boolean;
 }) {
   const [tempPhotoID, setTempPhotoID] = useState(-1);
@@ -405,12 +418,13 @@ export function BandProfileAlbum({
             photo={photo}
             deletePhoto={() => {
               console.log(photo.id);
-              if (photo.id >= 0) {
-                //만약 서버에 있었던 사진이라면 id가 양수이다. 따라서 기존에 있었던 사진은 삭제한다.
-                setDeletedPhotoIDs([...deletedPhotoIDs, photo.id]);
-              }
               setBandPhotos(
-                bandPhotos.filter((_photo) => _photo.id !== photo.id),
+                // 지운 사진의 name은 null이 된다.
+                bandPhotos.map((_photo) =>
+                  _photo.id === photo.id
+                    ? { id: _photo.id, name: null }
+                    : _photo,
+                ),
               );
             }}
             editing={editing}

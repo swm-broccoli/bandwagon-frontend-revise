@@ -177,7 +177,7 @@ export function updateUserPerformances(
     ) {
       console.log(performance);
       UserProfileAPI.addUserPerformance({
-        musicTitle: performance.musicTitle,
+        musicTitle: performance.musicTitle ? performance.musicTitle : '',
         performDate: performance.performDate,
         urls: performance.urls,
       })

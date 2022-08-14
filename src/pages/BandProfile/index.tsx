@@ -16,18 +16,7 @@ import DescriptionField from '../../components/DescriptionField';
 import RecordField from '../../components/RecordField';
 import BandProfileAPI from '../../apis/BandProfileAPI';
 import noBandPicture from '../../assets/noband.png';
-import {
-  updateBandAreas,
-  updateBandAvatarUrl,
-  updateBandDays,
-  updateBandName,
-  updateBandGenres,
-  updateBandDescription,
-  updateBandPractices,
-  updateBandGigs,
-  updateBandAlbum,
-  updateBandMembers,
-} from './bandProfileUpdate';
+import { updateBandProfile } from './bandProfileUpdate';
 import EmptyBandProfile from './EmptyBandProfile';
 import { vacantBandProfile } from './initialBandProfile';
 
@@ -47,9 +36,6 @@ function BandProfile() {
   const [serverBandProfile, setServerBandProfile] =
     useState<BandProfileType>(vacantBandProfile);
 
-  const [deletedMemberIDs, setDeletedMemberIDs] = useState<number[]>([]);
-  const [deletedPhotoIDs, setDeletedPhotoIDs] = useState<number[]>([]);
-
   useEffect(() => {
     BandProfileAPI.getBandProfileInfo()
       .then((res) => {
@@ -64,81 +50,21 @@ function BandProfile() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [profileEditing]);
 
   const onBandProfileEditDone = () => {
     if (profileEditing) {
       console.log('수정 완료 동작');
 
-      updateBandAvatarUrl(
-        curBandProfile.id,
-        curBandProfile.avatarUrl,
-        serverBandProfile.avatarUrl,
-      );
-
-      updateBandName(
-        curBandProfile.id,
-        curBandProfile.name,
-        serverBandProfile.name,
-      );
-
-      updateBandAreas(
-        curBandProfile.id,
-        curBandProfile.areas,
-        serverBandProfile.areas,
-      );
-
-      updateBandDays(
-        curBandProfile.id,
-        curBandProfile.days,
-        serverBandProfile.days,
-      );
-
-      updateBandGenres(
-        curBandProfile.id,
-        curBandProfile.genres,
-        serverBandProfile.genres,
-      );
-
-      updateBandDescription(
-        curBandProfile.id,
-        curBandProfile.description,
-        serverBandProfile.description,
-      );
-
-      updateBandPractices(
-        curBandProfile.id,
-        curBandProfile.bandPractices,
-        serverBandProfile.bandPractices,
-      );
-
-      updateBandGigs(
-        curBandProfile.id,
-        curBandProfile.bandGigs,
-        serverBandProfile.bandGigs,
-      );
-
-      updateBandAlbum(
-        curBandProfile.id,
-        curBandProfile.bandPhotos,
-        deletedPhotoIDs,
-      );
-
-      updateBandMembers(
-        curBandProfile.id,
-        curBandProfile.bandMembers,
-        serverBandProfile.bandMembers,
-        deletedMemberIDs,
-      );
+      updateBandProfile(curBandProfile, serverBandProfile);
     }
     //서버에 있는 상태를 현재 유저의 편집 상태로 동기화했다.
     setServerBandProfile(curBandProfile);
     // 유저가 삭제한 상태를 모두 반영했으므로 삭제한 아이디를 초기화한다.
-    setDeletedPhotoIDs([]);
-    setDeletedMemberIDs([]);
     setProfileEditing(!profileEditing);
   };
 
+  // 정보를 못 받아왔다면 id가 -1인 상태이다
   if (curBandProfile.id === -1) {
     return <EmptyBandProfile emptyBandPicture={noBandPicture} />;
   } else {
@@ -186,11 +112,6 @@ function BandProfile() {
                   ...curBandProfile,
                   bandMembers: newBandMembers,
                 });
-              }}
-              deletedMemberIDs={deletedMemberIDs}
-              setDeletedMemberIDs={(newDeletedMemberIDs) => {
-                console.log('삭제된 멤버 아이디: ', newDeletedMemberIDs);
-                setDeletedMemberIDs(newDeletedMemberIDs);
               }}
               editing={profileEditing}
               frontmanReading={curBandProfile.isReaderFrontman}
@@ -250,11 +171,6 @@ function BandProfile() {
                   ...curBandProfile,
                   bandPhotos: newBandPhotos,
                 });
-              }}
-              deletedPhotoIDs={deletedPhotoIDs}
-              setDeletedPhotoIDs={(newDeletedPhotoIDs) => {
-                console.log(newDeletedPhotoIDs);
-                setDeletedPhotoIDs(newDeletedPhotoIDs);
               }}
               editing={profileEditing}
             />
