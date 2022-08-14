@@ -55,7 +55,6 @@ function BandProfile() {
   const onBandProfileEditDone = () => {
     if (profileEditing) {
       console.log('수정 완료 동작');
-
       updateBandProfile(curBandProfile, serverBandProfile);
     }
     //서버에 있는 상태를 현재 유저의 편집 상태로 동기화했다.
@@ -96,7 +95,7 @@ function BandProfile() {
       <div>
         <div className='flex flex-row justify-between'>
           <h1 className='text-bold text-2xl font-bold'>밴드 정보</h1>
-          <div className='btn-group'>
+          <div className='flex flex-row'>
             {curBandProfile.isReaderFrontman && !profileEditing ? (
               <div className='dropdown'>
                 <label tabIndex={0} className='btn btn-primary w-20 p-0'>
@@ -130,6 +129,7 @@ function BandProfile() {
             >
               {profileEditing ? '수정 완료' : '수정하기'}
             </button>
+            <button className='btn btn-error'>탈퇴하기</button>
           </div>
         </div>
         <div className='mt-6 flex flex-col items-center'>
