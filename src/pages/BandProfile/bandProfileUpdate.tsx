@@ -79,11 +79,14 @@ export function updateBandProfile(
 
   updateBandAlbum(curBandProfile.id, curBandProfile.bandPhotos);
 
-  updateBandMembers(
-    curBandProfile.id,
-    curBandProfile.bandMembers,
-    serverBandProfile.bandMembers,
-  );
+  if (curBandProfile.isReaderFrontman) {
+    // 프론트맨이 아닌 경우 아예 편집이 안 되어야 한다.
+    updateBandMembers(
+      curBandProfile.id,
+      curBandProfile.bandMembers,
+      serverBandProfile.bandMembers,
+    );
+  }
 }
 
 export function updateBandAvatarUrl(
