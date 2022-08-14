@@ -102,12 +102,14 @@ function BandMemberListItem({
   setMember,
   deleteMember,
   editing,
+  isFrontman,
   frontmanReading,
 }: {
   member: BandMemberType;
   setMember: (newMember: BandMemberType) => void;
   deleteMember: () => void;
   editing: boolean;
+  isFrontman: boolean;
   frontmanReading: boolean;
 }) {
   const addPosition = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -127,7 +129,12 @@ function BandMemberListItem({
     // 편집 중이 아닐 경우
     return (
       <li className='flex flex-row items-center border rounded-lg p-2'>
-        <p className='text-accent text-base mr-2.5'>{member.name}</p>
+        <p className='text-accent text-base mr-2.5'>
+          {member.name}
+          {isFrontman ? (
+            <span className='badge badge-secondary ml-1'>Frontman</span>
+          ) : null}
+        </p>
         {member.positions.length
           ? member.positions.map((position) => (
               <TagElement
@@ -166,6 +173,9 @@ function BandMemberListItem({
                 X
               </button>
             </>
+          ) : null}
+          {isFrontman ? (
+            <span className='badge badge-secondary ml-1'>Frontman</span>
           ) : null}
         </div>
         <div className='flex flex-row w-full mt-2 justify-start'>
@@ -328,6 +338,7 @@ export function BandMemberList({
               }
             }}
             frontmanReading={frontmanReading}
+            isFrontman={member.isFrontman}
           />
         ))}
       </ul>
