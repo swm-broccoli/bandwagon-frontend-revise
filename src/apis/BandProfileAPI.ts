@@ -19,6 +19,10 @@ interface BandProfileApiType {
     bandID: number,
     newFrontmanMemberId: number,
   ) => Promise<AxiosResponse>;
+  // 본인이 밴드를 탈퇴하는 API (프런트맨은 불가능)
+  quitCurrentBand: (bandID: number) => Promise<AxiosResponse>;
+  // 프론트맨이 밴드를 해체하는 API
+  breakupCurrentBand: (bandID: number) => Promise<AxiosResponse>;
   updateBandAvatar: (bandID: number, newAvatar: File) => Promise<AxiosResponse>;
   updateBandName: (bandID: number, newName: string) => Promise<AxiosResponse>;
   getNewMemberInfo: (newMemberEmail: string) => Promise<AxiosResponse>;
@@ -87,6 +91,14 @@ const BandProfileAPI: BandProfileApiType = {
   },
   changeBandFrontman: (bandID: number, newFrontmanMemberId: number) => {
     return request.post(`/api/band/${bandID}/frontman/${newFrontmanMemberId}`);
+  },
+  // 본인이 속한(프론트맨은 아닌)밴드 탈퇴
+  quitCurrentBand: (bandID: number) => {
+    return request.delete(`/api/band/${bandID}/member`);
+  },
+  // 본인이 프론트맨인 밴드 탈퇴
+  breakupCurrentBand: (bandID: number) => {
+    return request.delete(`/api/band/${bandID}`);
   },
   updateBandAvatar: (bandID: number, newAvatar: File) => {
     const formData = new FormData();
