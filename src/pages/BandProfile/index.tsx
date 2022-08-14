@@ -16,19 +16,7 @@ import DescriptionField from '../../components/DescriptionField';
 import RecordField from '../../components/RecordField';
 import BandProfileAPI from '../../apis/BandProfileAPI';
 import noBandPicture from '../../assets/noband.png';
-import {
-  updateBandAreas,
-  updateBandAvatarUrl,
-  updateBandDays,
-  updateBandName,
-  updateBandGenres,
-  updateBandDescription,
-  updateBandPractices,
-  updateBandGigs,
-  updateBandAlbum,
-  updateBandMembers,
-  updateBandProfile,
-} from './bandProfileUpdate';
+import { updateBandProfile } from './bandProfileUpdate';
 import EmptyBandProfile from './EmptyBandProfile';
 import { vacantBandProfile } from './initialBandProfile';
 
@@ -47,9 +35,6 @@ function BandProfile() {
 
   const [serverBandProfile, setServerBandProfile] =
     useState<BandProfileType>(vacantBandProfile);
-
-  const [deletedMemberIDs, setDeletedMemberIDs] = useState<number[]>([]);
-  const [deletedPhotoIDs, setDeletedPhotoIDs] = useState<number[]>([]);
 
   useEffect(() => {
     BandProfileAPI.getBandProfileInfo()
@@ -76,8 +61,6 @@ function BandProfile() {
     //서버에 있는 상태를 현재 유저의 편집 상태로 동기화했다.
     setServerBandProfile(curBandProfile);
     // 유저가 삭제한 상태를 모두 반영했으므로 삭제한 아이디를 초기화한다.
-    setDeletedPhotoIDs([]);
-    setDeletedMemberIDs([]);
     setProfileEditing(!profileEditing);
   };
 
@@ -128,11 +111,6 @@ function BandProfile() {
                   ...curBandProfile,
                   bandMembers: newBandMembers,
                 });
-              }}
-              deletedMemberIDs={deletedMemberIDs}
-              setDeletedMemberIDs={(newDeletedMemberIDs) => {
-                console.log('삭제된 멤버 아이디: ', newDeletedMemberIDs);
-                setDeletedMemberIDs(newDeletedMemberIDs);
               }}
               editing={profileEditing}
               frontmanReading={curBandProfile.isReaderFrontman}
@@ -192,11 +170,6 @@ function BandProfile() {
                   ...curBandProfile,
                   bandPhotos: newBandPhotos,
                 });
-              }}
-              deletedPhotoIDs={deletedPhotoIDs}
-              setDeletedPhotoIDs={(newDeletedPhotoIDs) => {
-                console.log(newDeletedPhotoIDs);
-                setDeletedPhotoIDs(newDeletedPhotoIDs);
               }}
               editing={profileEditing}
             />

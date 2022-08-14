@@ -21,7 +21,7 @@ export interface SelectionType {
 
 export interface PictureType {
   id: number;
-  name: string;
+  name: string | null;
 }
 
 export interface RecordURLType {

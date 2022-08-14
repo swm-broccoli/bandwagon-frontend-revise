@@ -76,6 +76,8 @@ export function updateBandProfile(
     curBandProfile.bandGigs,
     serverBandProfile.bandGigs,
   );
+
+  updateBandAlbum(curBandProfile.id, curBandProfile.bandPhotos);
 }
 
 export function updateBandAvatarUrl(
@@ -294,14 +296,18 @@ export function updateBandGigs(
   }
 }
 
-export function updateBandAlbum(
-  bandID: number,
-  bandPhotos: PictureType[],
-  deletedPhotoIDs: number[],
-) {
+export function updateBandAlbum(bandID: number, bandPhotos: PictureType[]) {
   //앨범 업데이트
   for (const photo of bandPhotos) {
-    if (photo.id < 0) {
+    if (photo.name === null) {
+      BandProfileAPI.deleteBandPhoto(bandID, photo.id)
+        .then(() => {
+          console.log('사진 삭제 성공 : ', photo.id);
+        })
+        .catch((err) => {
+          console.log('사진 삭제 실패', err);
+        });
+    } else if (photo.id < 0) {
       //기존 사진은 id가 양수이다. 따라서 id가 음수인 사진이 들어 있다면 그건 새로 삽입된 사진이다.
       let hash = v4();
       console.log(hash, '번 사진 추가');
@@ -312,17 +318,12 @@ export function updateBandAlbum(
       );
     }
   }
-  for (const id of deletedPhotoIDs) {
-    console.log('삭제된 사진 id:', id);
-    BandProfileAPI.deleteBandPhoto(bandID, id);
-  }
 }
 
 export async function updateBandMembers(
   bandID: number,
   curBandMembers: BandMemberType[],
   serverBandMembers: BandMemberType[],
-  deletedMemberIDs: number[],
 ) {
   // 서버의 멤버 목록을 다 삭제한 후에 사용자의 수정 내역을 보내줘야 하므로 Async 를 써준다
   let deleteMemberPromises: Promise<AxiosResponse>[] = [];

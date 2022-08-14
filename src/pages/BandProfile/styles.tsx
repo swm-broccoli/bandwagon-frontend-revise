@@ -218,16 +218,12 @@ export function BandMemberList({
   label,
   bandMembers,
   setBandMembers,
-  deletedMemberIDs,
-  setDeletedMemberIDs,
   editing,
   frontmanReading,
 }: {
   label: string;
   bandMembers: BandMemberType[];
   setBandMembers: (bandMembers: BandMemberType[]) => void;
-  deletedMemberIDs: number[];
-  setDeletedMemberIDs: (deletedMemberIDs: number[]) => void;
   editing: boolean;
   frontmanReading: boolean;
 }) {
@@ -308,11 +304,6 @@ export function BandMemberList({
                 setBandMembers(
                   bandMembers.filter((_member) => _member.id !== member.id),
                 );
-                if (member.id >= 0) {
-                  setDeletedMemberIDs([...deletedMemberIDs, member.id]);
-                  // 삭제된 유저의 밴드 멤버 ID를 저장
-                  // 단 기존 유저일 경우(즉 ID가 양수)
-                }
               }
             }}
           />
@@ -333,31 +324,31 @@ function BandProfileAlbumItem({
   editing: boolean;
 }) {
   //shrink-0 으로 설정하여 사진이 축소되지 않도록 함
-  return (
-    <div className='flex flex-row shrink-0 mr-4 items-start'>
-      <img
-        className='w-32 h-32 rounded-xl mr-1'
-        src={photo.name}
-        alt={`밴드 사진`}
-      />
-      {editing ? <button onClick={deletePhoto}>X</button> : null}
-    </div>
-  );
+  if (photo.name === null) {
+    return null;
+  } else {
+    return (
+      <div className='flex flex-row shrink-0 mr-4 items-start'>
+        <img
+          className='w-32 h-32 rounded-xl mr-1'
+          src={photo.name}
+          alt={`밴드 사진`}
+        />
+        {editing ? <button onClick={deletePhoto}>X</button> : null}
+      </div>
+    );
+  }
 }
 
 export function BandProfileAlbum({
   label,
   bandPhotos,
   setBandPhotos,
-  deletedPhotoIDs,
-  setDeletedPhotoIDs,
   editing,
 }: {
   label: string;
   bandPhotos: PictureType[];
   setBandPhotos: (bandPhotos: PictureType[]) => void;
-  deletedPhotoIDs: number[];
-  setDeletedPhotoIDs: (newDeletedPhtoIDs: number[]) => void;
   editing: boolean;
 }) {
   const [tempPhotoID, setTempPhotoID] = useState(-1);
@@ -405,12 +396,13 @@ export function BandProfileAlbum({
             photo={photo}
             deletePhoto={() => {
               console.log(photo.id);
-              if (photo.id >= 0) {
-                //만약 서버에 있었던 사진이라면 id가 양수이다. 따라서 기존에 있었던 사진은 삭제한다.
-                setDeletedPhotoIDs([...deletedPhotoIDs, photo.id]);
-              }
               setBandPhotos(
-                bandPhotos.filter((_photo) => _photo.id !== photo.id),
+                // 지운 사진의 name은 null이 된다.
+                bandPhotos.map((_photo) =>
+                  _photo.id === photo.id
+                    ? { id: _photo.id, name: null }
+                    : _photo,
+                ),
               );
             }}
             editing={editing}
