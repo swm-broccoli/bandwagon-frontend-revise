@@ -4,10 +4,10 @@ import { SelectionType } from '../types/types';
 function Select (props:
   {label: string,
   options: SelectionType[],
-  setOption: Dispatch<SetStateAction<string>>}) {
+  setOption: Dispatch<SetStateAction<SelectionType>>}) {
   function handleChange (e: React.ChangeEvent<HTMLSelectElement>) {
-    console.log(JSON.parse(e.target.value).name);
-    props.setOption(JSON.parse(e.target.value).name);
+    console.log(JSON.parse(e.target.value));
+    props.setOption(JSON.parse(e.target.value));
   }
 
   return (
