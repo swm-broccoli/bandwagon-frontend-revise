@@ -196,7 +196,7 @@ function WriteRecruitPage (props: {type: boolean}) {
         {/* 밴드 정보 */}
         {props.type ?
           <BandInfoCard type={true} bandId={undefined}/> :
-          <UserInfoCard type={true} />}
+          <UserInfoCard type={true} userId={undefined}/>}
         {/* 본문 쓰기 */}
         <div className='flex flex-col gap-4'>
           <h3 className='text-accent text-base'>글쓰기</h3>
