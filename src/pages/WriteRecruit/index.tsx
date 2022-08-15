@@ -151,6 +151,7 @@ function WriteRecruitPage (props: {type: boolean}) {
               console.log(err);
             })
           }
+          window.alert('글이 작성되었습니다');
           navigate('/recruit/' + res.data.id);
         })
         .catch((err) => {
@@ -163,6 +164,7 @@ function WriteRecruitPage (props: {type: boolean}) {
         dtype: 'User'})
         .then((res) => {
           console.log(res.data.id);
+          window.alert('글이 작성되었습니다');
           navigate('/recruit/' + res.data.id);
         })
         .catch((err) => {
