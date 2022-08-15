@@ -63,28 +63,93 @@ function WriteRecruitPage () {
       dtype: 'Band'})
       .then((res) => {
         console.log(res.data.id);
-        RecruitProcessAPI.sendPrequisites({
-          dtype: 'Area',
-          min: minStore,
-          max: maxStore,
-          gender: genderStore,
-          areas: areaStore.map((area) => {
-            return {id: area.id};
-          }),
-          genres: genreStore.map((genre) => {
-            return {id: genre.id};
-          }),
-          positions: positionStore.map((position) => {
-            return {id: position.id};
+        if (minStore || maxStore) {
+          RecruitProcessAPI.sendPrequisites({
+            dtype: 'Age',
+            min: minStore,
+            max: maxStore,
+            gender: null,
+            areas: null,
+            genres: null,
+            positions: null
+          }, res.data.id)
+          .then((res) => {
+            console.log('age');
           })
-        }, res.data.id)
-        .then((res) => {
-          window.alert('글이 작성되었습니다.')
-          navigate('/recruit');
-        })
-        .catch((err) => {
-          console.log(err);
-        })
+          .catch((err) => {
+            console.log(err);
+          })
+        }
+        if (genderStore !== null) {
+          RecruitProcessAPI.sendPrequisites({
+            dtype: 'Gender',
+            min: null,
+            max: null,
+            gender: genderStore,
+            areas: null,
+            genres: null,
+            positions: null
+          }, res.data.id)
+          .then((res) => {
+            console.log('gender');
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+        }
+        if (areaStore.length) {
+          RecruitProcessAPI.sendPrequisites({
+            dtype: 'Area',
+            min: null,
+            max: null,
+            gender: null,
+            areas: areaStore,
+            genres: null,
+            positions: null
+          }, res.data.id)
+          .then((res) => {
+            console.log('area');
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+        }
+        console.log(genreStore.length, areaStore.length, positionStore.length);
+        if (genreStore.length) {
+          RecruitProcessAPI.sendPrequisites({
+            dtype: 'Genre',
+            min: null,
+            max: null,
+            gender: null,
+            areas: null,
+            genres: genreStore,
+            positions: null
+          }, res.data.id)
+          .then((res) => {
+            console.log('genre');
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+        }
+        if (positionStore.length) {
+          RecruitProcessAPI.sendPrequisites({
+            dtype: 'Position',
+            min: null,
+            max: null,
+            gender: null,
+            areas: null,
+            genres: null,
+            positions: positionStore,
+          }, res.data.id)
+          .then((res) => {
+            console.log('position');
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+        }
+        navigate('/recruit/' + res.data.id);
       })
       .catch((err) => {
         console.log(err);

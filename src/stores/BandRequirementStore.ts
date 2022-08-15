@@ -16,7 +16,6 @@ interface bandRequirementStoreType {
   areaStore: PrequisiteElementType[],
   genreStore: PrequisiteElementType[],
   positionStore: PrequisiteElementType[],
-  setDtype: () => void,
   changeAge: (min: number, max: number) => void,
   changeGender: (gender: boolean) => void,
   changeArea: (preqId: number, areaId: number) => void,
@@ -38,9 +37,6 @@ export const useBandRequirementStore = create<bandRequirementStoreType>()(devtoo
   areaStore: [],
   genreStore: [],
   positionStore: [],
-  setDtype: () => {
-
-  },
   changeAge: (min, max) => {
     set((state) => ({
       minStore: min,
@@ -67,7 +63,7 @@ export const useBandRequirementStore = create<bandRequirementStoreType>()(devtoo
   },
   changeGenre: (preqId, genreId) => {
     set((state) => ({
-      genreStore: state.areaStore.map((genre) => {
+      genreStore: state.genreStore.map((genre) => {
           if (genre.preqId === preqId) {
             return {
               ...genre,
@@ -92,14 +88,22 @@ export const useBandRequirementStore = create<bandRequirementStoreType>()(devtoo
     }));
   },
   addPrequisite: (preqId, type) => {
+    set((state) => ({
+      prequisiteList: [...state.prequisiteList, {
+        id: preqId,
+        type: type}],
+      currentId: state.currentId + 1}));
+
     switch (type) {
       case '세션': {
+        console.log(type, '추가');
         set((state) => ({
           positionStore: [...state.positionStore, {preqId: preqId, id: 0}]
         }));
         break;
       }
       case '나이': {
+        console.log(type, '추가');
         set((state) => ({
           minStore: 1,
           maxStore: 1
@@ -107,30 +111,27 @@ export const useBandRequirementStore = create<bandRequirementStoreType>()(devtoo
         break;
       }
       case '성별': {
+        console.log(type, '추가');
         set((state) => ({
           genderStore: true
         }));
         break;
       }
       case '지역': {
+        console.log(type, '추가');
         set((state) => ({
           areaStore: [...state.areaStore, {preqId: preqId, id: 0}]
         }));
         break;
       }
-      case '장르':
+      case '장르': {
+        console.log(type, '추가');
         set((state) => ({
           genreStore: [...state.genreStore, {preqId: preqId, id: 0}]
         }));
-        break;
+      }
       default:
-    }
-
-    set((state) => ({
-      prequisiteList: [...state.prequisiteList, {
-        id: preqId,
-        type: type}],
-      currentId: state.currentId + 1}));
+      }
   },
   deletePrequisite: (preqId: number, type: string) => {
     switch (type) {
