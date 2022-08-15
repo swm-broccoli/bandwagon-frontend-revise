@@ -11,6 +11,8 @@ import AccountEditPage from './pages/EditAccount';
 import RecruitPage from './pages/Recruit';
 import WriteRecruitPage from './pages/WriteRecruit';
 import ReadRecruitPage from './pages/ReadRecruit';
+import BandPortFolioPage from './pages/Portfolio/Band';
+import UserPortFolioPage from './pages/Portfolio/User';
 
 function App() {
   return (
@@ -23,13 +25,17 @@ function App() {
           <Route path='user' element={<UserProfilePage />} />
           <Route path='band' element={<BandProfilePage />} />
         </Route>
+        <Route path='portfolio'>
+          <Route path='user' element={<UserPortFolioPage />} />
+          <Route path='band' element={<BandPortFolioPage />} />
+        </Route>
         <Route path='edit'>
           <Route path='password' element={<PasswordEditPage />} />
           <Route path='account' element={<AccountEditPage />} />
         </Route>
         <Route path='recruit' element={<RecruitPage />} />
         <Route path='recruit/write' element={<WriteRecruitPage />} />
-        <Route path="/recruit/:articleID" element={<ReadRecruitPage />} />
+        <Route path='/recruit/:articleID' element={<ReadRecruitPage />} />
         <Route path='ui' element={<UIPage />} />
       </Routes>
     </div>
