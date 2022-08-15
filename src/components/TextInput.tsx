@@ -1,14 +1,9 @@
-import React from 'react';
-
-function InputMsg({ message }: { message: { type: string; msg: string } }) {
-  switch (message.type) {
-    case 'success':
-      return <small className='text-primary mt-1'>✓ {message.msg}</small>;
-    case 'fail':
-      return <small className='text-error'>x {message.msg}</small>;
-    default:
-      return <small>{message.msg}</small>;
-  }
+function InputMsg({ message }: { message: string }) {
+  return (
+    <small className='w-60 md:w-80 text-neutral mt-1 break-words'>
+      {message}
+    </small>
+  );
 }
 
 function TextInput({
@@ -25,7 +20,7 @@ function TextInput({
   setValue: (value: string) => void;
   password?: boolean;
   required?: boolean;
-  message?: { type: string; msg: string } | null;
+  message?: string | null;
 }) {
   return (
     <div className='flex flex-col mt-5'>
@@ -36,9 +31,7 @@ function TextInput({
         required={required}
         type={password ? 'password' : 'text'}
         placeholder={label}
-        className={`input input-bordered w-60 md:w-80 focus:outline-none focus:border-primary focus:required:invalid:border-error text-accent ${
-          message?.type === 'fail' ? 'border-error' : ''
-        }`}
+        className={`input input-bordered w-60 md:w-80 focus:outline-none focus:border-primary focus:required:invalid:border-error text-accent`}
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />

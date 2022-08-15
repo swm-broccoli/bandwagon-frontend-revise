@@ -15,6 +15,14 @@ interface AddPerformanceType {
 interface BandProfileApiType {
   createBand: (bandName: string) => Promise<AxiosResponse<any>>;
   getBandProfileInfo: () => Promise<AxiosResponse>;
+  changeBandFrontman: (
+    bandID: number,
+    newFrontmanMemberId: number,
+  ) => Promise<AxiosResponse>;
+  // 본인이 밴드를 탈퇴하는 API (프런트맨은 불가능)
+  quitCurrentBand: (bandID: number) => Promise<AxiosResponse>;
+  // 프론트맨이 밴드를 해체하는 API
+  breakupCurrentBand: (bandID: number) => Promise<AxiosResponse>;
   updateBandAvatar: (bandID: number, newAvatar: File) => Promise<AxiosResponse>;
   updateBandName: (bandID: number, newName: string) => Promise<AxiosResponse>;
   getNewMemberInfo: (newMemberEmail: string) => Promise<AxiosResponse>;
@@ -81,6 +89,17 @@ const BandProfileAPI: BandProfileApiType = {
     // status 검증을 안 하고 무조건 통과시킨다. 따라서 404 Response 에러도 그대로 돌아온다.
     return request.get(`/api/band`, { validateStatus: () => true });
   },
+  changeBandFrontman: (bandID: number, newFrontmanMemberId: number) => {
+    return request.post(`/api/band/${bandID}/frontman/${newFrontmanMemberId}`);
+  },
+  // 본인이 속한(프론트맨은 아닌)밴드 탈퇴
+  quitCurrentBand: (bandID: number) => {
+    return request.delete(`/api/band/${bandID}/member`);
+  },
+  // 본인이 프론트맨인 밴드 탈퇴
+  breakupCurrentBand: (bandID: number) => {
+    return request.delete(`/api/band/${bandID}`);
+  },
   updateBandAvatar: (bandID: number, newAvatar: File) => {
     const formData = new FormData();
     formData.append('image', newAvatar);
@@ -109,6 +128,7 @@ const BandProfileAPI: BandProfileApiType = {
     memberID: number,
     positionID: number,
   ) => {
+    console.log('포지션 추가 성공 ');
     return request.post(
       `/api/band/${bandID}/member/${memberID}/positions/${positionID}`,
     );
@@ -123,9 +143,11 @@ const BandProfileAPI: BandProfileApiType = {
     );
   },
   addBandArea: (bandID: number, areaID: number) => {
+    console.log('add Band Area', bandID, areaID);
     return request.post(`/api/band/${bandID}/areas/${areaID}`);
   },
   deleteBandArea: (bandID: number, areaID: number) => {
+    console.log('delete Band Area', bandID, areaID);
     return request.delete(`/api/band/${bandID}/areas/${areaID}`);
   },
   addBandDay: (bandID: number, dayID: number) => {

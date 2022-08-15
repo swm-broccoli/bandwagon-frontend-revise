@@ -21,7 +21,7 @@ export interface SelectionType {
 
 export interface PictureType {
   id: number;
-  name: string;
+  name: string | null;
 }
 
 export interface RecordURLType {
@@ -31,7 +31,7 @@ export interface RecordURLType {
 
 export interface PerformanceRecordType {
   id: number;
-  musicTitle: string;
+  musicTitle: string | null;
   performDate: string;
   urls: RecordURLType[];
 }
@@ -50,7 +50,7 @@ export interface UserProfileType {
 
 export interface BandMemberType {
   id: number;
-  email: string;
+  email: string | null;
   avatarUrl: string;
   name: string;
   birthday: string;
@@ -98,4 +98,14 @@ export interface PrequisiteRequestType {
   areas: PrequisiteElementType[];
   genres: PrequisiteElementType[];
   positions: PrequisiteElementType[];
+}
+
+export interface SignUpUserInputType {
+  name: string;
+  nickname: string;
+  email: string;
+  password: string;
+  passwordCheck: string;
+  birthday: string;
+  gender: string;
 }

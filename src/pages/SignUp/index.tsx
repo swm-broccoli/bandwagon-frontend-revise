@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import GlobalNavBar from '../../components/NavBar';
-import SubmitButton from '../../components/SubmitButton';
 import TextInput from '../../components/TextInput';
 import { Link } from 'react-router-dom';
 import GlobalFooter from '../../components/Footer';

@@ -8,7 +8,7 @@ import {
   BandProfileAlbum,
   ProfileTextField,
 } from './styles';
-import { BandProfileType } from '../../types/types';
+import { BandMemberType, BandProfileType } from '../../types/types';
 import areaOptions from '../../assets/options/areaOptions';
 import weekdayOptions from '../../assets/options/weekdayOptions';
 import genreOptions from '../../assets/options/genreOptions';
@@ -16,18 +16,7 @@ import DescriptionField from '../../components/DescriptionField';
 import RecordField from '../../components/RecordField';
 import BandProfileAPI from '../../apis/BandProfileAPI';
 import noBandPicture from '../../assets/noband.png';
-import {
-  updateBandAreas,
-  updateBandAvatarUrl,
-  updateBandDays,
-  updateBandName,
-  updateBandGenres,
-  updateBandDescription,
-  updateBandPractices,
-  updateBandGigs,
-  updateBandAlbum,
-  updateBandMembers,
-} from './bandProfileUpdate';
+import { updateBandProfile } from './bandProfileUpdate';
 import EmptyBandProfile from './EmptyBandProfile';
 import { vacantBandProfile } from './initialBandProfile';
 
@@ -47,9 +36,6 @@ function BandProfile() {
   const [serverBandProfile, setServerBandProfile] =
     useState<BandProfileType>(vacantBandProfile);
 
-  const [deletedMemberIDs, setDeletedMemberIDs] = useState<number[]>([]);
-  const [deletedPhotoIDs, setDeletedPhotoIDs] = useState<number[]>([]);
-
   useEffect(() => {
     BandProfileAPI.getBandProfileInfo()
       .then((res) => {
@@ -64,81 +50,76 @@ function BandProfile() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [profileEditing]);
 
   const onBandProfileEditDone = () => {
     if (profileEditing) {
       console.log('수정 완료 동작');
-
-      updateBandAvatarUrl(
-        curBandProfile.id,
-        curBandProfile.avatarUrl,
-        serverBandProfile.avatarUrl,
-      );
-
-      updateBandName(
-        curBandProfile.id,
-        curBandProfile.name,
-        serverBandProfile.name,
-      );
-
-      updateBandAreas(
-        curBandProfile.id,
-        curBandProfile.areas,
-        serverBandProfile.areas,
-      );
-
-      updateBandDays(
-        curBandProfile.id,
-        curBandProfile.days,
-        serverBandProfile.days,
-      );
-
-      updateBandGenres(
-        curBandProfile.id,
-        curBandProfile.genres,
-        serverBandProfile.genres,
-      );
-
-      updateBandDescription(
-        curBandProfile.id,
-        curBandProfile.description,
-        serverBandProfile.description,
-      );
-
-      updateBandPractices(
-        curBandProfile.id,
-        curBandProfile.bandPractices,
-        serverBandProfile.bandPractices,
-      );
-
-      updateBandGigs(
-        curBandProfile.id,
-        curBandProfile.bandGigs,
-        serverBandProfile.bandGigs,
-      );
-
-      updateBandAlbum(
-        curBandProfile.id,
-        curBandProfile.bandPhotos,
-        deletedPhotoIDs,
-      );
-
-      updateBandMembers(
-        curBandProfile.id,
-        curBandProfile.bandMembers,
-        serverBandProfile.bandMembers,
-        deletedMemberIDs,
-      );
+      updateBandProfile(curBandProfile, serverBandProfile);
     }
     //서버에 있는 상태를 현재 유저의 편집 상태로 동기화했다.
     setServerBandProfile(curBandProfile);
     // 유저가 삭제한 상태를 모두 반영했으므로 삭제한 아이디를 초기화한다.
-    setDeletedPhotoIDs([]);
-    setDeletedMemberIDs([]);
     setProfileEditing(!profileEditing);
   };
 
+  const onBandFrontmanChange = (newFrontman: BandMemberType) => {
+    if (newFrontman.isFrontman) {
+      alert('이미 프론트맨인 사람입니다.');
+    } else {
+      let FrontmanChangeConfirm = confirm(
+        `${newFrontman.name}님을 정말로 새 프론트맨으로 설정하시겠습니까?`,
+      );
+      if (FrontmanChangeConfirm) {
+        alert(`${newFrontman.name}님을 새 프론트맨으로 지정했습니다.`);
+      } else {
+        console.log('취소됨');
+      }
+      if (FrontmanChangeConfirm) {
+        BandProfileAPI.changeBandFrontman(curBandProfile.id, newFrontman.id)
+          .then((res) => {
+            console.log(res, '프론트맨 변경 성공');
+          })
+          .catch((err) => {
+            console.log(err, '프론트맨 변경 실패');
+          });
+      }
+    }
+  };
+
+  const onBandQuit = (bandID: number) => {
+    let BandQuitConfirm = confirm(`밴드를 정말로 탈퇴하시겠습니까?`);
+    if (BandQuitConfirm) {
+      BandProfileAPI.quitCurrentBand(bandID)
+        .then((res) => {
+          console.log(res, '밴드 탈퇴 성공');
+        })
+        .catch((err) => {
+          console.log(err, '밴드 탈퇴 실패');
+        });
+      alert(`밴드를 탈퇴했습니다.`);
+    } else {
+      console.log('취소됨');
+    }
+  };
+
+  const onBandBreakup = (bandID: number) => {
+    let BandBreakupConfirm = confirm(`밴드를 정말로 해체하시겠습니까?`);
+    if (BandBreakupConfirm) {
+      BandProfileAPI.breakupCurrentBand(bandID)
+        .then((res) => {
+          console.log(res, '밴드 해체 성공');
+        })
+        .catch((err) => {
+          console.log(err, '밴드 해체 실패');
+        });
+      alert(`밴드를 해체했습니다.`);
+    } else {
+      console.log('취소됨');
+    }
+  };
+
+  // 정보를 못 받아왔다면 id가 -1인 상태이다
   if (curBandProfile.id === -1) {
     return <EmptyBandProfile emptyBandPicture={noBandPicture} />;
   } else {
@@ -146,14 +127,53 @@ function BandProfile() {
       <div>
         <div className='flex flex-row justify-between'>
           <h1 className='text-bold text-2xl font-bold'>밴드 정보</h1>
-          <button
-            className={`btn h-10 ${
-              profileEditing ? 'bg-base-100 hover:bg-base-200' : 'btn-primary'
-            }`}
-            onClick={onBandProfileEditDone}
-          >
-            {profileEditing ? '수정 완료' : '수정하기'}
-          </button>
+          <div className='flex flex-row'>
+            {curBandProfile.isReaderFrontman && !profileEditing ? (
+              <div className='dropdown'>
+                <label tabIndex={0} className='btn btn-primary w-20 p-0'>
+                  프론트맨
+                  <br /> 양도하기
+                </label>
+                <ul
+                  tabIndex={0}
+                  className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'
+                >
+                  {curBandProfile.bandMembers.map((member) => (
+                    <li key={member.id}>
+                      <a
+                        className='active:bg-base-200 active:text-accent'
+                        onClick={() => {
+                          onBandFrontmanChange(member);
+                        }}
+                      >
+                        {member.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            <button
+              className={`btn w-20 p-0 ${
+                profileEditing ? 'bg-base-100 hover:bg-base-200' : 'btn-primary'
+              }`}
+              onClick={onBandProfileEditDone}
+            >
+              {profileEditing ? '수정 완료' : '수정하기'}
+            </button>
+            <button
+              className='btn btn-error'
+              onClick={() => {
+                if (curBandProfile.isReaderFrontman) {
+                  onBandBreakup(curBandProfile.id);
+                } else {
+                  onBandQuit(curBandProfile.id);
+                }
+              }}
+            >
+              {curBandProfile.isReaderFrontman ? '해체하기' : '탈퇴하기'}
+            </button>
+          </div>
         </div>
         <div className='mt-6 flex flex-col items-center'>
           <BandProfileAvatar
@@ -186,11 +206,6 @@ function BandProfile() {
                   ...curBandProfile,
                   bandMembers: newBandMembers,
                 });
-              }}
-              deletedMemberIDs={deletedMemberIDs}
-              setDeletedMemberIDs={(newDeletedMemberIDs) => {
-                console.log('삭제된 멤버 아이디: ', newDeletedMemberIDs);
-                setDeletedMemberIDs(newDeletedMemberIDs);
               }}
               editing={profileEditing}
               frontmanReading={curBandProfile.isReaderFrontman}
@@ -250,11 +265,6 @@ function BandProfile() {
                   ...curBandProfile,
                   bandPhotos: newBandPhotos,
                 });
-              }}
-              deletedPhotoIDs={deletedPhotoIDs}
-              setDeletedPhotoIDs={(newDeletedPhotoIDs) => {
-                console.log(newDeletedPhotoIDs);
-                setDeletedPhotoIDs(newDeletedPhotoIDs);
               }}
               editing={profileEditing}
             />

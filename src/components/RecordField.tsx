@@ -70,7 +70,7 @@ function RecordEditingItem({
         <input
           type='text'
           className='input input-bordered input-sm w-3/5 text-accent'
-          value={record.musicTitle}
+          value={record.musicTitle === null ? '' : record.musicTitle}
           onChange={(e) => {
             setRecord({ ...record, musicTitle: e.target.value });
           }}
@@ -201,6 +201,8 @@ function RecordField({
   setRecords: (records: PerformanceRecordType[]) => void;
   editing: boolean;
 }) {
+  const [tempID, setTempID] = useState(-1);
+
   return (
     <div>
       <div className='flex flex-row justify-between items-center h-8 mb-5'>
@@ -210,13 +212,14 @@ function RecordField({
             onClick={() => {
               setRecords([
                 {
-                  id: Date.now(),
+                  id: tempID,
                   musicTitle: '',
                   performDate: getTodayDate(),
                   urls: [],
                 },
                 ...records,
               ]);
+              setTempID((tempID) => tempID - 1);
             }}
             className='btn btn-primary btn-sm h-8 w-14 mr-1 p-0'
           >
@@ -224,27 +227,41 @@ function RecordField({
           </button>
         ) : null}
       </div>
-      {records.map((record, index) => (
-        <RecordItem
-          key={index}
-          record={record}
-          setRecord={(newRecord) => {
-            // 새 레코드와 id 같은 레코드만 교체한다.
-            setRecords(
-              records.map((record) => {
-                if (record.id === newRecord.id) {
-                  return newRecord;
-                }
-                return record;
-              }),
-            );
-          }}
-          deleteRecord={() => {
-            setRecords(records.filter((_record) => _record.id !== record.id));
-          }}
-          editing={editing}
-        />
-      ))}
+      {records.map((record, index) =>
+        record.musicTitle !== null ? (
+          <RecordItem
+            key={index}
+            record={record}
+            setRecord={(newRecord) => {
+              // 새 레코드와 id 같은 레코드만 교체한다.
+              setRecords(
+                records.map((record) => {
+                  if (record.id === newRecord.id) {
+                    return newRecord;
+                  }
+                  return record;
+                }),
+              );
+            }}
+            deleteRecord={() => {
+              // 삭제한 기록은 musicTitle를 널 로 만든다.
+              setRecords(
+                records.map((_record, _index) => {
+                  if (index === _index) {
+                    return {
+                      ..._record,
+                      musicTitle: null,
+                    };
+                  } else {
+                    return _record;
+                  }
+                }),
+              );
+            }}
+            editing={editing}
+          />
+        ) : null,
+      )}
       <div className='divider m-0 mt-5' />
     </div>
   );

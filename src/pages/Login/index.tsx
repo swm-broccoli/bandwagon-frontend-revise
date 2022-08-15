@@ -3,7 +3,6 @@ import GlobalNavBar from '../../components/NavBar';
 import { Link, useNavigate } from 'react-router-dom';
 import { NaverLoginButton, KaKaoLoginButton } from './styles';
 import TextInput from '../../components/TextInput';
-import SubmitButton from '../../components/SubmitButton';
 import { useLoginStore } from '../../stores/LoginStore';
 import AuthAPI from '../../apis/AuthAPI';
 
@@ -56,7 +55,12 @@ function LoginForm() {
         password
         required
       />
-      <SubmitButton label='로그인' />
+      <button
+        type='submit'
+        className='btn btn-primary text-base-100 rounded-lg w-60 md:w-80 mt-7'
+      >
+        로그인
+      </button>
     </form>
   );
 }
