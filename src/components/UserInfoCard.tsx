@@ -78,11 +78,14 @@ function GenreInfo (props: {genres: SelectionType[] | undefined}) {
 };
 
 // true -> 글쓰기, false -> 글 보기
-function UserInfoCard (props: {type: boolean}) {
+function UserInfoCard (props: {
+  type: boolean
+  userId: string | undefined}) {
   const [userInfo, setUserInfo] = useState<UserProfileType>();
 
   useEffect(() => {
-    RecruitPostAPI.LoadMyInfo()
+    if (props.type) {
+      RecruitPostAPI.LoadMyInfo()
       .then((res) => {
         console.log(res.data);
         RecruitPostAPI.LoadUserInfo(res.data.email)
@@ -97,7 +100,17 @@ function UserInfoCard (props: {type: boolean}) {
       .catch((err) => {
         console.log(err);
       });
-  }, [])
+    } else if (props.userId) {
+      RecruitPostAPI.LoadUserInfo(props.userId)
+        .then((res) => {
+          console.log(res.data);
+          setUserInfo(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [props.userId])
 
   return (
     <>
