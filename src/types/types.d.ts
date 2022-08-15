@@ -108,3 +108,13 @@ export interface SignUpUserInputType {
   birthday: string;
   gender: string;
 }
+
+export interface PostCardType {
+  id: number;
+  title: string
+  body: string,
+  dtype: string,
+  bandId: number,
+  bandName: string,
+  bandAvatarUrl: string
+}

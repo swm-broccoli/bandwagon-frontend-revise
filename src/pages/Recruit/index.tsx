@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import ArticleCard from './ArticleCard';
 import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
@@ -6,8 +6,24 @@ import Button from '../../components/Button';
 import RecruitTab from './RecruitTab';
 import SearchBox from './SearchBox';
 import { Link } from 'react-router-dom';
+import { PostCardType } from '../../types/types';
+import RecruitAPI from '../../apis/RecruitAPI';
 
 function RecruitPage() {
+  const [postList, setPostList] = useState<PostCardType[]>([]);
+  const [totalItems, setTotalItems] = useState<number>(0);
+
+  useEffect(() => {
+    RecruitAPI.LoadBandPost('')
+    .then((res) => {
+      console.log(res.data);
+      setPostList(res.data.posts);
+      setTotalItems(res.data.totalItems);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }, [])
   return (
     <>
       <GlobalNavBar />
@@ -19,26 +35,26 @@ function RecruitPage() {
         </Link>
         </div>
         <SearchBox />
-        <div className='row-start-3 col-start-2 text-xl mt-14'>새 글 </div>
-        <div className='row-start-4 col-start-2 col-end-4 grid grid-cols-1 md:grid-cols-2 flex-wrap gap-[3%] justify-center'>
-          <ArticleCard 
-            id={1}
-            pic='https://i.imgur.com/rmFxZua.jpeg'
-            title='제목이 아주 길어졌습니다'
-            authorPic='https://i.imgur.com/rmFxZua.jpeg'
-            authorName='작성자'
-            tags={['기타', '홍대/합정', '20대 초반']}
-            isHeartChecked={false}
-          />
-          <ArticleCard 
-          id={1}
-          pic='https://i.imgur.com/rmFxZua.jpeg'
-          title='내가 좋아하는 글'
-          authorPic='https://i.imgur.com/rmFxZua.jpeg'
-          authorName='안녕'
-          tags={['기타', '홍대/합정', '20대 초반']}
-          isHeartChecked={true}
-          />
+        <div className='row-start-3 col-start-2 flex gap-4 pt-14'>
+          <h2 className='text-xl'>새 글</h2>
+          <h2 className='text-xl text-secondary'>{totalItems + ' 개'}</h2>
+        </div>
+        <div className='row-start-4 col-start-2 col-end-4 grid grid-cols-1 md:grid-cols-2 flex-wrap gap-x-[3%] gap-y-1 justify-center'>
+          {postList.length ? 
+            <>
+            {postList.map((post, index) => 
+              <Link to={post.id.toString()} key={index}>
+                <ArticleCard 
+                pic={post.bandAvatarUrl}
+                title={post.title}
+                authorPic={post.bandAvatarUrl}
+                authorName={post.bandName}
+                tags={['기타', '홍대/합정', '20대 초반']}
+                isHeartChecked={false}/>
+              </Link>
+            )}
+            </> :
+          <></>}
         </div>
     </div>
     <GlobalFooter />
