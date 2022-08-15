@@ -8,6 +8,7 @@ import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
 import { useNavigate } from 'react-router-dom';
+import UserInfoCard from '../../components/UserInfoCard';
 
 function TitleTextField (props: {
   title: string,
@@ -40,7 +41,7 @@ function WriteEditor (props: {
 }
 */
 
-function WriteRecruitPage () {
+function WriteRecruitPage (props: {type: boolean}) {
   const [title, setTitle] = useState('');
   const editorRef = useRef<Editor>(null);
   const navigate = useNavigate();
@@ -69,7 +70,13 @@ function WriteRecruitPage () {
       <div className='flex flex-col gap-6 w-9/12 max-w-3xl'>
         {/* 글쓰기 알림, 등록 버튼 */}
         <div className='grid grid-cols-2 items-center mb-4'>
-          <h2 className='col-start-1 text-accent text-2xl'>글쓰기 (구인)</h2>
+          {props.type ?
+            <h2 className='col-start-1 text-accent text-2xl'>
+              글쓰기 (구인)
+            </h2> :
+            <h2 className='col-start-1 text-accent text-2xl'>
+              글쓰기 (구직)
+            </h2>}
           <div className='col-start-2 justify-self-end'>
             <Button label='등록' x='w-[7.5rem] ' y='h-10' textSize='text-sm' onclick={handleClick}/>
           </div>
@@ -77,7 +84,9 @@ function WriteRecruitPage () {
         {/* 제목 입력 */}
         <TitleTextField title={title} setTitle={setTitle}/>
         {/* 밴드 정보 */}
-        <BandInfoCard type={true}/>
+        {props.type ?
+          <BandInfoCard type={true} bandId={undefined}/> :
+          <UserInfoCard type={true} />}
         {/* 본문 쓰기 */}
         <div className='flex flex-col gap-4'>
           <h3 className='text-accent text-base'>글쓰기</h3>
@@ -90,7 +99,7 @@ function WriteRecruitPage () {
             ref={editorRef} />
         </div>
         {/* 모집 정보 (지원 조건, 추가 지원 양식) */}
-        <RequirementBox />
+        {props.type ? <RequirementBox /> : <></>}
       </div>
     </div>
     <GlobalFooter />

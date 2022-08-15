@@ -78,14 +78,14 @@ function GenreInfo (props: {genres: SelectionType[] | undefined}) {
 };
 
 // true -> 글쓰기, false -> 글 보기
-function UserInfoCard (props: {
-  type: boolean,
-  userId: string | undefined}) {
+function UserInfoCard (props: {type: boolean}) {
   const [userInfo, setUserInfo] = useState<UserProfileType>();
 
   useEffect(() => {
-    if (props.type) {
-      RecruitPostAPI.LoadMyInfo()
+    RecruitPostAPI.LoadMyInfo()
+      .then((res) => {
+        console.log(res.data);
+        RecruitPostAPI.LoadUserInfo(res.data.email)
         .then((res) => {
           console.log(res.data);
           setUserInfo(res.data);
@@ -93,26 +93,20 @@ function UserInfoCard (props: {
         .catch((err) => {
           console.log(err);
         });
-    } else if (props.userId) {
-      RecruitPostAPI.LoadUserInfo(props.userId)
-        .then((res) => {
-          console.log(res.data);
-          setUserInfo(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-  }, [props.userId])
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [])
 
   return (
     <>
     {userInfo ?
         <div className='flex flex-col gap-3 w-full h-fit'>
         <div className='grid grid-cols-2 items-center'>
-          <h3 className='col-start-1 text-accent text-base'>밴드 정보</h3>
+          <h3 className='col-start-1 text-accent text-base'>유저 정보</h3>
           {props.type ?
-            <Link to='/profile/band' className='col-start-2 justify-self-end text-sm text-primary'>
+            <Link to='/profile/user' className='col-start-2 justify-self-end text-sm text-primary'>
               수정
             </Link> : <></>
           }
