@@ -4,6 +4,8 @@ import MyInfoIcon from '../assets/ico_my1@2x.png';
 import MyInfoActiveIcon from '../assets/ico_my1_on@2x.png';
 import BandInfoIcon from '../assets/live_music.png';
 import BandInfoActiveIcon from '../assets/live_music_on.png';
+import PortfolioIcon from '../assets/research.png';
+import PortfolioActiveIcon from '../assets/research_on.png';
 import AccountInfoIcon from '../assets/ico_my2@2x.png';
 import AccountInfoActiveIcon from '../assets/ico_my2_on@2x.png';
 import PasswordChangeIcon from '../assets/ico_my3@2x.png';
@@ -27,6 +29,13 @@ export const myPageMenuItems = [
     to: '/profile/band',
     icon: BandInfoIcon,
     activeIcon: BandInfoActiveIcon,
+  },
+  {
+    // 아이콘 출처는 https://www.flaticon.com/free-icon/research_2010826?term=resume&page=1&position=30&page=1&position=30&related_id=2010826&origin=search#
+    label: '포트폴리오',
+    to: '/portfolio/user',
+    icon: PortfolioIcon,
+    activeIcon: PortfolioActiveIcon,
   },
   {
     label: '계정 정보',
