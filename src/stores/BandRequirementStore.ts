@@ -1,18 +1,22 @@
 import React from 'react';
+import { stringify } from 'uuid';
 import create from 'zustand';
 import {devtools} from 'zustand/middleware';
-import { PrequisiteElementType } from '../types/types';
+import { PrequisiteElementType, PrequisiteRequestType } from '../types/types';
 
 interface bandRequirementStoreType {
   currentId: number,
+  dtypeList: string[],
   prequisiteList: {id: number, type: string}[],
-  prequisiteCount: number[],
+  prequisiteRequest: PrequisiteRequestType | undefined,
+  dtypeRequest: '',
   minStore: number | null,
   maxStore: number | null,
   genderStore: boolean | null,
   areaStore: PrequisiteElementType[],
   genreStore: PrequisiteElementType[],
   positionStore: PrequisiteElementType[],
+  setDtype: () => void,
   changeAge: (min: number, max: number) => void,
   changeGender: (gender: boolean) => void,
   changeArea: (preqId: number, areaId: number) => void,
@@ -24,14 +28,19 @@ interface bandRequirementStoreType {
 
 export const useBandRequirementStore = create<bandRequirementStoreType>()(devtools((set) => ({
   currentId: 0,
+  dtypeList: [],
   prequisiteList: [],
-  prequisiteCount: [0, 0, 0, 0, 0], // Area, Age, Gender, Position, Genre
+  prequisiteRequest: undefined,
+  dtypeRequest: '',
   minStore: 0,
   maxStore: 0,
   genderStore: null,
   areaStore: [],
   genreStore: [],
   positionStore: [],
+  setDtype: () => {
+
+  },
   changeAge: (min, max) => {
     set((state) => ({
       minStore: min,

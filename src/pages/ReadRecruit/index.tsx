@@ -8,6 +8,7 @@ import BandApplyBox from './BandApplyBox';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
 import { useParams } from 'react-router-dom';
 import { PostType } from '../../types/types';
+import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 
 function BasicInfoBox (props: {
   title: string | undefined
@@ -52,6 +53,11 @@ function ReadRecruitPage () {
         console.log(res.data);
         setPostInfo(res.data);
         setBandId(res.data.bandId);
+        if (postID) {
+          RecruitProcessAPI.getPrequisites(postID)
+          .then((res) =>  console.log(res.data))
+          .catch((err) => console.log(err));
+        }
       })
       .catch((err) => {
         console.log(err);

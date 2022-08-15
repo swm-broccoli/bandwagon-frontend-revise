@@ -91,7 +91,7 @@ export interface PrequisiteElementType {
 }
 
 export interface PrequisiteRequestType {
-  dtyle: string;
+  dtype: string;
   min: number;
   max: number;
   gender: boolean;

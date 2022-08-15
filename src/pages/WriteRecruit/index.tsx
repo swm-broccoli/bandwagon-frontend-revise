@@ -8,6 +8,8 @@ import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
 import { useNavigate } from 'react-router-dom';
+import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
+import { useBandRequirementStore } from '../../stores/BandRequirementStore';
 
 function TitleTextField (props: {
   title: string,
@@ -44,6 +46,13 @@ function WriteRecruitPage () {
   const [title, setTitle] = useState('');
   const editorRef = useRef<Editor>(null);
   const navigate = useNavigate();
+  const {
+    minStore,
+    maxStore,
+    genderStore,
+    areaStore,
+    genreStore,
+    positionStore} = useBandRequirementStore();
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log(editorRef.current?.getInstance().getHTML().toString());
@@ -54,8 +63,28 @@ function WriteRecruitPage () {
       dtype: 'Band'})
       .then((res) => {
         console.log(res.data.id);
-        window.alert('글이 작성되었습니다.')
-        navigate('/recruit/' + res.data.id);
+        RecruitProcessAPI.sendPrequisites({
+          dtype: 'Area',
+          min: minStore,
+          max: maxStore,
+          gender: genderStore,
+          areas: areaStore.map((area) => {
+            return {id: area.id};
+          }),
+          genres: genreStore.map((genre) => {
+            return {id: genre.id};
+          }),
+          positions: positionStore.map((position) => {
+            return {id: position.id};
+          })
+        }, res.data.id)
+        .then((res) => {
+          window.alert('글이 작성되었습니다.')
+          navigate('/recruit');
+        })
+        .catch((err) => {
+          console.log(err);
+        })
       })
       .catch((err) => {
         console.log(err);
