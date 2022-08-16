@@ -1,17 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../../components/Button';
 import Select from '../../components/Select';
 import genreOptions from '../../assets/options/genreOptions';
 import btn_x from '../../assets/btn_x.svg';
 import AreaSelect from '../../components/AreaSelect';
 import positionOptions from '../../assets/options/positionOptions';
-
-const practiceDayList = ['월', '화', '수', '목', '금', '토', '일'];
+import { useSearchPostStore } from '../../stores/SearchPostStore';
+import { AreaType, SelectionType } from '../../types/types';
+import weekdayOptions from '../../assets/options/weekdayOptions';
 
 function SearchTextField () {
+  const [title, setTitle] = useState<string>('');
+  const {changeTitle} = useSearchPostStore();
+
+  useEffect(() => {
+    changeTitle(title);
+  }, [title]);
+
   return (
     <input
       placeholder='검색어를 입력하세요'
+      value={title}
+      onChange={(e) => setTitle(e.target.value)}
       className='input input-bordered w-full max-w-[40rem] h-full focus:outline-none focus:border-primary text-accent text-base'/>
   );
 };
@@ -23,8 +33,20 @@ function ConditionLabel (props: {label: string, row: string}) {
   );
 };
 
-function SelectSessionButton (props: {label: string}) {
+function SelectSessionButton (props: {
+  label: SelectionType}) {
   const [clicked, setClicked] = useState<boolean>(false);
+  const {
+    addSelectStore,
+    deleteSelectStore} = useSearchPostStore();
+
+  useEffect(() => {
+    if (clicked) {
+      addSelectStore('position', props.label.id);
+    } else {
+      deleteSelectStore('position', props.label.id);
+    }
+  }, [clicked]);
 
   return (
     <>
@@ -32,20 +54,31 @@ function SelectSessionButton (props: {label: string}) {
       <button
         className='w-28 h-[3.125rem] md:w-36 text-base text-primary font-medium border border-primary border-solid rounded-lg bg-success'
         onClick={(e) => setClicked(false)}>
-      {props.label}
+        {props.label.name}
       </button> :
       <button
         className='w-28 h-[3.125rem] md:w-36 text-base text-[#888888] border border-solid border-base-200 rounded-lg bg-white'
         onClick={(e) => setClicked(true)}>
-      {props.label}
+        {props.label.name}
       </button>}
     </>
   );
 };
 
 function SelectPracticeDayButton (props: {
-  label: string}) {
+  label: SelectionType}) {
   const [clicked, setClicked] = useState<boolean>(false);
+  const {
+    addSelectStore,
+    deleteSelectStore} = useSearchPostStore();
+
+  useEffect(() => {
+    if (clicked) {
+      addSelectStore('day', props.label.id);
+    } else {
+      deleteSelectStore('day', props.label.id);
+    }
+  }, [clicked]);
 
   return (
     <>
@@ -53,12 +86,12 @@ function SelectPracticeDayButton (props: {
       <button
         className='w-12 h-[3.125rem] md:w-20 text-base text-primary font-medium border border-primary border-solid rounded-lg bg-success'
         onClick={(e) => setClicked(false)}>
-      {props.label}
+        {props.label.name}
       </button> :
       <button
         className='w-12 h-[3.125rem] md:w-20 text-base text-[#888888] border border-solid border-base-200 rounded-lg bg-white'
         onClick={(e) => setClicked(true)}>
-      {props.label}
+        {props.label.name}
       </button>}
     </>
   );
@@ -68,23 +101,57 @@ function SelectSession () {
   return (
     <ul className='row-start-3 col-start-2 flex flex-row flex-wrap gap-[0.625rem]'>
       {positionOptions.map((position, index) => 
-      <li key={index}><SelectSessionButton label={position.name} /></li>)}
+      <li key={index}>
+        <SelectSessionButton label={position} />
+      </li>)}
     </ul>
   )
 }
 
 function SelectGenre () {
+  const [genre, setGenre] = useState<SelectionType>({id: 0, name: ''});
+  const {
+    selectStore,
+    genreArray,
+    addSelectStore,
+    deleteSelectStore,
+    addGenre,
+    deleteGenre} = useSearchPostStore();
+
+  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+    if (selectStore.find((e) => e == '&genre=' + genre.id.toString())) {
+      window.alert('이미 추가된 조건입니다!');
+    } else {
+      addGenre(genre);
+      addSelectStore('genre', genre.id);
+    }
+  }
+
   return (
     <div className='flex flex-col flex-wrap gap-4 row-start-4 col-start-2'>
       <div className='flex flex-row flex-wrap gap-[0.625rem]'>
-        <Select label='장르를 선택하세요' options={genreOptions} />
-        <Button label='+ 추가' x='w-20 ' y='h-[3.125rem] ' textSize='text-base' />
+        <Select
+          label='장르를 선택하세요'
+          options={genreOptions}
+          setOption={setGenre} />
+        <Button
+          label='+ 추가'
+          x='w-20 '
+          y='h-[3.125rem] '
+          textSize='text-base'
+          onclick={handleClick} />
       </div>
       <ul>
-        <li className='flex flex-row gap-[0.625rem]'>
-          <div className='text-base text-accent'>어쿠스틱</div>
-          <img src={btn_x} />
-        </li>
+        {genreArray.map((genre, index) =>
+          <li key={index} className='flex flex-row gap-[0.625rem]'>
+            <div className='text-base text-accent'>{genre.name}</div>
+            <button onClick={(e) => {
+              deleteSelectStore('genre', genre.id);
+              deleteGenre(genre.id)}}>
+              <img src={btn_x} />
+            </button>
+          </li>
+        )}
       </ul>
     </div>
   )
@@ -93,6 +160,11 @@ function SelectGenre () {
 function SelectAge () {
   const [minAge, setMinAge] = useState<string>('');
   const [maxAge, setMaxAge] = useState<string>('');
+
+  useEffect(() => {
+    setMinAge(minAge);
+    setMaxAge(maxAge);
+  }, [minAge, maxAge]);
 
   return (
     <div className='row-start-5 col-start-2 flex flex-row flex-wrap gap-[0.625rem] w-full h-fit items-center'>
@@ -112,17 +184,51 @@ function SelectAge () {
 }
 
 function SelectArea () {
+  const [area, setArea] = useState<AreaType>({
+    id: 0,
+    city: '',
+    district: ''});
+  const {
+    selectStore,
+    areaArray,
+    addSelectStore,
+    deleteSelectStore,
+    addArea,
+    deleteArea} = useSearchPostStore();
+
+  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+    if (selectStore.find((e) => e == '&area=' + area.id.toString())) {
+      window.alert('이미 추가된 조건입니다!');
+    } else {
+      addArea(area);
+      addSelectStore('area', area.id);
+    }
+  }
+
   return (
     <div className='flex flex-col flex-wrap gap-4 row-start-6 col-start-2'>
       <div className='flex flex-row flex-wrap gap-[0.625rem]'>
-        <AreaSelect />
-        <Button label='+ 추가' x='w-20 ' y='h-[3.125rem] ' textSize='text-base' />
+        <AreaSelect setOption={setArea} />
+        <Button
+          label='+ 추가'
+          x='w-20 '
+          y='h-[3.125rem] '
+          textSize='text-base'
+          onclick={handleClick} />
       </div>
       <ul>
-        <li className='flex flex-row gap-[0.625rem]'>
-          <div className='text-base text-accent'>강남구</div>
-          <img src={btn_x} />
-        </li>
+        {areaArray.map((area, index) =>
+          <li key={index} className='flex flex-row gap-[0.625rem]'>
+            <div className='text-base text-accent'>
+              {area.city + ' ' + area.district}
+            </div>
+            <button onClick={(e) => {
+              deleteSelectStore('area', area.id);
+              deleteArea(area.id)}}>
+              <img src={btn_x} />
+            </button>
+          </li>
+        )}
       </ul>
     </div>
   )
@@ -131,8 +237,10 @@ function SelectArea () {
 function SelectPracticeDay () {
   return (
     <ul className='row-start-7 col-start-2 flex flex-row flex-wrap gap-[0.625rem]'>
-      {practiceDayList.map((day, index) => 
-      <li key={index}><SelectPracticeDayButton label={day} /></li>)}
+      {weekdayOptions.map((day, index) => 
+      <li key={index}>
+        <SelectPracticeDayButton label={day} />
+      </li>)}
     </ul>
   )
 }

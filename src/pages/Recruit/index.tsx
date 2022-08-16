@@ -9,12 +9,12 @@ import { Link } from 'react-router-dom';
 import { BandProfileType, PostCardType } from '../../types/types';
 import RecruitAPI from '../../apis/RecruitAPI';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
+import { useSearchPostStore } from '../../stores/SearchPostStore';
 
 function RecruitPage() {
   const [postList, setPostList] = useState<PostCardType[]>([]);
   const [totalItems, setTotalItems] = useState<number>(0);
-  const [bandId, setBandId] = useState<number>();
-  const [bandInfo, setBandInfo] = useState<BandProfileType>();
+  const {selectStore, titleStore} = useSearchPostStore();
 
   useEffect(() => {
     RecruitAPI.LoadBandPost('')
@@ -27,6 +27,10 @@ function RecruitPage() {
       console.log(err);
     })
   }, [])
+
+  useEffect(() => {
+    console.log(selectStore);
+  }, [selectStore]);
 
   return (
     <>
