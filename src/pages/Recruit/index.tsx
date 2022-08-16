@@ -6,12 +6,15 @@ import Button from '../../components/Button';
 import RecruitTab from './RecruitTab';
 import SearchBox from './SearchBox';
 import { Link } from 'react-router-dom';
-import { PostCardType } from '../../types/types';
+import { BandProfileType, PostCardType } from '../../types/types';
 import RecruitAPI from '../../apis/RecruitAPI';
+import RecruitPostAPI from '../../apis/RecruitPostAPI';
 
 function RecruitPage() {
   const [postList, setPostList] = useState<PostCardType[]>([]);
   const [totalItems, setTotalItems] = useState<number>(0);
+  const [bandId, setBandId] = useState<number>();
+  const [bandInfo, setBandInfo] = useState<BandProfileType>();
 
   useEffect(() => {
     RecruitAPI.LoadBandPost('')
@@ -24,6 +27,7 @@ function RecruitPage() {
       console.log(err);
     })
   }, [])
+
   return (
     <>
       <GlobalNavBar />
@@ -49,8 +53,8 @@ function RecruitPage() {
                 title={post.title}
                 authorPic={post.bandAvatarUrl}
                 authorName={post.bandName}
-                tags={['기타', '홍대/합정', '20대 초반']}
-                isHeartChecked={false}/>
+                authorId={post.bandId}
+                isHeartChecked={false} />
               </Link>
             )}
             </> :
