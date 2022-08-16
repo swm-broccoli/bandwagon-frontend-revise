@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import btn_like from '../../assets/btn_like.svg';
 import btn_like_on from '../../assets/btn_like_on.svg';
 import btn_chat from '../../assets/btn_chat.svg';
 import btn_apply from '../../assets/btn_apply.svg';
 import ico_circle from '../../assets/ico_circle.svg';
 import ico_x from '../../assets/ico_x.svg';
+import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
+import { PrequisiteResponseType } from '../../types/types';
 
 function PrequisiteTooltip () {
   return (
@@ -33,8 +35,24 @@ function PrequisiteElement (props: {satisfied: boolean}) {
   )
 }
 
-function BandApplyBox () {
+function BandApplyBox (props:
+  {postId: string | undefined,
+  isLoggedIn: boolean}) {
   const [isHeartChecked, setIsHeartChecked] = useState(false);
+  const [preqCheck, setPreqCheck] = useState<PrequisiteResponseType[]>();
+
+  useEffect(() => {
+    if (props.isLoggedIn) {
+      RecruitProcessAPI.checkPrequisites(props.postId)
+      .then((res) => {
+        console.log(res.data);
+        setPreqCheck(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
+  }, [props.postId])
 
   function handleHeartClick (e: React.MouseEvent<HTMLButtonElement>) {
     setIsHeartChecked(!isHeartChecked);

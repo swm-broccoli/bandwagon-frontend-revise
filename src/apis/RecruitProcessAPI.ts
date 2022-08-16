@@ -5,7 +5,7 @@ import {request} from './request';
 
 interface RecruitProcessApiType {
 
-  checkPrequisites: (postId: string) => Promise<AxiosResponse>
+  checkPrequisites: (postId: string | undefined) => Promise<AxiosResponse>
 }
 
 const RecruitProcessAPI: RecruitProcessApiType = {

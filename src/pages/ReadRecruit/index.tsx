@@ -7,7 +7,9 @@ import BandInfoCard from '../../components/BandInfoCard';
 import BandApplyBox from './BandApplyBox';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
 import { useParams } from 'react-router-dom';
-import { PostType } from '../../types/types';
+import { PostType, PrequisiteResponseType } from '../../types/types';
+import { useLoginStore } from '../../stores/LoginStore';
+import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 
 function BasicInfoBox (props: {
   title: string | undefined
@@ -45,6 +47,7 @@ function ReadRecruitPage () {
   const { postID } = useParams();
   const [postInfo, setPostInfo] = useState<PostType>();
   const [bandId, setBandId] = useState<number>();
+  const { isLoggedIn } = useLoginStore();
 
   useEffect(() => {
     RecruitPostAPI.LoadPost(postID)
@@ -69,7 +72,9 @@ function ReadRecruitPage () {
           </div>
           <ReadArticleCard article={postInfo?.body}/>
           <div className='row-start-4 col-start-2 md:row-start-2 md:col-start-3 md:mt-9 md:justify-self-end'>
-            <BandApplyBox />
+            {postID ?
+              <BandApplyBox isLoggedIn={isLoggedIn} postId={postID}/> :
+              <></>}
           </div>
         </div>
       </div>
