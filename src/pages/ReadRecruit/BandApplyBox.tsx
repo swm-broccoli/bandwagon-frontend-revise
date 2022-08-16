@@ -9,6 +9,17 @@ import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 import { AreaType, PrequisiteResponseType, SelectionType } from '../../types/types';
 
 function PrequisiteTooltip (props: {checked: PrequisiteResponseType[]}) {
+  const [checkedAll, setCheckedAll] = useState<boolean>(true);
+
+  useEffect(() => {
+    props.checked.map((preq) => {
+      if (!preq.check) {
+        setCheckedAll(false);
+      }
+    })
+
+  }, [props.checked])
+
   return (
     <div className='hidden group-hover:flex flex-col gap-[0.325rem] w-56 h-fit p-4 mt-8 -ml-40 bg-white border border-solid border-[#f2f2f2] rounded-xl shadow-md absolute'>
       <ul className='flex flex-col gap-[0.325rem]'>
@@ -16,7 +27,13 @@ function PrequisiteTooltip (props: {checked: PrequisiteResponseType[]}) {
         <li key={index}><PrequisiteElementBox element={preq} /></li>
       )}
       </ul>
-      <p className='mt-1 text-accent text-xs'>※ 조건이 맞지 않아 지원이 불가합니다.</p>
+      {checkedAll ?
+      <p className='mt-1 w-fit ml-1 text-accent text-xs'>
+        ※ 지금 바로 지원해 보세요!
+      </p> :
+      <p className='mt-1 w-fit ml-1 text-accent text-xs'>
+        ※ 조건이 맞지 않아 지원이 불가합니다.
+      </p>}
     </div>
   )
 }
