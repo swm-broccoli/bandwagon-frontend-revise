@@ -160,10 +160,11 @@ function SelectGenre () {
 function SelectAge () {
   const [minAge, setMinAge] = useState<string>('');
   const [maxAge, setMaxAge] = useState<string>('');
+  const {changeMinAge, changeMaxAge} = useSearchPostStore();
 
   useEffect(() => {
-    setMinAge(minAge);
-    setMaxAge(maxAge);
+    changeMinAge(minAge);
+    changeMaxAge(maxAge);
   }, [minAge, maxAge]);
 
   return (
