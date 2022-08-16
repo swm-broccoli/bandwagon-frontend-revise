@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Children, useEffect, useState } from 'react';
 import btn_like from '../../assets/btn_like.svg';
 import btn_like_on from '../../assets/btn_like_on.svg';
 import btn_chat from '../../assets/btn_chat.svg';
@@ -6,33 +6,147 @@ import btn_apply from '../../assets/btn_apply.svg';
 import ico_circle from '../../assets/ico_circle.svg';
 import ico_x from '../../assets/ico_x.svg';
 import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
-import { PrequisiteResponseType } from '../../types/types';
+import { AreaType, PrequisiteResponseType, SelectionType } from '../../types/types';
 
-function PrequisiteTooltip () {
+function PrequisiteTooltip (props: {checked: PrequisiteResponseType[]}) {
   return (
     <div className='hidden group-hover:flex flex-col gap-[0.325rem] w-56 h-fit p-4 mt-8 -ml-40 bg-white border border-solid border-[#f2f2f2] rounded-xl shadow-md absolute'>
-      <PrequisiteElement satisfied={true} />
-      <PrequisiteElement satisfied={false} />
+      <ul className='flex flex-col gap-[0.325rem]'>
+      {props.checked.map((preq, index) =>
+        <li key={index}><PrequisiteElementBox element={preq} /></li>
+      )}
+      </ul>
       <p className='mt-1 text-accent text-xs'>※ 조건이 맞지 않아 지원이 불가합니다.</p>
     </div>
   )
 }
 
-function PrequisiteElement (props: {satisfied: boolean}) {
+function AreaElement (props: {areaList: AreaType[]}) {
+  return (
+    <ul className='flex flex-col gap-1'>
+      {props.areaList.map((area, index) =>
+        <li key={index} className='text-accent text-sm'>
+          {area.city + ' ' + area.district}
+        </li>)}
+    </ul>
+  )
+}
+
+function AgeElement (props: {
+  minAge: number | null,
+  maxAge: number | null}) {
   return (
     <>
-    {props.satisfied ?
+      {props.minAge && props.maxAge ? 
+        <p className='text-accent text-sm'>
+          {props.minAge?.toString() + '세 ~ ' + props.maxAge?.toString() + '세'}
+        </p> :
+        props.minAge ?
+          <p className='text-accent text-sm'>
+            {props.minAge?.toString() + '세 ~ '}
+          </p> :
+          <p className='text-accent text-sm'>
+          {'~ ' + props.maxAge?.toString() + '세'}
+          </p>
+        }
+    </>
+  )
+}
+
+function PositionElement (props: {positionList: SelectionType[]}) {
+  return (
+    <ul className='flex flex-col gap-1'>
+      {props.positionList.map((position, index) =>
+        <li key={index} className='text-accent text-sm'>
+          {position.name + ' 연주'}
+        </li>)}
+    </ul>
+  )
+}
+
+function GenderElement (props: {preqGender: boolean | null}) {
+  return (
+    <>
+      {props.preqGender ?
+        <p className='text-accent text-sm'>성별 여자</p> :
+        <p className='text-accent text-sm'>성별 남자</p>
+      }
+    </>
+  )
+}
+
+function GenreElement (props: {genreList: SelectionType[]}) {
+  return (
+    <ul className='flex flex-col gap-1'>
+      {props.genreList.map((genre, index) =>
+        <li key={index} className='text-accent text-sm'>
+          {genre.name + ' 선호'}
+        </li>)}
+    </ul>
+  )
+}
+
+function PrequisiteElement (props: {
+  checked: boolean,
+  children: React.ReactNode}) {
+  return (
+    <>
+    {props.checked ?
       <div className='flex w-48 h-7 gap-2 pl-4 bg-[#f4f9f9] rounded-2xl items-center'>
         <img src={ico_circle} />
-        <p className='text-accent text-sm'>나이 30대 초반</p>
+        {props.children}
       </div> :
       <div className='flex w-48 h-7 gap-2 bg-[#f9f4f7] pl-4 rounded-2xl items-center'>
-      <img src={ico_x} />
-      <p className='text-accent text-sm'>선호 장르 케이팝</p>
+        <img src={ico_x} />
+        {props.children}
     </div>
     }
     </>
   )
+}
+
+function PrequisiteElementBox (props: {
+  element: PrequisiteResponseType}) {
+  switch (props.element.dtype) {
+    case 'Area': {
+      return (
+      <PrequisiteElement
+        checked={props.element.check}
+        children={<AreaElement areaList={props.element.areas}/>}  />)
+    }
+    case 'Age': {
+      return (
+        <PrequisiteElement
+          checked={props.element.check}
+          children={
+            <AgeElement
+              minAge={props.element.min}
+              maxAge={props.element.max} />}  />)
+    }
+    case 'Position': {
+      return (
+        <PrequisiteElement
+          checked={props.element.check}
+          children={<PositionElement
+            positionList={props.element.positions} />}  />)
+    }
+    case 'Gender': {
+      return (
+        <PrequisiteElement
+          checked={props.element.check}
+          children={<GenderElement
+            preqGender={props.element.gender} />}  />)
+    }
+    case 'Genre': {
+      return (
+        <PrequisiteElement
+          checked={props.element.check}
+          children={<GenreElement
+            genreList={props.element.genres} />}  />)
+    }
+    default: return <></>
+  }
+
 }
 
 function BandApplyBox (props:
@@ -77,7 +191,7 @@ function BandApplyBox (props:
         <div className='flex flex-col gap-[0.325rem]'>
           <button className='group'>
               <img src={btn_apply} />
-              <PrequisiteTooltip />
+              {preqCheck ? <PrequisiteTooltip checked={preqCheck}/> : <></>}
           </button>
           <p className='text-neutral text-sm text-center'>지원하기</p>
         </div>
