@@ -14,7 +14,11 @@ import { useSearchPostStore } from '../../stores/SearchPostStore';
 function RecruitPage() {
   const [postList, setPostList] = useState<PostCardType[]>([]);
   const [totalItems, setTotalItems] = useState<number>(0);
-  const {selectStore, titleStore} = useSearchPostStore();
+  const {
+    selectStore,
+    titleStore,
+    minAgeStore,
+    maxAgeStore} = useSearchPostStore();
 
   useEffect(() => {
     RecruitAPI.LoadBandPost('')
@@ -32,6 +36,22 @@ function RecruitPage() {
     console.log(selectStore);
   }, [selectStore]);
 
+ async function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+    const requestParam = '?page=0' + titleStore + minAgeStore + maxAgeStore + selectStore.join('');
+
+    console.log(requestParam);
+
+    RecruitAPI.LoadBandPost(requestParam)
+    .then((res) => {
+      console.log(res.data);
+      setPostList(res.data.posts);
+      setTotalItems(res.data.totalItems);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
   return (
     <>
       <GlobalNavBar />
@@ -42,7 +62,7 @@ function RecruitPage() {
           <Button label='글쓰기' x='w-[7.5rem] ' y='h-10 ' textSize='text-sm' />
         </Link>
         </div>
-        <SearchBox />
+        <SearchBox onClick={handleClick}/>
         <div className='row-start-3 col-start-2 flex gap-4 pt-14'>
           <h2 className='text-xl'>새 글</h2>
           <h2 className='text-xl text-secondary'>{totalItems + ' 개'}</h2>

@@ -29,13 +29,25 @@ export const useSearchPostStore = create<searchPostStoreType>()(
     genreArray: [],
     areaArray: [],
     changeTitle: (title) => {
-      set((state) => ({titleStore: title}))
+      if (title) {
+        set((state) => ({titleStore: '&title=' + title}))
+      } else {
+        set((state) => ({titleStore: ''}))
+      }
     },
     changeMinAge: (min) => {
-      set((state) => ({minAgeStore: min}))
+      if (min) {
+        set((state) => ({minAgeStore: '&minAge=' + min}))
+      } else {
+        set((state) => ({minAgeStore: ''}))
+      }
     },
     changeMaxAge: (max) => {
-      set((state) => ({maxAgeStore: max}))
+      if (max) {
+        set((state) => ({maxAgeStore: '&maxAge=' + max}))
+      } else {
+        set((state) => ({maxAgeStore: ''}))
+      }
     },
     addSelectStore: (type, id) => {
       set((state) => ({
