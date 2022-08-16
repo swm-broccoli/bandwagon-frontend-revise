@@ -6,9 +6,8 @@ import Button from '../../components/Button';
 import RecruitTab from './RecruitTab';
 import SearchBox from './SearchBox';
 import { Link } from 'react-router-dom';
-import { BandProfileType, PostCardType } from '../../types/types';
+import { PostCardType } from '../../types/types';
 import RecruitAPI from '../../apis/RecruitAPI';
-import RecruitPostAPI from '../../apis/RecruitPostAPI';
 import { useSearchPostStore } from '../../stores/SearchPostStore';
 
 function RecruitPage() {
@@ -36,7 +35,7 @@ function RecruitPage() {
     console.log(selectStore);
   }, [selectStore]);
 
- async function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     const requestParam = '?page=0' + titleStore + minAgeStore + maxAgeStore + selectStore.join('');
 
     console.log(requestParam);
