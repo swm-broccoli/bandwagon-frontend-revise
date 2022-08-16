@@ -23,9 +23,9 @@ function PrequisiteTooltip (props: {checked: PrequisiteResponseType[]}) {
 
 function AreaElement (props: {areaList: AreaType[]}) {
   return (
-    <ul className='flex flex-col gap-1'>
+    <ul className='flex flex-col gap-1 justify-items-start'>
       {props.areaList.map((area, index) =>
-        <li key={index} className='text-accent text-sm'>
+        <li key={index} className='w-fit text-accent text-sm'>
           {area.city + ' ' + area.district}
         </li>)}
     </ul>
@@ -55,9 +55,9 @@ function AgeElement (props: {
 
 function PositionElement (props: {positionList: SelectionType[]}) {
   return (
-    <ul className='flex flex-col gap-1'>
+    <ul className='flex flex-col gap-1 justify-items-start'>
       {props.positionList.map((position, index) =>
-        <li key={index} className='text-accent text-sm'>
+        <li key={index} className='w-fit text-accent text-sm'>
           {position.name + ' 연주'}
         </li>)}
     </ul>
@@ -77,9 +77,9 @@ function GenderElement (props: {preqGender: boolean | null}) {
 
 function GenreElement (props: {genreList: SelectionType[]}) {
   return (
-    <ul className='flex flex-col gap-1'>
+    <ul className='flex flex-col gap-1 justify-items-start'>
       {props.genreList.map((genre, index) =>
-        <li key={index} className='text-accent text-sm'>
+        <li key={index} className='w-fit text-accent text-sm'>
           {genre.name + ' 선호'}
         </li>)}
     </ul>
@@ -92,12 +92,12 @@ function PrequisiteElement (props: {
   return (
     <>
     {props.checked ?
-      <div className='flex w-48 h-7 gap-2 pl-4 bg-[#f4f9f9] rounded-2xl items-center'>
-        <img src={ico_circle} />
+      <div className='flex w-48 h-fit gap-4 pl-4 py-1 bg-[#f4f9f9] rounded-2xl'>
+        <img src={ico_circle} className='h-fit mt-[0.325rem]' />
         {props.children}
       </div> :
-      <div className='flex w-48 h-7 gap-2 bg-[#f9f4f7] pl-4 rounded-2xl items-center'>
-        <img src={ico_x} />
+      <div className='flex w-48 h-fit gap-4 bg-[#f9f4f7] pl-4 py-1 rounded-2xl'>
+        <img src={ico_x} className='h-fit mt-[0.325rem]' />
         {props.children}
     </div>
     }
