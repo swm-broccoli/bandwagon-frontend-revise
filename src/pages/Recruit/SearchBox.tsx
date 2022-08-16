@@ -141,7 +141,7 @@ function SelectGenre () {
           textSize='text-base'
           onclick={handleClick} />
       </div>
-      <ul>
+      <ul className='flex gap-4'>
         {genreArray.map((genre, index) =>
           <li key={index} className='flex flex-row gap-[0.625rem]'>
             <div className='text-base text-accent'>{genre.name}</div>
@@ -217,7 +217,7 @@ function SelectArea () {
           textSize='text-base'
           onclick={handleClick} />
       </div>
-      <ul>
+      <ul className='flex gap-4'>
         {areaArray.map((area, index) =>
           <li key={index} className='flex flex-row gap-[0.625rem]'>
             <div className='text-base text-accent'>
