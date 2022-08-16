@@ -1,21 +1,12 @@
 import { MdPhotoCamera } from 'react-icons/md';
 import { BandMemberType, PictureType } from '../../types/types';
 import TagElement from '../../components/TagElement';
-import positionOptions from '../../assets/options/positionOptions';
+import positionOptions, {
+  positionToKorean,
+} from '../../assets/options/positionOptions';
 import { useEffect, useState } from 'react';
 import ProfileAddModal from '../../components/ProfileAddModal';
 import BandProfileAPI from '../../apis/BandProfileAPI';
-
-//각 포지션을 한글 표기로 바꾸는 배열
-const positionToKorean: { [item: string]: string } = {
-  'Electric Guitar': '일렉기타',
-  'Acoustic Guitar': '어쿠스틱',
-  Drum: '드럼',
-  'Bass Guitar': '베이스',
-  Keyboard: '키보드',
-  Vocal: '보컬',
-  Others: '그 외',
-};
 
 export function BandProfileAvatar({
   avatarURL,
