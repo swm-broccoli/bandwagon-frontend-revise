@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
 import MainPage from './pages/Main';
 import LoginPage from './pages/Login';
 import UIPage from './pages/TempUI';
@@ -13,6 +13,7 @@ import WriteRecruitPage from './pages/WriteRecruit';
 import ReadRecruitPage from './pages/ReadRecruit';
 import BandPortFolioPage from './pages/Portfolio/Band';
 import UserPortFolioPage from './pages/Portfolio/User';
+import PortfolioPage from './pages/Portfolio';
 
 function App() {
   return (
@@ -25,7 +26,8 @@ function App() {
           <Route path='user' element={<UserProfilePage />} />
           <Route path='band' element={<BandProfilePage />} />
         </Route>
-        <Route path='portfolio'>
+        <Route path='portfolio' element={<Outlet />}>
+          <Route path='' element={<PortfolioPage />} />
           <Route path='user' element={<UserPortFolioPage />} />
           <Route path='band' element={<BandPortFolioPage />} />
         </Route>
