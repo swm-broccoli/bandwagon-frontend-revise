@@ -31,8 +31,10 @@ function AreaSelect (props:
   return (
     <div className='flex'>
       <select
-        className='select select-bordered w-fit md:w-48 h-[3.125rem]' onChange={handleCityChange}>
-        <option disabled selected>시/도 선택</option>
+        defaultValue=''
+        className='select select-bordered w-fit md:w-48 h-[3.125rem]'
+        onChange={handleCityChange}>
+        <option className='hidden' value=''>시/도 선택</option>
         {cityOptions.map((option, index) =>
           <option
            key={index}
@@ -42,8 +44,9 @@ function AreaSelect (props:
       </select>
 
       <select
+        defaultValue=''
         className='select select-bordered w-fit md:w-48 h-[3.125rem]' onChange={handleDistrictChange}>
-        <option disabled selected>시/군/구 선택</option>
+          <option className='hidden' value=''>시/군/구 선택</option>
           {areaOptions
             .filter(option => option.city === city)
             .map((option, index) => (
