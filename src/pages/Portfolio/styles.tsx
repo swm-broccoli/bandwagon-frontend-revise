@@ -120,12 +120,22 @@ export function PortfolioAreaList({
 export function PortfolioSelectList({
   label,
   selections,
+  name,
+  onCheckboxClick,
 }: {
   label: string;
   selections: SelectionType[];
+  name: string;
+  onCheckboxClick: (e: React.MouseEvent<HTMLInputElement>) => void;
 }) {
   return (
-    <div>
+    <div className='flex flex-row items-center'>
+      <input
+        type='checkbox'
+        name={name}
+        onClick={onCheckboxClick}
+        className='checkbox checkbox-primary'
+      />
       <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
         <div className='w-4/5 flex flex-row justify-start'>
           <label className='label w-1/4 py-0'>
@@ -146,15 +156,30 @@ export function PortfolioSelectList({
 export function PortfolioDescription({
   label,
   description,
+  name,
+  onCheckboxClick,
 }: {
   label: string;
   description: string;
+  name: string;
+  onCheckboxClick: (e: React.MouseEvent<HTMLInputElement>) => void;
 }) {
   return (
     <div className='w-full grid grid-flow-row mt-5'>
-      <label className='label min-w-[52px] p-0 pl-1 justify-between'>
-        <span className='label-text text-accent w-4/5 mr-2'>{label}</span>
-      </label>
+      <div className='w-full flex flex-row justify-start'>
+        <input
+          type='checkbox'
+          name={name}
+          onClick={onCheckboxClick}
+          className='checkbox checkbox-primary'
+        />
+        <label className='label min-w-[52px] p-0 pl-1 justify-between'>
+          <div>
+            <span className='label-text text-accent w-4/5 mr-2'>{label}</span>
+          </div>
+        </label>
+      </div>
+
       <textarea
         className='textarea w-full mx-0 mt-5 resize-none text-accent bg-success h-60 focus:outline-none'
         value={description}

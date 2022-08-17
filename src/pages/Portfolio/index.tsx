@@ -65,11 +65,23 @@ function BandPortfolioMaker() {
         name='areas'
         onCheckboxClick={onCheckboxClick}
       />
-      <PortfolioSelectList label='활동 요일' selections={bandProfile.days} />
-      <PortfolioSelectList label='선호 장르' selections={bandProfile.genres} />
+      <PortfolioSelectList
+        label='활동 요일'
+        selections={bandProfile.days}
+        name='days'
+        onCheckboxClick={onCheckboxClick}
+      />
+      <PortfolioSelectList
+        label='선호 장르'
+        selections={bandProfile.genres}
+        name='genres'
+        onCheckboxClick={onCheckboxClick}
+      />
       <PortfolioDescription
         label='밴드 소개'
         description={bandProfile.description}
+        name='description'
+        onCheckboxClick={onCheckboxClick}
       />
     </div>
   );
