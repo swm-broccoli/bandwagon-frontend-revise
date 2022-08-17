@@ -122,12 +122,23 @@ export interface SignUpUserInputType {
   gender: string;
 }
 
-export interface PostCardType {
+export interface BandPostCardType {
   id: number;
-  title: string
-  body: string,
-  dtype: string,
-  bandId: number,
-  bandName: string,
-  bandAvatarUrl: string
+  title: string;
+  body: string;
+  dtype: string;
+  bandId: number;
+  bandName: string;
+  bandAvatarUrl: string;
+}
+
+export interface UserPostCardType {
+  id: number;
+  title: string;
+  body: string;
+  dtype: string;
+  userId: number;
+  email: string;
+  nickname: string;
+  userAvatarUrl: string;
 }
