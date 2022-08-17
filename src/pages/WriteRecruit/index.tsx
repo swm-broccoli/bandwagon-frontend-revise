@@ -8,6 +8,8 @@ import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
 import { useNavigate } from 'react-router-dom';
+import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
+import { useBandRequirementStore } from '../../stores/BandRequirementStore';
 
 function TitleTextField (props: {
   title: string,
@@ -44,6 +46,13 @@ function WriteRecruitPage () {
   const [title, setTitle] = useState('');
   const editorRef = useRef<Editor>(null);
   const navigate = useNavigate();
+  const {
+    minStore,
+    maxStore,
+    genderStore,
+    areaStore,
+    genreStore,
+    positionStore} = useBandRequirementStore();
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log(editorRef.current?.getInstance().getHTML().toString());
@@ -54,7 +63,92 @@ function WriteRecruitPage () {
       dtype: 'Band'})
       .then((res) => {
         console.log(res.data.id);
-        window.alert('글이 작성되었습니다.')
+        if (minStore || maxStore) {
+          RecruitProcessAPI.sendPrequisites({
+            dtype: 'Age',
+            min: minStore,
+            max: maxStore,
+            gender: null,
+            areas: null,
+            genres: null,
+            positions: null
+          }, res.data.id)
+          .then((res) => {
+            console.log('age');
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+        }
+        if (genderStore !== null) {
+          RecruitProcessAPI.sendPrequisites({
+            dtype: 'Gender',
+            min: null,
+            max: null,
+            gender: genderStore,
+            areas: null,
+            genres: null,
+            positions: null
+          }, res.data.id)
+          .then((res) => {
+            console.log('gender');
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+        }
+        if (areaStore.length) {
+          RecruitProcessAPI.sendPrequisites({
+            dtype: 'Area',
+            min: null,
+            max: null,
+            gender: null,
+            areas: areaStore,
+            genres: null,
+            positions: null
+          }, res.data.id)
+          .then((res) => {
+            console.log('area');
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+        }
+        console.log(genreStore.length, areaStore.length, positionStore.length);
+        if (genreStore.length) {
+          RecruitProcessAPI.sendPrequisites({
+            dtype: 'Genre',
+            min: null,
+            max: null,
+            gender: null,
+            areas: null,
+            genres: genreStore,
+            positions: null
+          }, res.data.id)
+          .then((res) => {
+            console.log('genre');
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+        }
+        if (positionStore.length) {
+          RecruitProcessAPI.sendPrequisites({
+            dtype: 'Position',
+            min: null,
+            max: null,
+            gender: null,
+            areas: null,
+            genres: null,
+            positions: positionStore,
+          }, res.data.id)
+          .then((res) => {
+            console.log('position');
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+        }
         navigate('/recruit/' + res.data.id);
       })
       .catch((err) => {
@@ -77,7 +171,7 @@ function WriteRecruitPage () {
         {/* 제목 입력 */}
         <TitleTextField title={title} setTitle={setTitle}/>
         {/* 밴드 정보 */}
-        <BandInfoCard type={true}/>
+        <BandInfoCard type={true} bandId={undefined}/>
         {/* 본문 쓰기 */}
         <div className='flex flex-col gap-4'>
           <h3 className='text-accent text-base'>글쓰기</h3>
