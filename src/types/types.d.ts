@@ -55,6 +55,9 @@ export interface BandMemberType {
   name: string;
   birthday: string;
   positions: SelectionType[];
+  avatarUrl: string;
+  birthday: Date;
+  age: number;
   isFrontman: boolean;
 }
 
@@ -75,18 +78,40 @@ export interface BandProfileType {
   [key: string]: any;
 }
 
+export interface PostType {
+  id: number;
+  title: string;
+  body: string;
+  dtype: string;
+  userEmail: string;
+  bandId: number;
+}
+
 export interface PrequisiteElementType {
+  preqId: number;
   id: number;
 }
 
 export interface PrequisiteRequestType {
-  dtyle: string;
+  dtype: string;
   min: number;
   max: number;
   gender: boolean;
   areas: PrequisiteElementType[];
   genres: PrequisiteElementType[];
   positions: PrequisiteElementType[];
+}
+
+export interface PrequisiteResponseType {
+  id: number;
+  dtype: string,
+  min: number | null,
+  max: number | null,
+  gender: boolean | null,
+  areas: AreaType[],
+  genres: SelectionType[],
+  positions: SelectionType[],
+  check: boolean
 }
 
 export interface SignUpUserInputType {
@@ -97,4 +122,14 @@ export interface SignUpUserInputType {
   passwordCheck: string;
   birthday: string;
   gender: string;
+}
+
+export interface PostCardType {
+  id: number;
+  title: string
+  body: string,
+  dtype: string,
+  bandId: number,
+  bandName: string,
+  bandAvatarUrl: string
 }
