@@ -92,7 +92,7 @@ function PortfolioPage() {
 
   return (
     <MyPageTemplate>
-      <div>
+      <div className='flex flex-row'>
         <button
           onClick={() => {
             setPortfolioTarget('user');
@@ -108,6 +108,13 @@ function PortfolioPage() {
           className='btn btn-primary'
         >
           밴드 포트폴리오 만들기
+        </button>
+        <button className='btn btn-secondary px-1'>
+          <Link to={`/portfolio/${portfolioTarget}`}>
+            PDF
+            <br />
+            다운로드
+          </Link>
         </button>
       </div>
       <div>
