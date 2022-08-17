@@ -1,12 +1,12 @@
-import MyPageTemplate from '../../../components/MyPageTemplate';
-import { useState, useEffect } from 'react';
-import BandProfileAPI from '../../../apis/BandProfileAPI';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
 import { vacantBandProfile } from '../../BandProfile/initialBandProfile';
 import { BandMemberType, BandProfileType } from '../../../types/types';
 import BandMemberDefaultPic from '../../../assets/band-default-pic.png';
 import { positionToKorean } from '../../../assets/options/positionOptions';
 import { PictureType } from '../../../types/types';
+import usePortfolioStore from '../PortfolioStore';
+import makePDF from '../makePDF';
 
 // TODO : 먼저 밴드 포트폴리오 형식을 구성한다. 그리고 나서 거기 들어갈 내용을 고르는 기능을 만든다.
 function PortfolioMemberItem({ member }: { member: BandMemberType }) {
@@ -115,27 +115,23 @@ function BandPortFolio({ portfolio }: { portfolio: BandProfileType }) {
 }
 
 function BandPortFolioPage() {
-  const [chosenProfile, setChosenProfile] = useState(vacantBandProfile);
+  const portfolio = usePortfolioStore((state) => state.portfolio);
+  const navigate = useNavigate();
+
+  const portfolioRef = useRef(null);
 
   useEffect(() => {
-    BandProfileAPI.getBandProfileInfo()
-      .then((res) => {
-        if (res.status === 200) {
-          // 제대로 응답을 받았을 경우에는 응답으로 온 프로필을 밴드 프로필로
-          console.log(res.data);
-          setChosenProfile(res.data);
-        }
-        //아닌 경우 밴드가 없거나 뭔가 오류가 발생했다는 뜻이므로 빈 프로필을 보여준다
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const elements = portfolioRef.current;
+    if (elements != null) {
+      makePDF(elements);
+    }
+    //navigate('/portfolio');
   }, []);
 
   return (
-    <MyPageTemplate>
-      <BandPortFolio portfolio={chosenProfile} />
-    </MyPageTemplate>
+    <div className='flex justify-start' ref={portfolioRef}>
+      <BandPortFolio portfolio={portfolio} />
+    </div>
   );
 }
 

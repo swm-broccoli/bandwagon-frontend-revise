@@ -47,6 +47,12 @@ function BandPortfolioMaker() {
         if (res.status === 200) {
           console.log(res.data);
           setBandProfile(res.data);
+          setPortfolio({
+            ...portfolio,
+            avatarUrl: res.data.avatarUrl,
+            name: res.data.name,
+            bandMembers: res.data.bandMembers,
+          });
         }
       })
       .catch((err) => {
