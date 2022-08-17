@@ -13,6 +13,7 @@ import {
   PortfolioSelectList,
   PortfolioDescription,
 } from './styles';
+import usePortfolioStore from './PortfolioStore';
 
 function BandPortfolioMaker() {
   const [bandProfile, setBandProfile] =
@@ -21,21 +22,23 @@ function BandPortfolioMaker() {
   const [portfolioProfile, setPortfolioProfile] =
     useState<BandProfileType>(vacantBandProfile);
 
+  const { portfolio, setPortfolio } = usePortfolioStore();
+
   const onCheckboxClick = (e: React.MouseEvent<HTMLInputElement>) => {
     const { name, checked } = e.currentTarget;
     if (checked) {
       //체크박스가 체크됨
-      setPortfolioProfile({
-        ...portfolioProfile,
+      setPortfolio({
+        ...portfolio,
         [name]: bandProfile[name],
       });
     } else {
-      setPortfolioProfile({
-        ...portfolioProfile,
+      setPortfolio({
+        ...portfolio,
         [name]: vacantBandProfile[name],
       });
     }
-    console.log(portfolioProfile);
+    console.log(portfolio);
   };
 
   useEffect(() => {
