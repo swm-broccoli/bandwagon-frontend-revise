@@ -1,9 +1,84 @@
 import MyPageTemplate from '../../components/MyPageTemplate';
+import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { BandProfileType } from '../../types/types';
+import { vacantBandProfile } from '../BandProfile/initialBandProfile';
+import BandProfileAPI from '../../apis/BandProfileAPI';
+import {
+  UserPortfolioMaker,
+  PortfolioAvatar,
+  PortfolioText,
+  PortfolioMemberList,
+  PortfolioAreaList,
+  PortfolioSelectList,
+  PortfolioDescription,
+} from './styles';
+
+function BandPortfolioMaker() {
+  const [bandProfile, setBandProfile] = useState(vacantBandProfile);
+
+  useEffect(() => {
+    BandProfileAPI.getBandProfileInfo()
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
+          setBandProfile(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  return (
+    <div>
+      <PortfolioAvatar avatarURL={bandProfile.avatarUrl} />
+      <PortfolioText label='밴드 이름' text={bandProfile.name} />
+      <PortfolioMemberList
+        label='밴드 멤버'
+        bandMembers={bandProfile.bandMembers}
+      />
+      <PortfolioAreaList label='지역' areas={bandProfile.areas} />
+      <PortfolioSelectList label='활동 요일' selections={bandProfile.days} />
+      <PortfolioSelectList label='선호 장르' selections={bandProfile.genres} />
+      <PortfolioDescription
+        label='밴드 소개'
+        description={bandProfile.description}
+      />
+    </div>
+  );
+}
 
 function PortfolioPage() {
+  const [portfolioTarget, setPortfolioTarget] = useState('band');
+
   return (
     <MyPageTemplate>
-      <div>포트폴리오 페이지입니다.</div>
+      <div>
+        <button
+          onClick={() => {
+            setPortfolioTarget('user');
+          }}
+          className='btn btn-primary'
+        >
+          사용자 포트폴리오 만들기
+        </button>
+        <button
+          onClick={() => {
+            setPortfolioTarget('band');
+          }}
+          className='btn btn-primary'
+        >
+          밴드 포트폴리오 만들기
+        </button>
+      </div>
+      <div>
+        {portfolioTarget === 'user' ? (
+          <UserPortfolioMaker />
+        ) : (
+          <BandPortfolioMaker />
+        )}
+      </div>
     </MyPageTemplate>
   );
 }

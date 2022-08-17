@@ -33,7 +33,7 @@ export const myPageMenuItems = [
   {
     // 아이콘 출처는 https://www.flaticon.com/free-icon/research_2010826?term=resume&page=1&position=30&page=1&position=30&related_id=2010826&origin=search#
     label: '포트폴리오',
-    to: '/portfolio/user',
+    to: '/portfolio',
     icon: PortfolioIcon,
     activeIcon: PortfolioActiveIcon,
   },
