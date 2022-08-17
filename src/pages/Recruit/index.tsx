@@ -10,7 +10,8 @@ import RecruitAPI from '../../apis/RecruitAPI';
 import { useSearchPostStore } from '../../stores/SearchPostStore';
 import { Link, useNavigate } from 'react-router-dom';
 
-function RecruitPage() {
+// true: 구인, false: 구직
+function RecruitPage(props: {type: boolean}) {
   const [postList, setPostList] = useState<PostCardType[]>([]);
   const [totalItems, setTotalItems] = useState<number>(0);
   const {
@@ -55,15 +56,15 @@ function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     <>
       <GlobalNavBar />
       <div className='grid grid-cols-[1fr_3fr_3fr_1fr] auto-rows-auto'>
-        <RecruitTab clicked={true} />
+        <RecruitTab clicked={props.type} />
         <div className='row-start-1 col-start-3 justify-self-end pt-12'>
         <div className="dropdown dropdown-end">
           <label tabIndex={0}>
              <Button label='글쓰기' x='w-[7.5rem] ' y='h-10 ' textSize='text-sm' onclick={(e) => <></>}/>
           </label>
           <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-            <li><Link to='write/user'>밴드 찾기</Link></li>
-            <li><Link to='write/band'>멤버 찾기</Link></li>
+            <li><Link to='/recruit/band/write'>밴드 찾기</Link></li>
+            <li><Link to='/recruit/user/write'>멤버 찾기</Link></li>
           </ul>
         </div>
         </div>
@@ -76,7 +77,7 @@ function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
           {postList.length ? 
             <>
             {postList.map((post, index) => 
-              <Link to={post.id.toString()} key={index}>
+              <Link to={'/recruit/' + post.id.toString()} key={index}>
                 <ArticleCard 
                 pic={post.bandAvatarUrl}
                 title={post.title}

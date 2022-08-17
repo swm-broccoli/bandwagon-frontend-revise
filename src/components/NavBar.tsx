@@ -23,7 +23,7 @@ function GlobalNavBar() {
       label: '광장',
     },
     {
-      link: '/recruit',
+      link: '/recruit/band',
       label: '구인구직',
     },
     {
