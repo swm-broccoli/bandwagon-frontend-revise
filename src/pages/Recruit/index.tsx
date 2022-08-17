@@ -77,7 +77,7 @@ function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
           </ul>
         </div>
         </div>
-        <SearchBox onClick={handleClick}/>
+        <SearchBox type={props.type} onClick={handleClick}/>
         <div className='row-start-3 col-start-2 flex gap-4 pt-14'>
           <h2 className='text-xl'>새 글</h2>
           <h2 className='text-xl text-secondary'>{totalItems + ' 개'}</h2>
