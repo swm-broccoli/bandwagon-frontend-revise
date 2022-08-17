@@ -7,7 +7,11 @@ import BandInfoCard from '../../components/BandInfoCard';
 import ApplyBox from './ApplyBox';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
 import { useParams } from 'react-router-dom';
-import { BandProfileType, PostType, UserProfileType } from '../../types/types';
+import { useLoginStore } from '../../stores/LoginStore';
+import {
+  BandProfileType,
+  PostType,
+  UserProfileType } from '../../types/types';
 import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 import UserInfoCard from '../../components/UserInfoCard';
 
@@ -50,9 +54,10 @@ function ReadArticleCard (props: {article: string | undefined}) {
 
 function ReadRecruitPage () {
   const { postID } = useParams();
-  const [type, setType] = useState<boolean>(true);
+  const [type, setType] = useState<boolean>(false);
   const [postInfo, setPostInfo] = useState<PostType>();
   const [bandId, setBandId] = useState<number>();
+  const { isLoggedIn } = useLoginStore();
   const [bandInfo, setBandInfo] = useState<BandProfileType>();
   const [userId, setUserId] = useState<string>();
   const [userInfo, setUserInfo] = useState<UserProfileType>();
@@ -63,14 +68,9 @@ function ReadRecruitPage () {
         console.log(res.data);
         setPostInfo(res.data);
         if (res.data.dtype == 'Band') {
+          setType(true);
           setBandId(res.data.bandId);
-          if (postID) {
-            RecruitProcessAPI.getPrequisites(postID)
-            .then((res) =>  console.log(res.data))
-            .catch((err) => console.log(err));
-          }
         } else if (res.data.dtype == 'User') {
-          setType(false);
           setUserId(res.data.userEmail);
         }
       })
@@ -124,7 +124,12 @@ function ReadRecruitPage () {
           </div>
           <ReadArticleCard article={postInfo?.body}/>
           <div className='row-start-4 col-start-2 md:row-start-2 md:col-start-3 md:mt-9 md:justify-self-end'>
-            <ApplyBox type={type} />
+            {postID ?
+              <ApplyBox
+                type={type}
+                isLoggedIn={isLoggedIn}
+                postId={postID}/> :
+              <></>}
           </div>
         </div>
       </div>

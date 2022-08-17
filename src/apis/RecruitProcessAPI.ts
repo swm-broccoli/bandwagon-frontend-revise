@@ -1,7 +1,7 @@
 // 지원 가능 조건, 지원 양식 관련 API
 
-import {request} from './request';
 import { AxiosResponse } from 'axios';
+import {request} from './request';
 
 interface RecruitProcessApiType {
   sendPrequisites: (preqInfo: {
@@ -14,6 +14,7 @@ interface RecruitProcessApiType {
     positions: {id: number}[] | null;
   }, postId: string) => Promise<AxiosResponse>,
   getPrequisites: (postId: string) => Promise<AxiosResponse>
+  checkPrequisites: (postId: string | undefined) => Promise<AxiosResponse>
 }
 
 const RecruitProcessAPI: RecruitProcessApiType = {
@@ -23,6 +24,9 @@ const RecruitProcessAPI: RecruitProcessApiType = {
   },
   getPrequisites: (postId) => {
     return request.get('api/band/post/' + postId + '/prerequisites');
+  },
+  checkPrequisites: (postId) => {
+    return request.get('/api/band/post/' + postId + '/prerequisites/check');
   }
 }
 

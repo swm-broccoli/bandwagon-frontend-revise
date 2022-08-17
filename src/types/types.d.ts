@@ -100,6 +100,18 @@ export interface PrequisiteRequestType {
   positions: PrequisiteElementType[];
 }
 
+export interface PrequisiteResponseType {
+  id: number;
+  dtype: string,
+  min: number | null,
+  max: number | null,
+  gender: boolean | null,
+  areas: AreaType[],
+  genres: SelectionType[],
+  positions: SelectionType[],
+  check: boolean
+}
+
 export interface SignUpUserInputType {
   name: string;
   nickname: string;
