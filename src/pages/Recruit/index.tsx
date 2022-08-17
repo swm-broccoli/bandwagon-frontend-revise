@@ -5,7 +5,7 @@ import GlobalNavBar from '../../components/NavBar';
 import Button from '../../components/Button';
 import RecruitTab from './RecruitTab';
 import SearchBox from './SearchBox';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function RecruitPage() {
   return (
@@ -14,9 +14,15 @@ function RecruitPage() {
       <div className='grid grid-cols-[1fr_3fr_3fr_1fr] auto-rows-auto'>
         <RecruitTab clicked={true} />
         <div className='row-start-1 col-start-3 justify-self-end pt-12'>
-        <Link to='/recruit/write'>
-          <Button label='글쓰기' x='w-[7.5rem] ' y='h-10 ' textSize='text-sm' />
-        </Link>
+        <div className="dropdown dropdown-end">
+          <label tabIndex={0}>
+             <Button label='글쓰기' x='w-[7.5rem] ' y='h-10 ' textSize='text-sm' onclick={(e) => <></>}/>
+          </label>
+          <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+            <li><Link to='write/user'>밴드 찾기</Link></li>
+            <li><Link to='write/band'>멤버 찾기</Link></li>
+          </ul>
+        </div>
         </div>
         <SearchBox />
         <div className='row-start-3 col-start-2 text-xl mt-14'>새 글 </div>

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import ProfileAddModal from '../../components/ProfileAddModal';
 import Select from '../../components/Select';
 import PrequisiteElement from './PrequisiteElement';
+import { useBandRequirementStore } from '../../stores/BandRequirementStore';
+import { SelectionType } from '../../types/types';
 
 function BandPrequisitesCard () {
   const options = [
@@ -10,8 +12,16 @@ function BandPrequisitesCard () {
     {id: 3, name: '성별'},
     {id: 4, name: '지역'},
     {id: 5, name: '장르'}];
-  const [option, setOption] = useState('');
-  const [prequisites, setPrequisites] = useState<string[]>([]);
+  const [option, setOption] = useState<SelectionType>({
+    id: 0,
+    name: ''});
+  const {
+    currentId,
+    prequisiteList,
+    minStore,
+    maxStore,
+    genderStore,
+    addPrequisite} = useBandRequirementStore();
 
   return (
     <div className='w-full h-fit flex flex-col bg-white border border-solid border-[#e5e5e5] rounded-xl p-5 gap-5'>
@@ -21,17 +31,24 @@ function BandPrequisitesCard () {
           <ProfileAddModal
             label='지원 조건 추가'
             addSelected={() => {
-              console.log(prequisites, option);
-              setPrequisites([...prequisites, option]);}}
+              if (minStore && maxStore && option.name == '나이') {
+                window.alert('나이 조건은 하나만 추가 가능합니다!');
+              } else if (genderStore !== null && option.name == '성별') {
+                window.alert('성별 조건은 하나만 추가 가능합니다!');
+              } else {
+                addPrequisite(currentId, option.name);
+              }}}
             children={
               <Select label='추가할 지원 조건을 선택하세요' options={options} setOption={setOption} />
             } />
         </div>
       </div>
       <div className='flex flex-col gap-3'>
-          {prequisites.map((prequisite, index) =>
+          {prequisiteList.map((prequisite, index) =>
           <div key={index}>
-            <PrequisiteElement type={prequisite} />
+            <PrequisiteElement 
+              id={prequisite.id}
+              type={prequisite.type} />
           </div>)}
         </div>
     </div>

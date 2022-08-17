@@ -86,11 +86,12 @@ export interface PostType {
 }
 
 export interface PrequisiteElementType {
+  preqId: number;
   id: number;
 }
 
 export interface PrequisiteRequestType {
-  dtyle: string;
+  dtype: string;
   min: number;
   max: number;
   gender: boolean;

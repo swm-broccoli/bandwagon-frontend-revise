@@ -110,11 +110,11 @@ function PrequisiteElement (props: {
     <>
     {props.checked ?
       <div className='flex w-48 h-fit gap-4 pl-4 py-1 bg-[#f4f9f9] rounded-2xl'>
-        <img src={ico_circle} className='h-fit mt-[0.325rem]' />
+        <img src={ico_circle} />
         {props.children}
       </div> :
       <div className='flex w-48 h-fit gap-4 bg-[#f9f4f7] pl-4 py-1 rounded-2xl'>
-        <img src={ico_x} className='h-fit mt-[0.325rem]' />
+        <img src={ico_x} />
         {props.children}
     </div>
     }
@@ -166,14 +166,17 @@ function PrequisiteElementBox (props: {
 
 }
 
-function BandApplyBox (props:
-  {postId: string | undefined,
+// true: 구인, false: 구직
+function ApplyBox (props: {
+  type: boolean,
+  postId: string | undefined,
   isLoggedIn: boolean}) {
   const [isHeartChecked, setIsHeartChecked] = useState(false);
   const [preqCheck, setPreqCheck] = useState<PrequisiteResponseType[]>();
 
   useEffect(() => {
-    if (props.isLoggedIn) {
+    console.log('apply box', props.type)
+    if (props.isLoggedIn && props.type) {
       RecruitProcessAPI.checkPrequisites(props.postId)
       .then((res) => {
         console.log(res.data);
@@ -183,7 +186,7 @@ function BandApplyBox (props:
         console.log(err);
       })
     }
-  }, [props.postId])
+  }, [props.postId, props.type])
 
   function handleHeartClick (e: React.MouseEvent<HTMLButtonElement>) {
     setIsHeartChecked(!isHeartChecked);
@@ -208,7 +211,11 @@ function BandApplyBox (props:
         <div className='flex flex-col gap-[0.325rem]'>
           <button className='group'>
               <img src={btn_apply} />
-              {preqCheck ? <PrequisiteTooltip checked={preqCheck}/> : <></>}
+              {props.type ?
+                preqCheck ?
+                  <PrequisiteTooltip checked={preqCheck}/> :
+                  <></> :
+                <></>}
           </button>
           <p className='text-neutral text-sm text-center'>지원하기</p>
         </div>
@@ -216,4 +223,4 @@ function BandApplyBox (props:
   );
 };
 
-export default BandApplyBox;
+export default ApplyBox;

@@ -28,8 +28,11 @@ function App() {
           <Route path='account' element={<AccountEditPage />} />
         </Route>
         <Route path='recruit' element={<RecruitPage />} />
-        <Route path='recruit/write' element={<WriteRecruitPage />} />
-        <Route path="/recruit/:postID" element={<ReadRecruitPage />} />
+        <Route path='recruit/write/band' element={
+          <WriteRecruitPage type={true} />} />
+        <Route path='recruit/write/user' element={
+          <WriteRecruitPage type={false} />} />
+        <Route path='/recruit/:postID' element={<ReadRecruitPage />} />
         <Route path='ui' element={<UIPage />} />
       </Routes>
     </div>
