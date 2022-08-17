@@ -1,6 +1,6 @@
 import MyPageTemplate from '../../components/MyPageTemplate';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BandProfileType } from '../../types/types';
 import { vacantBandProfile } from '../BandProfile/initialBandProfile';
 import BandProfileAPI from '../../apis/BandProfileAPI';
@@ -15,7 +15,28 @@ import {
 } from './styles';
 
 function BandPortfolioMaker() {
-  const [bandProfile, setBandProfile] = useState(vacantBandProfile);
+  const [bandProfile, setBandProfile] =
+    useState<BandProfileType>(vacantBandProfile);
+
+  const [portfolioProfile, setPortfolioProfile] =
+    useState<BandProfileType>(vacantBandProfile);
+
+  const onCheckboxClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    const { name, checked } = e.currentTarget;
+    if (checked) {
+      //체크박스가 체크됨
+      setPortfolioProfile({
+        ...portfolioProfile,
+        [name]: bandProfile[name],
+      });
+    } else {
+      setPortfolioProfile({
+        ...portfolioProfile,
+        [name]: vacantBandProfile[name],
+      });
+    }
+    console.log(portfolioProfile);
+  };
 
   useEffect(() => {
     BandProfileAPI.getBandProfileInfo()
@@ -38,7 +59,12 @@ function BandPortfolioMaker() {
         label='밴드 멤버'
         bandMembers={bandProfile.bandMembers}
       />
-      <PortfolioAreaList label='지역' areas={bandProfile.areas} />
+      <PortfolioAreaList
+        label='지역'
+        areas={bandProfile.areas}
+        name='areas'
+        onCheckboxClick={onCheckboxClick}
+      />
       <PortfolioSelectList label='활동 요일' selections={bandProfile.days} />
       <PortfolioSelectList label='선호 장르' selections={bandProfile.genres} />
       <PortfolioDescription

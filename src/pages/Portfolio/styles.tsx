@@ -1,6 +1,7 @@
 import { AreaType, BandMemberType, SelectionType } from '../../types/types';
 import TagElement from '../../components/TagElement';
 import { positionToKorean } from '../../assets/options/positionOptions';
+import React from 'react';
 
 export function PortfolioAvatar({ avatarURL }: { avatarURL: string }) {
   return (
@@ -20,7 +21,7 @@ export function PortfolioText({
   text: string;
 }) {
   return (
-    <article>
+    <div>
       <div className='form-control h-10 w-full flex flex-row justify-start items-center my-2'>
         <label className='label w-1/5 py-0'>
           <span className='label-text text-accent'>{label}</span>
@@ -28,7 +29,7 @@ export function PortfolioText({
         <div className='flex items-center h-10 w-3/5'>{text}</div>
       </div>
       <div className='divider m-0' />
-    </article>
+    </div>
   );
 }
 
@@ -61,7 +62,7 @@ export function PortfolioMemberList({
   bandMembers: BandMemberType[];
 }) {
   return (
-    <article className='w-full flex flex-col my-2'>
+    <div className='w-full flex flex-col my-2'>
       <div className='flex flex-row justify-between'>
         <label className='label w-1/4 py-0 mb-5'>
           <span className='label-text text-accent'>{label}</span>
@@ -73,19 +74,29 @@ export function PortfolioMemberList({
         ))}
       </ul>
       <div className='divider m-0 mt-5' />
-    </article>
+    </div>
   );
 }
 
 export function PortfolioAreaList({
   label,
   areas,
+  name,
+  onCheckboxClick,
 }: {
   label: string;
   areas: AreaType[];
+  name: string;
+  onCheckboxClick: (e: React.MouseEvent<HTMLInputElement>) => void;
 }) {
   return (
-    <article>
+    <div className='flex flex-row items-center'>
+      <input
+        type='checkbox'
+        name={name}
+        onClick={onCheckboxClick}
+        className='checkbox checkbox-primary'
+      />
       <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
         <div className='flex w-4/5 flex-row justify-start'>
           <label className='label w-1/4 py-0'>
@@ -93,13 +104,16 @@ export function PortfolioAreaList({
           </label>
           <div className='flex flex-row items-center h-10 w-3/4 mr-2 text-accent'>
             {areas.map((area, index) => (
-              <div className='mr-2'>{`${area.city} ${area.district}`}</div>
+              <div
+                key={area.id}
+                className='mr-2'
+              >{`${area.city} ${area.district}`}</div>
             ))}
           </div>
         </div>
       </div>
       <div className='divider m-0' />
-    </article>
+    </div>
   );
 }
 
@@ -111,7 +125,7 @@ export function PortfolioSelectList({
   selections: SelectionType[];
 }) {
   return (
-    <article>
+    <div>
       <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
         <div className='w-4/5 flex flex-row justify-start'>
           <label className='label w-1/4 py-0'>
@@ -125,7 +139,7 @@ export function PortfolioSelectList({
         </div>
       </div>
       <div className='divider m-0' />
-    </article>
+    </div>
   );
 }
 
@@ -137,7 +151,7 @@ export function PortfolioDescription({
   description: string;
 }) {
   return (
-    <article className='w-full grid grid-flow-row mt-5'>
+    <div className='w-full grid grid-flow-row mt-5'>
       <label className='label min-w-[52px] p-0 pl-1 justify-between'>
         <span className='label-text text-accent w-4/5 mr-2'>{label}</span>
       </label>
@@ -147,7 +161,7 @@ export function PortfolioDescription({
         readOnly
       />
       <div className='divider mt-5' />
-    </article>
+    </div>
   );
 }
 
