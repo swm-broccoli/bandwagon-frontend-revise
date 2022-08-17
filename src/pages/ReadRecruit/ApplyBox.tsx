@@ -33,7 +33,8 @@ function PrequisiteElement (props: {satisfied: boolean}) {
   )
 }
 
-function BandApplyBox () {
+// true: 구인, false: 구직
+function ApplyBox (props: {type: boolean}) {
   const [isHeartChecked, setIsHeartChecked] = useState(false);
 
   function handleHeartClick (e: React.MouseEvent<HTMLButtonElement>) {
@@ -59,7 +60,7 @@ function BandApplyBox () {
         <div className='flex flex-col gap-[0.325rem]'>
           <button className='group'>
               <img src={btn_apply} />
-              <PrequisiteTooltip />
+              {props.type ? <PrequisiteTooltip /> : <></>}
           </button>
           <p className='text-neutral text-sm text-center'>지원하기</p>
         </div>
@@ -67,4 +68,4 @@ function BandApplyBox () {
   );
 };
 
-export default BandApplyBox;
+export default ApplyBox;
