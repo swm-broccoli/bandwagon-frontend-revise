@@ -19,9 +19,12 @@ function RecruitPage(props: {type: boolean}) {
     selectStore,
     titleStore,
     minAgeStore,
-    maxAgeStore} = useSearchPostStore();
+    maxAgeStore,
+    clearStore} = useSearchPostStore();
 
   useEffect(() => {
+    clearStore();
+    
     if (props.type) {
       RecruitAPI.LoadBandPost('')
       .then((res) => {
@@ -50,15 +53,27 @@ function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
 
     console.log(requestParam);
 
-    RecruitAPI.LoadBandPost(requestParam)
-    .then((res) => {
-      console.log(res.data);
-      setBandPostList(res.data.posts);
-      setTotalItems(res.data.totalItems);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+    if (props.type) {
+      RecruitAPI.LoadBandPost(requestParam)
+      .then((res) => {
+        console.log(res.data);
+        setBandPostList(res.data.posts);
+        setTotalItems(res.data.totalItems);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    } else {
+      RecruitAPI.LoadUserPost(requestParam)
+      .then((res) => {
+        console.log(res.data);
+        setUserPostList(res.data.posts);
+        setTotalItems(res.data.totalItems);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
   }
 
   return (

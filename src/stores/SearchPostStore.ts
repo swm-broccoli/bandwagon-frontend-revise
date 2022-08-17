@@ -9,6 +9,7 @@ interface searchPostStoreType {
   selectStore: string[],
   genreArray: SelectionType[],
   areaArray: AreaType[],
+  clearStore: () => void,
   changeTitle: (title: string) => void,
   changeMinAge: (min: string) => void,
   changeMaxAge: (max: string) => void,
@@ -30,6 +31,16 @@ export const useSearchPostStore = create<searchPostStoreType>()(
     selectStore: [],
     genreArray: [],
     areaArray: [],
+    clearStore: () => {
+      set((state) => ({
+        titleStore: '',
+        minAgeStore: '',
+        maxAgeStore: '',
+        selectStore: [],
+        genreArray: [],
+        areaArray: []
+      }))
+    },
     changeTitle: (title) => {
       if (title) {
         set((state) => ({titleStore: '&title=' + title}))
