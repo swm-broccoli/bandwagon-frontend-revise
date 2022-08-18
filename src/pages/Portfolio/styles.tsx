@@ -2,7 +2,11 @@ import { AreaType, BandMemberType, SelectionType } from '../../types/types';
 import TagElement from '../../components/TagElement';
 import { positionToKorean } from '../../assets/options/positionOptions';
 import React from 'react';
-import { PerformanceRecordType, RecordURLType } from '../../types/types';
+import {
+  PerformanceRecordType,
+  RecordURLType,
+  PictureType,
+} from '../../types/types';
 
 export function PortfolioAvatar({ avatarURL }: { avatarURL: string }) {
   return (
@@ -262,6 +266,44 @@ export function PortfolioRecordField({
           />
         ) : null,
       )}
+      <div className='divider m-0 mt-5' />
+    </div>
+  );
+}
+
+function PortfolioAlbumItem({ photo }: { photo: PictureType }) {
+  if (photo.name === null) {
+    return null;
+  } else {
+    return (
+      <div className='flex flex-row shrink-0 mr-4 items-start'>
+        <img
+          className='w-32 h-32 rounded-xl mr-1'
+          src={photo.name}
+          alt={`밴드 사진`}
+        />
+      </div>
+    );
+  }
+}
+
+export function PortfolioAlbum({
+  label,
+  photos,
+}: {
+  label: string;
+  photos: PictureType[];
+}) {
+  return (
+    <div className='w-full'>
+      <div className='flex flex-row justify-between items-center text-sm h-8 mb-5'>
+        <h1>{label}</h1>
+      </div>
+      <div className='flex flex-row overflow-x-auto items-center'>
+        {photos.map((photo) => (
+          <PortfolioAlbumItem key={photo.id} photo={photo} />
+        ))}
+      </div>
       <div className='divider m-0 mt-5' />
     </div>
   );

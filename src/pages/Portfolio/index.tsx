@@ -13,6 +13,7 @@ import {
   PortfolioSelectList,
   PortfolioDescription,
   PortfolioRecordField,
+  PortfolioAlbum,
 } from './styles';
 import usePortfolioStore from './PortfolioStore';
 
@@ -119,6 +120,7 @@ function BandPortfolioMaker() {
         name='description'
         onCheckboxClick={onCheckboxClick}
       />
+      <PortfolioAlbum label='밴드 사진첩' photos={bandProfile.bandPhotos} />
       <PortfolioRecordField
         label='연습 기록'
         records={bandProfile.bandPractices}
