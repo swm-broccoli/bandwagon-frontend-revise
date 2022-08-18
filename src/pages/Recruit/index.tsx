@@ -16,6 +16,7 @@ function RecruitPage(props: {type: boolean}) {
   const [bandPostList, setBandPostList] = useState<BandPostCardType[]>([]);
   const [userPostList, setUserPostList] = useState<UserPostCardType[]>([]);
   const [totalItems, setTotalItems] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const {
     pageStore,
     selectStore,
@@ -61,6 +62,7 @@ function RecruitPage(props: {type: boolean}) {
         console.log(res.data);
         setBandPostList(res.data.posts);
         setTotalItems(res.data.totalItems);
+        setTotalPages(res.data.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -71,6 +73,7 @@ function RecruitPage(props: {type: boolean}) {
         console.log(res.data);
         setUserPostList(res.data.posts);
         setTotalItems(res.data.totalItems);
+        setTotalPages(res.data.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -91,6 +94,7 @@ function RecruitPage(props: {type: boolean}) {
         console.log(res.data);
         setBandPostList(res.data.posts);
         setTotalItems(res.data.totalItems);
+        setTotalPages(res.data.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -101,6 +105,7 @@ function RecruitPage(props: {type: boolean}) {
         console.log(res.data);
         setUserPostList(res.data.posts);
         setTotalItems(res.data.totalItems);
+        setTotalPages(res.data.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -162,7 +167,7 @@ function RecruitPage(props: {type: boolean}) {
           }
         </div>
         <div className='w-auto h-fit row-start-5 col-start-2 col-end-4 justify-self-center mt-[4.5rem]'>
-          <Pagination type={props.type} totalPage={(totalItems / 10)}/>
+          <Pagination type={props.type} totalPage={totalPages - 1}/>
         </div>
     </div>
     <GlobalFooter />
