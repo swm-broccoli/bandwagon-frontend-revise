@@ -31,6 +31,18 @@ function Pagination (props: {
   totalPage: number
 }) {
   const [currentPage, setCurruentPage] = useState(1);
+
+  function ButtonList () {
+    const list = [];
+  
+    for (let i = 0; i < props.totalPage; i++) {
+      list.push(<PageButton
+        pageNum={i + 1}
+        isClicked={currentPage == i + 1 ? true : false}
+        setCurrentPage={setCurruentPage} />);
+    }
+    return list;
+  }  
   
   return (
     <div className='flex flex-row'>
@@ -39,14 +51,7 @@ function Pagination (props: {
         <div className='text-[#b9b9b9] text-xs'>이전</div>
       </button>
       <ul className='flex flex-row items-center content-center gap-2'>
-        <PageButton
-          pageNum={1}
-          isClicked={true}
-          setCurrentPage={setCurruentPage} />
-        <PageButton
-          pageNum={2}
-          isClicked={false}
-          setCurrentPage={setCurruentPage} />
+        {ButtonList()}
       </ul>
       <button className='flex flex-row items-center mt-1 ml-7'>
         <div className='text-[#b9b9b9] text-xs'>다음</div>

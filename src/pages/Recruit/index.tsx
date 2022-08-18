@@ -131,7 +131,7 @@ function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
           }
         </div>
         <div className='w-auto h-fit row-start-5 col-start-2 col-end-4 justify-self-center mt-[4.5rem]'>
-          <Pagination totalPage={totalItems}/>
+          <Pagination totalPage={(totalItems / 10)}/>
         </div>
     </div>
     <GlobalFooter />
