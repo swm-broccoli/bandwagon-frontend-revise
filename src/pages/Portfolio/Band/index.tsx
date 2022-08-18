@@ -7,6 +7,7 @@ import { positionToKorean } from '../../../assets/options/positionOptions';
 import { PictureType } from '../../../types/types';
 import usePortfolioStore from '../PortfolioStore';
 import makePDF from '../makePDF';
+import { useReactToPrint } from 'react-to-print';
 
 // TODO : 먼저 밴드 포트폴리오 형식을 구성한다. 그리고 나서 거기 들어갈 내용을 고르는 기능을 만든다.
 function PortfolioMemberItem({ member }: { member: BandMemberType }) {
@@ -116,9 +117,17 @@ function BandPortFolio({ portfolio }: { portfolio: BandProfileType }) {
 
 function BandPortFolioPage() {
   const portfolio = usePortfolioStore((state) => state.portfolio);
-  const navigate = useNavigate();
 
   const portfolioRef = useRef(null);
+  const handlePrint = useReactToPrint({
+    content: () => portfolioRef.current,
+  });
+
+  useEffect(() => {
+    if (portfolioRef.current) {
+      handlePrint();
+    }
+  }, []);
 
   return (
     <div className='flex justify-start' ref={portfolioRef}>
