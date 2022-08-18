@@ -54,8 +54,6 @@ function RecruitPage(props: {type: boolean}) {
   useEffect(() => {
     const requestParam = pageStore + titleStore + minAgeStore + maxAgeStore + selectStore.join('');
 
-    console.log(requestParam);
-
     if (props.type) {
       RecruitAPI.LoadBandPost(requestParam)
       .then((res) => {

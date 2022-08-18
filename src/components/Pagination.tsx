@@ -14,7 +14,7 @@ function PageButton (props: {
   };
 
   return (
-    <li className='w-5 h-5'>
+    <>
       {props.isClicked ?
         <button
           className='w-full h-full rounded-full bg-primary text-white text-sm font-medium'>
@@ -25,7 +25,7 @@ function PageButton (props: {
           onClick={handleClick}>
           {props.pageNum.toString()}
         </button>}
-    </li>
+    </>
   );
 };
 
@@ -33,14 +33,12 @@ function Pagination (props: {
   type: boolean,
   totalPage: number
 }) {
-  const [currentPage, setCurruentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   const [firstPage, setfirstPage] = useState(0);
   const [lastPage, setLastPage] = useState(10);
   const {changePage} = useSearchPostStore();
 
   useEffect(() => {
-    console.log(props.totalPage);
-
     if (props.totalPage && props.totalPage < 10) {
       setLastPage(props.totalPage);
     } else if (props.totalPage >= 10) {
@@ -55,11 +53,9 @@ function Pagination (props: {
         setLastPage(9);
       } else {
         if (currentPage + 5 > props.totalPage) {
-          console.log('last');
           setfirstPage(props.totalPage - 9);
           setLastPage(props.totalPage);
         } else {
-          console.log('basic');
           setfirstPage(currentPage - 4)
           setLastPage(currentPage + 5);
         }
@@ -70,31 +66,39 @@ function Pagination (props: {
   }, [currentPage]);
 
   useEffect(() => {
-    setCurruentPage(0);
+    setCurrentPage(0);
   }, [props.type]);
 
   function ButtonList () {
     const list = [];
   
     for (let i = firstPage; i <= lastPage; i++) {
-      list.push(<PageButton
+      list.push(<li key={i} className='w-5 h-5'>
+        <PageButton
         pageNum={i + 1}
         isClicked={currentPage == i ? true : false}
-        setCurrentPage={setCurruentPage} />);
+        setCurrentPage={setCurrentPage} />
+      </li>);
     }
     return list;
   }  
   
   return (
     <div className='flex flex-row'>
-      <button className='flex flex-row items-center mt-1 mr-7'>
+      <button
+        onClick={(e) => {
+          if (currentPage > 0) setCurrentPage(currentPage - 1)}}
+        className='flex flex-row items-center mt-1 mr-7'>
         <img src={btn_pre} className='mr-1.5 w-auto h-auto' />
         <div className='text-[#b9b9b9] text-xs'>이전</div>
       </button>
       <ul className='flex flex-row items-center content-center gap-2'>
         {ButtonList()}
       </ul>
-      <button className='flex flex-row items-center mt-1 ml-7'>
+      <button
+        onClick={(e) => {
+          if (currentPage < props.totalPage) setCurrentPage(currentPage + 1)}}
+        className='flex flex-row items-center mt-1 ml-7'>
         <div className='text-[#b9b9b9] text-xs'>다음</div>
         <img src={btn_next} className='ml-1.5' />
       </button>
