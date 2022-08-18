@@ -132,6 +132,7 @@ export interface BandPostCardType {
   bandId: number;
   bandName: string;
   bandAvatarUrl: string;
+  tagInfo: BandProfileType;
 }
 
 export interface UserPostCardType {
@@ -143,4 +144,5 @@ export interface UserPostCardType {
   email: string;
   nickname: string;
   userAvatarUrl: string;
+  tagInfo: UserProfileType;
 }

@@ -109,6 +109,8 @@ function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
                   authorPic={post.bandAvatarUrl}
                   authorName={post.bandName}
                   authorId={post.bandId.toString()}
+                  bandInfo={post.tagInfo}
+                  userInfo={null}
                   isHeartChecked={false} />
               </Link>
             )}
@@ -123,6 +125,8 @@ function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
                   authorPic={post.userAvatarUrl}
                   authorName={post.nickname}
                   authorId={post.email}
+                  bandInfo={null}
+                  userInfo={post.tagInfo}
                   isHeartChecked={false} />
               </Link>
             )}
