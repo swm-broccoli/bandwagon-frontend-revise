@@ -54,11 +54,11 @@ function BandPortFolio({ portfolio }: { portfolio: BandProfileType }) {
   return (
     <main className='flex flex-col items-center'>
       <h1 className='text-3xl'>우리는 {portfolio.name} 밴드입니다!</h1>
-      {/*<div className='avatar'>
+      <div className='avatar'>
         <div className='w-40 rounded-full'>
           <img src={portfolio.avatarUrl} alt={portfolio.name + '프로필 사진'} />
         </div>
-  </div>*/}
+      </div>
       <section>
         <div className='flex flex-row items-center'>
           {portfolio.bandMembers.map((member) => (
@@ -119,14 +119,6 @@ function BandPortFolioPage() {
   const navigate = useNavigate();
 
   const portfolioRef = useRef(null);
-
-  useEffect(() => {
-    const elements = portfolioRef.current;
-    if (elements != null) {
-      makePDF(elements);
-    }
-    //navigate('/portfolio');
-  }, []);
 
   return (
     <div className='flex justify-start' ref={portfolioRef}>
