@@ -6,11 +6,13 @@ import { PerformanceRecordType, RecordURLType } from '../../types/types';
 
 export function PortfolioAvatar({ avatarURL }: { avatarURL: string }) {
   return (
-    <div className='avatar w-1/3'>
-      <div className='w-full rounded-full'>
-        <img src={avatarURL} alt='프로필 사진' />
+    <section className='flex flex-col items-center'>
+      <div className='avatar w-1/3'>
+        <div className='w-full rounded-full'>
+          <img src={avatarURL} alt='프로필 사진' />
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 
