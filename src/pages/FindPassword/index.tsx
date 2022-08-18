@@ -1,10 +1,6 @@
-import { useState } from 'react';
-import FindAccountAPI from '../../apis/FindAccountAPI';
 import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
-import TextInput from '../../components/TextInput';
 import FindPasswordForm from './FindPasswordForm';
-import { useNavigate } from 'react-router-dom';
 
 function FindPasswordPage() {
   return (

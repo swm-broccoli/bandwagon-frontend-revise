@@ -11,13 +11,6 @@ interface UserAccountFormType {
   birthday: string;
 }
 
-function parseAccountEditForm(form: UserAccountFormType) {
-  return {
-    ...form,
-    birthday: form.birthday.split('T')[0],
-  };
-}
-
 function AccountEditForm({ label }: { label: string }) {
   const [userAccountInfo, setUserAccountInfo] = useState<UserAccountFormType>({
     name: '',
@@ -42,7 +35,7 @@ function AccountEditForm({ label }: { label: string }) {
   useEffect(() => {
     UserAccountAPI.getUserAccountInfo()
       .then((res) => {
-        setUserAccountInfo(parseAccountEditForm(res.data));
+        setUserAccountInfo(res.data);
         console.log(res.data);
       })
       .catch((err) => {
@@ -58,6 +51,17 @@ function AccountEditForm({ label }: { label: string }) {
       ...userAccountInfo,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const onUnregister = () => {
+    UserAccountAPI.unregisterUserAccount()
+      .then((res) => {
+        console.log(res.data);
+        alert('탈퇴 성공');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -113,6 +117,13 @@ function AccountEditForm({ label }: { label: string }) {
             </div>
             <div className='divider m-0 w-5/6' />
           </>
+          <button
+            type='button'
+            className='btn btn-neutral text-base-100 w-40 mt-2'
+            onClick={onUnregister}
+          >
+            회원 탈퇴
+          </button>
         </div>
       </form>
     </div>
