@@ -14,6 +14,9 @@ import ReadRecruitPage from './pages/ReadRecruit';
 import BandPortFolioPage from './pages/Portfolio/Band';
 import UserPortFolioPage from './pages/Portfolio/User';
 import PortfolioPage from './pages/Portfolio';
+import FindPasswordPage from './pages/FindPassword';
+import FindEmailPage from './pages/FindEmail';
+import NotFoundPage from './pages/NotFound';
 
 function App() {
   return (
@@ -21,6 +24,10 @@ function App() {
       <Routes>
         <Route path='/' element={<MainPage />} />
         <Route path='login' element={<LoginPage />} />
+        <Route path='find'>
+          <Route path='email' element={<FindEmailPage />} />
+          <Route path='password' element={<FindPasswordPage />} />
+        </Route>
         <Route path='signup' element={<SignUpPage />} />
         <Route path='profile'>
           <Route path='user' element={<UserProfilePage />} />
@@ -38,13 +45,15 @@ function App() {
         <Route path='recruit'>
           <Route path='band' element={<RecruitPage type={true} />} />
           <Route path='user' element={<RecruitPage type={false} />} />
-          <Route path='band/write' element={
-            <WriteRecruitPage type={true} />} />
-          <Route path='user/write' element={
-            <WriteRecruitPage type={false} />} />
+          <Route path='band/write' element={<WriteRecruitPage type={true} />} />
+          <Route
+            path='user/write'
+            element={<WriteRecruitPage type={false} />}
+          />
           <Route path=':postID' element={<ReadRecruitPage />} />
         </Route>
         <Route path='ui' element={<UIPage />} />
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </div>
   );
