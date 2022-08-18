@@ -81,10 +81,10 @@ function LoginPage() {
         <NaverLoginButton />
         <KaKaoLoginButton />
         <div className='flex flex-row mt-5'>
-          <Link to='/' className='px-5'>
+          <Link to='/find/email' className='px-5'>
             아이디 찾기
           </Link>
-          <Link to='/' className='px-5 border-x'>
+          <Link to='/find/password' className='px-5 border-x'>
             비밀번호 찾기
           </Link>
           <Link to='/signup' className='px-5'>
