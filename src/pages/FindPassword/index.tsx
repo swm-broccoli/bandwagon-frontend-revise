@@ -18,6 +18,12 @@ function FindPasswordForm() {
     FindAccountAPI.findPassword({ name: name, email: email })
       .then((res) => {
         console.log(res);
+        if (res.status === 200) {
+          alert(
+            `입력하신 이메일 ${email}로 임시 비밀번호를 발송했습니다. 발송된 메일을 확인하고 로그인해 주세요.`,
+          );
+          navigate('/');
+        }
       })
       .catch((err) => {
         alert(err.response.data.errorMessage);

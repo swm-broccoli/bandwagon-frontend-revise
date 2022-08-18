@@ -24,7 +24,7 @@ function FindEmailForm() {
         setEmailList((prev) => res.data.emails);
       })
       .catch((err) => {
-        console.log(err);
+        alert(err.response.data.errorMessage);
         navigate('/');
       });
   };
