@@ -20,8 +20,6 @@ function LoginForm() {
       window.alert('아이디 또는 비밀번호가 공란입니다.');
       return;
     }
-    console.log(id);
-    console.log(password);
 
     AuthAPI.signIn({ email: id, password: password })
       .then((res) => {

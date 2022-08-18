@@ -47,7 +47,6 @@ function setInterceptors(instance: AxiosInstance) {
         // 가입된 밴드 없음
       } else {
         // 기타 오류는 alert 처리
-        console.log(error.response.data.errorMessage);
         return window.alert(error.response.data.errorMessage);
       }
     },

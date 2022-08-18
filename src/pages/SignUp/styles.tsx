@@ -143,8 +143,6 @@ function SignUpForm() {
   const onSignUpSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('회원가입 폼 제출');
-    console.log('입력값:', signUpUserInput);
-    console.log('이메일 중복 체크:', emailDupChecked);
     if (signUpSubmissionValidate(signUpUserInput)) {
       AuthAPI.signUp({
         ...signUpUserInput,
