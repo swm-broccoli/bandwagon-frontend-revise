@@ -34,9 +34,31 @@ function Pagination (props: {
   totalPage: number
 }) {
   const [currentPage, setCurruentPage] = useState(0);
+  const [startPage, setStartPage] = useState(0);
+  const [lastPage, setLastPage] = useState(10);
   const {changePage} = useSearchPostStore();
 
   useEffect(() => {
+    if (props.totalPage && props.totalPage < 10) {
+      setLastPage(props.totalPage);
+    } else if (props.totalPage >= 10) {
+      setLastPage(9);
+    }
+  }, [props.totalPage]);
+
+  useEffect(() => {
+    if (currentPage - 4 < 0) {
+      setStartPage(0);
+    } else {
+      setStartPage(currentPage - 4);
+    }
+
+    if (currentPage + 5 > props.totalPage) {
+      setLastPage(props.totalPage);
+    } else {
+      setLastPage(currentPage + 5);
+    }
+
     changePage(currentPage);
   }, [currentPage]);
 
@@ -47,7 +69,7 @@ function Pagination (props: {
   function ButtonList () {
     const list = [];
   
-    for (let i = 0; i < props.totalPage; i++) {
+    for (let i = startPage; i <= lastPage; i++) {
       list.push(<PageButton
         pageNum={i + 1}
         isClicked={currentPage == i ? true : false}
