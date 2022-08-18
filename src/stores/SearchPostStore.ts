@@ -9,11 +9,14 @@ interface searchPostStoreType {
   selectStore: string[],
   genreArray: SelectionType[],
   areaArray: AreaType[],
+  clearStore: () => void,
   changeTitle: (title: string) => void,
   changeMinAge: (min: string) => void,
   changeMaxAge: (max: string) => void,
   addSelectStore: (type: string, id: number) => void,
   deleteSelectStore: (type: string, id: number) => void,
+  addGender: (type: string, gender: string) => void,
+  deleteGender: (type: string, gender: string) => void,
   addGenre: (element: SelectionType) => void,
   deleteGenre: (id: number) => void,
   addArea: (element: AreaType) => void,
@@ -28,6 +31,16 @@ export const useSearchPostStore = create<searchPostStoreType>()(
     selectStore: [],
     genreArray: [],
     areaArray: [],
+    clearStore: () => {
+      set((state) => ({
+        titleStore: '',
+        minAgeStore: '',
+        maxAgeStore: '',
+        selectStore: [],
+        genreArray: [],
+        areaArray: []
+      }))
+    },
     changeTitle: (title) => {
       if (title) {
         set((state) => ({titleStore: '&title=' + title}))
@@ -57,6 +70,16 @@ export const useSearchPostStore = create<searchPostStoreType>()(
       set((state) => ({
         selectStore: state.selectStore.filter(
           (todo) => todo !== '&' + type + '=' + id.toString())
+      }))
+    },
+    addGender: (type, gender) => {
+      set((state) => ({
+        selectStore: [...state.selectStore, '&' + type + '=' + gender]}))
+    },
+    deleteGender: (type, gender) => {
+      set((state) => ({
+        selectStore: state.selectStore.filter(
+          (todo) => todo !== '&' + type + '=' + gender)
       }))
     },
     addGenre: (element) => {
