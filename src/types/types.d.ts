@@ -74,6 +74,8 @@ export interface BandProfileType {
   bandGigs: PerformanceRecordType[];
   bandPhotos: PictureType[];
   isReaderFrontman: boolean;
+  // 인덱싱 타입 추가
+  [key: string]: any;
 }
 
 export interface PostType {

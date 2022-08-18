@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
 import MainPage from './pages/Main';
 import LoginPage from './pages/Login';
 import UIPage from './pages/TempUI';
@@ -11,6 +11,9 @@ import AccountEditPage from './pages/EditAccount';
 import RecruitPage from './pages/Recruit';
 import WriteRecruitPage from './pages/WriteRecruit';
 import ReadRecruitPage from './pages/ReadRecruit';
+import BandPortFolioPage from './pages/Portfolio/Band';
+import UserPortFolioPage from './pages/Portfolio/User';
+import PortfolioPage from './pages/Portfolio';
 
 function App() {
   return (
@@ -22,6 +25,11 @@ function App() {
         <Route path='profile'>
           <Route path='user' element={<UserProfilePage />} />
           <Route path='band' element={<BandProfilePage />} />
+        </Route>
+        <Route path='portfolio' element={<Outlet />}>
+          <Route path='' element={<PortfolioPage />} />
+          <Route path='user' element={<UserPortFolioPage />} />
+          <Route path='band' element={<BandPortFolioPage />} />
         </Route>
         <Route path='edit'>
           <Route path='password' element={<PasswordEditPage />} />

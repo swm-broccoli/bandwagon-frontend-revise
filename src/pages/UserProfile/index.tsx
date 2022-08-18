@@ -25,7 +25,7 @@ import {
 function parseUserProfile(userProfile: UserProfileType) {
   return {
     ...userProfile,
-    description: userProfile.description || '타입 추론을 잘하는 김형식입니다.',
+    description: userProfile.description || '프론트 개발자 김성현입니다.',
     userPerformances: userProfile.userPerformances.map((performance) => ({
       ...performance,
       performDate: performance.performDate.split('T')[0],
