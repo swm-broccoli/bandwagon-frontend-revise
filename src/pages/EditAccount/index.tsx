@@ -2,6 +2,7 @@ import MyPageTemplate from '../../components/MyPageTemplate';
 import EditPageInput from '../../components/EditPageInput';
 import UserAccountAPI from '../../apis/UserAccountAPI';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface UserAccountFormType {
   name: string;
@@ -9,6 +10,13 @@ interface UserAccountFormType {
   email: string;
   gender: string;
   birthday: string;
+}
+
+function parseUserProfile(userProfile: UserAccountFormType) {
+  return {
+    ...userProfile,
+    birthday: userProfile.birthday ? userProfile.birthday : '2000-01-01',
+  };
 }
 
 function AccountEditForm({ label }: { label: string }) {
@@ -35,7 +43,7 @@ function AccountEditForm({ label }: { label: string }) {
   useEffect(() => {
     UserAccountAPI.getUserAccountInfo()
       .then((res) => {
-        setUserAccountInfo(res.data);
+        setUserAccountInfo(parseUserProfile(res.data));
         console.log(res.data);
       })
       .catch((err) => {
@@ -53,15 +61,21 @@ function AccountEditForm({ label }: { label: string }) {
     });
   };
 
+  const navigate = useNavigate();
+
   const onUnregister = () => {
-    UserAccountAPI.unregisterUserAccount()
-      .then((res) => {
-        console.log(res.data);
-        alert('탈퇴 성공');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    let isConfirm = window.confirm('정말 밴드웨건을 탈퇴하시겠습니까?');
+    if (isConfirm) {
+      UserAccountAPI.unregisterUserAccount()
+        .then((res) => {
+          console.log(res.data);
+          alert('탈퇴 성공');
+          navigate('/');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
