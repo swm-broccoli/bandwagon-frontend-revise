@@ -261,6 +261,7 @@ export function BandMemberList({
             ...bandMembers,
             {
               id: tempNewMemberID, // 새로 추가한 멤버의 ID는 음수가 된다.
+              age: res.data.age,
               email: email,
               avatarUrl: res.data.avatarUrl,
               name: res.data.name,
