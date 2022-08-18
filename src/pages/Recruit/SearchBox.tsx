@@ -97,6 +97,38 @@ function SelectPracticeDayButton (props: {
   );
 };
 
+function SelectGenderButton (props: {
+  label: {type: string, name: string}}) {
+  const [clicked, setClicked] = useState<boolean>(false);
+  const {
+    addGender,
+    deleteGender} = useSearchPostStore();
+
+  useEffect(() => {
+    if (clicked) {
+      addGender('gender', props.label.type);
+    } else {
+      deleteGender('gender', props.label.type);
+    }
+  }, [clicked]);
+
+  return (
+    <>
+    {clicked ?
+      <button
+        className='w-16 h-[3.125rem] md:w-24 text-base text-primary font-medium border border-primary border-solid rounded-lg bg-success'
+        onClick={(e) => setClicked(false)}>
+        {props.label.name}
+      </button> :
+      <button
+        className='w-16 h-[3.125rem] md:w-24 text-base text-[#888888] border border-solid border-base-200 rounded-lg bg-white'
+        onClick={(e) => setClicked(true)}>
+        {props.label.name}
+      </button>}
+    </>
+  );
+};
+
 function SelectSession () {
   return (
     <ul className='row-start-3 col-start-2 flex flex-row flex-wrap gap-[0.625rem]'>
@@ -246,7 +278,23 @@ function SelectPracticeDay () {
   )
 }
 
+function SelectGender () {
+  const genderOptions = [
+    {type: 'false', name: '남자'},
+    {type: 'true', name: '여자'}];
+
+  return (
+    <ul className='row-start-7 col-start-2 flex flex-row flex-wrap gap-[0.625rem]'>
+      {genderOptions.map((gender, index) => 
+      <li key={index}>
+        <SelectGenderButton label={gender} />
+      </li>)}
+    </ul>
+  )
+}
+
 function SearchBox (props: {
+  type: boolean,
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void}) {
   return (
     <div className='w-full h-fit row-start-2 col-start-2 col-end-4 grid auto-rows-auto grid-cols-[minmax(auto,_116px)_auto] gap-4 p-10 max-w-7xl border border-solid border-base-200 rounded-xl bg-white mt-5'>
@@ -268,8 +316,14 @@ function SearchBox (props: {
       <SelectAge />
       <ConditionLabel label='장소' row='6' />
       <SelectArea />
-      <ConditionLabel label='합주 요일' row='7' />
-      <SelectPracticeDay />
+      {props.type ?
+        <ConditionLabel label='합주 요일' row='7' /> :
+        <ConditionLabel label='성별' row='7' />
+      }
+      {props.type ?
+        <SelectPracticeDay /> :
+        <SelectGender />
+      }
     </div>
   );
 };
