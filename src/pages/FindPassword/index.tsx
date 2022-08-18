@@ -1,15 +1,28 @@
 import { useState } from 'react';
+import FindAccountAPI from '../../apis/FindAccountAPI';
 import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
 import TextInput from '../../components/TextInput';
+import { useNavigate } from 'react-router-dom';
 
 function FindPasswordForm() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
+  const navigate = useNavigate();
+
   const onFindPasswordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(name, email);
+
+    FindAccountAPI.findPassword({ name: name, email: email })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        alert(err.response.data.errorMessage);
+        navigate('/');
+      });
   };
 
   return (
