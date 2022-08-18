@@ -19,6 +19,7 @@ interface AuthApiType {
     birthday: string;
   }) => Promise<AxiosResponse>;
   checkEmail: (userInfo: { email: string }) => Promise<AxiosResponse>;
+  checkToken: () => Promise<AxiosResponse>;
 }
 
 const AuthAPI: AuthApiType = {
@@ -30,11 +31,12 @@ const AuthAPI: AuthApiType = {
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('userID');
     localStorage.removeItem('isSocial');
-    window.location.href = '/login';
+    // window.location.href = '/login';
     useLoginStore.getState().logOut();
   },
   signUp: (userInfo) => request.post('api/signup', userInfo),
   checkEmail: (userInfo) => request.post('api/duplicate', userInfo),
+  checkToken: () => request.get('')
 };
 
 export default AuthAPI;
