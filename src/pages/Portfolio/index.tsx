@@ -120,7 +120,12 @@ function BandPortfolioMaker() {
         name='description'
         onCheckboxClick={onCheckboxClick}
       />
-      <PortfolioAlbum label='밴드 사진첩' photos={bandProfile.bandPhotos} />
+      <PortfolioAlbum
+        label='밴드 사진첩'
+        photos={bandProfile.bandPhotos}
+        name='bandPhotos'
+        onRecordCheckboxClick={onRecordCheckboxClick}
+      />
       <PortfolioRecordField
         label='연습 기록'
         records={bandProfile.bandPractices}

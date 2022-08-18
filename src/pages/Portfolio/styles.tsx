@@ -271,12 +271,28 @@ export function PortfolioRecordField({
   );
 }
 
-function PortfolioAlbumItem({ photo }: { photo: PictureType }) {
+function PortfolioAlbumItem({
+  photo,
+  name,
+  onRecordCheckboxClick,
+}: {
+  photo: PictureType;
+  name: string;
+  onRecordCheckboxClick: (e: React.MouseEvent<HTMLInputElement>) => void;
+}) {
   if (photo.name === null) {
     return null;
   } else {
     return (
       <div className='flex flex-row shrink-0 mr-4 items-start'>
+        {/* 기록 자체를 문자열화해서 값으로 가짐으로써 input이 가리키는 기록이 어떤 건지 가리키게 한다 */}
+        <input
+          type='checkbox'
+          className='checkbox checkbox-primary'
+          name={name}
+          value={JSON.stringify(photo)}
+          onClick={onRecordCheckboxClick}
+        />
         <img
           className='w-32 h-32 rounded-xl mr-1'
           src={photo.name}
@@ -290,9 +306,13 @@ function PortfolioAlbumItem({ photo }: { photo: PictureType }) {
 export function PortfolioAlbum({
   label,
   photos,
+  name,
+  onRecordCheckboxClick,
 }: {
   label: string;
   photos: PictureType[];
+  name: string;
+  onRecordCheckboxClick: (e: React.MouseEvent<HTMLInputElement>) => void;
 }) {
   return (
     <div className='w-full'>
@@ -301,7 +321,12 @@ export function PortfolioAlbum({
       </div>
       <div className='flex flex-row overflow-x-auto items-center'>
         {photos.map((photo) => (
-          <PortfolioAlbumItem key={photo.id} photo={photo} />
+          <PortfolioAlbumItem
+            key={photo.id}
+            photo={photo}
+            name={name}
+            onRecordCheckboxClick={onRecordCheckboxClick}
+          />
         ))}
       </div>
       <div className='divider m-0 mt-5' />
