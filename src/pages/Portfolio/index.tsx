@@ -1,7 +1,7 @@
 import MyPageTemplate from '../../components/MyPageTemplate';
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { BandProfileType } from '../../types/types';
+import { BandProfileType, PerformanceRecordType } from '../../types/types';
 import { vacantBandProfile } from '../BandProfile/initialBandProfile';
 import BandProfileAPI from '../../apis/BandProfileAPI';
 import {
@@ -12,6 +12,7 @@ import {
   PortfolioAreaList,
   PortfolioSelectList,
   PortfolioDescription,
+  PortfolioRecordField,
 } from './styles';
 import usePortfolioStore from './PortfolioStore';
 
@@ -36,6 +37,32 @@ function BandPortfolioMaker() {
       setPortfolio({
         ...portfolio,
         [name]: vacantBandProfile[name],
+      });
+    }
+    console.log(portfolio);
+  };
+
+  const onRecordCheckboxClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    const { name, checked, value } = e.currentTarget;
+    console.log(name, value);
+    if (
+      checked &&
+      portfolio[name].find(
+        (record: PerformanceRecordType) => record.id === JSON.parse(value).id,
+      ) === undefined
+    ) {
+      // 체크박스가 체크되었으며 기존에 없던 기록이 추가되었을 경우
+      setPortfolio({
+        ...portfolio,
+        [name]: [...portfolio[name], JSON.parse(value)],
+      });
+    } else if (!checked) {
+      // 체크박스가 체크되지 않음
+      setPortfolio({
+        ...portfolio,
+        [name]: portfolio[name].filter(
+          (record: PerformanceRecordType) => record.id !== JSON.parse(value).id,
+        ),
       });
     }
     console.log(portfolio);
@@ -91,6 +118,18 @@ function BandPortfolioMaker() {
         description={bandProfile.description}
         name='description'
         onCheckboxClick={onCheckboxClick}
+      />
+      <PortfolioRecordField
+        label='연습 기록'
+        records={bandProfile.bandPractices}
+        name='bandPractices'
+        onRecordCheckboxClick={onRecordCheckboxClick}
+      />
+      <PortfolioRecordField
+        label='공연 기록'
+        records={bandProfile.bandGigs}
+        name='bandGigs'
+        onRecordCheckboxClick={onRecordCheckboxClick}
       />
     </div>
   );

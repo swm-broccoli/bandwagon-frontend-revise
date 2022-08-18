@@ -2,6 +2,7 @@ import { AreaType, BandMemberType, SelectionType } from '../../types/types';
 import TagElement from '../../components/TagElement';
 import { positionToKorean } from '../../assets/options/positionOptions';
 import React from 'react';
+import { PerformanceRecordType, RecordURLType } from '../../types/types';
 
 export function PortfolioAvatar({ avatarURL }: { avatarURL: string }) {
   return (
@@ -186,6 +187,80 @@ export function PortfolioDescription({
         readOnly
       />
       <div className='divider mt-5' />
+    </div>
+  );
+}
+
+function PortfolioRecordURLItem({ recordURL }: { recordURL: RecordURLType }) {
+  return (
+    <div className='grid grid-cols-7 mb-1'>
+      <div className='col-span-2'>{recordURL.siteName}</div>
+      <div className='divider divider-horizontal' />
+      <div className='col-span-4 break-all'>{recordURL.url}</div>
+    </div>
+  );
+}
+
+function PortfolioRecordItem({
+  record,
+  name,
+  onRecordCheckboxClick,
+}: {
+  record: PerformanceRecordType;
+  name: string;
+  onRecordCheckboxClick: (e: React.MouseEvent<HTMLInputElement>) => void;
+}) {
+  return (
+    <div className='grid grid-flow-row bg-success mt-2 px-4 py-2 rounded-lg'>
+      {/* 기록 자체를 문자열화해서 값으로 가짐으로써 input이 가리키는 기록이 어떤 건지 가리키게 한다 */}
+      <input
+        type='checkbox'
+        className='checkbox checkbox-primary'
+        name={name}
+        value={JSON.stringify(record)}
+        onClick={onRecordCheckboxClick}
+      />
+
+      <div className='grid grid-cols-2'>
+        <span className='text-accent col-start-1'>{record.musicTitle}</span>
+        <span className='text-neutral col-start-1 text-sm'>
+          {record.performDate}
+        </span>
+      </div>
+      {record.urls.map((recordLink, index) => (
+        <PortfolioRecordURLItem key={index} recordURL={recordLink} />
+      ))}
+    </div>
+  );
+}
+
+export function PortfolioRecordField({
+  label,
+  records,
+  name,
+  onRecordCheckboxClick,
+}: {
+  label: string;
+  records: PerformanceRecordType[];
+  name: string;
+  onRecordCheckboxClick: (e: React.MouseEvent<HTMLInputElement>) => void;
+}) {
+  return (
+    <div>
+      <div className='flex flex-row justify-between items-center h-8 mb-5'>
+        <h1 className='text-sm pl-1'>{label}</h1>
+      </div>
+      {records.map((record, index) =>
+        record.musicTitle !== null ? (
+          <PortfolioRecordItem
+            key={index}
+            record={record}
+            name={name}
+            onRecordCheckboxClick={onRecordCheckboxClick}
+          />
+        ) : null,
+      )}
+      <div className='divider m-0 mt-5' />
     </div>
   );
 }
