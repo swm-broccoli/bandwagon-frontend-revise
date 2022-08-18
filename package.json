@@ -10,13 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.0.10",
     "@toast-ui/editor": "^3.1.10",
     "@toast-ui/react-editor": "^3.1.10",
     "@types/uuid": "^8.3.4",
     "axios": "^0.27.2",
     "daisyui": "^2.20.0",
+    "html-react-parser": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.4.0",
     "react-router-dom": "^6.3.0",
     "uuid": "^8.3.2",
     "vite-plugin-svgr": "^2.2.1",

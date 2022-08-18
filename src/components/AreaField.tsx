@@ -49,7 +49,10 @@ function AreaFieldAddButton({
       <ProfileAddModal
         label={`${label} 추가`}
         addSelected={() => {
-          setAreas(areas.concat(curAreaOption));
+          if (!areas.find((item) => item.id === curAreaOption.id)) {
+            // 없는 것만 추가한다
+            setAreas(areas.concat(curAreaOption));
+          }
         }}
       >
         <div className='flex flex-row w-full justify-center'>
@@ -103,14 +106,14 @@ function AreaField({
   areas,
   setAreas,
   options,
+  editing,
 }: {
   label: string;
   areas: AreaType[];
   setAreas: (areas: AreaType[]) => void;
   options: AreaType[];
+  editing: boolean;
 }) {
-  const [editing, setEditing] = useState(false);
-
   return (
     <>
       <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
@@ -125,7 +128,7 @@ function AreaField({
                 area={area}
                 editing={editing}
                 deleteArea={() => {
-                  setAreas(areas.filter((_, i) => i !== index));
+                  setAreas(areas.filter((_area) => _area.id !== area.id));
                 }}
               />
             ))}
@@ -139,14 +142,6 @@ function AreaField({
           setAreas={setAreas}
           options={options}
         />
-        <button
-          onClick={() => {
-            setEditing((prev) => !prev);
-          }}
-          className='btn btn-sm bg-base-100 hover:bg-base-200 border-base-200 text-accent h-8 w-14 p-0'
-        >
-          {editing ? '완료' : '수정'}
-        </button>
       </div>
       <div className='divider m-0' />
     </>

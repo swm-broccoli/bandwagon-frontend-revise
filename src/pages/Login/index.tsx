@@ -1,9 +1,69 @@
-import React from 'react';
+import { useState } from 'react';
 import GlobalNavBar from '../../components/NavBar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { NaverLoginButton, KaKaoLoginButton } from './styles';
 import TextInput from '../../components/TextInput';
-import SubmitButton from '../../components/SubmitButton';
+import { useLoginStore } from '../../stores/LoginStore';
+import AuthAPI from '../../apis/AuthAPI';
+
+function LoginForm() {
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+  const logIn = useLoginStore((state) => state.logIn);
+
+  const navigate = useNavigate();
+
+  const signInSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (id === '' || password === '') {
+      window.alert('아이디 또는 비밀번호가 공란입니다.');
+      return;
+    }
+    console.log(id);
+    console.log(password);
+
+    AuthAPI.signIn({ email: id, password: password })
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem('accessToken', res.data.accessToken);
+        localStorage.setItem('refreshToken', res.data.refreshToken);
+        localStorage.setItem('userID', id);
+        // 소셜 로그인인지 확인하는 변수
+        localStorage.setItem('isSocial', 'false');
+        logIn(id);
+        alert('로그인 성공');
+        navigate('/');
+      })
+      .catch((err) => {
+        console.log(err);
+        setId('');
+        setPassword('');
+      });
+  };
+
+  return (
+    <form
+      onSubmit={signInSubmit}
+      className='flex flex-col items-center w-full min-w-[200px] mt-10'
+    >
+      <TextInput label='이메일' value={id} setValue={setId} required />
+      <TextInput
+        label='비밀번호'
+        value={password}
+        setValue={setPassword}
+        password
+        required
+      />
+      <button
+        type='submit'
+        className='btn btn-primary text-base-100 rounded-lg w-60 md:w-80 mt-7'
+      >
+        로그인
+      </button>
+    </form>
+  );
+}
 
 function LoginPage() {
   return (
@@ -16,16 +76,10 @@ function LoginPage() {
         <div className='text-neutral'>
           안녕하세요. 전국 모든 밴드의 커뮤니티 밴드웨건입니다.
         </div>
-        <form className='flex flex-col items-center w-full min-w-[200px] mt-10'>
-          <TextInput label='아이디' placeholder='이메일' required />
-          <TextInput
-            label='비밀번호'
-            placeholder='비밀번호'
-            password
-            required
-          />
-          <SubmitButton label='로그인' />
-        </form>
+        <LoginForm />
+        <div className='border mt-4 w-60 md:w-80' />
+        <NaverLoginButton />
+        <KaKaoLoginButton />
         <div className='flex flex-row mt-5'>
           <Link to='/' className='px-5'>
             아이디 찾기
@@ -37,8 +91,6 @@ function LoginPage() {
             회원가입
           </Link>
         </div>
-        <NaverLoginButton />
-        <KaKaoLoginButton />
       </div>
     </>
   );

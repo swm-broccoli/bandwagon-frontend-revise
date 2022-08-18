@@ -9,6 +9,8 @@ import UserProfilePage from './pages/UserProfile';
 import PasswordEditPage from './pages/EditPassword';
 import AccountEditPage from './pages/EditAccount';
 import RecruitPage from './pages/Recruit';
+import WriteRecruitPage from './pages/WriteRecruit';
+import ReadRecruitPage from './pages/ReadRecruit';
 
 function App() {
   return (
@@ -25,7 +27,15 @@ function App() {
           <Route path='password' element={<PasswordEditPage />} />
           <Route path='account' element={<AccountEditPage />} />
         </Route>
-        <Route path='recruit' element={<RecruitPage />} />
+        <Route path='recruit'>
+          <Route path='band' element={<RecruitPage type={true} />} />
+          <Route path='user' element={<RecruitPage type={false} />} />
+          <Route path='band/write' element={
+            <WriteRecruitPage type={true} />} />
+          <Route path='user/write' element={
+            <WriteRecruitPage type={false} />} />
+          <Route path=':postID' element={<ReadRecruitPage />} />
+        </Route>
         <Route path='ui' element={<UIPage />} />
       </Routes>
     </div>

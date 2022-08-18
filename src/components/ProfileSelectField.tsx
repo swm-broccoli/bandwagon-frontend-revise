@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ProfileAddModal from './ProfileAddModal';
 import { SelectionType } from '../types/types';
+import TagElement from './TagElement';
 
 function ProfileFieldAddButton({
   label,
@@ -24,7 +25,10 @@ function ProfileFieldAddButton({
       <ProfileAddModal
         label={`${label} 추가`}
         addSelected={() => {
-          setSelected(selected.concat(curOption));
+          if (!selected.find((item) => item.id === curOption.id)) {
+            // 없는 것만 추가한다
+            setSelected(selected.concat(curOption));
+          }
         }}
       >
         <select
@@ -43,23 +47,6 @@ function ProfileFieldAddButton({
   }
 }
 
-function ProfileFieldEditButton({
-  editing,
-  toggleEditing,
-}: {
-  editing: boolean;
-  toggleEditing: () => void;
-}) {
-  return (
-    <button
-      onClick={toggleEditing}
-      className='btn btn-sm bg-base-100 hover:bg-base-200 border-base-200 text-accent h-8 w-14 p-0'
-    >
-      {editing ? '완료' : '수정'}
-    </button>
-  );
-}
-
 function ProfileSelectFieldItem({
   label,
   editing,
@@ -76,25 +63,23 @@ function ProfileSelectFieldItem({
       </div>
     );
   } else {
-    return <div className='mr-2'>{label}</div>;
+    return <TagElement tag={label} />;
   }
 }
 
 function ProfileSelectField({
   label,
-  name,
   selected,
   setSelected,
   options,
+  editing,
 }: {
   label: string;
-  name: string;
   selected: SelectionType[];
   setSelected: (selected: SelectionType[]) => void;
   options: SelectionType[];
+  editing: boolean;
 }) {
-  const [editing, setEditing] = useState(false);
-
   return (
     <>
       <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
@@ -109,7 +94,9 @@ function ProfileSelectField({
                 label={item.name}
                 editing={editing}
                 deleteSelected={() => {
-                  setSelected(selected.filter((_, i) => i !== index));
+                  setSelected(
+                    selected.filter((selection) => item.id !== selection.id),
+                  );
                 }}
               />
             ))}
@@ -122,12 +109,6 @@ function ProfileSelectField({
           selected={selected}
           setSelected={setSelected}
           options={options}
-        />
-        <ProfileFieldEditButton
-          editing={editing}
-          toggleEditing={() => {
-            setEditing((prev) => !prev);
-          }}
         />
       </div>
       <div className='divider m-0' />
