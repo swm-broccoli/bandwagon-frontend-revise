@@ -3,6 +3,7 @@ import {devtools} from 'zustand/middleware';
 import { AreaType, SelectionType } from '../types/types';
 
 interface searchPostStoreType {
+  pageStore: string,
   titleStore: string,
   minAgeStore: string,
   maxAgeStore: string,
@@ -10,6 +11,7 @@ interface searchPostStoreType {
   genreArray: SelectionType[],
   areaArray: AreaType[],
   clearStore: () => void,
+  changePage: (page: number) => void,
   changeTitle: (title: string) => void,
   changeMinAge: (min: string) => void,
   changeMaxAge: (max: string) => void,
@@ -25,6 +27,7 @@ interface searchPostStoreType {
 
 export const useSearchPostStore = create<searchPostStoreType>()(
   devtools((set) => ({
+    pageStore: '?page=0',
     titleStore: '',
     minAgeStore: '',
     maxAgeStore: '',
@@ -33,6 +36,7 @@ export const useSearchPostStore = create<searchPostStoreType>()(
     areaArray: [],
     clearStore: () => {
       set((state) => ({
+        pageStore: '?page=0',
         titleStore: '',
         minAgeStore: '',
         maxAgeStore: '',
@@ -40,6 +44,9 @@ export const useSearchPostStore = create<searchPostStoreType>()(
         genreArray: [],
         areaArray: []
       }))
+    },
+    changePage: (page) => {
+      set((state) => ({pageStore: '?page=' + page.toString()}))
     },
     changeTitle: (title) => {
       if (title) {
