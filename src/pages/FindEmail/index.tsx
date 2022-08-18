@@ -4,6 +4,7 @@ import DateInput from '../../components/DateInput';
 import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
 import TextInput from '../../components/TextInput';
+import { useNavigate } from 'react-router-dom';
 
 function getTodayDate() {
   const today = new Date();
@@ -14,6 +15,7 @@ function FindEmailForm() {
   const [name, setName] = useState('');
   const [birthday, setBirthday] = useState(getTodayDate());
   const [emailList, setEmailList] = useState([]);
+  const navigate = useNavigate();
 
   const onFindEmailSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,10 +24,10 @@ function FindEmailForm() {
       .then((res) => {
         console.log(res.data.emails);
         setEmailList((prev) => res.data.emails);
-        console.log(emailList);
       })
       .catch((err) => {
         console.log(err);
+        navigate('/');
       });
   };
   if (emailList.length > 0) {
@@ -33,7 +35,7 @@ function FindEmailForm() {
       <div>
         <div className='text-xl mt-10'>가입하신 아이디는 다음과 같습니다.</div>
         {emailList.map((email) => (
-          <span>{email}</span>
+          <span key={email}>{email}</span>
         ))}
       </div>
     );
