@@ -16,6 +16,7 @@ import UserPortFolioPage from './pages/Portfolio/User';
 import PortfolioPage from './pages/Portfolio';
 import FindPasswordPage from './pages/FindPassword';
 import FindEmailPage from './pages/FindEmail';
+import NotFoundPage from './pages/NotFound';
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
         />
         <Route path='/recruit/:postID' element={<ReadRecruitPage />} />
         <Route path='ui' element={<UIPage />} />
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </div>
   );
