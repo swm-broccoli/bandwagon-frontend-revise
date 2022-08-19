@@ -5,6 +5,7 @@ function BandMakingForm() {
   const [bandName, setBandName] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    //e.preventDefault();
     //폼은 제출시 자동 새로고침된다
     console.log(bandName, '밴드로 제출됨');
     BandProfileAPI.createBand(bandName)

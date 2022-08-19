@@ -81,6 +81,7 @@ interface BandProfileApiType {
 
 const BandProfileAPI: BandProfileApiType = {
   createBand: (bandName: string) => {
+    alert(bandName);
     return request.post('/api/band/create', {
       name: bandName,
     });
