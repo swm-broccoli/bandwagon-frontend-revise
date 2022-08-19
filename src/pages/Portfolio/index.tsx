@@ -17,7 +17,7 @@ import {
   PortfolioMakerDescription,
   PortfolioMakerRecordField,
   PortfolioMakerAlbum,
-} from './styles';
+} from './PortfolioMakerStyles';
 import usePortfolioStore from './PortfolioStore';
 import { vacantUserProfile } from '../UserProfile/initialUserProfile';
 import UserProfileAPI from '../../apis/UserProfileAPI';
@@ -124,7 +124,7 @@ function UserPortfolioMaker() {
       />
       <PortfolioMakerDescription
         label='자기소개'
-        description={userProfile.description}
+        description={userProfile.description ? userProfile.description : ''}
         name='description'
         onCheckboxClick={onCheckboxClick}
       />
@@ -262,7 +262,7 @@ function BandPortfolioMaker() {
 }
 
 function PortfolioPage() {
-  const [portfolioTarget, setPortfolioTarget] = useState('band');
+  const [portfolioTarget, setPortfolioTarget] = useState('user');
 
   return (
     <MyPageTemplate>
