@@ -1,16 +1,22 @@
 import create from 'zustand';
-import { BandProfileType } from '../../types/types';
+import { BandProfileType, UserProfileType } from '../../types/types';
 import { vacantBandProfile } from '../BandProfile/initialBandProfile';
+import { vacantUserProfile } from '../UserProfile/initialUserProfile';
 
 interface PortfolioStoreType {
-  portfolio: BandProfileType;
-  setPortfolio: (portfolio: BandProfileType) => void;
+  bandPortfolio: BandProfileType;
+  setBandPortfolio: (portfolio: BandProfileType) => void;
+  userPortfolio: UserProfileType;
+  setUserPortfolio: (portfolio: UserProfileType) => void;
 }
 
 const usePortfolioStore = create<PortfolioStoreType>((set) => ({
-  portfolio: vacantBandProfile,
-  setPortfolio: (newPortfolio: BandProfileType) =>
-    set((state) => ({ ...state, portfolio: newPortfolio })),
+  bandPortfolio: vacantBandProfile,
+  setBandPortfolio: (newPortfolio: BandProfileType) =>
+    set((state) => ({ ...state, bandPortfolio: newPortfolio })),
+  userPortfolio: vacantUserProfile,
+  setUserPortfolio: (newPortfolio: UserProfileType) =>
+    set((state) => ({ ...state, userPortfolio: newPortfolio })),
 }));
 
 export default usePortfolioStore;

@@ -6,14 +6,15 @@ import {
   PortfolioMemberItem,
   PortfolioAlbumItem,
   PortfolioRecordItem,
-} from './styles';
+} from '../PortfolioStyles';
+import { useNavigate } from 'react-router-dom';
 
 function BandPortFolio({ portfolio }: { portfolio: BandProfileType }) {
   return (
     <main className='flex flex-col items-center'>
       <h1 className='text-3xl'>우리는 {portfolio.name} 밴드입니다!</h1>
       <div className='avatar'>
-        <div className='w-40 rounded-full'>
+        <div className='w-40 rounded-full border border-base-300'>
           <img src={portfolio.avatarUrl} alt={portfolio.name + '프로필 사진'} />
         </div>
       </div>
@@ -91,22 +92,24 @@ function BandPortFolio({ portfolio }: { portfolio: BandProfileType }) {
 }
 
 function BandPortFolioPage() {
-  const portfolio = usePortfolioStore((state) => state.portfolio);
+  const portfolio = usePortfolioStore((state) => state.bandPortfolio);
 
-  const portfolioRef = useRef(null);
+  const bandPortfolioRef = useRef(null);
   const handlePrint = useReactToPrint({
-    content: () => portfolioRef.current,
+    content: () => bandPortfolioRef.current,
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(portfolio);
-    if (portfolioRef.current) {
+    if (bandPortfolioRef.current) {
       handlePrint();
     }
+    navigate('/portfolio');
   }, []);
 
   return (
-    <div className='flex justify-start' ref={portfolioRef}>
+    <div className='flex justify-start' ref={bandPortfolioRef}>
       <BandPortFolio portfolio={portfolio} />
     </div>
   );

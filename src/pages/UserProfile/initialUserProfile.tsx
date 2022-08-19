@@ -1,4 +1,18 @@
-const initialUserProfile = {
+import { UserProfileType } from '../../types/types';
+
+export const vacantUserProfile: UserProfileType = {
+  avatarUrl: '',
+  name: '',
+  birthday: '2000-01-01',
+  gender: false,
+  positions: [],
+  areas: [],
+  genres: [],
+  description: '',
+  userPerformances: [],
+};
+
+export const initialUserProfile = {
   avatarUrl: 'https://picsum.photos/200',
   name: '김형식',
   birthday: '1996-01-01',
@@ -53,5 +67,3 @@ const initialUserProfile = {
     },
   ],
 };
-
-export default initialUserProfile;

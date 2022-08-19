@@ -3,10 +3,10 @@ import {
   BandProfileType,
   RecordURLType,
   PerformanceRecordType,
-} from '../../../types/types';
-import BandMemberDefaultPic from '../../../assets/band-default-pic.png';
-import { positionToKorean } from '../../../assets/options/positionOptions';
-import { PictureType } from '../../../types/types';
+} from '../../types/types';
+import BandMemberDefaultPic from '../../assets/band-default-pic.png';
+import { positionToKorean } from '../../assets/options/positionOptions';
+import { PictureType } from '../../types/types';
 
 export function PortfolioMemberItem({ member }: { member: BandMemberType }) {
   return (
