@@ -1,6 +1,4 @@
 import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import { Editor } from '@toast-ui/react-editor';
 import BandInfoCard from '../../components/BandInfoCard';
 import RequirementBox from './RequirementBox';
 import Button from '../../components/Button';
@@ -11,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import UserInfoCard from '../../components/UserInfoCard';
 import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 import { useBandRequirementStore } from '../../stores/BandRequirementStore';
+import Editor from '../../components/Editor';
 
 function TitleTextField (props: {
   title: string,
@@ -45,7 +44,7 @@ function WriteEditor (props: {
 
 function WriteRecruitPage (props: {type: boolean}) {
   const [title, setTitle] = useState('');
-  const editorRef = useRef<Editor>(null);
+  const [body, setBody] = useState('');
   const navigate = useNavigate();
   const {
     minStore,
@@ -56,12 +55,10 @@ function WriteRecruitPage (props: {type: boolean}) {
     positionStore} = useBandRequirementStore();
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(editorRef.current?.getInstance().getHTML().toString());
-
     if (props.type) {
       RecruitPostAPI.UploadArticle({
         title: title,
-        body: editorRef.current?.getInstance().getHTML().toString(),
+        body: body,
         dtype: 'Band'})
         .then((res) => {
           console.log(res.data.id);
@@ -160,7 +157,7 @@ function WriteRecruitPage (props: {type: boolean}) {
     } else {
       RecruitPostAPI.UploadArticle({
         title: title,
-        body: editorRef.current?.getInstance().getHTML().toString(),
+        body: body,
         dtype: 'User'})
         .then((res) => {
           console.log(res.data.id);
@@ -200,13 +197,9 @@ function WriteRecruitPage (props: {type: boolean}) {
         {/* 본문 쓰기 */}
         <div className='flex flex-col gap-4'>
           <h3 className='text-accent text-base'>글쓰기</h3>
-          <Editor
-            initialValue="밴드를 소개해 주세요."
-            previewStyle="vertical"
-            height="600px"
-            initialEditType="wysiwyg"
-            useCommandShortcut={true}
-            ref={editorRef} />
+          <div className='h-full mb-20'>
+            <Editor body={body} setBody={setBody} />
+          </div>
         </div>
         {/* 모집 정보 (지원 조건, 추가 지원 양식) */}
         {props.type ? <RequirementBox /> : <></>}
