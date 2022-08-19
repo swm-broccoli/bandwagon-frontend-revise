@@ -14,6 +14,7 @@ import {
   UserProfileType } from '../../types/types';
 import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 import UserInfoCard from '../../components/UserInfoCard';
+import Button from '../../components/Button';
 
 function BasicInfoBox (props: {
   type: boolean,
@@ -27,8 +28,8 @@ function BasicInfoBox (props: {
       <h1 className='text-accent text-2xl'>{props.title}</h1>
       <div className='flex flex-row w-fit h-fit items-center'>
         {props.authorPic ?
-         <img src={props.authorPic} className='w-7 h-7 mr-2.5 object-cover rounded-full'/> :
-         <img src={ExamplePic} className='w-7 h-7 mr-2.5 object-cover rounded-full'/>}
+          <img src={props.authorPic} className='w-7 h-7 mr-2.5 object-cover rounded-full'/> :
+          <img src={ExamplePic} className='w-7 h-7 mr-2.5 object-cover rounded-full'/>}
         <div className='py-px text-base text-accent'>
           {props.authorName}
         </div>
@@ -61,6 +62,7 @@ function ReadRecruitPage () {
   const [bandInfo, setBandInfo] = useState<BandProfileType>();
   const [userId, setUserId] = useState<string>();
   const [userInfo, setUserInfo] = useState<UserProfileType>();
+  const [isAuthor, setIsAuthor] = useState<boolean>(false);
 
   useEffect(() => {
     RecruitPostAPI.LoadPost(postID)
@@ -100,6 +102,14 @@ function ReadRecruitPage () {
       });
     }
   }, [bandId, userId]);
+
+  useEffect(() => {
+    if (bandInfo?.bandMembers.filter(
+      (member) => member.email == useLoginStore.getState().userId
+    ).length || userId == useLoginStore.getState().userId) {
+      setIsAuthor(true);
+    }
+  }, [bandInfo, userId])
   
   return (
     <>
@@ -111,20 +121,34 @@ function ReadRecruitPage () {
               type={true}
               title={postInfo?.title}
               authorPic={bandInfo?.avatarUrl}
-              authorName={bandInfo?.name} /> :
+              authorName={bandInfo?.name}
+              isAuthor={isAuthor} /> :
             <BasicInfoBox
               type={false}
               title={postInfo?.title}
               authorPic={userInfo?.avatarUrl}
-              authorName={userInfo?.name}/>}
+              authorName={userInfo?.name}
+              isAuthor={isAuthor} />}
           <div className='row-start-2 col-start-2'>
             {type ?
             <BandInfoCard type={false} bandId={bandId} /> :
             <UserInfoCard type={false} userId={userId}/>}
           </div>
           <ReadArticleCard article={postInfo?.body}/>
-          <div className='row-start-4 col-start-2 md:row-start-2 md:col-start-3 md:mt-9 md:justify-self-end'>
-            {postID ?
+          <div className='row-start-4 col-start-2 md:row-start-2 md:col-start-3 md:mt-9 justify-self-end'>
+            {postID ? isAuthor ?
+              <div className='flex flex-row gap-2 md:flex-col md:gap-5'>
+                <Button 
+                  label='수정'
+                  x='w-20 '
+                  y='h-[3.125rem] '
+                  textSize='text-base'/>
+                <Button 
+                  label='삭제'
+                  x='w-20 '
+                  y='h-[3.125rem] '
+                  textSize='text-base'/>
+              </div> :
               <ApplyBox
                 type={type}
                 isLoggedIn={isLoggedIn}

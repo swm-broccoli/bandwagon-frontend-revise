@@ -87,8 +87,8 @@ function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
              <Button label='글쓰기' x='w-[7.5rem] ' y='h-10 ' textSize='text-sm' onclick={(e) => <></>}/>
           </label>
           <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-            <li><Link to='/recruit/band/write'>밴드 찾기</Link></li>
-            <li><Link to='/recruit/user/write'>멤버 찾기</Link></li>
+            <li><Link to='/recruit/band/write'>멤버 찾기</Link></li>
+            <li><Link to='/recruit/user/write'>밴드 찾기</Link></li>
           </ul>
         </div>
         </div>
