@@ -1,12 +1,16 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 import { vacantBandProfile } from '../../BandProfile/initialBandProfile';
-import { BandMemberType, BandProfileType } from '../../../types/types';
+import {
+  BandMemberType,
+  BandProfileType,
+  RecordURLType,
+  PerformanceRecordType,
+} from '../../../types/types';
 import BandMemberDefaultPic from '../../../assets/band-default-pic.png';
 import { positionToKorean } from '../../../assets/options/positionOptions';
 import { PictureType } from '../../../types/types';
 import usePortfolioStore from '../PortfolioStore';
-import makePDF from '../makePDF';
 import { useReactToPrint } from 'react-to-print';
 
 // TODO : 먼저 밴드 포트폴리오 형식을 구성한다. 그리고 나서 거기 들어갈 내용을 고르는 기능을 만든다.
@@ -47,6 +51,36 @@ function PortfolioAlbumItem({ photo }: { photo: PictureType }) {
         src={photo.name || BandMemberDefaultPic}
         alt={`밴드 사진`}
       />
+    </div>
+  );
+}
+
+function PortfolioMakerRecordURLItem({
+  recordURL,
+}: {
+  recordURL: RecordURLType;
+}) {
+  return (
+    <div className='grid grid-cols-7 mb-1'>
+      <div className='col-span-2'>{recordURL.siteName}</div>
+      <div className='divider divider-horizontal' />
+      <div className='col-span-4 break-all'>{recordURL.url}</div>
+    </div>
+  );
+}
+
+function PortfolioRecordItem({ record }: { record: PerformanceRecordType }) {
+  return (
+    <div className='grid grid-flow-row bg-success mt-2 px-4 py-2 rounded-lg'>
+      <div className='grid grid-cols-2'>
+        <span className='text-accent col-start-1'>{record.musicTitle}</span>
+        <span className='text-neutral col-start-1 text-sm'>
+          {record.performDate}
+        </span>
+      </div>
+      {record.urls.map((recordLink, index) => (
+        <PortfolioMakerRecordURLItem key={index} recordURL={recordLink} />
+      ))}
     </div>
   );
 }
@@ -113,6 +147,22 @@ function BandPortFolio({ portfolio }: { portfolio: BandProfileType }) {
           ))}
         </div>
       </section>
+      <section>
+        <h2>우리의 연습 기록</h2>
+        <div className='flex flex-col items-center'>
+          {portfolio.bandPractices.map((practice, index) => (
+            <PortfolioRecordItem key={index} record={practice} />
+          ))}
+        </div>
+      </section>
+      <section>
+        <h2>우리의 공연 기록</h2>
+        <div className='flex flex-col items-center'>
+          {portfolio.bandGigs.map((gig, index) => (
+            <PortfolioRecordItem key={index} record={gig} />
+          ))}
+        </div>
+      </section>
     </main>
   );
 }
@@ -128,7 +178,7 @@ function BandPortFolioPage() {
   useEffect(() => {
     console.log(portfolio);
     if (portfolioRef.current) {
-      //handlePrint();
+      handlePrint();
     }
   }, []);
 
