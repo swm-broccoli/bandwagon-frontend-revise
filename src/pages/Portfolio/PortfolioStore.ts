@@ -6,6 +6,8 @@ import { vacantUserProfile } from '../UserProfile/initialUserProfile';
 interface PortfolioStoreType {
   bandPortfolio: BandProfileType;
   setBandPortfolio: (portfolio: BandProfileType) => void;
+  userPortfolio: UserProfileType;
+  setUserPortfolio: (portfolio: UserProfileType) => void;
 }
 
 const usePortfolioStore = create<PortfolioStoreType>((set) => ({

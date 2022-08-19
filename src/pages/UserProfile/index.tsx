@@ -11,7 +11,7 @@ import DescriptionField from '../../components/DescriptionField';
 import { UserProfileType } from '../../types/types';
 import RecordField from '../../components/RecordField';
 import UserProfileAPI from '../../apis/UserProfileAPI';
-import initialUserProfile from './initialUserProfile';
+import { initialUserProfile } from './initialUserProfile';
 import { UserProfileAvatar } from './styles';
 import {
   updateUserAreas,

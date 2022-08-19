@@ -341,7 +341,3 @@ export function PortfolioMakerAlbum({
     </div>
   );
 }
-
-export function UserPortfolioMaker() {
-  return <div>유저 포트폴리오 메이커</div>;
-}
