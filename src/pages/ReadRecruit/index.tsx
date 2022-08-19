@@ -6,7 +6,7 @@ import GlobalNavBar from '../../components/NavBar';
 import BandInfoCard from '../../components/BandInfoCard';
 import ApplyBox from './ApplyBox';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useLoginStore } from '../../stores/LoginStore';
 import {
   BandProfileType,
@@ -111,14 +111,6 @@ function ReadRecruitPage () {
       setIsAuthor(true);
     }
   }, [bandInfo, userId]);
-
-  function handleDeleteClick(e: React.MouseEvent<HTMLButtonElement>) {
-    if (type) {
-
-    } else {
-
-    }
-  }
   
   return (
     <>
@@ -130,14 +122,12 @@ function ReadRecruitPage () {
               type={true}
               title={postInfo?.title}
               authorPic={bandInfo?.avatarUrl}
-              authorName={bandInfo?.name}
-              isAuthor={isAuthor} /> :
+              authorName={bandInfo?.name} /> :
             <BasicInfoBox
               type={false}
               title={postInfo?.title}
               authorPic={userInfo?.avatarUrl}
-              authorName={userInfo?.name}
-              isAuthor={isAuthor} />}
+              authorName={userInfo?.name} />}
           <div className='row-start-2 col-start-2'>
             {type ?
             <BandInfoCard type={false} bandId={bandId} /> :
@@ -147,11 +137,24 @@ function ReadRecruitPage () {
           <div className='row-start-4 col-start-2 md:row-start-2 md:col-start-3 md:mt-9 justify-self-end'>
             {postID ? isAuthor ?
               <div className='flex flex-row gap-2 md:flex-col md:gap-5'>
-                <Button 
-                  label='수정'
-                  x='w-20 '
-                  y='h-[3.125rem] '
-                  textSize='text-base' />
+                {type ?
+                  <Link to={'/recruit/band/write/' + postID}>
+                    <Button 
+                    label='수정'
+                    x='w-20 '
+                    y='h-[3.125rem] '
+                    textSize='text-base'
+                    onclick={(e) => console.log(type)} />
+                  </Link> : 
+                  <Link to={'recruit/user/write/' + postID}>
+                    <Button 
+                    label='수정'
+                    x='w-20 '
+                    y='h-[3.125rem] '
+                    textSize='text-base'
+                    onclick={(e) => console.log(type)} />
+                  </Link>
+                }
                 <DeleteModalButton postId={postID}/>
               </div> :
               <ApplyBox

@@ -46,8 +46,13 @@ function App() {
           <Route path='band' element={<RecruitPage type={true} />} />
           <Route path='user' element={<RecruitPage type={false} />} />
           <Route path='band/write' element={<WriteRecruitPage type={true} />} />
+          <Route path='band/write/:postId' element={<WriteRecruitPage type={true} />} />
           <Route
             path='user/write'
+            element={<WriteRecruitPage type={false} />}
+          />
+          <Route
+            path='user/write/:postId'
             element={<WriteRecruitPage type={false} />}
           />
           <Route path=':postID' element={<ReadRecruitPage />} />
