@@ -24,7 +24,6 @@ interface AuthApiType {
 
 const AuthAPI: AuthApiType = {
   signIn: (userInfo) => {
-    console.log(userInfo);
     return request.post('api/login', userInfo);
   },
   logOut: () => {

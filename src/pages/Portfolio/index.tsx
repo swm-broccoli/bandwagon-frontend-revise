@@ -1,17 +1,19 @@
 import MyPageTemplate from '../../components/MyPageTemplate';
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { BandProfileType } from '../../types/types';
+import { BandProfileType, PerformanceRecordType } from '../../types/types';
 import { vacantBandProfile } from '../BandProfile/initialBandProfile';
 import BandProfileAPI from '../../apis/BandProfileAPI';
 import {
   UserPortfolioMaker,
-  PortfolioAvatar,
-  PortfolioText,
-  PortfolioMemberList,
-  PortfolioAreaList,
-  PortfolioSelectList,
-  PortfolioDescription,
+  PortfolioMakerAvatar,
+  PortfolioMakerText,
+  PortfolioMakerMemberList,
+  PortfolioMakerAreaList,
+  PortfolioMakerSelectList,
+  PortfolioMakerDescription,
+  PortfolioMakerRecordField,
+  PortfolioMakerAlbum,
 } from './styles';
 import usePortfolioStore from './PortfolioStore';
 
@@ -41,6 +43,32 @@ function BandPortfolioMaker() {
     console.log(portfolio);
   };
 
+  const onRecordCheckboxClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    const { name, checked, value } = e.currentTarget;
+    console.log(name, value);
+    if (
+      checked &&
+      portfolio[name].find(
+        (record: PerformanceRecordType) => record.id === JSON.parse(value).id,
+      ) === undefined
+    ) {
+      // 체크박스가 체크되었으며 기존에 없던 기록이 추가되었을 경우
+      setPortfolio({
+        ...portfolio,
+        [name]: [...portfolio[name], JSON.parse(value)],
+      });
+    } else if (!checked) {
+      // 체크박스가 체크되지 않음
+      setPortfolio({
+        ...portfolio,
+        [name]: portfolio[name].filter(
+          (record: PerformanceRecordType) => record.id !== JSON.parse(value).id,
+        ),
+      });
+    }
+    console.log(portfolio);
+  };
+
   useEffect(() => {
     BandProfileAPI.getBandProfileInfo()
       .then((res) => {
@@ -62,35 +90,53 @@ function BandPortfolioMaker() {
 
   return (
     <div>
-      <PortfolioAvatar avatarURL={bandProfile.avatarUrl} />
-      <PortfolioText label='밴드 이름' text={bandProfile.name} />
-      <PortfolioMemberList
+      <PortfolioMakerAvatar avatarURL={bandProfile.avatarUrl} />
+      <PortfolioMakerText label='밴드 이름' text={bandProfile.name} />
+      <PortfolioMakerMemberList
         label='밴드 멤버'
         bandMembers={bandProfile.bandMembers}
       />
-      <PortfolioAreaList
+      <PortfolioMakerAreaList
         label='지역'
         areas={bandProfile.areas}
         name='areas'
         onCheckboxClick={onCheckboxClick}
       />
-      <PortfolioSelectList
+      <PortfolioMakerSelectList
         label='활동 요일'
         selections={bandProfile.days}
         name='days'
         onCheckboxClick={onCheckboxClick}
       />
-      <PortfolioSelectList
+      <PortfolioMakerSelectList
         label='선호 장르'
         selections={bandProfile.genres}
         name='genres'
         onCheckboxClick={onCheckboxClick}
       />
-      <PortfolioDescription
+      <PortfolioMakerDescription
         label='밴드 소개'
         description={bandProfile.description}
         name='description'
         onCheckboxClick={onCheckboxClick}
+      />
+      <PortfolioMakerAlbum
+        label='밴드 사진첩'
+        photos={bandProfile.bandPhotos}
+        name='bandPhotos'
+        onRecordCheckboxClick={onRecordCheckboxClick}
+      />
+      <PortfolioMakerRecordField
+        label='연습 기록'
+        records={bandProfile.bandPractices}
+        name='bandPractices'
+        onRecordCheckboxClick={onRecordCheckboxClick}
+      />
+      <PortfolioMakerRecordField
+        label='공연 기록'
+        records={bandProfile.bandGigs}
+        name='bandGigs'
+        onRecordCheckboxClick={onRecordCheckboxClick}
       />
     </div>
   );

@@ -33,7 +33,6 @@ function AccountEditForm({ label }: { label: string }) {
     UserAccountAPI.updateUserAccountInfo(userAccountInfo)
       .then((res) => {
         alert('수정 성공');
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -44,7 +43,6 @@ function AccountEditForm({ label }: { label: string }) {
     UserAccountAPI.getUserAccountInfo()
       .then((res) => {
         setUserAccountInfo(parseUserProfile(res.data));
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);

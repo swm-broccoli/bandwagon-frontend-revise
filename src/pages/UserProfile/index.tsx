@@ -55,7 +55,6 @@ function UserProfile() {
   useEffect(() => {
     UserProfileAPI.getUserProfileInfo()
       .then((res) => {
-        console.log('서버에서 도착한 데이터', res.data);
         setCurUserProfile(parseUserProfile(res.data));
         setServerUserProfile(parseUserProfile(res.data));
       })
