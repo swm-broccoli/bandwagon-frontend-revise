@@ -21,26 +21,23 @@ function BandPortfolioMaker() {
   const [bandProfile, setBandProfile] =
     useState<BandProfileType>(vacantBandProfile);
 
-  const [portfolioProfile, setPortfolioProfile] =
-    useState<BandProfileType>(vacantBandProfile);
-
-  const { portfolio, setPortfolio } = usePortfolioStore();
+  const { bandPortfolio, setBandPortfolio } = usePortfolioStore();
 
   const onCheckboxClick = (e: React.MouseEvent<HTMLInputElement>) => {
     const { name, checked } = e.currentTarget;
     if (checked) {
       //체크박스가 체크됨
-      setPortfolio({
-        ...portfolio,
+      setBandPortfolio({
+        ...bandPortfolio,
         [name]: bandProfile[name],
       });
     } else {
-      setPortfolio({
-        ...portfolio,
+      setBandPortfolio({
+        ...bandPortfolio,
         [name]: vacantBandProfile[name],
       });
     }
-    console.log(portfolio);
+    console.log(bandPortfolio);
   };
 
   const onRecordCheckboxClick = (e: React.MouseEvent<HTMLInputElement>) => {
@@ -48,25 +45,26 @@ function BandPortfolioMaker() {
     console.log(name, value);
     if (
       checked &&
-      portfolio[name].find(
+      bandPortfolio[name].find(
         (record: PerformanceRecordType) => record.id === JSON.parse(value).id,
       ) === undefined
     ) {
+      //console.log(JSON.parse(value));
       // 체크박스가 체크되었으며 기존에 없던 기록이 추가되었을 경우
-      setPortfolio({
-        ...portfolio,
-        [name]: [...portfolio[name], JSON.parse(value)],
+      setBandPortfolio({
+        ...bandPortfolio,
+        [name]: [...bandPortfolio[name], JSON.parse(value)],
       });
     } else if (!checked) {
       // 체크박스가 체크되지 않음
-      setPortfolio({
-        ...portfolio,
-        [name]: portfolio[name].filter(
+      setBandPortfolio({
+        ...bandPortfolio,
+        [name]: bandPortfolio[name].filter(
           (record: PerformanceRecordType) => record.id !== JSON.parse(value).id,
         ),
       });
     }
-    console.log(portfolio);
+    console.log(bandPortfolio);
   };
 
   useEffect(() => {
@@ -75,8 +73,8 @@ function BandPortfolioMaker() {
         if (res.status === 200) {
           console.log(res.data);
           setBandProfile(res.data);
-          setPortfolio({
-            ...portfolio,
+          setBandPortfolio({
+            ...bandPortfolio,
             avatarUrl: res.data.avatarUrl,
             name: res.data.name,
             bandMembers: res.data.bandMembers,

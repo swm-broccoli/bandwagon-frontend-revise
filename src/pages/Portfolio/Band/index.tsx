@@ -91,7 +91,7 @@ function BandPortFolio({ portfolio }: { portfolio: BandProfileType }) {
 }
 
 function BandPortFolioPage() {
-  const portfolio = usePortfolioStore((state) => state.portfolio);
+  const portfolio = usePortfolioStore((state) => state.bandPortfolio);
 
   const portfolioRef = useRef(null);
   const handlePrint = useReactToPrint({
