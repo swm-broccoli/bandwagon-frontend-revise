@@ -33,6 +33,7 @@ function Editor (props: {
   return (
     <ReactQuill
       ref={quillRef}
+      className='h-72'
       theme="snow" 
       modules={modules} 
       formats={formats} 

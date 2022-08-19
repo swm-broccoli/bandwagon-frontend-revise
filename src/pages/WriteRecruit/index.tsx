@@ -197,7 +197,9 @@ function WriteRecruitPage (props: {type: boolean}) {
         {/* 본문 쓰기 */}
         <div className='flex flex-col gap-4'>
           <h3 className='text-accent text-base'>글쓰기</h3>
-          <div><Editor body={body} setBody={setBody} /></div>
+          <div className='h-full mb-20'>
+            <Editor body={body} setBody={setBody} />
+          </div>
         </div>
         {/* 모집 정보 (지원 조건, 추가 지원 양식) */}
         {props.type ? <RequirementBox /> : <></>}
