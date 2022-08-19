@@ -1,11 +1,11 @@
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import BandInfoCard from '../../components/BandInfoCard';
 import RequirementBox from './RequirementBox';
 import Button from '../../components/Button';
 import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import UserInfoCard from '../../components/UserInfoCard';
 import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 import { useBandRequirementStore } from '../../stores/BandRequirementStore';
@@ -43,8 +43,10 @@ function WriteEditor (props: {
 */
 
 function WriteRecruitPage (props: {type: boolean}) {
+  const { postId } = useParams(); 
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const [isModify, setIsModify] = useState<boolean>(false);
   const navigate = useNavigate();
   const {
     minStore,
@@ -53,15 +55,30 @@ function WriteRecruitPage (props: {type: boolean}) {
     areaStore,
     genreStore,
     positionStore} = useBandRequirementStore();
+  
+  useEffect(() => {
+    if (postId) {
+      RecruitPostAPI.LoadPost(postId)
+      .then((res) => {
+        setTitle(res.data.title);
+        setBody(res.data.body);
+        setIsModify(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
+  }, [postId])
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (props.type) {
-      RecruitPostAPI.UploadArticle({
+      RecruitPostAPI.UploadArticle(postId, {
         title: title,
         body: body,
         dtype: 'Band'})
         .then((res) => {
           console.log(res.data.id);
+          if (postId) {
           if (minStore || maxStore) {
             RecruitProcessAPI.sendPrequisites({
               dtype: 'Age',
@@ -147,22 +164,32 @@ function WriteRecruitPage (props: {type: boolean}) {
             .catch((err) => {
               console.log(err);
             })
+          }}
+          if (postId) {
+            window.alert('글이 수정되었습니다');
+            navigate('/recruit/' + postId);
+          } else {
+            window.alert('글이 작성되었습니다');
+            navigate('/recruit/' + res.data.id);
           }
-          window.alert('글이 작성되었습니다');
-          navigate('/recruit/' + res.data.id);
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      RecruitPostAPI.UploadArticle({
+      RecruitPostAPI.UploadArticle(postId, {
         title: title,
         body: body,
         dtype: 'User'})
         .then((res) => {
           console.log(res.data.id);
-          window.alert('글이 작성되었습니다');
-          navigate('/recruit/' + res.data.id);
+          if (postId) {
+            window.alert('글이 수정되었습니다');
+            navigate('/recruit/' + postId);
+          } else {
+            window.alert('글이 작성되었습니다');
+            navigate('/recruit/' + res.data.id);
+          }
         })
         .catch((err) => {
           console.log(err);
