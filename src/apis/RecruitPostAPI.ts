@@ -12,6 +12,7 @@ interface RecruitPostApiType {
     body: string | undefined;
     dtype: string;
   }) => Promise<AxiosResponse>;
+  DeletePost: (postId: string | undefined) => Promise<AxiosResponse>;
 }
 
 const RecruitPostAPI: RecruitPostApiType = {
@@ -34,6 +35,9 @@ const RecruitPostAPI: RecruitPostApiType = {
     console.log(postInfo);
     return request.post('api/post', postInfo);
   },
+  DeletePost: (postId) => {
+    return request.delete('api/post/' + postId)
+  }
 };
 
 export default RecruitPostAPI;

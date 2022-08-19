@@ -15,6 +15,7 @@ import {
 import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 import UserInfoCard from '../../components/UserInfoCard';
 import Button from '../../components/Button';
+import DeleteModalButton from '../../components/DeleteModalButton';
 
 function BasicInfoBox (props: {
   type: boolean,
@@ -109,7 +110,15 @@ function ReadRecruitPage () {
     ).length || userId == useLoginStore.getState().userId) {
       setIsAuthor(true);
     }
-  }, [bandInfo, userId])
+  }, [bandInfo, userId]);
+
+  function handleDeleteClick(e: React.MouseEvent<HTMLButtonElement>) {
+    if (type) {
+
+    } else {
+
+    }
+  }
   
   return (
     <>
@@ -142,12 +151,8 @@ function ReadRecruitPage () {
                   label='수정'
                   x='w-20 '
                   y='h-[3.125rem] '
-                  textSize='text-base'/>
-                <Button 
-                  label='삭제'
-                  x='w-20 '
-                  y='h-[3.125rem] '
-                  textSize='text-base'/>
+                  textSize='text-base' />
+                <DeleteModalButton postId={postID}/>
               </div> :
               <ApplyBox
                 type={type}
