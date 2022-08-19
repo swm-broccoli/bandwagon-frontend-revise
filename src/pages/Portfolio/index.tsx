@@ -6,14 +6,14 @@ import { vacantBandProfile } from '../BandProfile/initialBandProfile';
 import BandProfileAPI from '../../apis/BandProfileAPI';
 import {
   UserPortfolioMaker,
-  PortfolioAvatar,
-  PortfolioText,
-  PortfolioMemberList,
-  PortfolioAreaList,
-  PortfolioSelectList,
-  PortfolioDescription,
-  PortfolioRecordField,
-  PortfolioAlbum,
+  PortfolioMakerAvatar,
+  PortfolioMakerText,
+  PortfolioMakerMemberList,
+  PortfolioMakerAreaList,
+  PortfolioMakerSelectList,
+  PortfolioMakerDescription,
+  PortfolioMakerRecordField,
+  PortfolioMakerAlbum,
 } from './styles';
 import usePortfolioStore from './PortfolioStore';
 
@@ -90,49 +90,49 @@ function BandPortfolioMaker() {
 
   return (
     <div>
-      <PortfolioAvatar avatarURL={bandProfile.avatarUrl} />
-      <PortfolioText label='밴드 이름' text={bandProfile.name} />
-      <PortfolioMemberList
+      <PortfolioMakerAvatar avatarURL={bandProfile.avatarUrl} />
+      <PortfolioMakerText label='밴드 이름' text={bandProfile.name} />
+      <PortfolioMakerMemberList
         label='밴드 멤버'
         bandMembers={bandProfile.bandMembers}
       />
-      <PortfolioAreaList
+      <PortfolioMakerAreaList
         label='지역'
         areas={bandProfile.areas}
         name='areas'
         onCheckboxClick={onCheckboxClick}
       />
-      <PortfolioSelectList
+      <PortfolioMakerSelectList
         label='활동 요일'
         selections={bandProfile.days}
         name='days'
         onCheckboxClick={onCheckboxClick}
       />
-      <PortfolioSelectList
+      <PortfolioMakerSelectList
         label='선호 장르'
         selections={bandProfile.genres}
         name='genres'
         onCheckboxClick={onCheckboxClick}
       />
-      <PortfolioDescription
+      <PortfolioMakerDescription
         label='밴드 소개'
         description={bandProfile.description}
         name='description'
         onCheckboxClick={onCheckboxClick}
       />
-      <PortfolioAlbum
+      <PortfolioMakerAlbum
         label='밴드 사진첩'
         photos={bandProfile.bandPhotos}
         name='bandPhotos'
         onRecordCheckboxClick={onRecordCheckboxClick}
       />
-      <PortfolioRecordField
+      <PortfolioMakerRecordField
         label='연습 기록'
         records={bandProfile.bandPractices}
         name='bandPractices'
         onRecordCheckboxClick={onRecordCheckboxClick}
       />
-      <PortfolioRecordField
+      <PortfolioMakerRecordField
         label='공연 기록'
         records={bandProfile.bandGigs}
         name='bandGigs'

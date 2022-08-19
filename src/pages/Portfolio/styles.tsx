@@ -8,7 +8,7 @@ import {
   PictureType,
 } from '../../types/types';
 
-export function PortfolioAvatar({ avatarURL }: { avatarURL: string }) {
+export function PortfolioMakerAvatar({ avatarURL }: { avatarURL: string }) {
   return (
     <section className='flex flex-col items-center'>
       <div className='avatar w-1/3'>
@@ -20,7 +20,7 @@ export function PortfolioAvatar({ avatarURL }: { avatarURL: string }) {
   );
 }
 
-export function PortfolioText({
+export function PortfolioMakerText({
   label,
   text,
 }: {
@@ -40,7 +40,11 @@ export function PortfolioText({
   );
 }
 
-function PortfolioBandMemberListItem({ member }: { member: BandMemberType }) {
+function PortfolioMakerBandMemberListItem({
+  member,
+}: {
+  member: BandMemberType;
+}) {
   return (
     <li className='flex flex-row items-center border rounded-lg p-2'>
       <p className='text-accent text-base mr-2.5'>
@@ -61,7 +65,7 @@ function PortfolioBandMemberListItem({ member }: { member: BandMemberType }) {
   );
 }
 
-export function PortfolioMemberList({
+export function PortfolioMakerMemberList({
   label,
   bandMembers,
 }: {
@@ -77,7 +81,7 @@ export function PortfolioMemberList({
       </div>
       <ul className='w-full flex flex-row flex-wrap gap-x-7 gap-y-2'>
         {bandMembers.map((member, index) => (
-          <PortfolioBandMemberListItem key={index} member={member} />
+          <PortfolioMakerBandMemberListItem key={index} member={member} />
         ))}
       </ul>
       <div className='divider m-0 mt-5' />
@@ -85,7 +89,7 @@ export function PortfolioMemberList({
   );
 }
 
-export function PortfolioAreaList({
+export function PortfolioMakerAreaList({
   label,
   areas,
   name,
@@ -110,7 +114,7 @@ export function PortfolioAreaList({
             <span className='label-text text-accent'>{label}</span>
           </label>
           <div className='flex flex-row items-center h-10 w-3/4 mr-2 text-accent'>
-            {areas.map((area, index) => (
+            {areas.map((area) => (
               <div
                 key={area.id}
                 className='mr-2'
@@ -124,7 +128,7 @@ export function PortfolioAreaList({
   );
 }
 
-export function PortfolioSelectList({
+export function PortfolioMakerSelectList({
   label,
   selections,
   name,
@@ -160,7 +164,7 @@ export function PortfolioSelectList({
   );
 }
 
-export function PortfolioDescription({
+export function PortfolioMakerDescription({
   label,
   description,
   name,
@@ -197,7 +201,11 @@ export function PortfolioDescription({
   );
 }
 
-function PortfolioRecordURLItem({ recordURL }: { recordURL: RecordURLType }) {
+function PortfolioMakerRecordURLItem({
+  recordURL,
+}: {
+  recordURL: RecordURLType;
+}) {
   return (
     <div className='grid grid-cols-7 mb-1'>
       <div className='col-span-2'>{recordURL.siteName}</div>
@@ -207,7 +215,7 @@ function PortfolioRecordURLItem({ recordURL }: { recordURL: RecordURLType }) {
   );
 }
 
-function PortfolioRecordItem({
+function PortfolioMakerRecordItem({
   record,
   name,
   onRecordCheckboxClick,
@@ -234,13 +242,13 @@ function PortfolioRecordItem({
         </span>
       </div>
       {record.urls.map((recordLink, index) => (
-        <PortfolioRecordURLItem key={index} recordURL={recordLink} />
+        <PortfolioMakerRecordURLItem key={index} recordURL={recordLink} />
       ))}
     </div>
   );
 }
 
-export function PortfolioRecordField({
+export function PortfolioMakerRecordField({
   label,
   records,
   name,
@@ -258,7 +266,7 @@ export function PortfolioRecordField({
       </div>
       {records.map((record, index) =>
         record.musicTitle !== null ? (
-          <PortfolioRecordItem
+          <PortfolioMakerRecordItem
             key={index}
             record={record}
             name={name}
@@ -271,7 +279,7 @@ export function PortfolioRecordField({
   );
 }
 
-function PortfolioAlbumItem({
+function PortfolioMakerAlbumItem({
   photo,
   name,
   onRecordCheckboxClick,
@@ -303,7 +311,7 @@ function PortfolioAlbumItem({
   }
 }
 
-export function PortfolioAlbum({
+export function PortfolioMakerAlbum({
   label,
   photos,
   name,
@@ -321,7 +329,7 @@ export function PortfolioAlbum({
       </div>
       <div className='flex flex-row overflow-x-auto items-center'>
         {photos.map((photo) => (
-          <PortfolioAlbumItem
+          <PortfolioMakerAlbumItem
             key={photo.id}
             photo={photo}
             name={name}

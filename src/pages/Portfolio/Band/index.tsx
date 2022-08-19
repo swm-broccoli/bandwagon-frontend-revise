@@ -99,9 +99,11 @@ function BandPortFolio({ portfolio }: { portfolio: BandProfileType }) {
       </section>
       <section>
         <h2>우린 이런 사람들이에요.</h2>
-        <div className='border border-base-200 rounded-lg p-3'>
-          {portfolio.description}
-        </div>
+        {portfolio.description ? (
+          <div className='border border-base-200 rounded-lg p-3'>
+            {portfolio.description}
+          </div>
+        ) : null}
       </section>
       <section>
         <h2>우리 밴드의 활동 사진</h2>
@@ -124,8 +126,9 @@ function BandPortFolioPage() {
   });
 
   useEffect(() => {
+    console.log(portfolio);
     if (portfolioRef.current) {
-      handlePrint();
+      //handlePrint();
     }
   }, []);
 
