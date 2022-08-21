@@ -141,10 +141,11 @@ function RecruitPage(props: {type: boolean}) {
                   type={true}
                   pic={post.bandAvatarUrl}
                   title={post.title}
+                  tagInfo={post.tagInfo}
                   authorPic={post.bandAvatarUrl}
                   authorName={post.bandName}
                   authorId={post.bandId.toString()}
-                  isHeartChecked={false} />
+                  isHeartChecked={post.isLiked} />
               </Link>
             )}
             </> :
@@ -155,10 +156,11 @@ function RecruitPage(props: {type: boolean}) {
                   type={false}
                   pic={post.userAvatarUrl}
                   title={post.title}
+                  tagInfo={post.tagInfo}
                   authorPic={post.userAvatarUrl}
                   authorName={post.nickname}
                   authorId={post.email}
-                  isHeartChecked={false} />
+                  isHeartChecked={post.isLiked} />
               </Link>
             )}
             </>
