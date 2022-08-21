@@ -140,6 +140,7 @@ function RecruitPage(props: {type: boolean}) {
                   <ArticleCard 
                   type={true}
                   pic={post.bandAvatarUrl}
+                  postId={post.id}
                   title={post.title}
                   tagInfo={post.tagInfo}
                   authorPic={post.bandAvatarUrl}
@@ -155,6 +156,7 @@ function RecruitPage(props: {type: boolean}) {
                   <ArticleCard 
                   type={false}
                   pic={post.userAvatarUrl}
+                  postId={post.id}
                   title={post.title}
                   tagInfo={post.tagInfo}
                   authorPic={post.userAvatarUrl}

@@ -4,10 +4,12 @@ import ExamplePic from '../../assets/examplepic.jpeg';
 import Heart from '../../assets/ic_heart.svg';
 import CheckedHeart from '../../assets/ic_heart_checked.svg';
 import { BandProfileType, UserProfileType } from '../../types/types';
+import RecruitPostAPI from '../../apis/RecruitPostAPI';
 
 function ArticleCard (
   props: {
     type: boolean,
+    postId: number,
     pic: string,
     title: string,
     tagInfo: BandProfileType | UserProfileType,
@@ -18,10 +20,19 @@ function ArticleCard (
   }) {
   
   const [authorInfo, setAuthorInfo] = useState<BandProfileType | UserProfileType>();
+  const [isLiked, setIsLiked] = useState<boolean>(false);
 
   useEffect(() => {
     setAuthorInfo(props.tagInfo);
-  }, [props.tagInfo])
+  }, [props.tagInfo]);
+
+  useEffect(() => {
+    setIsLiked(props.isHeartChecked);
+  }, [props.isHeartChecked]);
+
+  function handleLikeClick (e: React.MouseEvent<HTMLButtonElement>) {
+    RecruitPostAPI.ChangeLike(isLiked, props.postId.toString());
+  }
 
   return (
     <div className='w-full h-fit grid grid-cols-[15fr_40fr_3fr] grid-rows-[50px_44px_auto] gap-x-5 p-5 border-solid border-[#e9e9e9] border bg-white rounded-xl mt-5'>
@@ -53,9 +64,13 @@ function ArticleCard (
           </div> :
           <></>}
       <div className='flex row-start-3 col-start-3 justify-end items-center'>
-        {props.isHeartChecked ?
-        <img src={CheckedHeart} className='w-auto h-auto'/> :
-        <img src={Heart} className='w-auto h-auto'/>}
+        {isLiked ?
+        <button onClick={handleLikeClick}>
+          <img src={CheckedHeart} className='w-auto h-auto'/>
+        </button> :
+        <button onClick={handleLikeClick}>
+          <img src={Heart} className='w-auto h-auto' />
+        </button>}
       </div>
     </div>
   )

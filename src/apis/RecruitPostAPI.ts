@@ -4,7 +4,7 @@ import { request } from './request';
 interface RecruitPostApiType {
   LoadMyBandInfo: () => Promise<AxiosResponse>;
   LoadBandInfo: (bandId: number | undefined) => Promise<AxiosResponse>;
-  LoadPost: (postID: string | undefined) => Promise<AxiosResponse>;
+  LoadPost: (postId: string | undefined) => Promise<AxiosResponse>;
   LoadMyInfo: () => Promise<AxiosResponse>;
   LoadUserInfo: (userId: string | undefined) => Promise<AxiosResponse>;
   UploadArticle: (postInfo: {
@@ -12,6 +12,7 @@ interface RecruitPostApiType {
     body: string | undefined;
     dtype: string;
   }) => Promise<AxiosResponse>;
+  ChangeLike: (current: boolean, postId: string) => Promise<AxiosResponse>;
 }
 
 const RecruitPostAPI: RecruitPostApiType = {
@@ -27,12 +28,16 @@ const RecruitPostAPI: RecruitPostApiType = {
   LoadUserInfo: (userId) => {
     return request.get('api/users/' + userId + '/mypage')
   },
-  LoadPost: (postID) => {
-    return request.get('api/post/' + postID);
+  LoadPost: (postId) => {
+    return request.get('api/post/' + postId);
   },
   UploadArticle: (postInfo) => {
     console.log(postInfo);
     return request.post('api/post', postInfo);
+  },
+  ChangeLike: (current, postId) => {
+    if (current) return request.delete('api/post/' + postId + '/like');
+    else return request.post('api/post/' + postId + '/like')
   },
 };
 
