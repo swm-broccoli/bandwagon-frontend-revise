@@ -24,29 +24,11 @@ function TitleTextField (props: {
   );
 };
 
-/* useRef props로 전달하는 법 공부 후 사용
-function WriteEditor (props: {
-  editorRef: React.ForwardedRef<Editor>}) {
-  return (
-    <div className='flex flex-col gap-4'>
-      <h3 className='text-accent text-base'>글쓰기</h3>
-      <Editor
-        initialValue="밴드를 소개해 주세요."
-        previewStyle="vertical"
-        height="600px"
-        initialEditType="wysiwyg"
-        useCommandShortcut={true}
-        ref={props.editorRef} />
-    </div>
-  )
-}
-*/
-
 function WriteRecruitPage (props: {type: boolean}) {
   const { postId } = useParams(); 
+  const [isModify, setIsModify] = useState<boolean>(false);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
-  const [isModify, setIsModify] = useState<boolean>(false);
   const navigate = useNavigate();
   const {
     minStore,
@@ -78,7 +60,6 @@ function WriteRecruitPage (props: {type: boolean}) {
         dtype: 'Band'})
         .then((res) => {
           console.log(res.data.id);
-          if (postId) {
           if (minStore || maxStore) {
             RecruitProcessAPI.sendPrequisites({
               dtype: 'Age',
@@ -164,7 +145,7 @@ function WriteRecruitPage (props: {type: boolean}) {
             .catch((err) => {
               console.log(err);
             })
-          }}
+          }
           if (postId) {
             window.alert('글이 수정되었습니다');
             navigate('/recruit/' + postId);
@@ -229,7 +210,7 @@ function WriteRecruitPage (props: {type: boolean}) {
           </div>
         </div>
         {/* 모집 정보 (지원 조건, 추가 지원 양식) */}
-        {props.type ? <RequirementBox /> : <></>}
+        {props.type ? <RequirementBox postId={postId} /> : <></>}
       </div>
     </div>
     <GlobalFooter />

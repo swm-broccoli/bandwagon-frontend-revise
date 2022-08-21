@@ -127,7 +127,6 @@ function BandInfoCard (props: {
     if (props.type) {
       RecruitPostAPI.LoadMyBandInfo()
         .then((res) => {
-          console.log(res.data);
           setBandInfo(res.data);
         })
         .catch((err) => {
@@ -136,7 +135,6 @@ function BandInfoCard (props: {
     } else if (props.bandId) {
       RecruitPostAPI.LoadBandInfo(props.bandId)
         .then((res) => {
-          console.log(res.data);
           setBandInfo(res.data);
         })
         .catch((err) => {
