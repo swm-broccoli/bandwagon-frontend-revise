@@ -3,7 +3,7 @@ import TagElement from './TagElement';
 import ExamplePic from '../assets/examplepic.jpeg';
 import Heart from '../assets/ic_heart.svg';
 import CheckedHeart from '../assets/ic_heart_checked.svg';
-import { BandPostCardType, BandProfileType, PostCardType, UserPostCardType, UserProfileType } from '../types/types';
+import { PostCardType } from '../types/types';
 import RecruitPostAPI from '../apis/RecruitPostAPI';
 
 function ArticleCard (
@@ -18,11 +18,13 @@ function ArticleCard (
   }, [props.postInfo]);
 
   function handleLikeClick (e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    setIsLiked(!isLiked);
     RecruitPostAPI.ChangeLike(isLiked, props.postInfo.id.toString());
   }
 
   return (
-    <div className='w-full h-fit grid grid-cols-[15fr_40fr_3fr] grid-rows-[50px_44px_auto] gap-x-5 p-5 border-solid border-[#e9e9e9] border bg-white rounded-xl mt-5'>
+    <div className='w-full max-w-xl h-fit grid grid-cols-[15fr_40fr_3fr] grid-rows-[50px_44px_auto] gap-x-5 p-5 border-solid border-[#e9e9e9] border bg-white rounded-xl mt-5'>
         {props.postInfo.dtype == 'Band' ?
         props.postInfo.bandAvatarUrl ?
         <img src={props.postInfo.bandAvatarUrl} className='w-[7.5rem] h-[7.5rem] row-start-1 row-end-4 col-start-1 mr-7 object-cover rounded-xl'/> :
