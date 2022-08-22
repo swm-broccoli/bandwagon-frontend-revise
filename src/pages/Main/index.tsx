@@ -56,7 +56,7 @@ function RecommendedRecruitments({
   return (
     <section className='bg-[#f4f9f9] h-60 grid grid-cols-6'>
       <div className='col-start-2'>
-        <h1 className='text-2xl font-bold'>추천 구인글</h1>
+        <h1 className='text-2xl font-bold'>추천 구인·구직글</h1>
         <h2 className='text-neutral'>R E C O M M E N D</h2>
       </div>
       {recruitments.map((recruitment) => (
