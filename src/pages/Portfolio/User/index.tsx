@@ -111,7 +111,10 @@ function UserPortFolioPage() {
     navigate('/portfolio');
   }, []);
   return (
-    <div className='flex justify-center' ref={userPortfolioRef}>
+    <div
+      className='flex flex-col justify-center items-center'
+      ref={userPortfolioRef}
+    >
       <UserPortfolio portfolio={portfolio} />
     </div>
   );
