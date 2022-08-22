@@ -4,6 +4,59 @@ import { Link } from 'react-router-dom';
 import { bandPortfolioBrief } from './tempTodayPortfolio';
 import { TodayPortfolio } from './TodaysPortfolio';
 import GlobalFooter from '../../components/Footer';
+import recruitMenu1 from '../../assets/mainRecruitMenu/recruit-menu-1.png';
+import recruitMenu2 from '../../assets/mainRecruitMenu/recruit-menu-2.png';
+import recruitMenu3 from '../../assets/mainRecruitMenu/recruit-menu-3.png';
+import recruitMenu4 from '../../assets/mainRecruitMenu/recruit-menu-4.png';
+import recruitMenu5 from '../../assets/mainRecruitMenu/recruit-menu-5.png';
+
+const RecruitMenuList = [
+  {
+    image: recruitMenu1,
+    title: '기타 구인구직',
+  },
+  {
+    image: recruitMenu2,
+    title: '베이스 구인구직',
+  },
+  {
+    image: recruitMenu3,
+    title: '보컬 구인구직',
+  },
+  {
+    image: recruitMenu4,
+    title: '건반 구인구직',
+  },
+  {
+    image: recruitMenu5,
+    title: '드럼 구인구직',
+  },
+];
+
+function RecruitMenuItem({ image, title }: { image: string; title: string }) {
+  return (
+    <div className='flex flex-col items-center'>
+      <img className='scale-75 h-[52.5px]' src={image} alt={title} />
+      <div className='title'>{title}</div>
+    </div>
+  );
+}
+
+function RecruitMenu() {
+  return (
+    <section className='grid grid-cols-6 h-28 items-center'>
+      <div className='col-start-2 col-end-6 py-0 min-h-fit bg-base-100 flex flex-row justify-evenly'>
+        {RecruitMenuList.map((item) => (
+          <RecruitMenuItem
+            key={item.title}
+            image={item.image}
+            title={item.title}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
 
 interface RecommendedRecruitmentItemType {
   image: string;
@@ -54,7 +107,7 @@ function RecommendedRecruitments({
   recruitments: RecommendedRecruitmentItemType[];
 }) {
   return (
-    <section className='bg-[#f4f9f9] h-60 grid grid-cols-6'>
+    <section className='bg-[#f4f9f9] h-72 grid grid-cols-6 pt-6'>
       <div className='col-start-2'>
         <h1 className='text-2xl font-bold'>추천 구인·구직글</h1>
         <h2 className='text-neutral'>R E C O M M E N D</h2>
@@ -73,6 +126,7 @@ function MainPage() {
   return (
     <main>
       <GlobalNavBar />
+      <RecruitMenu />
       <RecommendedRecruitments recruitments={tempRecommendedRecruitments} />
       <TodayPortfolio todayPortfolios={bandPortfolioBrief} />
       <div className='text-3xl text-teal-500'>메인 페이지입니다.</div>
