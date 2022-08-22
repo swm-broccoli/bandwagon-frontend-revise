@@ -35,12 +35,13 @@ function Pagination (props: {
 }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [firstPage, setfirstPage] = useState(0);
-  const [lastPage, setLastPage] = useState(10);
+  const [lastPage, setLastPage] = useState(0);
   const {changePage} = useSearchPostStore();
 
   useEffect(() => {
-    if (props.totalPage && props.totalPage < 10) {
-      setLastPage(props.totalPage);
+    console.log('total page', props.totalPage);
+    if (props.totalPage < 10 && props.totalPage !== -1) {
+        setLastPage(props.totalPage);
     } else if (props.totalPage >= 10) {
       setLastPage(9);
     }
