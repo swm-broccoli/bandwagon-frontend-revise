@@ -18,6 +18,10 @@ function getAgeFromBirthday(birthday: string) {
 }
 
 function UserPortfolio({ portfolio }: { portfolio: UserProfileType }) {
+  useEffect(() => {
+    console.log(portfolio);
+  }, []);
+
   return (
     <main className='flex flex-col items-center'>
       <h1 className='text-3xl'>저는 {portfolio.name}입니다!</h1>
@@ -30,52 +34,62 @@ function UserPortfolio({ portfolio }: { portfolio: UserProfileType }) {
           <img src={portfolio.avatarUrl} alt={portfolio.name + '프로필 사진'} />
         </div>
       </div>
-      <section>
-        <h2>이런 포지션 가능합니다.</h2>
-        <div className='flex flex-row items-center'>
-          {portfolio.positions.map((position, index) => (
-            <div key={index} className='badge badge-secondary'>
-              {positionToKorean[position.name]}
-            </div>
-          ))}
-        </div>
-      </section>
-      <section>
-        <h2>이 지역에서 활동합니다.</h2>
-        <div className='flex flex-row items-center'>
-          {portfolio.areas.map((area, index) => (
-            <div key={index} className='badge badge-secondary'>
-              {area.city + ' ' + area.district}
-            </div>
-          ))}
-        </div>
-      </section>
-      <section>
-        <h2>이런 장르들을 좋아합니다.</h2>
-        <div className='flex flex-row items-center'>
-          {portfolio.genres.map((genre, index) => (
-            <div key={index} className='badge badge-secondary'>
-              {genre.name}
-            </div>
-          ))}
-        </div>
-      </section>
-      <section>
-        <h2>이런 사람입니다.</h2>
-        {portfolio.description ? (
-          <div className='border border-base-200 rounded-lg p-3'>
-            {portfolio.description}
+      {portfolio.positions.length ? (
+        <section>
+          <h2>이런 포지션 가능합니다.</h2>
+          <div className='flex flex-row items-center'>
+            {portfolio.positions.map((position, index) => (
+              <div key={index} className='badge badge-secondary'>
+                {positionToKorean[position.name]}
+              </div>
+            ))}
           </div>
-        ) : null}
-      </section>
-      <section>
-        <h2>이런 연주들을 해왔습니다.</h2>
-        <div className='flex flex-col items-center'>
-          {portfolio.userPerformances.map((performance, index) => (
-            <PortfolioRecordItem key={index} record={performance} />
-          ))}
-        </div>
-      </section>
+        </section>
+      ) : null}
+      {portfolio.areas.length ? (
+        <section>
+          <h2>이 지역에서 활동합니다.</h2>
+          <div className='flex flex-row items-center'>
+            {portfolio.areas.map((area, index) => (
+              <div key={index} className='badge badge-secondary'>
+                {area.city + ' ' + area.district}
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : null}
+      {portfolio.genres.length ? (
+        <section>
+          <h2>이런 장르들을 좋아합니다.</h2>
+          <div className='flex flex-row items-center'>
+            {portfolio.genres.map((genre, index) => (
+              <div key={index} className='badge badge-secondary'>
+                {genre.name}
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : null}
+      {portfolio.description ? (
+        <section>
+          <h2>이런 사람입니다.</h2>
+          {portfolio.description ? (
+            <div className='border border-base-200 rounded-lg p-3'>
+              {portfolio.description}
+            </div>
+          ) : null}
+        </section>
+      ) : null}
+      {portfolio.userPerformances.length ? (
+        <section>
+          <h2>이런 연주들을 해왔습니다.</h2>
+          <div className='flex flex-col items-center'>
+            {portfolio.userPerformances.map((performance, index) => (
+              <PortfolioRecordItem key={index} record={performance} />
+            ))}
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }
