@@ -78,13 +78,7 @@ function UserPortfolioMaker() {
         if (res.status === 200) {
           console.log(res.data);
           setUserProfile(res.data);
-          setUserPortfolio({
-            ...userPortfolio,
-            avatarUrl: res.data.avatarUrl,
-            name: res.data.name,
-            birthday: res.data.birthday,
-            gender: res.data.gender,
-          });
+          setUserPortfolio(res.data);
         }
       })
       .catch((err) => {
@@ -194,12 +188,7 @@ function BandPortfolioMaker() {
         if (res.status === 200) {
           console.log(res.data);
           setBandProfile(res.data);
-          setBandPortfolio({
-            ...bandPortfolio,
-            avatarUrl: res.data.avatarUrl,
-            name: res.data.name,
-            bandMembers: res.data.bandMembers,
-          });
+          setBandPortfolio(res.data);
         }
       })
       .catch((err) => {

@@ -1,57 +1,217 @@
 import React from 'react';
-import { stringify } from 'uuid';
 import create from 'zustand';
-import { devtools } from 'zustand/middleware';
-import { PrequisiteElementType, PrequisiteRequestType } from '../types/types';
+import {devtools} from 'zustand/middleware';
+import { PrequisiteElementType, PrequisiteRequestType, PrequisiteResponseType } from '../types/types';
 
 interface bandRequirementStoreType {
-  currentId: number;
-  dtypeList: string[];
-  prequisiteList: { id: number; type: string }[];
-  prequisiteRequest: PrequisiteRequestType | undefined;
-  dtypeRequest: '';
-  minStore: number | null;
-  maxStore: number | null;
-  genderStore: boolean | null;
-  areaStore: PrequisiteElementType[];
-  genreStore: PrequisiteElementType[];
-  positionStore: PrequisiteElementType[];
-  changeAge: (min: number, max: number) => void;
-  changeGender: (gender: boolean) => void;
-  changeArea: (preqId: number, areaId: number) => void;
-  changeGenre: (preqId: number, genreId: number) => void;
-  changePosition: (preqId: number, positonId: number) => void;
-  addPrequisite: (preqId: number, type: string) => void;
-  deletePrequisite: (preqId: number, type: string) => void;
+  currentId: number,
+  preqId: {
+    age: number,
+    area: number,
+    gender: number,
+    genre: number,
+    position: number},
+  prequisiteList: {id: number, type: string}[],
+  prequisiteRequest: PrequisiteRequestType | undefined,
+  dtypeRequest: '',
+  minStore: number | null,
+  maxStore: number | null,
+  genderStore: boolean | null,
+  areaStore: PrequisiteElementType[],
+  genreStore: PrequisiteElementType[],
+  positionStore: PrequisiteElementType[],
+  setPreqId: (type: string, id: number) => void,
+  clearStore: () => void,
+  setPrequisites: (
+    preqList: PrequisiteResponseType[]) => void,
+  changeAge: (min: number | null, max: number | null) => void,
+  changeGender: (gender: boolean | null) => void,
+  changeArea: (preqId: number, areaId: number) => void,
+  changeGenre: (preqId: number, genreId: number) => void,
+  changePosition: (preqId: number, positonId: number) => void,
+  addPrequisite: (preqId: number, type: string) => void,
+  deletePrequisite: (preqId: number, type: string) => void,
 }
 
-export const useBandRequirementStore = create<bandRequirementStoreType>()(
-  devtools((set) => ({
-    currentId: 0,
-    dtypeList: [],
-    prequisiteList: [],
-    prequisiteRequest: undefined,
-    dtypeRequest: '',
-    minStore: 0,
-    maxStore: 0,
-    genderStore: null,
-    areaStore: [],
-    genreStore: [],
-    positionStore: [],
-    changeAge: (min, max) => {
-      set((state) => ({
-        minStore: min,
-        maxStore: max,
-      }));
-    },
-    changeGender: (gender) => {
-      set((state) => ({
-        genderStore: gender,
-      }));
-    },
-    changeArea: (preqId, areaId) => {
-      set((state) => ({
-        areaStore: state.areaStore.map((area) => {
+export const useBandRequirementStore = create<bandRequirementStoreType>()(devtools((set) => ({
+  currentId: 0,
+  preqId: {age: 0, area: 0, gender: 0, genre: 0, position: 0},
+  prequisiteList: [],
+  prequisiteRequest: undefined,
+  dtypeRequest: '',
+  minStore: 0,
+  maxStore: 0,
+  genderStore: null,
+  areaStore: [],
+  genreStore: [],
+  positionStore: [],
+  setPreqId: (type, id) => {
+    switch (type) {
+      case 'Age': {
+        set((state) => ({
+          preqId: {
+            age: id,
+            area: state.preqId.area,
+            gender: state.preqId.gender,
+            genre: state.preqId.genre,
+            position: state.preqId.position,
+          }
+        }))
+        break;
+      }
+      case 'Area': {
+        set((state) => ({
+          preqId: {
+            age: state.preqId.age,
+            area: id,
+            gender: state.preqId.gender,
+            genre: state.preqId.genre,
+            position: state.preqId.position,
+          }
+        }))
+        break;
+      }
+      case 'Gender': {
+        set((state) => ({
+          preqId: {
+            age: state.preqId.age,
+            area: state.preqId.area,
+            gender: id,
+            genre: state.preqId.genre,
+            position: state.preqId.position,
+          }
+        }))
+        break;
+      }
+      case 'Genre': {
+        set((state) => ({
+          preqId: {
+            age: state.preqId.age,
+            area: state.preqId.area,
+            gender: state.preqId.gender,
+            genre: id,
+            position: state.preqId.position,
+          }
+        }))
+        break;
+      }
+      case 'Position': {
+        set((state) => ({
+          preqId: {
+            age: state.preqId.age,
+            area: state.preqId.area,
+            gender: state.preqId.gender,
+            genre: state.preqId.genre,
+            position: id,
+          }
+        }))
+        break;
+      }
+      default:
+    }
+  },
+  clearStore: () => {
+    console.log('clear');
+    set((state) => ({
+      currentId: 0,
+      preqId: {age: 0, area: 0, gender: 0, genre: 0, position: 0},
+      prequisiteList: [],
+      prequisiteRequest: undefined,
+      dtypeRequest: '',
+      minStore: 0,
+      maxStore: 0,
+      genderStore: null,
+      areaStore: [],
+      genreStore: [],
+      positionStore: [],
+    }))
+  },
+  setPrequisites: (preqList) => {
+    preqList.map((preq: PrequisiteResponseType) => {
+      switch(preq.dtype) {
+        case 'Age': {
+          set((state) => ({
+            prequisiteList: [...state.prequisiteList, {
+              id: state.currentId,
+              type: '나이'
+            }],
+            minStore: preq.min,
+            maxStore: preq.max}));
+          break;
+        }
+        case 'Area': {
+          preq.areas.map((area) => {
+            set((state) => ({
+              prequisiteList: [...state.prequisiteList, {
+                id: state.currentId,
+                type: '지역'
+              }],
+              areaStore: [...state.areaStore, {
+                preqId: state.currentId,
+                id: area.id
+              }]
+            }));
+          })
+          break;
+        }
+        case 'Gender': {
+          set((state) => ({
+            prequisiteList: [...state.prequisiteList, {
+              id: state.currentId,
+              type: '성별'
+            }],
+            genderStore: preq.gender}));
+          break;
+        }
+        case 'Genre': {
+          preq.genres.map((genre) => {
+            set((state) => ({
+              prequisiteList: [...state.prequisiteList, {
+                id: state.currentId,
+                type: '장르'
+              }],
+              genreStore: [...state.genreStore, {
+                preqId: state.currentId,
+                id: genre.id
+              }]
+            }));
+          })
+          break;
+        }
+        case 'Position': {
+          preq.positions.map((position) => {
+            set((state) => ({
+              prequisiteList: [...state.prequisiteList, {
+                id: state.currentId,
+                type: '세션'
+              }],
+              positionStore: [...state.positionStore, {
+                preqId: state.currentId,
+                id: position.id
+              }]
+            }));
+          })
+          break;
+        }
+        default: {}
+      }
+      set((state) => ({currentId: state.currentId + 1}))
+    })
+  },
+  changeAge: (min, max) => {
+    set((state) => ({
+      minStore: min,
+      maxStore: max
+    }));
+  },
+  changeGender: (gender) => {
+    set((state) => ({
+      genderStore: gender
+    }));
+  },
+  changeArea: (preqId, areaId) => {
+    set((state) => ({
+      areaStore: state.areaStore.map((area) => {
           if (area.preqId === preqId) {
             return {
               ...area,

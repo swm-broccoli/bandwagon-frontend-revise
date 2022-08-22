@@ -137,6 +137,7 @@ export interface BandPostCardType {
   bandName: string;
   bandAvatarUrl: string;
   isLiked: boolean;
+  tagInfo: BandProfileType;
 }
 
 export interface UserPostCardType {
@@ -150,6 +151,7 @@ export interface UserPostCardType {
   nickname: string;
   userAvatarUrl: string;
   isLiked: boolean;
+  tagInfo: UserProfileType;
 }
 
 export interface PostCardType {

@@ -90,7 +90,9 @@ function MemberInfo (props: {members: BandMemberType[] | undefined}) {
           <img src={profilePic} className='w-7 h-7 rounded-full'/>
           }
           <p className='text-accent text-base font-medium'>{member.name}</p>
-          <TagElement tag={member.positions[0].name} />
+          {member.positions.length ?
+            <TagElement tag={member.positions[0].name} /> :
+            <></>}
         </li>
       )}
       </ul>
@@ -125,7 +127,6 @@ function BandInfoCard (props: {
     if (props.type) {
       RecruitPostAPI.LoadMyBandInfo()
         .then((res) => {
-          console.log(res.data);
           setBandInfo(res.data);
         })
         .catch((err) => {
@@ -134,7 +135,6 @@ function BandInfoCard (props: {
     } else if (props.bandId) {
       RecruitPostAPI.LoadBandInfo(props.bandId)
         .then((res) => {
-          console.log(res.data);
           setBandInfo(res.data);
         })
         .catch((err) => {
