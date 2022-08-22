@@ -14,7 +14,9 @@ interface bandRequirementStoreType {
   areaStore: PrequisiteElementType[],
   genreStore: PrequisiteElementType[],
   positionStore: PrequisiteElementType[],
-  setPrequisites: (preqList: PrequisiteResponseType[]) => void,
+  clearStore: () => void,
+  setPrequisites: (
+    preqList: PrequisiteResponseType[]) => void,
   changeAge: (min: number | null, max: number | null) => void,
   changeGender: (gender: boolean | null) => void,
   changeArea: (preqId: number, areaId: number) => void,
@@ -35,6 +37,20 @@ export const useBandRequirementStore = create<bandRequirementStoreType>()(devtoo
   areaStore: [],
   genreStore: [],
   positionStore: [],
+  clearStore: () => {
+    set((state) => ({
+      currentId: 0,
+      prequisiteList: [],
+      prequisiteRequest: undefined,
+      dtypeRequest: '',
+      minStore: 0,
+      maxStore: 0,
+      genderStore: null,
+      areaStore: [],
+      genreStore: [],
+      positionStore: [],
+    }))
+  },
   setPrequisites: (preqList) => {
     preqList.map((preq: PrequisiteResponseType) => {
       switch(preq.dtype) {
@@ -89,7 +105,6 @@ export const useBandRequirementStore = create<bandRequirementStoreType>()(devtoo
         }
         case 'Position': {
           preq.positions.map((position) => {
-            console.log(position);
             set((state) => ({
               prequisiteList: [...state.prequisiteList, {
                 id: state.currentId,

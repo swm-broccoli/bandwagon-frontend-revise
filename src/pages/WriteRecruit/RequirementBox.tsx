@@ -3,7 +3,7 @@ import ProfileAddModal from '../../components/ProfileAddModal';
 import Select from '../../components/Select';
 import PrequisiteElement from './PrequisiteElement';
 import { useBandRequirementStore } from '../../stores/BandRequirementStore';
-import { PrequisiteRequestType, PrequisiteResponseType, SelectionType } from '../../types/types';
+import { SelectionType } from '../../types/types';
 import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 
 function BandPrequisitesCard (props: {postId: string | undefined}) {
@@ -22,24 +22,25 @@ function BandPrequisitesCard (props: {postId: string | undefined}) {
     minStore,
     maxStore,
     genderStore,
+    clearStore,
     setPrequisites,
     addPrequisite} = useBandRequirementStore();
 
-    useEffect(() => {
-      console.log(props.postId);
-      if (props.postId) {
-        RecruitProcessAPI.getPrequisites(props.postId)
-        .then((res) => {
-          console.log(res.data);
-          if (res && !prequisiteList.length) {
-            setPrequisites(res.data.prerequisites);
-          }        
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-      }
-    }, [props.postId])
+  useEffect(() => {
+    if (props.postId) {
+      RecruitProcessAPI.getPrequisites(props.postId)
+      .then((res) => {
+        console.log(res.data);
+        if (res) {
+          clearStore();
+          setPrequisites(res.data.prerequisites);
+        }        
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
+  }, [props.postId])
 
   return (
     <div className='w-full h-fit flex flex-col bg-white border border-solid border-[#e5e5e5] rounded-xl p-5 gap-5'>
@@ -57,7 +58,11 @@ function BandPrequisitesCard (props: {postId: string | undefined}) {
                 addPrequisite(currentId, option.name);
               }}}
             children={
-              <Select label='추가할 지원 조건을 선택하세요' options={options} setOption={setOption} />
+              <Select
+                label='추가할 지원 조건을 선택하세요'
+                options={options}
+                default=''
+                setOption={setOption} />
             } />
         </div>
       </div>

@@ -165,6 +165,7 @@ function SelectGenre () {
         <Select
           label='장르를 선택하세요'
           options={genreOptions}
+          curOption={genre}
           setOption={setGenre} />
         <Button
           label='+ 추가'
@@ -241,7 +242,7 @@ function SelectArea () {
   return (
     <div className='flex flex-col flex-wrap gap-4 row-start-6 col-start-2'>
       <div className='flex flex-row flex-wrap gap-[0.625rem]'>
-        <AreaSelect setOption={setArea} />
+        <AreaSelect curOption={area} setOption={setArea} />
         <Button
           label='+ 추가'
           x='w-20 '
