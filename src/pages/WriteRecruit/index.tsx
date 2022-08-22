@@ -26,17 +26,22 @@ function TitleTextField (props: {
 
 function WriteRecruitPage (props: {type: boolean}) {
   const { postId } = useParams(); 
-  const [isModify, setIsModify] = useState<boolean>(false);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const navigate = useNavigate();
   const {
+    preqId,
     minStore,
     maxStore,
     genderStore,
     areaStore,
     genreStore,
-    positionStore} = useBandRequirementStore();
+    positionStore,
+    clearStore} = useBandRequirementStore();
+  
+  useEffect(() => {
+    clearStore();
+  }, []);
   
   useEffect(() => {
     if (postId) {
@@ -44,7 +49,6 @@ function WriteRecruitPage (props: {type: boolean}) {
       .then((res) => {
         setTitle(res.data.title);
         setBody(res.data.body);
-        setIsModify(true);
       })
       .catch((err) => {
         console.log(err);
@@ -69,7 +73,7 @@ function WriteRecruitPage (props: {type: boolean}) {
               areas: null,
               genres: null,
               positions: null
-            }, res.data.id)
+            }, res.data.id, preqId.age)
             .then((res) => {
               console.log('age');
             })
@@ -86,7 +90,7 @@ function WriteRecruitPage (props: {type: boolean}) {
               areas: null,
               genres: null,
               positions: null
-            }, res.data.id)
+            }, res.data.id, preqId.gender)
             .then((res) => {
               console.log('gender');
             })
@@ -103,7 +107,7 @@ function WriteRecruitPage (props: {type: boolean}) {
               areas: areaStore,
               genres: null,
               positions: null
-            }, res.data.id)
+            }, res.data.id, preqId.area)
             .then((res) => {
               console.log('area');
             })
@@ -121,7 +125,7 @@ function WriteRecruitPage (props: {type: boolean}) {
               areas: null,
               genres: genreStore,
               positions: null
-            }, res.data.id)
+            }, res.data.id, preqId.genre)
             .then((res) => {
               console.log('genre');
             })
@@ -138,7 +142,7 @@ function WriteRecruitPage (props: {type: boolean}) {
               areas: null,
               genres: null,
               positions: positionStore,
-            }, res.data.id)
+            }, res.data.id, preqId.position)
             .then((res) => {
               console.log('position');
             })

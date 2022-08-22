@@ -3,7 +3,7 @@ import ProfileAddModal from '../../components/ProfileAddModal';
 import Select from '../../components/Select';
 import PrequisiteElement from './PrequisiteElement';
 import { useBandRequirementStore } from '../../stores/BandRequirementStore';
-import { SelectionType } from '../../types/types';
+import { PrequisiteResponseType, SelectionType } from '../../types/types';
 import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 
 function BandPrequisitesCard (props: {postId: string | undefined}) {
@@ -22,6 +22,7 @@ function BandPrequisitesCard (props: {postId: string | undefined}) {
     minStore,
     maxStore,
     genderStore,
+    setPreqId,
     clearStore,
     setPrequisites,
     addPrequisite} = useBandRequirementStore();
@@ -34,6 +35,9 @@ function BandPrequisitesCard (props: {postId: string | undefined}) {
         if (res) {
           clearStore();
           setPrequisites(res.data.prerequisites);
+          res.data.prerequisites.map((preq: PrequisiteResponseType) => {
+            setPreqId(preq.dtype, preq.id);
+          })
         }        
       })
       .catch((err) => {
@@ -61,7 +65,7 @@ function BandPrequisitesCard (props: {postId: string | undefined}) {
               <Select
                 label='추가할 지원 조건을 선택하세요'
                 options={options}
-                default=''
+                curOption={option}
                 setOption={setOption} />
             } />
         </div>

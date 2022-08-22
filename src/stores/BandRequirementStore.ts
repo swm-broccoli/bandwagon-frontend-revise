@@ -5,6 +5,12 @@ import { PrequisiteElementType, PrequisiteRequestType, PrequisiteResponseType } 
 
 interface bandRequirementStoreType {
   currentId: number,
+  preqId: {
+    age: number,
+    area: number,
+    gender: number,
+    genre: number,
+    position: number},
   prequisiteList: {id: number, type: string}[],
   prequisiteRequest: PrequisiteRequestType | undefined,
   dtypeRequest: '',
@@ -14,6 +20,7 @@ interface bandRequirementStoreType {
   areaStore: PrequisiteElementType[],
   genreStore: PrequisiteElementType[],
   positionStore: PrequisiteElementType[],
+  setPreqId: (type: string, id: number) => void,
   clearStore: () => void,
   setPrequisites: (
     preqList: PrequisiteResponseType[]) => void,
@@ -28,6 +35,7 @@ interface bandRequirementStoreType {
 
 export const useBandRequirementStore = create<bandRequirementStoreType>()(devtools((set) => ({
   currentId: 0,
+  preqId: {age: 0, area: 0, gender: 0, genre: 0, position: 0},
   prequisiteList: [],
   prequisiteRequest: undefined,
   dtypeRequest: '',
@@ -37,9 +45,76 @@ export const useBandRequirementStore = create<bandRequirementStoreType>()(devtoo
   areaStore: [],
   genreStore: [],
   positionStore: [],
+  setPreqId: (type, id) => {
+    switch (type) {
+      case 'Age': {
+        set((state) => ({
+          preqId: {
+            age: id,
+            area: state.preqId.area,
+            gender: state.preqId.gender,
+            genre: state.preqId.genre,
+            position: state.preqId.position,
+          }
+        }))
+        break;
+      }
+      case 'Area': {
+        set((state) => ({
+          preqId: {
+            age: state.preqId.age,
+            area: id,
+            gender: state.preqId.gender,
+            genre: state.preqId.genre,
+            position: state.preqId.position,
+          }
+        }))
+        break;
+      }
+      case 'Gender': {
+        set((state) => ({
+          preqId: {
+            age: state.preqId.age,
+            area: state.preqId.area,
+            gender: id,
+            genre: state.preqId.genre,
+            position: state.preqId.position,
+          }
+        }))
+        break;
+      }
+      case 'Genre': {
+        set((state) => ({
+          preqId: {
+            age: state.preqId.age,
+            area: state.preqId.area,
+            gender: state.preqId.gender,
+            genre: id,
+            position: state.preqId.position,
+          }
+        }))
+        break;
+      }
+      case 'Position': {
+        set((state) => ({
+          preqId: {
+            age: state.preqId.age,
+            area: state.preqId.area,
+            gender: state.preqId.gender,
+            genre: state.preqId.genre,
+            position: id,
+          }
+        }))
+        break;
+      }
+      default:
+    }
+  },
   clearStore: () => {
+    console.log('clear');
     set((state) => ({
       currentId: 0,
+      preqId: {age: 0, area: 0, gender: 0, genre: 0, position: 0},
       prequisiteList: [],
       prequisiteRequest: undefined,
       dtypeRequest: '',
