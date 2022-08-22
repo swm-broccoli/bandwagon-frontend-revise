@@ -143,8 +143,23 @@ export interface UserPostCardType {
   body: string;
   dtype: string;
   userId: number;
-  tagInfo: UserProfileType,
-  ;
+  tagInfo: UserProfileType;
+  email: string;
+  nickname: string;
+  userAvatarUrl: string;
+  isLiked: boolean;
+}
+
+export interface PostCardType {
+  id: number;
+  title: string;
+  body: string;
+  dtype: string;
+  userId: number;
+  tagInfo: UserProfileType;
+  bandId: number;
+  bandName: string;
+  bandAvatarUrl: string;
   email: string;
   nickname: string;
   userAvatarUrl: string;
