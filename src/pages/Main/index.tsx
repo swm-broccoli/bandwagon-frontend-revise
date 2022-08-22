@@ -10,18 +10,23 @@ interface bandPortfolioBriefType {
 
 const bandPortfolioBrief: bandPortfolioBriefType[] = [
   {
-    title: '브로콜리 소마저',
+    title: '브로콜리 소마저-1',
     description: '브로콜리 소마저를 소개합니다.',
     image:
       'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
   },
   {
-    title: '극동아시아타이거즈',
+    title: '극동아시아타이거즈-2',
     description: '극동아시아타이거즈를 소개합니다.',
     image: 'https://picsum.photos/200',
   },
   {
-    title: '이디어츠밴드',
+    title: '이디어츠밴드-3',
+    description: '이디어츠밴드를 소개합니다.',
+    image: 'https://picsum.photos/200',
+  },
+  {
+    title: '이디어츠밴드-4',
     description: '이디어츠밴드를 소개합니다.',
     image: 'https://picsum.photos/200',
   },
@@ -38,7 +43,7 @@ function TodaysPortfolioItem({
   switch (currentState) {
     case 'current':
       return (
-        <div className='w-3/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all z-20'>
+        <div className='w-3/5 mx-auto shrink-0 card card-side bg-base-100 shadow-xl transition-all delay-500 z-20'>
           <figure className='h-full'>
             <img
               className='h-full'
@@ -55,7 +60,7 @@ function TodaysPortfolioItem({
     case 'previous':
     case 'next':
       return (
-        <div className='w-2/5 opacity-50 shrink-0 card card-side bg-base-100 shadow-xl transition-all z-20'>
+        <div className='w-3/5 scale-75 opacity-50 shrink-0 card card-side bg-base-100 shadow-xl transition-all z-20'>
           <figure className='h-full'>
             <img
               className='h-full'
