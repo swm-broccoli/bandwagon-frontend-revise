@@ -43,15 +43,13 @@ function TodaysPortfolioItem({
   switch (currentState) {
     case 'current':
       return (
-        <div className='w-3/5 mx-auto shrink-0 card card-side bg-base-100 shadow-xl transition-all delay-500 z-20'>
-          <figure className='h-full'>
-            <img
-              className='h-full'
-              src={todayPortfolio.image}
-              alt={`${todayPortfolio.title} 사진`}
-            />
-          </figure>
-          <div className='card-body'>
+        <div className='absolute flex flex-row w-3/5 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all delay-500 z-20'>
+          <img
+            className='w-1/2 h-full object-fill'
+            src={todayPortfolio.image}
+            alt={`${todayPortfolio.title} 사진`}
+          />
+          <div className='card-body w-1/2'>
             <h2 className='card-title'>{todayPortfolio.title}</h2>
             <p>{todayPortfolio.description}</p>
           </div>
@@ -60,15 +58,17 @@ function TodaysPortfolioItem({
     case 'previous':
     case 'next':
       return (
-        <div className='w-3/5 scale-75 opacity-50 shrink-0 card card-side bg-base-100 shadow-xl transition-all z-20'>
-          <figure className='h-full'>
-            <img
-              className='h-full'
-              src={todayPortfolio.image}
-              alt={`${todayPortfolio.title} 사진`}
-            />
-          </figure>
-          <div className='card-body'>
+        <div
+          className={`${
+            currentState === 'previous' ? '-translate-x-40' : 'translate-x-40'
+          } absolute flex flex-row w-3/5 h-4/5 scale-75 opacity-50 shrink-0 card card-side bg-base-100 shadow-xl transition-all`}
+        >
+          <img
+            className='w-1/2 h-full object-fill'
+            src={todayPortfolio.image}
+            alt={`${todayPortfolio.title} 사진`}
+          />
+          <div className='w-1/2 card-body'>
             <h2 className='card-title'>{todayPortfolio.title}</h2>
             <p>{todayPortfolio.description}</p>
           </div>
@@ -130,9 +130,11 @@ function TodaysPortfolioCarousel({
   }, [indexes.currentIndex]);
 
   return (
-    <div className='flex flex-col items-center'>
-      <button onClick={handleCardTransition}>Transition to Next</button>
-      <div className='flex flex-row gap-3 mt-5'>
+    <div className='w-full h-full flex flex-col items-center'>
+      <button className='mb-10' onClick={handleCardTransition}>
+        Transition to Next
+      </button>
+      <div className='w-full h-full relative flex flex-row justify-center mx-auto'>
         {todayPortfolios.map((todayPortfolio, index) => (
           <TodaysPortfolioItem
             key={index}
@@ -160,7 +162,7 @@ function MainPage() {
         <Link to='/edit/password'>비밀번호 변경 페이지</Link>
         <Link to='ui'>임시로 UI들 넣은 페이지</Link>
       </div>
-      <section className='flex flex-col items-center pb-20 bg-gradient-to-br from-primary to-secondary'>
+      <section className='w-full h-96 flex flex-col items-center bg-gradient-to-br from-primary to-secondary'>
         <h1 className='text-base-100 text-2xl'>오늘의 밴드 포트폴리오</h1>
         <h2 className='text-base-100 text-lg tracking-[0.5rem]'>PORTFOLIO</h2>
         <TodaysPortfolioCarousel todayPortfolios={bandPortfolioBrief} />
