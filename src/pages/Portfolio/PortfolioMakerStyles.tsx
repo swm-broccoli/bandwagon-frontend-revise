@@ -107,6 +107,7 @@ export function PortfolioMakerAreaList({
         name={name}
         onClick={onCheckboxClick}
         className='checkbox checkbox-primary'
+        defaultChecked
       />
       <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
         <div className='flex w-4/5 flex-row justify-start'>
@@ -146,6 +147,7 @@ export function PortfolioMakerSelectList({
         name={name}
         onClick={onCheckboxClick}
         className='checkbox checkbox-primary'
+        defaultChecked
       />
       <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
         <div className='w-4/5 flex flex-row justify-start'>
@@ -183,6 +185,7 @@ export function PortfolioMakerDescription({
           name={name}
           onClick={onCheckboxClick}
           className='checkbox checkbox-primary'
+          defaultChecked
         />
         <label className='label min-w-[52px] p-0 pl-1 justify-between'>
           <div>
@@ -233,6 +236,7 @@ function PortfolioMakerRecordItem({
         name={name}
         value={JSON.stringify(record)}
         onClick={onRecordCheckboxClick}
+        defaultChecked
       />
 
       <div className='grid grid-cols-2'>
@@ -300,6 +304,7 @@ function PortfolioMakerAlbumItem({
           name={name}
           value={JSON.stringify(photo)}
           onClick={onRecordCheckboxClick}
+          defaultChecked
         />
         <img
           className='w-32 h-32 rounded-xl mr-1'
