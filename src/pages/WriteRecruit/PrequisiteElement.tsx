@@ -48,17 +48,16 @@ function PositionPrequisiteElement (props: {id: number, type: string}) {
 };
 
 function AgePrequisiteElement (props: {id: number, type: string}) {
-  const {postId} = useParams();
   const [min, setMin] = useState('');
   const [max, setMax] = useState('');
-  const {minStore, maxStore, changeAge} = useBandRequirementStore();
+  const {preqId, minStore, maxStore, changeAge} = useBandRequirementStore();
 
   useEffect(() => {
-    if (postId) {
+    if (preqId.age) {
       if (minStore) setMin(minStore.toString())
       if (maxStore) setMax(maxStore.toString());
     }
-  }, [postId])
+  }, [preqId.age])
 
   useEffect(() => {
     if (min && max) {
@@ -90,19 +89,18 @@ function AgePrequisiteElement (props: {id: number, type: string}) {
 };
 
 function GenderPrequisiteElement (props: {id: number, type: string}) {
-  const {postId} = useParams();
   const genderOptions = [{id: 0, name: '남자'}, {id: 1, name: '여자'}]
   const [gender, setGender] = useState<SelectionType>({
     id: 0,
     name: ''});
-  const {genderStore, changeGender} = useBandRequirementStore();
+  const {preqId, genderStore, changeGender} = useBandRequirementStore();
 
   useEffect(() => {
-    if (postId) {
+    if (preqId.gender) {
       if (genderStore) setGender(genderOptions[1])
       else setGender(genderOptions[0]);
     }
-  }, [postId])
+  }, [preqId])
 
   useEffect(() => {
     if (gender.name == '남자') {
