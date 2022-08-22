@@ -46,6 +46,7 @@ export interface UserProfileType {
   genres: GenreType[];
   description: string;
   userPerformances: PerformanceRecordType[];
+  [key: string]: any;
 }
 
 export interface BandMemberType {
@@ -104,14 +105,14 @@ export interface PrequisiteRequestType {
 
 export interface PrequisiteResponseType {
   id: number;
-  dtype: string,
-  min: number | null,
-  max: number | null,
-  gender: boolean | null,
-  areas: AreaType[],
-  genres: SelectionType[],
-  positions: SelectionType[],
-  check: boolean
+  dtype: string;
+  min: number | null;
+  max: number | null;
+  gender: boolean | null;
+  areas: AreaType[];
+  genres: SelectionType[];
+  positions: SelectionType[];
+  check: boolean;
 }
 
 export interface SignUpUserInputType {

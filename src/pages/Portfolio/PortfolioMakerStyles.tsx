@@ -2,18 +2,25 @@ import { AreaType, BandMemberType, SelectionType } from '../../types/types';
 import TagElement from '../../components/TagElement';
 import { positionToKorean } from '../../assets/options/positionOptions';
 import React from 'react';
+import {
+  PerformanceRecordType,
+  RecordURLType,
+  PictureType,
+} from '../../types/types';
 
-export function PortfolioAvatar({ avatarURL }: { avatarURL: string }) {
+export function PortfolioMakerAvatar({ avatarURL }: { avatarURL: string }) {
   return (
-    <div className='avatar w-1/3'>
-      <div className='w-full rounded-full'>
-        <img src={avatarURL} alt='프로필 사진' />
+    <section className='flex flex-col items-center'>
+      <div className='avatar w-1/3'>
+        <div className='w-full rounded-full border border-base-300'>
+          <img src={avatarURL} alt='프로필 사진' />
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 
-export function PortfolioText({
+export function PortfolioMakerText({
   label,
   text,
 }: {
@@ -33,7 +40,11 @@ export function PortfolioText({
   );
 }
 
-function PortfolioBandMemberListItem({ member }: { member: BandMemberType }) {
+function PortfolioMakerBandMemberListItem({
+  member,
+}: {
+  member: BandMemberType;
+}) {
   return (
     <li className='flex flex-row items-center border rounded-lg p-2'>
       <p className='text-accent text-base mr-2.5'>
@@ -54,7 +65,7 @@ function PortfolioBandMemberListItem({ member }: { member: BandMemberType }) {
   );
 }
 
-export function PortfolioMemberList({
+export function PortfolioMakerMemberList({
   label,
   bandMembers,
 }: {
@@ -70,7 +81,7 @@ export function PortfolioMemberList({
       </div>
       <ul className='w-full flex flex-row flex-wrap gap-x-7 gap-y-2'>
         {bandMembers.map((member, index) => (
-          <PortfolioBandMemberListItem key={index} member={member} />
+          <PortfolioMakerBandMemberListItem key={index} member={member} />
         ))}
       </ul>
       <div className='divider m-0 mt-5' />
@@ -78,7 +89,7 @@ export function PortfolioMemberList({
   );
 }
 
-export function PortfolioAreaList({
+export function PortfolioMakerAreaList({
   label,
   areas,
   name,
@@ -96,6 +107,7 @@ export function PortfolioAreaList({
         name={name}
         onClick={onCheckboxClick}
         className='checkbox checkbox-primary'
+        defaultChecked
       />
       <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
         <div className='flex w-4/5 flex-row justify-start'>
@@ -103,7 +115,7 @@ export function PortfolioAreaList({
             <span className='label-text text-accent'>{label}</span>
           </label>
           <div className='flex flex-row items-center h-10 w-3/4 mr-2 text-accent'>
-            {areas.map((area, index) => (
+            {areas.map((area) => (
               <div
                 key={area.id}
                 className='mr-2'
@@ -117,7 +129,7 @@ export function PortfolioAreaList({
   );
 }
 
-export function PortfolioSelectList({
+export function PortfolioMakerSelectList({
   label,
   selections,
   name,
@@ -135,6 +147,7 @@ export function PortfolioSelectList({
         name={name}
         onClick={onCheckboxClick}
         className='checkbox checkbox-primary'
+        defaultChecked
       />
       <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
         <div className='w-4/5 flex flex-row justify-start'>
@@ -153,7 +166,7 @@ export function PortfolioSelectList({
   );
 }
 
-export function PortfolioDescription({
+export function PortfolioMakerDescription({
   label,
   description,
   name,
@@ -172,6 +185,7 @@ export function PortfolioDescription({
           name={name}
           onClick={onCheckboxClick}
           className='checkbox checkbox-primary'
+          defaultChecked
         />
         <label className='label min-w-[52px] p-0 pl-1 justify-between'>
           <div>
@@ -190,6 +204,145 @@ export function PortfolioDescription({
   );
 }
 
-export function UserPortfolioMaker() {
-  return <div>유저 포트폴리오 메이커</div>;
+function PortfolioMakerRecordURLItem({
+  recordURL,
+}: {
+  recordURL: RecordURLType;
+}) {
+  return (
+    <div className='grid grid-cols-7 mb-1'>
+      <div className='col-span-2'>{recordURL.siteName}</div>
+      <div className='divider divider-horizontal' />
+      <div className='col-span-4 break-all'>{recordURL.url}</div>
+    </div>
+  );
+}
+
+function PortfolioMakerRecordItem({
+  record,
+  name,
+  onRecordCheckboxClick,
+}: {
+  record: PerformanceRecordType;
+  name: string;
+  onRecordCheckboxClick: (e: React.MouseEvent<HTMLInputElement>) => void;
+}) {
+  return (
+    <div className='grid grid-flow-row bg-success mt-2 px-4 py-2 rounded-lg'>
+      {/* 기록 자체를 문자열화해서 값으로 가짐으로써 input이 가리키는 기록이 어떤 건지 가리키게 한다 */}
+      <input
+        type='checkbox'
+        className='checkbox checkbox-primary'
+        name={name}
+        value={JSON.stringify(record)}
+        onClick={onRecordCheckboxClick}
+        defaultChecked
+      />
+
+      <div className='grid grid-cols-2'>
+        <span className='text-accent col-start-1'>{record.musicTitle}</span>
+        <span className='text-neutral col-start-1 text-sm'>
+          {record.performDate}
+        </span>
+      </div>
+      {record.urls.map((recordLink, index) => (
+        <PortfolioMakerRecordURLItem key={index} recordURL={recordLink} />
+      ))}
+    </div>
+  );
+}
+
+export function PortfolioMakerRecordField({
+  label,
+  records,
+  name,
+  onRecordCheckboxClick,
+}: {
+  label: string;
+  records: PerformanceRecordType[];
+  name: string;
+  onRecordCheckboxClick: (e: React.MouseEvent<HTMLInputElement>) => void;
+}) {
+  return (
+    <div>
+      <div className='flex flex-row justify-between items-center h-8 mb-5'>
+        <h1 className='text-sm pl-1'>{label}</h1>
+      </div>
+      {records.map((record, index) =>
+        record.musicTitle !== null ? (
+          <PortfolioMakerRecordItem
+            key={index}
+            record={record}
+            name={name}
+            onRecordCheckboxClick={onRecordCheckboxClick}
+          />
+        ) : null,
+      )}
+      <div className='divider m-0 mt-5' />
+    </div>
+  );
+}
+
+function PortfolioMakerAlbumItem({
+  photo,
+  name,
+  onRecordCheckboxClick,
+}: {
+  photo: PictureType;
+  name: string;
+  onRecordCheckboxClick: (e: React.MouseEvent<HTMLInputElement>) => void;
+}) {
+  if (photo.name === null) {
+    return null;
+  } else {
+    return (
+      <div className='flex flex-row shrink-0 mr-4 items-start'>
+        {/* 기록 자체를 문자열화해서 값으로 가짐으로써 input이 가리키는 기록이 어떤 건지 가리키게 한다 */}
+        <input
+          type='checkbox'
+          className='checkbox checkbox-primary'
+          name={name}
+          value={JSON.stringify(photo)}
+          onClick={onRecordCheckboxClick}
+          defaultChecked
+        />
+        <img
+          className='w-32 h-32 rounded-xl mr-1'
+          src={photo.name}
+          alt={`밴드 사진`}
+        />
+      </div>
+    );
+  }
+}
+
+export function PortfolioMakerAlbum({
+  label,
+  photos,
+  name,
+  onRecordCheckboxClick,
+}: {
+  label: string;
+  photos: PictureType[];
+  name: string;
+  onRecordCheckboxClick: (e: React.MouseEvent<HTMLInputElement>) => void;
+}) {
+  return (
+    <div className='w-full'>
+      <div className='flex flex-row justify-between items-center text-sm h-8 mb-5'>
+        <h1>{label}</h1>
+      </div>
+      <div className='flex flex-row overflow-x-auto items-center'>
+        {photos.map((photo) => (
+          <PortfolioMakerAlbumItem
+            key={photo.id}
+            photo={photo}
+            name={name}
+            onRecordCheckboxClick={onRecordCheckboxClick}
+          />
+        ))}
+      </div>
+      <div className='divider m-0 mt-5' />
+    </div>
+  );
 }

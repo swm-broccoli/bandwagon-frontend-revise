@@ -2,6 +2,7 @@ import MyPageTemplate from '../../components/MyPageTemplate';
 import EditPageInput from '../../components/EditPageInput';
 import UserAccountAPI from '../../apis/UserAccountAPI';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface UserAccountFormType {
   name: string;
@@ -11,10 +12,10 @@ interface UserAccountFormType {
   birthday: string;
 }
 
-function parseAccountEditForm(form: UserAccountFormType) {
+function parseUserProfile(userProfile: UserAccountFormType) {
   return {
-    ...form,
-    birthday: form.birthday.split('T')[0],
+    ...userProfile,
+    birthday: userProfile.birthday ? userProfile.birthday : '2000-01-01',
   };
 }
 
@@ -32,7 +33,6 @@ function AccountEditForm({ label }: { label: string }) {
     UserAccountAPI.updateUserAccountInfo(userAccountInfo)
       .then((res) => {
         alert('수정 성공');
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -42,8 +42,7 @@ function AccountEditForm({ label }: { label: string }) {
   useEffect(() => {
     UserAccountAPI.getUserAccountInfo()
       .then((res) => {
-        setUserAccountInfo(parseAccountEditForm(res.data));
-        console.log(res.data);
+        setUserAccountInfo(parseUserProfile(res.data));
       })
       .catch((err) => {
         console.log(err);
@@ -58,6 +57,23 @@ function AccountEditForm({ label }: { label: string }) {
       ...userAccountInfo,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const navigate = useNavigate();
+
+  const onUnregister = () => {
+    let isConfirm = window.confirm('정말 밴드웨건을 탈퇴하시겠습니까?');
+    if (isConfirm) {
+      UserAccountAPI.unregisterUserAccount()
+        .then((res) => {
+          console.log(res.data);
+          alert('탈퇴 성공');
+          navigate('/');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -113,6 +129,13 @@ function AccountEditForm({ label }: { label: string }) {
             </div>
             <div className='divider m-0 w-5/6' />
           </>
+          <button
+            type='button'
+            className='btn btn-neutral text-base-100 w-40 mt-2'
+            onClick={onUnregister}
+          >
+            회원 탈퇴
+          </button>
         </div>
       </form>
     </div>

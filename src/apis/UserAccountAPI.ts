@@ -14,6 +14,7 @@ interface UserAccountApiType {
     newPassword: string;
     newPasswordCheck: string;
   }) => Promise<AxiosResponse>;
+  unregisterUserAccount: () => Promise<AxiosResponse>;
 }
 
 const UserAccountAPI: UserAccountApiType = {
@@ -25,6 +26,9 @@ const UserAccountAPI: UserAccountApiType = {
   },
   updateUserAccountPassword: (newPasswordInfo) => {
     return request.put(`/api/users`, newPasswordInfo);
+  },
+  unregisterUserAccount: () => {
+    return request.delete(`/api/unregister`);
   },
 };
 

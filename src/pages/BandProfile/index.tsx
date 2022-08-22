@@ -19,6 +19,7 @@ import noBandPicture from '../../assets/noband.png';
 import { updateBandProfile } from './bandProfileUpdate';
 import EmptyBandProfile from './EmptyBandProfile';
 import { vacantBandProfile } from './initialBandProfile';
+import { useNavigate } from 'react-router-dom';
 
 function parseBandProfile(bandProfile: BandProfileType) {
   return {
@@ -103,6 +104,8 @@ function BandProfile() {
     }
   };
 
+  const navigate = useNavigate();
+
   const onBandBreakup = (bandID: number) => {
     let BandBreakupConfirm = confirm(`밴드를 정말로 해체하시겠습니까?`);
     if (BandBreakupConfirm) {
@@ -117,6 +120,7 @@ function BandProfile() {
     } else {
       console.log('취소됨');
     }
+    navigate('/');
   };
 
   // 정보를 못 받아왔다면 id가 -1인 상태이다

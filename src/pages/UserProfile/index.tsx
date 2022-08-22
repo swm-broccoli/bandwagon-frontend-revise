@@ -11,7 +11,7 @@ import DescriptionField from '../../components/DescriptionField';
 import { UserProfileType } from '../../types/types';
 import RecordField from '../../components/RecordField';
 import UserProfileAPI from '../../apis/UserProfileAPI';
-import initialUserProfile from './initialUserProfile';
+import { initialUserProfile } from './initialUserProfile';
 import { UserProfileAvatar } from './styles';
 import {
   updateUserAreas,
@@ -55,7 +55,6 @@ function UserProfile() {
   useEffect(() => {
     UserProfileAPI.getUserProfileInfo()
       .then((res) => {
-        console.log('서버에서 도착한 데이터', res.data);
         setCurUserProfile(parseUserProfile(res.data));
         setServerUserProfile(parseUserProfile(res.data));
       })

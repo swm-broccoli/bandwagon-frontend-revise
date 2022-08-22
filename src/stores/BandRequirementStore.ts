@@ -215,126 +215,132 @@ export const useBandRequirementStore = create<bandRequirementStoreType>()(devtoo
           if (area.preqId === preqId) {
             return {
               ...area,
-              id: areaId
+              id: areaId,
             };
           }
           return area;
-        })
-    }));
-  },
-  changeGenre: (preqId, genreId) => {
-    set((state) => ({
-      genreStore: state.genreStore.map((genre) => {
+        }),
+      }));
+    },
+    changeGenre: (preqId, genreId) => {
+      set((state) => ({
+        genreStore: state.genreStore.map((genre) => {
           if (genre.preqId === preqId) {
             return {
               ...genre,
-              id: genreId
+              id: genreId,
             };
           }
           return genre;
-        })
-    }));
-  },
-  changePosition: (preqId, positonId) => {
-    set((state) => ({
-      positionStore: state.positionStore.map((position) => {
+        }),
+      }));
+    },
+    changePosition: (preqId, positonId) => {
+      set((state) => ({
+        positionStore: state.positionStore.map((position) => {
           if (position.preqId === preqId) {
             return {
               ...position,
-              id: positonId
+              id: positonId,
             };
           }
           return position;
-        })
-    }));
-  },
-  addPrequisite: (preqId, type) => {
-    set((state) => ({
-      prequisiteList: [...state.prequisiteList, {
-        id: preqId,
-        type: type}],
-      currentId: state.currentId + 1}));
+        }),
+      }));
+    },
+    addPrequisite: (preqId, type) => {
+      set((state) => ({
+        prequisiteList: [
+          ...state.prequisiteList,
+          {
+            id: preqId,
+            type: type,
+          },
+        ],
+        currentId: state.currentId + 1,
+      }));
 
-    switch (type) {
-      case '세션': {
-        console.log(type, '추가');
-        set((state) => ({
-          positionStore: [...state.positionStore, {preqId: preqId, id: 0}]
-        }));
-        break;
+      switch (type) {
+        case '세션': {
+          console.log(type, '추가');
+          set((state) => ({
+            positionStore: [...state.positionStore, { preqId: preqId, id: 0 }],
+          }));
+          break;
+        }
+        case '나이': {
+          console.log(type, '추가');
+          set((state) => ({
+            minStore: 1,
+            maxStore: 1,
+          }));
+          break;
+        }
+        case '성별': {
+          console.log(type, '추가');
+          set((state) => ({
+            genderStore: true,
+          }));
+          break;
+        }
+        case '지역': {
+          console.log(type, '추가');
+          set((state) => ({
+            areaStore: [...state.areaStore, { preqId: preqId, id: 0 }],
+          }));
+          break;
+        }
+        case '장르': {
+          console.log(type, '추가');
+          set((state) => ({
+            genreStore: [...state.genreStore, { preqId: preqId, id: 0 }],
+          }));
+        }
+        default:
       }
-      case '나이': {
-        console.log(type, '추가');
-        set((state) => ({
-          minStore: 1,
-          maxStore: 1
-        }));
-        break;
+    },
+    deletePrequisite: (preqId: number, type: string) => {
+      switch (type) {
+        case '세션': {
+          set((state) => ({
+            positionStore: state.positionStore.filter(
+              (preq) => preq.id !== preqId,
+            ),
+          }));
+          break;
+        }
+        case '나이': {
+          set((state) => ({
+            minStore: null,
+            maxStore: null,
+          }));
+          break;
+        }
+        case '성별': {
+          set((state) => ({
+            genderStore: null,
+          }));
+          break;
+        }
+        case '지역': {
+          set((state) => ({
+            areaStore: state.areaStore.filter((preq) => preq.id !== preqId),
+          }));
+          break;
+        }
+        case '장르':
+          set((state) => ({
+            genreStore: state.genreStore.filter((preq) => preq.id !== preqId),
+          }));
+          break;
+        default:
       }
-      case '성별': {
-        console.log(type, '추가');
-        set((state) => ({
-          genderStore: true
-        }));
-        break;
-      }
-      case '지역': {
-        console.log(type, '추가');
-        set((state) => ({
-          areaStore: [...state.areaStore, {preqId: preqId, id: 0}]
-        }));
-        break;
-      }
-      case '장르': {
-        console.log(type, '추가');
-        set((state) => ({
-          genreStore: [...state.genreStore, {preqId: preqId, id: 0}]
-        }));
-      }
-      default:
-      }
-  },
-  deletePrequisite: (preqId: number, type: string) => {
-    switch (type) {
-      case '세션': {
-        set((state) => ({
-          positionStore: state.positionStore.filter(
-            (preq) => preq.id !== preqId)
-        }));
-        break;
-      }
-      case '나이': {
-        set((state) => ({
-          minStore: null,
-          maxStore: null
-        }));
-        break;
-      }
-      case '성별': {
-        set((state) => ({
-          genderStore: null
-        }));
-        break;
-      }
-      case '지역': {
-        set((state) => ({
-          areaStore: state.areaStore.filter(
-            (preq) => preq.id !== preqId)
-        }));
-        break;
-      }
-      case '장르':
-        set((state) => ({
-          genreStore: state.genreStore.filter(
-            (preq) => preq.id !== preqId)
-        }));
-        break;
-      default:
-    }
 
-    set((state) => ({
-      prequisiteList: state.prequisiteList.filter(
-        (preq) => preq.id !== preqId)
-    }));
-  }
-})));
+      set((state) => ({
+        prequisiteList: state.prequisiteList.filter(
+          (preq) => preq.id !== preqId,
+        ),
+      }));
+    },
+  })),
+);
