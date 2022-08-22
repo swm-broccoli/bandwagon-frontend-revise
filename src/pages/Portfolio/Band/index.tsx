@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 function BandPortFolio({ portfolio }: { portfolio: BandProfileType }) {
   return (
-    <main className='flex flex-col items-center'>
+    <main className='flex flex-col items-start'>
       <h1 className='text-3xl'>우리는 {portfolio.name} 밴드입니다!</h1>
       <div className='avatar'>
         <div className='w-40 rounded-full border border-base-300'>
@@ -109,7 +109,7 @@ function BandPortFolioPage() {
   }, []);
 
   return (
-    <div className='flex justify-start' ref={bandPortfolioRef}>
+    <div className='flex justify-center' ref={bandPortfolioRef}>
       <BandPortFolio portfolio={portfolio} />
     </div>
   );

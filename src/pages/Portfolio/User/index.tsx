@@ -23,7 +23,7 @@ function UserPortfolio({ portfolio }: { portfolio: UserProfileType }) {
   }, []);
 
   return (
-    <main className='flex flex-col items-center'>
+    <main className='flex flex-col items-start'>
       <h1 className='text-3xl'>저는 {portfolio.name}입니다!</h1>
       <h2 className='text-xl'>
         {getAgeFromBirthday(portfolio.birthday)}살{' '}
@@ -111,7 +111,7 @@ function UserPortFolioPage() {
     navigate('/portfolio');
   }, []);
   return (
-    <div className='flex justify-start' ref={userPortfolioRef}>
+    <div className='flex justify-center' ref={userPortfolioRef}>
       <UserPortfolio portfolio={portfolio} />
     </div>
   );
