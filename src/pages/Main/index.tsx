@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import GlobalNavBar from '../../components/NavBar';
 import { Link } from 'react-router-dom';
 
@@ -29,36 +29,113 @@ const bandPortfolioBrief: bandPortfolioBriefType[] = [
 
 function TodaysPortfolioItem({
   todayPortfolio,
+  currentState,
 }: {
   todayPortfolio: bandPortfolioBriefType;
+  currentState: string;
+  // 현재 상태가 active인지 등등을 나타냄
 }) {
-  return (
-    <div className='w-96 card card-side bg-base-100 shadow-xl'>
-      <figure className='h-full'>
-        <img
-          className='h-full'
-          src={todayPortfolio.image}
-          alt={`${todayPortfolio.title} 사진`}
-        />
-      </figure>
-      <div className='card-body'>
-        <h2 className='card-title'>{todayPortfolio.title}</h2>
-        <p>{todayPortfolio.description}</p>
-      </div>
-    </div>
-  );
+  switch (currentState) {
+    case 'current':
+      return (
+        <div className='w-3/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all z-20'>
+          <figure className='h-full'>
+            <img
+              className='h-full'
+              src={todayPortfolio.image}
+              alt={`${todayPortfolio.title} 사진`}
+            />
+          </figure>
+          <div className='card-body'>
+            <h2 className='card-title'>{todayPortfolio.title}</h2>
+            <p>{todayPortfolio.description}</p>
+          </div>
+        </div>
+      );
+    case 'previous':
+    case 'next':
+      return (
+        <div className='w-2/5 opacity-50 shrink-0 card card-side bg-base-100 shadow-xl transition-all z-20'>
+          <figure className='h-full'>
+            <img
+              className='h-full'
+              src={todayPortfolio.image}
+              alt={`${todayPortfolio.title} 사진`}
+            />
+          </figure>
+          <div className='card-body'>
+            <h2 className='card-title'>{todayPortfolio.title}</h2>
+            <p>{todayPortfolio.description}</p>
+          </div>
+        </div>
+      );
+    default:
+      return null;
+  }
 }
 
-function TodaysPortfolio({
+interface CarouselIndexes {
+  previousIndex: number;
+  currentIndex: number;
+  nextIndex: number;
+}
+
+function determineCardState(cardIndex: number, indexes: CarouselIndexes) {
+  switch (cardIndex) {
+    case indexes.previousIndex:
+      return 'previous';
+    case indexes.currentIndex:
+      return 'current';
+    case indexes.nextIndex:
+      return 'next';
+    default:
+      return 'inactive';
+  }
+}
+
+function TodaysPortfolioCarousel({
   todayPortfolios,
 }: {
   todayPortfolios: bandPortfolioBriefType[];
 }) {
+  const [indexes, setIndexes] = React.useState<CarouselIndexes>({
+    previousIndex: 0,
+    currentIndex: 1,
+    nextIndex: 2,
+  });
+
+  const handleCardTransition = useCallback(() => {
+    // useCallback 을 이용해서 indexes.currentIndex 가 변할 때만 이 함수가 새로 생성되도록 한다
+    if (indexes.currentIndex >= todayPortfolios.length - 1) {
+      setIndexes((prevState) => ({
+        previousIndex: todayPortfolios.length - 1,
+        currentIndex: 0,
+        nextIndex: 1,
+      }));
+    } else {
+      setIndexes((prevState) => ({
+        previousIndex: prevState.currentIndex,
+        currentIndex: prevState.currentIndex + 1,
+        nextIndex:
+          prevState.currentIndex + 2 === todayPortfolios.length
+            ? 0
+            : prevState.currentIndex + 2,
+      }));
+    }
+  }, [indexes.currentIndex]);
+
   return (
-    <div className='flex flex-row gap-3 mt-5'>
-      {todayPortfolios.map((todayPortfolio) => (
-        <TodaysPortfolioItem todayPortfolio={todayPortfolio} />
-      ))}
+    <div className='flex flex-col items-center'>
+      <button onClick={handleCardTransition}>Transition to Next</button>
+      <div className='flex flex-row gap-3 mt-5'>
+        {todayPortfolios.map((todayPortfolio, index) => (
+          <TodaysPortfolioItem
+            key={index}
+            todayPortfolio={todayPortfolio}
+            currentState={determineCardState(index, indexes)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -81,7 +158,7 @@ function MainPage() {
       <section className='flex flex-col items-center pb-20 bg-gradient-to-br from-primary to-secondary'>
         <h1 className='text-base-100 text-2xl'>오늘의 밴드 포트폴리오</h1>
         <h2 className='text-base-100 text-lg tracking-[0.5rem]'>PORTFOLIO</h2>
-        <TodaysPortfolio todayPortfolios={bandPortfolioBrief} />
+        <TodaysPortfolioCarousel todayPortfolios={bandPortfolioBrief} />
       </section>
     </div>
   );
