@@ -38,7 +38,7 @@ function AreaSelect (props: {
   return (
     <div className='flex'>
       <select
-        value={props.curOption.city}
+        value={city}
         className='select select-bordered w-fit md:w-48 h-[3.125rem]'
         onChange={handleCityChange}>
         <option className='hidden' value=''>시/도 선택</option>

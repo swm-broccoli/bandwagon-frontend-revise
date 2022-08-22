@@ -7,6 +7,7 @@ import AreaSelect from '../../components/AreaSelect';
 import { useBandRequirementStore } from '../../stores/BandRequirementStore';
 import { AreaType, PrequisiteElementType, SelectionType } from '../../types/types';
 import areaOptions from '../../assets/options/areaOptions';
+import { useParams } from 'react-router-dom';
 
 function PositionPrequisiteElement (props: {id: number, type: string}) {
   const [position, setPosition] = useState<SelectionType>({
@@ -47,14 +48,17 @@ function PositionPrequisiteElement (props: {id: number, type: string}) {
 };
 
 function AgePrequisiteElement (props: {id: number, type: string}) {
+  const {postId} = useParams();
   const [min, setMin] = useState('');
   const [max, setMax] = useState('');
   const {minStore, maxStore, changeAge} = useBandRequirementStore();
 
   useEffect(() => {
-    if (minStore) setMin(minStore.toString())
-    if (maxStore) setMax(maxStore.toString());
-  }, [])
+    if (postId) {
+      if (minStore) setMin(minStore.toString())
+      if (maxStore) setMax(maxStore.toString());
+    }
+  }, [postId])
 
   useEffect(() => {
     if (min && max) {
@@ -86,6 +90,7 @@ function AgePrequisiteElement (props: {id: number, type: string}) {
 };
 
 function GenderPrequisiteElement (props: {id: number, type: string}) {
+  const {postId} = useParams();
   const genderOptions = [{id: 0, name: '남자'}, {id: 1, name: '여자'}]
   const [gender, setGender] = useState<SelectionType>({
     id: 0,
@@ -93,9 +98,11 @@ function GenderPrequisiteElement (props: {id: number, type: string}) {
   const {genderStore, changeGender} = useBandRequirementStore();
 
   useEffect(() => {
-    if (genderStore) setGender(genderOptions[1])
-    else setGender(genderOptions[0]);
-  }, [])
+    if (postId) {
+      if (genderStore) setGender(genderOptions[1])
+      else setGender(genderOptions[0]);
+    }
+  }, [postId])
 
   useEffect(() => {
     if (gender.name == '남자') {
