@@ -12,15 +12,16 @@ interface RecruitProcessApiType {
     areas: {id: number}[] | null;
     genres: {id: number}[] | null;
     positions: {id: number}[] | null;
-  }, postId: string) => Promise<AxiosResponse>,
+  }, postId: string, preqId: number) => Promise<AxiosResponse>,
   getPrequisites: (postId: string) => Promise<AxiosResponse>
   checkPrequisites: (postId: string | undefined) => Promise<AxiosResponse>
 }
 
 const RecruitProcessAPI: RecruitProcessApiType = {
-  sendPrequisites: (preqInfo, postId) => {
+  sendPrequisites: (preqInfo, postId, preqId) => {
     console.log(preqInfo);
-    return request.post('api/band/post/' + postId + '/prerequisites', preqInfo);
+    if (preqId) return request.put('api/band/post/' + postId + '/prerequisites/' + preqId.toString(), preqInfo);
+    else return request.post('api/band/post/' + postId + '/prerequisites', preqInfo);
   },
   getPrequisites: (postId) => {
     return request.get('api/band/post/' + postId + '/prerequisites');
