@@ -23,7 +23,6 @@
     "react-icons": "^4.4.0",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.3.0",
-    "react-to-pdf": "^0.0.14",
     "react-to-print": "^2.14.7",
     "uuid": "^8.3.2",
     "vite-plugin-svgr": "^2.2.1",
