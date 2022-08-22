@@ -5,7 +5,7 @@ interface RecruitPostApiType {
   LoadMyBandInfo: () => Promise<AxiosResponse>;
   LoadBandInfo: (bandId: number | undefined) => Promise<AxiosResponse>;
   LoadPost: (postId: string | undefined) => Promise<AxiosResponse>;
-  LoadLikedPost: (userId: string) => Promise<AxiosResponse>;
+  LoadLikedPost: (userId: string, param: string) => Promise<AxiosResponse>;
   LoadMyInfo: () => Promise<AxiosResponse>;
   LoadUserInfo: (userId: string | undefined) => Promise<AxiosResponse>;
   UploadArticle: (postId: string | undefined,
@@ -34,8 +34,8 @@ const RecruitPostAPI: RecruitPostApiType = {
   LoadPost: (postId) => {
     return request.get('api/post/' + postId);
   },
-  LoadLikedPost: (email) => {
-    return request.get('api/users/' + email + '/likes');
+  LoadLikedPost: (email, param) => {
+    return request.get('api/users/' + email + '/likes' + param);
 
   },
   UploadArticle: (postId, postInfo) => {

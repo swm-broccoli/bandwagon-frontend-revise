@@ -10,6 +10,7 @@ function PageButton (props: {
 }) {
 
   function handleClick () {
+    console.log('page num', props.pageNum);
     props.setCurrentPage(props.pageNum - 1);
   };
 
@@ -85,7 +86,7 @@ function Pagination (props: {
   }  
   
   return (
-    <div className='flex flex-row'>
+    <div className='flex flex-row justify-center'>
       <button
         onClick={(e) => {
           if (currentPage > 0) setCurrentPage(currentPage - 1)}}
