@@ -124,11 +124,13 @@ function ReadRecruitPage () {
           </div>
           <ReadArticleCard article={postInfo?.body}/>
           <div className='row-start-4 col-start-2 md:row-start-2 md:col-start-3 md:mt-9 md:justify-self-end'>
-            {postID ?
+            {postID && postInfo ?
               <ApplyBox
                 type={type}
                 isLoggedIn={isLoggedIn}
-                postId={postID}/> :
+                postId={postID}
+                likeCount={postInfo.likeCount}
+                isLiked={postInfo.isLiked} /> :
               <></>}
           </div>
         </div>

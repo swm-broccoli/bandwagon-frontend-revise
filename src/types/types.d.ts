@@ -86,6 +86,8 @@ export interface PostType {
   dtype: string;
   userEmail: string;
   bandId: number;
+  likeCount: number;
+  isLiked: boolean;
 }
 
 export interface PrequisiteElementType {
