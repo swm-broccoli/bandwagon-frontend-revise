@@ -14,31 +14,10 @@ function ArticleCard (
     authorPic: string,
     authorName: string,
     authorId: string,
+    bandInfo: BandProfileType | null,
+    userInfo: UserProfileType | null,
     isHeartChecked: boolean,
   }) {
-  
-  const [bandInfo, setBandInfo] = useState<BandProfileType>();
-  const [userInfo, setUserInfo] = useState<UserProfileType>();
-
-  useEffect(() => {
-    if (props.authorId && props.type) {
-      RecruitPostAPI.LoadBandInfo(parseInt(props.authorId))
-      .then((res) => {
-        setBandInfo(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    } else if (props.authorId && !props.type) {
-      RecruitPostAPI.LoadUserInfo(props.authorId)
-      .then((res) => {
-        setUserInfo(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    }
-  }, [props.authorId])
 
   return (
     <div className='w-full h-fit grid grid-cols-[15fr_40fr_3fr] grid-rows-[50px_44px_auto] gap-x-5 p-5 border-solid border-[#e9e9e9] border bg-white rounded-xl mt-5'>
@@ -57,18 +36,18 @@ function ArticleCard (
         </div>
       </div>
       {props.type ?
-        bandInfo ?
+        props.bandInfo ?
           <div className='flex flex-wrap gap-1.5 row-start-3 col-start-2 w-full h-full'>
-            <TagElement tag={bandInfo.areas[0].district} />
-            <TagElement tag={bandInfo.genres[0].name} />
-            <TagElement tag={bandInfo.days[0].name} />
+            <TagElement tag={props.bandInfo.areas[0].district} />
+            <TagElement tag={props.bandInfo.genres[0].name} />
+            <TagElement tag={props.bandInfo.days[0].name} />
           </div> :
           <></> :
-        userInfo ?
+        props.userInfo ?
           <div className='flex flex-wrap gap-1.5 row-start-3 col-start-2 w-full h-full'>
-            <TagElement tag={userInfo.positions[0].name} />
-            <TagElement tag={userInfo.areas[0].district} />
-            <TagElement tag={userInfo.genres[0].name} />
+            <TagElement tag={props.userInfo.positions[0].name} />
+            <TagElement tag={props.userInfo.areas[0].district} />
+            <TagElement tag={props.userInfo.genres[0].name} />
           </div> :
           <></>}
       <div className='flex row-start-3 col-start-3 justify-end items-center'>

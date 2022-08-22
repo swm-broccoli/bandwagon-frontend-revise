@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProfileAddModal from '../../components/ProfileAddModal';
 import Select from '../../components/Select';
 import PrequisiteElement from './PrequisiteElement';
 import { useBandRequirementStore } from '../../stores/BandRequirementStore';
-import { SelectionType } from '../../types/types';
+import { PrequisiteResponseType, SelectionType } from '../../types/types';
+import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 
-function BandPrequisitesCard () {
+function BandPrequisitesCard (props: {postId: string | undefined}) {
   const options = [
     {id: 1, name: '세션'},
     {id: 2, name: '나이'},
@@ -21,7 +22,29 @@ function BandPrequisitesCard () {
     minStore,
     maxStore,
     genderStore,
+    setPreqId,
+    clearStore,
+    setPrequisites,
     addPrequisite} = useBandRequirementStore();
+
+  useEffect(() => {
+    if (props.postId) {
+      RecruitProcessAPI.getPrequisites(props.postId)
+      .then((res) => {
+        console.log(res.data);
+        if (res) {
+          clearStore();
+          setPrequisites(res.data.prerequisites);
+          res.data.prerequisites.map((preq: PrequisiteResponseType) => {
+            setPreqId(preq.dtype, preq.id);
+          })
+        }        
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
+  }, [props.postId])
 
   return (
     <div className='w-full h-fit flex flex-col bg-white border border-solid border-[#e5e5e5] rounded-xl p-5 gap-5'>
@@ -39,7 +62,11 @@ function BandPrequisitesCard () {
                 addPrequisite(currentId, option.name);
               }}}
             children={
-              <Select label='추가할 지원 조건을 선택하세요' options={options} setOption={setOption} />
+              <Select
+                label='추가할 지원 조건을 선택하세요'
+                options={options}
+                curOption={option}
+                setOption={setOption} />
             } />
         </div>
       </div>
@@ -71,11 +98,11 @@ function BandFormCard () {
   );
 };
 
-function RequirementBox () {
+function RequirementBox (props: {postId: string | undefined}) {
   return (
     <div className='flex flex-col gap-4'>
       <h3 className='text-accent text-base'>모집 정보</h3>
-      <BandPrequisitesCard />
+      <BandPrequisitesCard postId={props.postId} />
       <BandFormCard />
     </div>
   );

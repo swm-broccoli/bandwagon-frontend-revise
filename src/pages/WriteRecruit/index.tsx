@@ -1,11 +1,11 @@
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import BandInfoCard from '../../components/BandInfoCard';
 import RequirementBox from './RequirementBox';
 import Button from '../../components/Button';
 import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import UserInfoCard from '../../components/UserInfoCard';
 import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 import { useBandRequirementStore } from '../../stores/BandRequirementStore';
@@ -24,39 +24,41 @@ function TitleTextField (props: {
   );
 };
 
-/* useRef props로 전달하는 법 공부 후 사용
-function WriteEditor (props: {
-  editorRef: React.ForwardedRef<Editor>}) {
-  return (
-    <div className='flex flex-col gap-4'>
-      <h3 className='text-accent text-base'>글쓰기</h3>
-      <Editor
-        initialValue="밴드를 소개해 주세요."
-        previewStyle="vertical"
-        height="600px"
-        initialEditType="wysiwyg"
-        useCommandShortcut={true}
-        ref={props.editorRef} />
-    </div>
-  )
-}
-*/
-
 function WriteRecruitPage (props: {type: boolean}) {
+  const { postId } = useParams(); 
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const navigate = useNavigate();
   const {
+    preqId,
     minStore,
     maxStore,
     genderStore,
     areaStore,
     genreStore,
-    positionStore} = useBandRequirementStore();
+    positionStore,
+    clearStore} = useBandRequirementStore();
+  
+  useEffect(() => {
+    clearStore();
+  }, []);
+  
+  useEffect(() => {
+    if (postId) {
+      RecruitPostAPI.LoadPost(postId)
+      .then((res) => {
+        setTitle(res.data.title);
+        setBody(res.data.body);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
+  }, [postId])
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (props.type) {
-      RecruitPostAPI.UploadArticle({
+      RecruitPostAPI.UploadArticle(postId, {
         title: title,
         body: body,
         dtype: 'Band'})
@@ -71,7 +73,7 @@ function WriteRecruitPage (props: {type: boolean}) {
               areas: null,
               genres: null,
               positions: null
-            }, res.data.id)
+            }, res.data.id, preqId.age)
             .then((res) => {
               console.log('age');
             })
@@ -88,7 +90,7 @@ function WriteRecruitPage (props: {type: boolean}) {
               areas: null,
               genres: null,
               positions: null
-            }, res.data.id)
+            }, res.data.id, preqId.gender)
             .then((res) => {
               console.log('gender');
             })
@@ -105,7 +107,7 @@ function WriteRecruitPage (props: {type: boolean}) {
               areas: areaStore,
               genres: null,
               positions: null
-            }, res.data.id)
+            }, res.data.id, preqId.area)
             .then((res) => {
               console.log('area');
             })
@@ -123,7 +125,7 @@ function WriteRecruitPage (props: {type: boolean}) {
               areas: null,
               genres: genreStore,
               positions: null
-            }, res.data.id)
+            }, res.data.id, preqId.genre)
             .then((res) => {
               console.log('genre');
             })
@@ -140,7 +142,7 @@ function WriteRecruitPage (props: {type: boolean}) {
               areas: null,
               genres: null,
               positions: positionStore,
-            }, res.data.id)
+            }, res.data.id, preqId.position)
             .then((res) => {
               console.log('position');
             })
@@ -148,21 +150,31 @@ function WriteRecruitPage (props: {type: boolean}) {
               console.log(err);
             })
           }
-          window.alert('글이 작성되었습니다');
-          navigate('/recruit/' + res.data.id);
+          if (postId) {
+            window.alert('글이 수정되었습니다');
+            navigate('/recruit/' + postId);
+          } else {
+            window.alert('글이 작성되었습니다');
+            navigate('/recruit/' + res.data.id);
+          }
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      RecruitPostAPI.UploadArticle({
+      RecruitPostAPI.UploadArticle(postId, {
         title: title,
         body: body,
         dtype: 'User'})
         .then((res) => {
           console.log(res.data.id);
-          window.alert('글이 작성되었습니다');
-          navigate('/recruit/' + res.data.id);
+          if (postId) {
+            window.alert('글이 수정되었습니다');
+            navigate('/recruit/' + postId);
+          } else {
+            window.alert('글이 작성되었습니다');
+            navigate('/recruit/' + res.data.id);
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -202,7 +214,7 @@ function WriteRecruitPage (props: {type: boolean}) {
           </div>
         </div>
         {/* 모집 정보 (지원 조건, 추가 지원 양식) */}
-        {props.type ? <RequirementBox /> : <></>}
+        {props.type ? <RequirementBox postId={postId} /> : <></>}
       </div>
     </div>
     <GlobalFooter />

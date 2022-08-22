@@ -1,14 +1,19 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import areaOptions from '../assets/options/areaOptions';
 import { AreaType } from '../types/types';
 
-function AreaSelect (props:
-  {setOption: Dispatch<SetStateAction<AreaType>>}) {
+function AreaSelect (props: {
+  curOption: AreaType,
+  setOption: Dispatch<SetStateAction<AreaType>>}) {
 
   const [city, setCity] = useState('');
   const cityOptions = areaOptions
   .map((area) => area.city)
   .filter((city, index, self) => self.indexOf(city) === index);
+
+  useEffect(() => {
+    setCity(props.curOption.city);
+  }, [props.curOption]);
 
   function handleCityChange (e: React.ChangeEvent<HTMLSelectElement>) {
     console.log(e.target.value);
@@ -16,6 +21,8 @@ function AreaSelect (props:
   }
 
   function handleDistrictChange (e: React.ChangeEvent<HTMLSelectElement>) {
+    console.log(e.target.value);
+
     const selected = areaOptions.find(findOption);
 
     function findOption(element: AreaType)  {
@@ -31,7 +38,7 @@ function AreaSelect (props:
   return (
     <div className='flex'>
       <select
-        defaultValue=''
+        value={city}
         className='select select-bordered w-fit md:w-48 h-[3.125rem]'
         onChange={handleCityChange}>
         <option className='hidden' value=''>시/도 선택</option>
@@ -44,7 +51,7 @@ function AreaSelect (props:
       </select>
 
       <select
-        defaultValue=''
+        value={props.curOption.district}
         className='select select-bordered w-fit md:w-48 h-[3.125rem]' onChange={handleDistrictChange}>
           <option className='hidden' value=''>시/군/구 선택</option>
           {areaOptions

@@ -7,11 +7,13 @@ interface RecruitPostApiType {
   LoadPost: (postID: string | undefined) => Promise<AxiosResponse>;
   LoadMyInfo: () => Promise<AxiosResponse>;
   LoadUserInfo: (userId: string | undefined) => Promise<AxiosResponse>;
-  UploadArticle: (postInfo: {
+  UploadArticle: (postId: string | undefined,
+    postInfo: {
     title: string;
     body: string | undefined;
     dtype: string;
   }) => Promise<AxiosResponse>;
+  DeletePost: (postId: string | undefined) => Promise<AxiosResponse>;
 }
 
 const RecruitPostAPI: RecruitPostApiType = {
@@ -30,10 +32,17 @@ const RecruitPostAPI: RecruitPostApiType = {
   LoadPost: (postID) => {
     return request.get('api/post/' + postID);
   },
-  UploadArticle: (postInfo) => {
+  UploadArticle: (postId, postInfo) => {
     console.log(postInfo);
-    return request.post('api/post', postInfo);
+    if (postId) {
+      return request.put('api/post/' + postId, postInfo);
+    } else {
+      return request.post('api/post', postInfo);
+    }
   },
+  DeletePost: (postId) => {
+    return request.delete('api/post/' + postId)
+  }
 };
 
 export default RecruitPostAPI;
