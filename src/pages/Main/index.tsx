@@ -4,134 +4,97 @@ import { Link } from 'react-router-dom';
 import { bandPortfolioBrief } from './tempTodayPortfolio';
 import { TodayPortfolio } from './TodaysPortfolio';
 import GlobalFooter from '../../components/Footer';
-import recruitMenu1 from '../../assets/mainRecruitMenu/recruit-menu-1.png';
-import recruitMenu2 from '../../assets/mainRecruitMenu/recruit-menu-2.png';
-import recruitMenu3 from '../../assets/mainRecruitMenu/recruit-menu-3.png';
-import recruitMenu4 from '../../assets/mainRecruitMenu/recruit-menu-4.png';
-import recruitMenu5 from '../../assets/mainRecruitMenu/recruit-menu-5.png';
+import { recruitMenuList, RecruitMenu } from './RecruitMenu';
+import {
+  tempRecommendedRecruitments,
+  RecommendedRecruitments,
+} from './RecommendedRecruitments';
 
-const RecruitMenuList = [
-  {
-    image: recruitMenu1,
-    title: '기타 구인구직',
-    link: '/recruit/user',
-  },
-  {
-    image: recruitMenu2,
-    title: '베이스 구인구직',
-    link: '/recruit/band',
-  },
-  {
-    image: recruitMenu3,
-    title: '보컬 구인구직',
-    link: '/recruit/user',
-  },
-  {
-    image: recruitMenu4,
-    title: '건반 구인구직',
-    link: '/recruit/band',
-  },
-  {
-    image: recruitMenu5,
-    title: '드럼 구인구직',
-    link: '/recruit/user',
-  },
-];
-
-function RecruitMenuItem({
-  image,
-  title,
-  link,
-}: {
+interface RecentPostItemType {
   image: string;
+  avatar: string;
   title: string;
+  date: string;
+  content: string;
+  likes: number;
   link: string;
-}) {
-  return (
-    <Link to={link} className='flex flex-col items-center'>
-      <img className='scale-75 h-[52.5px]' src={image} alt={title} />
-      <div className='text-sm mt-1 title'>{title}</div>
-    </Link>
-  );
 }
 
-function RecruitMenu() {
-  return (
-    <section className='grid grid-cols-6 h-28 items-center'>
-      <div className='col-start-2 col-end-6 py-0 min-h-fit bg-base-100 flex flex-row justify-evenly'>
-        {RecruitMenuList.map((item) => (
-          <RecruitMenuItem
-            key={item.title}
-            image={item.image}
-            title={item.title}
-            link={item.link}
-          />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-interface RecommendedRecruitmentItemType {
-  image: string;
-  region: string;
-  title: string;
-}
-
-const tempRecommendedRecruitments: RecommendedRecruitmentItemType[] = [
+const tempRecentPosts: RecentPostItemType[] = [
   {
-    image: 'https://picsum.photos/200',
-    region: '서울',
-    title: '서울 마포구 밴드 기타 모집합니다.',
+    image: 'https://picsum.photos/200/300',
+    avatar: 'https://picsum.photos/50/50',
+    title: '그레이트 서울 인베이전 방송',
+    date: '2020-01-01',
+    content: '서울 인베이전 방송',
+    likes: 10911,
+    link: '/post/1',
   },
   {
-    image: 'https://picsum.photos/200',
-    region: '인천',
-    title: '인천 부평 밴드 여보컬 모집합니다.',
+    image: 'https://picsum.photos/200/300',
+    avatar: 'https://picsum.photos/50/50',
+    title: '일렉기타 셋업 온라인 강좌',
+    date: '2020-01-01',
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    likes: 16384,
+    link: '/post/2',
   },
   {
-    image: 'https://picsum.photos/200',
-    region: '서울',
-    title: '일산 백석 직밴 건반 모십니다.',
+    image: 'https://picsum.photos/200/300',
+    avatar: 'https://picsum.photos/50/50',
+    title: '오랜만에 해본 기타 커버 영상',
+    date: '2020-01-01',
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    likes: 998244353,
+    link: '/post/2',
+  },
+  {
+    image: 'https://picsum.photos/200/300',
+    avatar: 'https://picsum.photos/50/50',
+    title: '일렉기타 셋업 온라인 강좌',
+    date: '2020-01-01',
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    likes: 16384,
+    link: '/post/2',
   },
 ];
 
-function RecommendedRecruitmentItem({
-  recruitment,
+function MainRecentPostItem({
+  recentPost,
 }: {
-  recruitment: RecommendedRecruitmentItemType;
+  recentPost: RecentPostItemType;
 }) {
   return (
-    <div className='grid grid-flow-row'>
-      <img
-        className='w-36 h-36 rounded-lg object-fill'
-        src={recruitment.image}
-      />
-      <span className='badge badge-secondary badge-outline'>
-        {recruitment.region}
-      </span>
-      <p>{recruitment.title}</p>
+    <div className='card rounded-lg aspect-[4/5] card-compact w-full bg-base-100 shadow-xl mx-3'>
+      <img className='h-3/5' src={recentPost.image} alt='Shoes' />
+      <div className='p-3'>
+        <h2 className='truncate text-xl font-bold'>{recentPost.title}</h2>
+        <p className='truncate'>{recentPost.content}</p>
+        <span className='text-rose-500'>❤︎ {recentPost.likes}</span>
+      </div>
     </div>
   );
 }
 
-function RecommendedRecruitments({
-  recruitments,
+function MainRecentPosts({
+  recentPosts,
 }: {
-  recruitments: RecommendedRecruitmentItemType[];
+  recentPosts: RecentPostItemType[];
 }) {
   return (
-    <section className='bg-[#f4f9f9] h-72 grid grid-cols-6 pt-6'>
-      <div className='col-start-2'>
-        <h1 className='text-2xl font-bold'>추천 구인·구직글</h1>
-        <h2 className='text-neutral'>R E C O M M E N D</h2>
+    <section className='grid grid-flow-row grid-cols-6 items-center my-10'>
+      <div className='col-span-full md:col-start-2 md:col-end-6 flex flex-col items-center'>
+        <h1 className='text-2xl font-bold'>최근 인기글</h1>
+        <h2 className='text-neutral tracking-[0.2rem] mb-5'>P O P U L A R</h2>
+        <div className='w-full flex flex-row justify-between'>
+          {recentPosts.slice(0, 3).map((recentPost) => (
+            <MainRecentPostItem recentPost={recentPost} />
+          ))}
+        </div>
       </div>
-      {recruitments.map((recruitment) => (
-        <RecommendedRecruitmentItem
-          key={recruitment.title}
-          recruitment={recruitment}
-        />
-      ))}
     </section>
   );
 }
@@ -140,12 +103,13 @@ function MainPage() {
   return (
     <main>
       <GlobalNavBar />
-      <RecruitMenu />
+      <RecruitMenu menuList={recruitMenuList} />
       <RecommendedRecruitments recruitments={tempRecommendedRecruitments} />
+      <MainRecentPosts recentPosts={tempRecentPosts} />
       <TodayPortfolio todayPortfolios={bandPortfolioBrief} />
       <div className='text-3xl text-teal-500'>메인 페이지입니다.</div>
       <div className='text-2xl text-teal-700'>페이지들의 링크는 아래에</div>
-      <div className='grid grid-flow-row gap-3 mt-5 w-40'>
+      <div className='grid grid-flow-col gap-3 mt-5 w-full'>
         <Link to='/login'>로그인 페이지</Link>
         <Link to='/signup'>회원가입 페이지</Link>
         <Link to='/profile/user'>유저 정보 페이지</Link>
