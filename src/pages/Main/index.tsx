@@ -47,10 +47,26 @@ const tempRecentPosts: RecentPostItemType[] = [
     date: '2020-01-01',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    likes: 998244343,
+    likes: 998244353,
     link: '/post/2',
   },
 ];
+
+function MainRecentPostItem({
+  recentPost,
+}: {
+  recentPost: RecentPostItemType;
+}) {
+  return (
+    <div className='card card-compact w-52 bg-base-100 shadow-xl mx-5'>
+      <img className='h-1/2' src={recentPost.image} alt='Shoes' />
+      <div>
+        <h2 className='card-title'>{recentPost.title}</h2>
+        <p className='truncate'>{recentPost.content}</p>
+      </div>
+    </div>
+  );
+}
 
 function MainRecentPosts({
   recentPosts,
@@ -58,9 +74,16 @@ function MainRecentPosts({
   recentPosts: RecentPostItemType[];
 }) {
   return (
-    <section className='flex flex-col items-center'>
-      <h1 className='text-2xl font-bold'>최근 인기글</h1>
-      <h2 className='text-neutral tracking-[0.2rem]'>P O P U L A R</h2>
+    <section className='grid grid-flow-row grid-cols-6 items-center my-10'>
+      <div className='col-start-2 col-end-6 flex flex-col items-center'>
+        <h1 className='text-2xl font-bold'>최근 인기글</h1>
+        <h2 className='text-neutral tracking-[0.2rem] mb-5'>P O P U L A R</h2>
+        <div className='w-full flex flex-row justify-center'>
+          {recentPosts.map((recentPost) => (
+            <MainRecentPostItem recentPost={recentPost} />
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
@@ -75,7 +98,7 @@ function MainPage() {
       <TodayPortfolio todayPortfolios={bandPortfolioBrief} />
       <div className='text-3xl text-teal-500'>메인 페이지입니다.</div>
       <div className='text-2xl text-teal-700'>페이지들의 링크는 아래에</div>
-      <div className='grid grid-flow-row gap-3 mt-5 w-40'>
+      <div className='grid grid-flow-col gap-3 mt-5 w-full'>
         <Link to='/login'>로그인 페이지</Link>
         <Link to='/signup'>회원가입 페이지</Link>
         <Link to='/profile/user'>유저 정보 페이지</Link>
