@@ -50,7 +50,7 @@ function RecruitMenuItem({
   return (
     <Link to={link} className='flex flex-col items-center'>
       <img className='scale-75 h-[52.5px]' src={image} alt={title} />
-      <div className='title'>{title}</div>
+      <div className='text-sm mt-1 title'>{title}</div>
     </Link>
   );
 }
