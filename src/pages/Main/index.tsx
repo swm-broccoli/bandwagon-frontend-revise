@@ -68,11 +68,12 @@ function MainRecentPostItem({
   recentPost: RecentPostItemType;
 }) {
   return (
-    <div className='card aspect-[4/5] card-compact w-full bg-base-100 shadow-xl mx-3'>
+    <div className='card rounded-lg aspect-[4/5] card-compact w-full bg-base-100 shadow-xl mx-3'>
       <img className='h-3/5' src={recentPost.image} alt='Shoes' />
       <div className='p-3'>
         <h2 className='truncate text-xl font-bold'>{recentPost.title}</h2>
         <p className='truncate'>{recentPost.content}</p>
+        <span className='text-rose-500'>❤︎ {recentPost.likes}</span>
       </div>
     </div>
   );
