@@ -14,31 +14,44 @@ const RecruitMenuList = [
   {
     image: recruitMenu1,
     title: '기타 구인구직',
+    link: '/recruit/user',
   },
   {
     image: recruitMenu2,
     title: '베이스 구인구직',
+    link: '/recruit/band',
   },
   {
     image: recruitMenu3,
     title: '보컬 구인구직',
+    link: '/recruit/user',
   },
   {
     image: recruitMenu4,
     title: '건반 구인구직',
+    link: '/recruit/band',
   },
   {
     image: recruitMenu5,
     title: '드럼 구인구직',
+    link: '/recruit/user',
   },
 ];
 
-function RecruitMenuItem({ image, title }: { image: string; title: string }) {
+function RecruitMenuItem({
+  image,
+  title,
+  link,
+}: {
+  image: string;
+  title: string;
+  link: string;
+}) {
   return (
-    <div className='flex flex-col items-center'>
+    <Link to={link} className='flex flex-col items-center'>
       <img className='scale-75 h-[52.5px]' src={image} alt={title} />
       <div className='title'>{title}</div>
-    </div>
+    </Link>
   );
 }
 
@@ -51,6 +64,7 @@ function RecruitMenu() {
             key={item.title}
             image={item.image}
             title={item.title}
+            link={item.link}
           />
         ))}
       </div>
