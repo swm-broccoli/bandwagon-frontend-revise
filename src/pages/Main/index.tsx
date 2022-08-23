@@ -71,7 +71,7 @@ function MainCarousel({ items }: { items: CarouselItemType[] }) {
   return (
     <section className='overflow-hidden'>
       <div
-        className={`flex flex-row h-60 md:h-96 w-full -translate-x-[${calculateCarouselTranslation(
+        className={`flex flex-row h-60 md:h-96 w-full transition-transform duration-500 -translate-x-[${calculateCarouselTranslation(
           currentCarouselIndex,
         )}%]`}
       >
