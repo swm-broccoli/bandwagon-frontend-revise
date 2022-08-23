@@ -49,11 +49,13 @@ function CarouselItem({ item }: { item: CarouselItemType }) {
   return (
     <div className='relative w-full shrink-0'>
       <img className='w-full shrink-0' src={item.image} alt={item.title} />
-      <div className='absolute top-1/3 left-1/3'>
+      <div className='absolute top-1/3 left-1/3 flex flex-col items-center gap-2'>
         <h3 className='text-base-100 text-3xl font-bold'>{item.title}</h3>
         <p className='text-base-100 text-xl'>{item.content}</p>
         <Link className='text-teal-300' to={item.link}>
-          <button>바로가기</button>
+          <button className='btn btn-primary btn-outline glass'>
+            사용하러 가기
+          </button>
         </Link>
       </div>
     </div>
@@ -89,7 +91,7 @@ function MainCarousel({ items }: { items: CarouselItemType[] }) {
 
   return (
     <>
-      <section className='overflow-hidden'>
+      <section className='relative overflow-hidden'>
         <div
           className={`flex flex-row h-60 md:h-96 w-full transition-transform duration-500 -translate-x-[${calculateCarouselTranslation(
             currentCarouselIndex,
@@ -99,15 +101,19 @@ function MainCarousel({ items }: { items: CarouselItemType[] }) {
             <CarouselItem item={item} />
           ))}
         </div>
+        <button
+          onClick={handlePrevClick}
+          className='btn h-full text-base-100 text-4xl bg-transparent border-none absolute top-0 left-0'
+        >
+          ←
+        </button>
+        <button
+          onClick={handleNextClick}
+          className='btn h-full text-base-100 text-4xl bg-transparent border-none absolute top-0 right-0'
+        >
+          →
+        </button>
       </section>
-      <div className='btn-group'>
-        <button className='btn btn-primary' onClick={handlePrevClick}>
-          이전으로
-        </button>
-        <button className='btn btn-primary' onClick={handleNextClick}>
-          다음으로
-        </button>
-      </div>
     </>
   );
 }
