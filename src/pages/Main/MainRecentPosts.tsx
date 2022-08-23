@@ -78,8 +78,8 @@ export function MainRecentPosts({
         <h1 className='text-2xl font-bold'>최근 인기글</h1>
         <h2 className='text-neutral tracking-[0.2rem] mb-5'>P O P U L A R</h2>
         <div className='w-full flex flex-row justify-between'>
-          {recentPosts.slice(0, 3).map((recentPost) => (
-            <MainRecentPostItem recentPost={recentPost} />
+          {recentPosts.slice(0, 3).map((recentPost, index) => (
+            <MainRecentPostItem key={index} recentPost={recentPost} />
           ))}
         </div>
       </div>
