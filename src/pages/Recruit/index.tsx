@@ -1,20 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import ArticleCard from './ArticleCard';
+import ArticleCard from '../../components/ArticleCard';
 import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
 import Button from '../../components/Button';
 import RecruitTab from './RecruitTab';
 import SearchBox from './SearchBox';
 import Pagination from '../../components/Pagination';
-import { BandPostCardType, UserPostCardType } from '../../types/types';
+import { PostCardType } from '../../types/types';
 import RecruitAPI from '../../apis/RecruitAPI';
 import { useSearchPostStore } from '../../stores/SearchPostStore';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // true: 구인, false: 구직
 function RecruitPage(props: {type: boolean}) {
-  const [bandPostList, setBandPostList] = useState<BandPostCardType[]>([]);
-  const [userPostList, setUserPostList] = useState<UserPostCardType[]>([]);
+  const [postList, setPostList] = useState<PostCardType[]>([]);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const {
@@ -24,6 +23,7 @@ function RecruitPage(props: {type: boolean}) {
     minAgeStore,
     maxAgeStore,
     clearStore} = useSearchPostStore();
+    
 
   useEffect(() => {
     clearStore();
@@ -32,8 +32,9 @@ function RecruitPage(props: {type: boolean}) {
       RecruitAPI.LoadBandPost('')
       .then((res) => {
         console.log(res.data);
-        setBandPostList(res.data.posts);
+        setPostList(res.data.posts);
         setTotalItems(res.data.totalItems);
+        setTotalPages(res.data.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -42,8 +43,9 @@ function RecruitPage(props: {type: boolean}) {
       RecruitAPI.LoadUserPost('')
       .then((res) => {
         console.log(res.data);
-        setUserPostList(res.data.posts);
+        setPostList(res.data.posts);
         setTotalItems(res.data.totalItems);
+        setTotalPages(res.data.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -58,7 +60,7 @@ function RecruitPage(props: {type: boolean}) {
       RecruitAPI.LoadBandPost(requestParam)
       .then((res) => {
         console.log(res.data);
-        setBandPostList(res.data.posts);
+        setPostList(res.data.posts);
         setTotalItems(res.data.totalItems);
         setTotalPages(res.data.totalPages);
       })
@@ -69,7 +71,7 @@ function RecruitPage(props: {type: boolean}) {
       RecruitAPI.LoadUserPost(requestParam)
       .then((res) => {
         console.log(res.data);
-        setUserPostList(res.data.posts);
+        setPostList(res.data.posts);
         setTotalItems(res.data.totalItems);
         setTotalPages(res.data.totalPages);
       })
@@ -90,7 +92,7 @@ function RecruitPage(props: {type: boolean}) {
       RecruitAPI.LoadBandPost(requestParam)
       .then((res) => {
         console.log(res.data);
-        setBandPostList(res.data.posts);
+        setPostList(res.data.posts);
         setTotalItems(res.data.totalItems);
         setTotalPages(res.data.totalPages);
       })
@@ -101,7 +103,7 @@ function RecruitPage(props: {type: boolean}) {
       RecruitAPI.LoadUserPost(requestParam)
       .then((res) => {
         console.log(res.data);
-        setUserPostList(res.data.posts);
+        setPostList(res.data.posts);
         setTotalItems(res.data.totalItems);
         setTotalPages(res.data.totalPages);
       })
@@ -133,42 +135,14 @@ function RecruitPage(props: {type: boolean}) {
           <h2 className='text-xl text-secondary'>{totalItems + ' 개'}</h2>
         </div>
         <div className='row-start-4 col-start-2 col-end-4 grid grid-cols-1 md:grid-cols-2 flex-wrap gap-x-[3%] gap-y-1 justify-center'>
-          {props.type ?
-            <>
-            {bandPostList.map((post, index) => 
+            {postList.map((post, index) => 
               <Link to={'/recruit/' + post.id.toString()} key={index}>
                   <ArticleCard 
-                  type={true}
-                  pic={post.bandAvatarUrl}
-                  title={post.title}
-                  authorPic={post.bandAvatarUrl}
-                  authorName={post.bandName}
-                  authorId={post.bandId.toString()}
-                  bandInfo={post.tagInfo}
-                  userInfo={null}
-                  isHeartChecked={false} />
+                    postInfo={post} />
               </Link>
             )}
-            </> :
-            <>
-            {userPostList.map((post, index) => 
-              <Link to={'/recruit/' + post.id.toString()} key={index}>
-                  <ArticleCard 
-                  type={false}
-                  pic={post.userAvatarUrl}
-                  title={post.title}
-                  authorPic={post.userAvatarUrl}
-                  authorName={post.nickname}
-                  authorId={post.email}
-                  bandInfo={null}
-                  userInfo={post.tagInfo}
-                  isHeartChecked={false} />
-              </Link>
-            )}
-            </>
-          }
         </div>
-        <div className='w-auto h-fit row-start-5 col-start-2 col-end-4 justify-self-center mt-[4.5rem]'>
+        <div className='w-auto h-fit row-start-5 col-start-2 col-end-4 mt-[4.5rem]'>
           <Pagination type={props.type} totalPage={totalPages - 1}/>
         </div>
     </div>

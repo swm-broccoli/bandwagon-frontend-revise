@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function ClickedTabMenu (props: {label: string}) {
   return (
@@ -11,19 +11,8 @@ function ClickedTabMenu (props: {label: string}) {
 };
 
 function TabMenu (props: {label: string}) {
-  const navigate = useNavigate();
-
-  function handleClick (e: React.MouseEvent<HTMLButtonElement>) {
-    if (props.label == '구인') {
-      navigate('/recruit/band');
-    } else if (props.label == '구직') {
-      navigate('/recruit/user');
-    } 
-  }
-
   return (
     <button
-      onClick={handleClick}
       className='flex flex-col w-10 h-10 items-center'>
       <p className='text-lg text-[#ababab]'>{props.label}</p>
     </button>
@@ -35,8 +24,14 @@ function RecruitTab (props: {clicked: boolean}) {
   return (
     <div className='flex flex-row gap-[0.375rem] row-start-1 col-start-2 w-[5.375rem] h-10 pt-12'>
       {props.clicked ?
-      <><ClickedTabMenu label='구인' /><TabMenu label='구직' /></> :
-      <><TabMenu label='구인' /><ClickedTabMenu label='구직' /></>}
+      <>
+        <ClickedTabMenu label='구인' />
+        <Link to='/recruit/user'><TabMenu label='구직' /></Link>
+      </> :
+      <>
+        <Link to='/recruit/band'><TabMenu label='구인' /></Link>
+        <ClickedTabMenu label='구직' />
+      </>}
     </div>
   );
 };

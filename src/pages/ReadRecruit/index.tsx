@@ -133,9 +133,10 @@ function ReadRecruitPage () {
             <BandInfoCard type={false} bandId={bandId} /> :
             <UserInfoCard type={false} userId={userId}/>}
           </div>
-          <ReadArticleCard article={postInfo?.body}/>
+          <ReadArticleCard article={postInfo?.body} />
           <div className='row-start-4 col-start-2 md:row-start-2 md:col-start-3 md:mt-9 justify-self-end'>
-            {postID ? isAuthor ?
+            {postID ?
+            isAuthor ?
               <div className='flex flex-row gap-2 md:flex-col md:gap-5'>
                 {type ?
                   <Link to={'/recruit/band/write/' + postID}>
@@ -157,11 +158,14 @@ function ReadRecruitPage () {
                 }
                 <DeleteModalButton postId={postID}/>
               </div> :
+              postInfo ?
               <ApplyBox
                 type={type}
                 isLoggedIn={isLoggedIn}
-                postId={postID}/> :
-              <></>}
+                postId={postID}
+                likeCount={postInfo.likeCount}
+                isLiked={postInfo.isLiked} /> :
+              <></> : <></>}
           </div>
         </div>
       </div>

@@ -4,7 +4,8 @@ import { request } from './request';
 interface RecruitPostApiType {
   LoadMyBandInfo: () => Promise<AxiosResponse>;
   LoadBandInfo: (bandId: number | undefined) => Promise<AxiosResponse>;
-  LoadPost: (postID: string | undefined) => Promise<AxiosResponse>;
+  LoadPost: (postId: string | undefined) => Promise<AxiosResponse>;
+  LoadLikedPost: (userId: string, param: string) => Promise<AxiosResponse>;
   LoadMyInfo: () => Promise<AxiosResponse>;
   LoadUserInfo: (userId: string | undefined) => Promise<AxiosResponse>;
   UploadArticle: (postId: string | undefined,
@@ -13,6 +14,7 @@ interface RecruitPostApiType {
     body: string | undefined;
     dtype: string;
   }) => Promise<AxiosResponse>;
+  ChangeLike: (current: boolean, postId: string) => Promise<AxiosResponse>;
   DeletePost: (postId: string | undefined) => Promise<AxiosResponse>;
 }
 
@@ -29,8 +31,12 @@ const RecruitPostAPI: RecruitPostApiType = {
   LoadUserInfo: (userId) => {
     return request.get('api/users/' + userId + '/mypage')
   },
-  LoadPost: (postID) => {
-    return request.get('api/post/' + postID);
+  LoadPost: (postId) => {
+    return request.get('api/post/' + postId);
+  },
+  LoadLikedPost: (email, param) => {
+    return request.get('api/users/' + email + '/likes' + param);
+
   },
   UploadArticle: (postId, postInfo) => {
     console.log(postInfo);
@@ -39,6 +45,10 @@ const RecruitPostAPI: RecruitPostApiType = {
     } else {
       return request.post('api/post', postInfo);
     }
+  },
+  ChangeLike: (current, postId) => {
+    if (current) return request.delete('api/post/' + postId + '/like');
+    else return request.post('api/post/' + postId + '/like')
   },
   DeletePost: (postId) => {
     return request.delete('api/post/' + postId)

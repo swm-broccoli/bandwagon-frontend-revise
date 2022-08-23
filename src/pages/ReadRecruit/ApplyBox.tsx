@@ -7,6 +7,7 @@ import ico_circle from '../../assets/ico_circle.svg';
 import ico_x from '../../assets/ico_x.svg';
 import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 import { AreaType, PrequisiteResponseType, SelectionType } from '../../types/types';
+import RecruitPostAPI from '../../apis/RecruitPostAPI';
 
 function PrequisiteTooltip (props: {checked: PrequisiteResponseType[]}) {
   const [checkedAll, setCheckedAll] = useState<boolean>(true);
@@ -169,13 +170,20 @@ function PrequisiteElementBox (props: {
 // true: 구인, false: 구직
 function ApplyBox (props: {
   type: boolean,
-  postId: string | undefined,
-  isLoggedIn: boolean}) {
-  const [isHeartChecked, setIsHeartChecked] = useState(false);
+  postId: string,
+  isLoggedIn: boolean,
+  isLiked: boolean,
+  likeCount: number}) {
+  const [likeCount, setLikeCount] = useState<number>(0);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
   const [preqCheck, setPreqCheck] = useState<PrequisiteResponseType[]>();
 
   useEffect(() => {
-    console.log('apply box', props.type)
+    setLikeCount(props.likeCount);
+    setIsLiked(props.isLiked);
+  }, [props]);
+
+  useEffect(() => {
     if (props.isLoggedIn && props.type) {
       RecruitProcessAPI.checkPrequisites(props.postId)
       .then((res) => {
@@ -189,19 +197,29 @@ function ApplyBox (props: {
   }, [props.postId, props.type])
 
   function handleHeartClick (e: React.MouseEvent<HTMLButtonElement>) {
-    setIsHeartChecked(!isHeartChecked);
+    if (isLiked) {
+      setLikeCount(likeCount - 1);
+    } else {
+      setLikeCount(likeCount + 1);
+    }
+    RecruitPostAPI.ChangeLike(isLiked, props.postId);
+    setIsLiked(!isLiked);
   }
 
   return (
     <div className='flex flex-row md:flex-col md:gap-7 md:p-0 h-fit justify-between p-4'>
       <div className='flex flex-col gap-[0.325rem]'>
-        {isHeartChecked ?
+        {isLiked ?
           <button onClick={handleHeartClick}><img src={btn_like_on} /></button> :
           <button onClick={handleHeartClick}><img src={btn_like} /></button>
         }
-        {isHeartChecked ?
-        <p className='text-error text-sm text-center'>10</p> :
-        <p className='text-neutral text-sm text-center'>10</p>
+        {isLiked ?
+        <p className='text-error text-sm text-center'>
+          {likeCount}
+        </p> :
+        <p className='text-neutral text-sm text-center'>
+          {likeCount}
+        </p>
         }
       </div>
       <div className='flex flex-col gap-[0.325rem]'>

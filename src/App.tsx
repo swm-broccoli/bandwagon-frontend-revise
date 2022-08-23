@@ -17,6 +17,7 @@ import PortfolioPage from './pages/Portfolio';
 import FindPasswordPage from './pages/FindPassword';
 import FindEmailPage from './pages/FindEmail';
 import NotFoundPage from './pages/NotFound';
+import LikedPost from './pages/LikedPost';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path='profile'>
           <Route path='user' element={<UserProfilePage />} />
           <Route path='band' element={<BandProfilePage />} />
+          <Route path='mylike' element={<LikedPost />} />
         </Route>
         <Route path='portfolio' element={<Outlet />}>
           <Route path='' element={<PortfolioPage />} />
