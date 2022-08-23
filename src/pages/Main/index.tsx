@@ -18,6 +18,7 @@ interface CarouselItemType {
   image: string;
   title: string;
   content: string;
+  link: string;
 }
 
 const carouselItems: CarouselItemType[] = [
@@ -26,20 +27,38 @@ const carouselItems: CarouselItemType[] = [
     image: carouselImage,
     title: '안녕하세요',
     content: '전국 모든 밴드의 커뮤니티 밴드웨건입니다.',
+    link: '/login',
   },
   {
     id: 2,
     image: carouselImage2,
     title: '안녕하세요 2',
     content: '여기서 당신의 음악의 꿈을 펼치세요.',
+    link: '/signup',
   },
   {
     id: 3,
     image: carouselImage,
     title: '안녕하세요 3',
-    content: '전국 모든 밴드의 커뮤니티 밴드웨건입니다.',
+    content: '함께 꿈을 펼칠 사람도 찾아봐요.',
+    link: '/login',
   },
 ];
+
+function CarouselItem({ item }: { item: CarouselItemType }) {
+  return (
+    <div className='relative w-full shrink-0'>
+      <img className='w-full shrink-0' src={item.image} alt={item.title} />
+      <div className='absolute top-1/3 left-1/3'>
+        <h3 className='text-base-100 text-3xl font-bold'>{item.title}</h3>
+        <p className='text-base-100 text-xl'>{item.content}</p>
+        <Link className='text-teal-300' to={item.link}>
+          <button>바로가기</button>
+        </Link>
+      </div>
+    </div>
+  );
+}
 
 function MainCarousel({ items }: { items: CarouselItemType[] }) {
   const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
@@ -69,16 +88,18 @@ function MainCarousel({ items }: { items: CarouselItemType[] }) {
   };
 
   return (
-    <section className='overflow-hidden'>
-      <div
-        className={`flex flex-row h-60 md:h-96 w-full transition-transform duration-500 -translate-x-[${calculateCarouselTranslation(
-          currentCarouselIndex,
-        )}%]`}
-      >
-        {items.map((item) => (
-          <img key={item.id} className='w-full shrink-0' src={item.image} />
-        ))}
-      </div>
+    <>
+      <section className='overflow-hidden'>
+        <div
+          className={`flex flex-row h-60 md:h-96 w-full transition-transform duration-500 -translate-x-[${calculateCarouselTranslation(
+            currentCarouselIndex,
+          )}%]`}
+        >
+          {items.map((item) => (
+            <CarouselItem item={item} />
+          ))}
+        </div>
+      </section>
       <div className='btn-group'>
         <button className='btn btn-primary' onClick={handlePrevClick}>
           이전으로
@@ -87,7 +108,7 @@ function MainCarousel({ items }: { items: CarouselItemType[] }) {
           다음으로
         </button>
       </div>
-    </section>
+    </>
   );
 }
 
