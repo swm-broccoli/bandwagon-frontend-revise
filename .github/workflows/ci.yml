@@ -34,14 +34,13 @@ jobs:
         run: node -v
         
       - name : project build
-        run : npm run build
+        run: npm run build
         
       - name: Deploy                  # Upload build file to S3
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-        run: |
-          aws s3 cp --recursive dist s3://bandwagon-front-deploy
+        run: aws s3 sync dist s3://bandwagon-front-deploy
 
       - name: Run a multi-line script
         run: |
