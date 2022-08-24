@@ -74,18 +74,18 @@ function MainCarousel({ items }: { items: CarouselItemType[] }) {
 
   const handleNextClick = () => {
     if (currentCarouselIndex === items.length - 1) {
-      setCurrentCarouselIndex(0);
+      setCurrentCarouselIndex((prev) => 0);
     } else {
-      setCurrentCarouselIndex(currentCarouselIndex + 1);
+      setCurrentCarouselIndex((prev) => prev + 1);
     }
     console.log(calculateCarouselTranslation(currentCarouselIndex));
   };
 
   const handlePrevClick = () => {
     if (currentCarouselIndex === 0) {
-      setCurrentCarouselIndex(items.length - 1);
+      setCurrentCarouselIndex((prev) => items.length - 1);
     } else {
-      setCurrentCarouselIndex(currentCarouselIndex - 1);
+      setCurrentCarouselIndex((prev) => prev - 1);
     }
   };
 
@@ -98,7 +98,7 @@ function MainCarousel({ items }: { items: CarouselItemType[] }) {
           )}%]`}
         >
           {items.map((item) => (
-            <CarouselItem item={item} />
+            <CarouselItem key={item.id} item={item} />
           ))}
         </div>
         <button
