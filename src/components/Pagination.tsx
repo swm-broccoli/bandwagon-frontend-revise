@@ -10,6 +10,7 @@ function PageButton (props: {
 }) {
 
   function handleClick () {
+    console.log('page num', props.pageNum);
     props.setCurrentPage(props.pageNum - 1);
   };
 
@@ -35,12 +36,13 @@ function Pagination (props: {
 }) {
   const [currentPage, setCurrentPage] = useState(0);
   const [firstPage, setfirstPage] = useState(0);
-  const [lastPage, setLastPage] = useState(10);
+  const [lastPage, setLastPage] = useState(0);
   const {changePage} = useSearchPostStore();
 
   useEffect(() => {
-    if (props.totalPage && props.totalPage < 10) {
-      setLastPage(props.totalPage);
+    console.log('total page', props.totalPage);
+    if (props.totalPage < 10 && props.totalPage !== -1) {
+        setLastPage(props.totalPage);
     } else if (props.totalPage >= 10) {
       setLastPage(9);
     }
@@ -84,7 +86,7 @@ function Pagination (props: {
   }  
   
   return (
-    <div className='flex flex-row'>
+    <div className='flex flex-row justify-center'>
       <button
         onClick={(e) => {
           if (currentPage > 0) setCurrentPage(currentPage - 1)}}

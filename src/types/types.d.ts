@@ -86,6 +86,8 @@ export interface PostType {
   dtype: string;
   userEmail: string;
   bandId: number;
+  likeCount: number;
+  isLiked: boolean;
 }
 
 export interface PrequisiteElementType {
@@ -130,9 +132,11 @@ export interface BandPostCardType {
   title: string;
   body: string;
   dtype: string;
+  tagInfo: BandProfileType;
   bandId: number;
   bandName: string;
   bandAvatarUrl: string;
+  isLiked: boolean;
   tagInfo: BandProfileType;
 }
 
@@ -142,8 +146,26 @@ export interface UserPostCardType {
   body: string;
   dtype: string;
   userId: number;
+  tagInfo: UserProfileType;
   email: string;
   nickname: string;
   userAvatarUrl: string;
+  isLiked: boolean;
   tagInfo: UserProfileType;
+}
+
+export interface PostCardType {
+  id: number;
+  title: string;
+  body: string;
+  dtype: string;
+  userId: number;
+  tagInfo: UserProfileType;
+  bandId: number;
+  bandName: string;
+  bandAvatarUrl: string;
+  email: string;
+  nickname: string;
+  userAvatarUrl: string;
+  isLiked: boolean;
 }

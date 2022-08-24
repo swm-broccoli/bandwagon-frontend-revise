@@ -175,8 +175,16 @@ function ReadRecruitPage() {
                   )}
                   <DeleteModalButton postId={postID} />
                 </div>
+              ) : postInfo ? (
+                <ApplyBox
+                  type={type}
+                  isLoggedIn={isLoggedIn}
+                  postId={postID}
+                  likeCount={postInfo.likeCount}
+                  isLiked={postInfo.isLiked}
+                />
               ) : (
-                <ApplyBox type={type} isLoggedIn={isLoggedIn} postId={postID} />
+                <></>
               )
             ) : (
               <></>
