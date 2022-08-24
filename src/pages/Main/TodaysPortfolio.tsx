@@ -36,7 +36,7 @@ function TodaysPortfolioItem({
   switch (currentState) {
     case 'current':
       return (
-        <div className='absolute flex flex-row w-3/5 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all delay-500 z-20'>
+        <div className='absolute flex flex-row w-3/5 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all duration-500 z-20'>
           <img
             className='w-1/2 h-full object-fill'
             src={todayPortfolio.image}

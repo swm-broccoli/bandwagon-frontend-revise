@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import GlobalNavBar from '../../components/NavBar';
 import { Link } from 'react-router-dom';
 import { bandPortfolioBrief } from './tempTodayPortfolio';
@@ -9,93 +9,112 @@ import {
   tempRecommendedRecruitments,
   RecommendedRecruitments,
 } from './RecommendedRecruitments';
+import { tempRecentPosts, MainRecentPosts } from './MainRecentPosts';
+import carouselImage from '../../assets/carousel-intro.jpg';
+import carouselImage2 from '../../assets/carousel-paragon.jpg';
 
-interface RecentPostItemType {
+interface CarouselItemType {
+  id: number;
   image: string;
-  avatar: string;
   title: string;
-  date: string;
   content: string;
-  likes: number;
   link: string;
 }
 
-const tempRecentPosts: RecentPostItemType[] = [
+const carouselItems: CarouselItemType[] = [
   {
-    image: 'https://picsum.photos/200/300',
-    avatar: 'https://picsum.photos/50/50',
-    title: '그레이트 서울 인베이전 방송',
-    date: '2020-01-01',
-    content: '서울 인베이전 방송',
-    likes: 10911,
-    link: '/post/1',
+    id: 1,
+    image: carouselImage,
+    title: '안녕하세요',
+    content: '전국 모든 밴드의 커뮤니티 밴드웨건입니다.',
+    link: '/login',
   },
   {
-    image: 'https://picsum.photos/200/300',
-    avatar: 'https://picsum.photos/50/50',
-    title: '일렉기타 셋업 온라인 강좌',
-    date: '2020-01-01',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    likes: 16384,
-    link: '/post/2',
+    id: 2,
+    image: carouselImage2,
+    title: '안녕하세요 2',
+    content: '여기서 당신의 음악의 꿈을 펼치세요.',
+    link: '/signup',
   },
   {
-    image: 'https://picsum.photos/200/300',
-    avatar: 'https://picsum.photos/50/50',
-    title: '오랜만에 해본 기타 커버 영상',
-    date: '2020-01-01',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    likes: 998244353,
-    link: '/post/2',
-  },
-  {
-    image: 'https://picsum.photos/200/300',
-    avatar: 'https://picsum.photos/50/50',
-    title: '일렉기타 셋업 온라인 강좌',
-    date: '2020-01-01',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    likes: 16384,
-    link: '/post/2',
+    id: 3,
+    image: carouselImage,
+    title: '안녕하세요 3',
+    content: '함께 꿈을 펼칠 사람도 찾아봐요.',
+    link: '/login',
   },
 ];
 
-function MainRecentPostItem({
-  recentPost,
-}: {
-  recentPost: RecentPostItemType;
-}) {
+function CarouselItem({ item }: { item: CarouselItemType }) {
   return (
-    <div className='card rounded-lg aspect-[4/5] card-compact w-full bg-base-100 shadow-xl mx-3'>
-      <img className='h-3/5' src={recentPost.image} alt='Shoes' />
-      <div className='p-3'>
-        <h2 className='truncate text-xl font-bold'>{recentPost.title}</h2>
-        <p className='truncate'>{recentPost.content}</p>
-        <span className='text-rose-500'>❤︎ {recentPost.likes}</span>
+    <div className='relative w-full shrink-0'>
+      <img className='w-full shrink-0' src={item.image} alt={item.title} />
+      <div className='absolute top-1/3 left-1/3 flex flex-col items-center gap-2'>
+        <h3 className='text-base-100 text-3xl font-bold'>{item.title}</h3>
+        <p className='text-base-100 text-xl'>{item.content}</p>
+        <Link className='text-teal-300' to={item.link}>
+          <button className='btn btn-primary btn-outline glass'>
+            사용하러 가기
+          </button>
+        </Link>
       </div>
     </div>
   );
 }
 
-function MainRecentPosts({
-  recentPosts,
-}: {
-  recentPosts: RecentPostItemType[];
-}) {
+function MainCarousel({ items }: { items: CarouselItemType[] }) {
+  const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
+
+  const calculateCarouselTranslation = (index: number) => {
+    if (index === 0) {
+      return 0;
+    }
+    return index * 100;
+  };
+
+  const handleNextClick = () => {
+    if (currentCarouselIndex === items.length - 1) {
+      setCurrentCarouselIndex(0);
+    } else {
+      setCurrentCarouselIndex(currentCarouselIndex + 1);
+    }
+    console.log(calculateCarouselTranslation(currentCarouselIndex));
+  };
+
+  const handlePrevClick = () => {
+    if (currentCarouselIndex === 0) {
+      setCurrentCarouselIndex(items.length - 1);
+    } else {
+      setCurrentCarouselIndex(currentCarouselIndex - 1);
+    }
+  };
+
   return (
-    <section className='grid grid-flow-row grid-cols-6 items-center my-10'>
-      <div className='col-span-full md:col-start-2 md:col-end-6 flex flex-col items-center'>
-        <h1 className='text-2xl font-bold'>최근 인기글</h1>
-        <h2 className='text-neutral tracking-[0.2rem] mb-5'>P O P U L A R</h2>
-        <div className='w-full flex flex-row justify-between'>
-          {recentPosts.slice(0, 3).map((recentPost) => (
-            <MainRecentPostItem recentPost={recentPost} />
+    <>
+      <section className='relative overflow-hidden'>
+        <div
+          className={`flex flex-row h-60 md:h-96 w-full transition-transform duration-500 -translate-x-[${calculateCarouselTranslation(
+            currentCarouselIndex,
+          )}%]`}
+        >
+          {items.map((item) => (
+            <CarouselItem item={item} />
           ))}
         </div>
-      </div>
-    </section>
+        <button
+          onClick={handlePrevClick}
+          className='btn h-full text-base-100 text-4xl bg-transparent border-none absolute top-0 left-0'
+        >
+          ←
+        </button>
+        <button
+          onClick={handleNextClick}
+          className='btn h-full text-base-100 text-4xl bg-transparent border-none absolute top-0 right-0'
+        >
+          →
+        </button>
+      </section>
+    </>
   );
 }
 
@@ -103,6 +122,7 @@ function MainPage() {
   return (
     <main>
       <GlobalNavBar />
+      <MainCarousel items={carouselItems} />
       <RecruitMenu menuList={recruitMenuList} />
       <RecommendedRecruitments recruitments={tempRecommendedRecruitments} />
       <MainRecentPosts recentPosts={tempRecentPosts} />
