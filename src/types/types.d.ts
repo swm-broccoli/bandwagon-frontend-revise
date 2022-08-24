@@ -169,3 +169,17 @@ export interface PostCardType {
   userAvatarUrl: string;
   isLiked: boolean;
 }
+
+export interface BandRequestType {
+  id: number;
+  user: BandRequestInfoType;
+  band: BandRequestInfoType;
+  post: {id: number, name: string} | null;
+  type: string;
+}
+
+export interface BandRequestInfoType {
+  id: number;
+  name: string;
+  avatarUrl: string | null;
+}
