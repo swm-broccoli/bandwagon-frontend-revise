@@ -47,7 +47,7 @@ const carouselItems: CarouselItemType[] = [
 
 function CarouselItem({ item }: { item: CarouselItemType }) {
   return (
-    <div className='relative w-full shrink-0'>
+    <div className='relative w-full shrink-0 overflow-hidden'>
       <img className='w-full shrink-0' src={item.image} alt={item.title} />
       <div className='absolute top-1/3 left-1/3 flex flex-col items-center gap-2'>
         <h3 className='text-base-100 text-3xl font-bold'>{item.title}</h3>
@@ -78,7 +78,11 @@ function MainCarousel({ items }: { items: CarouselItemType[] }) {
     } else {
       setCurrentCarouselIndex((prev) => prev + 1);
     }
-    console.log(calculateCarouselTranslation(currentCarouselIndex));
+    console.log(
+      `flex flex-row h-60 md:h-96 w-full transition-transform transform-gpu duration-500 -translate-x-[${calculateCarouselTranslation(
+        currentCarouselIndex,
+      )}%]`,
+    );
   };
 
   const handlePrevClick = () => {
@@ -93,7 +97,7 @@ function MainCarousel({ items }: { items: CarouselItemType[] }) {
     <>
       <section className='relative overflow-hidden'>
         <div
-          className={`flex flex-row h-60 md:h-96 w-full transition-transform duration-500 -translate-x-[${calculateCarouselTranslation(
+          className={`relative flex flex-row h-60 md:h-96 w-fit duration-500 -translate-x-[${calculateCarouselTranslation(
             currentCarouselIndex,
           )}%]`}
         >
