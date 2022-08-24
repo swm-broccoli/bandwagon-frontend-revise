@@ -16,7 +16,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -36,11 +36,16 @@ jobs:
       - name : project build
         run: npm run build
         
-      - name: Deploy                  # Upload build file to S3
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-        run: aws s3 sync dist s3://bandwagon-front-deploy
+      # Deploy
+      - name: Deploy
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+        
+      - name: upload to s3                  # Upload build file to S3
+        run: aws s3 sync ./dist s3://bandwagon-front-deploy
 
       - name: Run a multi-line script
         run: |
