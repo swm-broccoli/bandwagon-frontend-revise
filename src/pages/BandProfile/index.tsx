@@ -132,7 +132,7 @@ function BandProfile() {
       <div>
         <div className='flex flex-row justify-between'>
           <h1 className='text-bold text-2xl font-bold'>밴드 정보</h1>
-          <div className='flex flex-row min-w-[120px] w-1/3'>
+          <div className='flex flex-row justify-between min-w-[130px] w-1/3'>
             {curBandProfile.isReaderFrontman && !profileEditing ? (
               <div className='dropdown w-1/2'>
                 <label tabIndex={0} className='btn btn-primary w-full p-0'>
