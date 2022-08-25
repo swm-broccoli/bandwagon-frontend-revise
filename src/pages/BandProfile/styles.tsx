@@ -174,10 +174,10 @@ function BandMemberListItem({
             <span className='badge badge-secondary ml-2'>Frontman</span>
           ) : null}
         </div>
-        <div className='flex flex-row w-full mt-2 justify-start'>
+        <div className='flex flex-row w-full mt-2 justify-start overflow-x-auto'>
           {member.positions.length
             ? member.positions.map((position) => (
-                <div className='flex flex-row' key={position.id}>
+                <div className='flex flex-row min-w-fit' key={position.id}>
                   <TagElement tag={positionToKorean[position.name]} />
                   {frontmanReading ? (
                     <button
