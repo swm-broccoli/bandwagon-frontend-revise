@@ -20,10 +20,12 @@ function RecordURLItem({
 }) {
   if (!editing) {
     return (
-      <div className='grid grid-cols-7 mb-1'>
-        <div className='col-span-2'>{recordURL.siteName}</div>
-        <div className='divider divider-horizontal' />
-        <div className='col-span-4 break-all'>{recordURL.url}</div>
+      <div className='flex flex-row py-1'>
+        <div className='w-1/3 max-w-[120px] md:min-w-[120px]'>
+          {recordURL.siteName}
+        </div>
+        <div className='divider divider-horizontal ml-0 mr-2' />
+        <div className='w-full break-all'>{recordURL.url}</div>
       </div>
     );
   } else {
@@ -144,12 +146,10 @@ function RecordConstantItem({
   // 연주 기록이 수정중이 아닐 때 기록 하나를 보여줌
   return (
     <div className='grid grid-flow-row bg-success mt-2 px-4 py-2 rounded-lg'>
-      <div className='grid grid-cols-2'>
-        <span className='text-accent col-start-1'>{record.musicTitle}</span>
-        <span className='text-neutral col-start-1 text-sm'>
-          {record.performDate}
-        </span>
-      </div>
+      <span className='text-accent col-start-1'>{record.musicTitle}</span>
+      <span className='text-neutral col-start-1 text-sm'>
+        {record.performDate}
+      </span>
       {record.urls.map((recordLink, index) => (
         <RecordURLItem
           key={index}
