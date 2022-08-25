@@ -4,6 +4,7 @@ import { request } from './request';
 
 interface BandRequestApiType {
   ApplyBand: (postId: string) => Promise<AxiosResponse>;
+  InviteBand: (userId: number) => Promise<AxiosResponse>;
   GetApplyRequest: (type: boolean) => Promise<AxiosResponse>;
   GetInviteRequest: (type: boolean) => Promise<AxiosResponse>;
 };
@@ -11,6 +12,9 @@ interface BandRequestApiType {
 const BandRequestAPI: BandRequestApiType = {
   ApplyBand: (postId) => {
     return request.post('api/request/apply?postId=' + postId);
+  },
+  InviteBand: (userId) => {
+    return request.post('api/request/invite?userId=' + userId.toString());
   },
   GetApplyRequest: (type) => {
     if (type) return request.get('api/request/apply?sent=false');
@@ -20,8 +24,6 @@ const BandRequestAPI: BandRequestApiType = {
     if (type) return request.get('api/request/invite?sent=true');
     else return request.get('api/request/invite?sent=false');
   }
-  
-
 };
 
 export default BandRequestAPI;
