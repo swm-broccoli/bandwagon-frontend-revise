@@ -118,9 +118,9 @@ function AreaField({
 }) {
   return (
     <>
-      <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
+      <div className='relative form-control h-10 w-full flex flex-row justify-between items-center my-2'>
         <div className='flex w-full flex-row justify-start'>
-          <label className='label w-20 md:w-32 py-0'>
+          <label className='label w-1/4 min-w-[60px] max-w-[120px] py-0'>
             <span className='label-text text-accent'>{label}</span>
           </label>
           <div className='h-full flex flex-row items-center w-full mr-2 text-accent overflow-x-auto'>
