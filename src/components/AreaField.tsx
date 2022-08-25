@@ -118,7 +118,7 @@ function AreaField({
 }) {
   return (
     <>
-      <div className='relative form-control h-10 w-full flex flex-row justify-between items-center my-2'>
+      <div className='relative form-control h-10 w-full flex flex-row justify-start items-center my-2'>
         <div className='flex w-full flex-row justify-start'>
           <label className='label w-1/4 min-w-[60px] max-w-[120px] py-0'>
             <span className='label-text text-accent'>{label}</span>
@@ -135,14 +135,14 @@ function AreaField({
               />
             ))}
           </div>
+          <AreaFieldAddButton
+            label={label}
+            editing={editing}
+            areas={areas}
+            setAreas={setAreas}
+            options={options}
+          />
         </div>
-        <AreaFieldAddButton
-          label={label}
-          editing={editing}
-          areas={areas}
-          setAreas={setAreas}
-          options={options}
-        />
       </div>
 
       <div className='divider m-0' />
