@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import GlobalNavBar from '../../components/NavBar';
 import { Link } from 'react-router-dom';
 import { bandPortfolioBrief } from './tempTodayPortfolio';
@@ -23,32 +23,43 @@ interface CarouselItemType {
 
 const carouselItems: CarouselItemType[] = [
   {
-    id: 1,
+    id: 0,
     image: carouselImage,
     title: '안녕하세요',
     content: '전국 모든 밴드의 커뮤니티 밴드웨건입니다.',
     link: '/login',
   },
   {
-    id: 2,
+    id: 1,
     image: carouselImage2,
     title: '안녕하세요 2',
     content: '여기서 당신의 음악의 꿈을 펼치세요.',
     link: '/signup',
   },
   {
-    id: 3,
+    id: 2,
     image: carouselImage,
     title: '안녕하세요 3',
     content: '함께 꿈을 펼칠 사람도 찾아봐요.',
     link: '/login',
+  },
+  {
+    id: 3,
+    image: carouselImage2,
+    title: '안녕하세요 4',
+    content: '여기서 당신의 음악의 꿈을 펼치세요.',
+    link: '/signup',
   },
 ];
 
 function CarouselItem({ item }: { item: CarouselItemType }) {
   return (
     <div className='relative w-full shrink-0 overflow-hidden'>
-      <img className='w-full shrink-0' src={item.image} alt={item.title} />
+      <img
+        className='w-full h-full shrink-0'
+        src={item.image}
+        alt={item.title}
+      />
       <div className='absolute top-1/3 left-1/3 flex flex-col items-center gap-2'>
         <h3 className='text-base-100 text-3xl font-bold'>{item.title}</h3>
         <p className='text-base-100 text-xl'>{item.content}</p>
@@ -74,15 +85,11 @@ function MainCarousel({ items }: { items: CarouselItemType[] }) {
 
   const handleNextClick = () => {
     if (currentCarouselIndex === items.length - 1) {
-      setCurrentCarouselIndex((prev) => 0);
+      setCurrentCarouselIndex(0);
     } else {
-      setCurrentCarouselIndex((prev) => prev + 1);
+      setCurrentCarouselIndex(currentCarouselIndex + 1);
     }
-    console.log(
-      `flex flex-row h-60 md:h-96 w-full transition-transform transform-gpu duration-500 -translate-x-[${calculateCarouselTranslation(
-        currentCarouselIndex,
-      )}%]`,
-    );
+    console.log(calculateCarouselTranslation(currentCarouselIndex));
   };
 
   const handlePrevClick = () => {
@@ -93,11 +100,17 @@ function MainCarousel({ items }: { items: CarouselItemType[] }) {
     }
   };
 
+  /*useEffect(() => {
+    setInterval(() => {
+      handleNextClick();
+    }, 1000);
+  }, []);*/
+
   return (
-    <>
-      <section className='relative overflow-hidden'>
+    <div>
+      <section className='relative'>
         <div
-          className={`relative flex flex-row h-60 md:h-96 w-fit duration-500 -translate-x-[${calculateCarouselTranslation(
+          className={`flex flex-row h-60 md:h-96 transform -translate-x-[${calculateCarouselTranslation(
             currentCarouselIndex,
           )}%]`}
         >
@@ -107,18 +120,18 @@ function MainCarousel({ items }: { items: CarouselItemType[] }) {
         </div>
         <button
           onClick={handlePrevClick}
-          className='btn h-full text-base-100 text-4xl bg-transparent border-none absolute top-0 left-0'
+          className='btn h-60 md:h-96 text-base-100 text-4xl bg-transparent border-none absolute top-0 left-0'
         >
           ←
         </button>
         <button
           onClick={handleNextClick}
-          className='btn h-full text-base-100 text-4xl bg-transparent border-none absolute top-0 right-0'
+          className='btn h-60 md:h-96 text-base-100 text-4xl bg-transparent border-none absolute top-0 right-0'
         >
           →
         </button>
       </section>
-    </>
+    </div>
   );
 }
 
