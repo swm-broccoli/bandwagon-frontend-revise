@@ -45,7 +45,7 @@ function RecordURLItem({
           }}
         />
         <button className='ml-1' onClick={deleteRecordURL}>
-          X
+          {'\u2715'}
         </button>
       </div>
     );
@@ -64,7 +64,7 @@ function RecordEditingItem({
   editing: boolean;
 }) {
   return (
-    <div className='grid grid-flow-row border border-base-200 mt-2 px-4 py-2 rounded-lg'>
+    <div className='grid grid-flow-row border border-base-200 mt-2 px-2 py-2 rounded-lg'>
       <div className='flex flex-row'>
         <div className='flex flex-col md:flex-row w-full'>
           <input
@@ -84,11 +84,14 @@ function RecordEditingItem({
             }}
           />
         </div>
-        <button className='ml-1 self-start' onClick={deleteRecord}>
-          X
+        <button
+          className='mt-1 md:mt-0 ml-1 self-start md:self-center'
+          onClick={deleteRecord}
+        >
+          {'\u2715'}
         </button>
       </div>
-      <div className='flex flex-row justify-between items-center'>
+      <div className='flex flex-row justify-between items-center my-2'>
         <h4 className='text-sm'>🔗 연주기록 링크 추가</h4>
         <button
           className='btn btn-sm bg-base-100 border-base-300 hover:bg-base-200 mr-[14.55px]'
