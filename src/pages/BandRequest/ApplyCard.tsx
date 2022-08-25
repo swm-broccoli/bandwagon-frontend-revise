@@ -22,7 +22,7 @@ function ApplyCard(props: {
         <h2 className='row-start-1 col-start-1 col-end-3 sm:col-start-2 w-full truncate font-medium text-lg text-accent'>
         {props.request.user.name + ' 님이 지원했습니다!'}
         </h2> :
-        <h2 className='row-start-1 col-start-2 col-end-3 sm:col-start-2 w-full truncate font-medium text-lg text-accent'>
+        <h2 className='row-start-1 col-start-1 col-end-3 sm:col-start-2 w-full truncate font-medium text-lg text-accent'>
         {props.request.band.name + ' 밴드에 지원했습니다!'}
         </h2>
       }
