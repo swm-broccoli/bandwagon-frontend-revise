@@ -8,6 +8,9 @@ import InviteCard from './InviteCard';
 
 function BandRequest() {
   const [type, setType] = useState<boolean>(false);
+  const [loadApply, setLoadApply] = useState<boolean>(false);
+  const [loadInvite, setLoadInvite] = useState<boolean>(false);
+  const [requestSet, setRequestSet] = useState(new Set<BandRequestType>([]));
   const [requestList, setRequestList] = useState<BandRequestType[]>([]);
 
   useEffect(()  => {
@@ -21,10 +24,12 @@ function BandRequest() {
   }, []);
 
   useEffect(() => {
-    console.log('request');
     BandRequestAPI.GetApplyRequest(type)
     .then((res) => {
-      setRequestList([...requestList, ...res.data.requests]);
+      res.data.requests.map((request: BandRequestType) => {
+        setRequestSet(requestSet.add(request));
+      });
+      if (res.data.requests.length) setLoadApply(true);
     })
     .catch((err) => {
       console.log(err);
@@ -32,7 +37,10 @@ function BandRequest() {
 
     BandRequestAPI.GetInviteRequest((type))
     .then((res) => {
-      setRequestList([...requestList, ...res.data.requests]);
+      res.data.requests.map((request: BandRequestType) => {
+        setRequestSet(requestSet.add(request));
+      });
+      if (res.data.requests.length) setLoadInvite(true);
     })
     .catch((err) => {
       console.log(err);
@@ -40,11 +48,11 @@ function BandRequest() {
   }, [type]);
 
   useEffect(() => {
+    setRequestList(Array.from(requestSet))
     requestList.sort(function (a, b) {
       return b.id - a.id;
     });
-    console.log(requestList);
-  }, [requestList.length]) 
+  }, [loadApply, loadInvite]); 
 
   return (
     <MyPageTemplate>

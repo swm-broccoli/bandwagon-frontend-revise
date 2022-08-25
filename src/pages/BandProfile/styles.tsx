@@ -216,7 +216,7 @@ function BandMemberAddButton({
         BandRequestAPI.InviteBand(res.data.id)
         .then((res) => {
           console.log(res);
-          window.alert(newMemberEmail + '에게 초대를 보냈습니다!');
+          if (res) window.alert(newMemberEmail + '에게 초대를 보냈습니다!');
         })
         .catch((err) => {
           console.log(err);
