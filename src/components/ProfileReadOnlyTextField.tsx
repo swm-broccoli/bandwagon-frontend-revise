@@ -10,8 +10,8 @@ function ProfileReadOnlyTextField({
   return (
     <>
       <div className='form-control h-10 w-full flex flex-row justify-start items-center my-2'>
-        <label className='label w-1/5 py-0'>
-          <span className='label-text text-accent'>{label}</span>
+        <label className='label w-1/5 min-w-[60px] py-0'>
+          <span className='label-text text-accent w-full'>{label}</span>
         </label>
         {editing ? (
           <input
