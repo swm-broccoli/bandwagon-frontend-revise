@@ -123,7 +123,7 @@ function AreaField({
           <label className='label w-1/4 min-w-[60px] max-w-[120px] py-0'>
             <span className='label-text text-accent'>{label}</span>
           </label>
-          <div className='h-full flex flex-row items-center w-3/4 mr-2 text-accent overflow-x-auto'>
+          <div className='h-full flex flex-row items-center w-full mr-2 text-accent overflow-x-auto'>
             {areas.map((area, index) => (
               <AreaFieldItem
                 key={index}
