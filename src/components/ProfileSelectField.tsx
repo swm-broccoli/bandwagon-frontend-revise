@@ -83,15 +83,13 @@ function ProfileSelectField({
 }) {
   return (
     <>
-      <div
-        className={`form-control h-min w-full flex flex-row justify-between items-center my-2`}
-      >
+      <div className='form-control h-min w-full flex flex-row justify-between items-center my-2'>
         <div className='w-full flex flex-row justify-start'>
           <label className='label w-1/4 py-0'>
             <span className='label-text text-accent'>{label}</span>
           </label>
           <div
-            className={`flex flex-row items-center h-10 w-3/4 text-accent overflow-x-auto overflow-y-hidden`}
+            className={`flex flex-row items-center h-full w-3/4 text-accent overflow-x-auto overflow-y-hidden`}
           >
             {selected.map((item, index) => (
               <ProfileSelectFieldItem
