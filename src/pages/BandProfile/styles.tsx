@@ -358,13 +358,13 @@ function BandProfileAlbumItem({
     return null;
   } else {
     return (
-      <div className='flex flex-row shrink-0 mr-4 items-start'>
+      <div className='flex flex-row shrink-0 mr-4 items-start border p-2 rounded-lg'>
         <img
           className='w-32 h-32 rounded-xl mr-1'
           src={photo.name}
           alt={`밴드 사진`}
         />
-        {editing ? <button onClick={deletePhoto}>X</button> : null}
+        {editing ? <button onClick={deletePhoto}>{'\u2715'}</button> : null}
       </div>
     );
   }
