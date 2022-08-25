@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RecordURLType, PerformanceRecordType } from '../types/types';
 import ProfileAddModal from './ProfileAddModal';
-import { v4 } from 'uuid';
 
 function getTodayDate() {
   const today = new Date();
@@ -67,23 +66,25 @@ function RecordEditingItem({
   return (
     <div className='grid grid-flow-row border border-base-200 mt-2 px-4 py-2 rounded-lg'>
       <div className='flex flex-row'>
-        <input
-          type='text'
-          className='input input-bordered input-sm w-3/5 text-accent'
-          value={record.musicTitle === null ? '' : record.musicTitle}
-          onChange={(e) => {
-            setRecord({ ...record, musicTitle: e.target.value });
-          }}
-        />
-        <input
-          type='date'
-          className='input input-bordered input-sm w-2/5 text-neutral'
-          value={record.performDate}
-          onChange={(e) => {
-            setRecord({ ...record, performDate: e.target.value });
-          }}
-        />
-        <button className='ml-1' onClick={deleteRecord}>
+        <div className='flex flex-col md:flex-row w-full'>
+          <input
+            type='text'
+            className='input input-bordered input-sm w-full text-accent'
+            value={record.musicTitle === null ? '' : record.musicTitle}
+            onChange={(e) => {
+              setRecord({ ...record, musicTitle: e.target.value });
+            }}
+          />
+          <input
+            type='date'
+            className='input input-bordered input-sm min-w-min max-w-max text-neutral mt-2 md:m-0 md:ml-2'
+            value={record.performDate}
+            onChange={(e) => {
+              setRecord({ ...record, performDate: e.target.value });
+            }}
+          />
+        </div>
+        <button className='ml-1 self-start' onClick={deleteRecord}>
           X
         </button>
       </div>
