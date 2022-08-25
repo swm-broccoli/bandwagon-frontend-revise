@@ -30,7 +30,7 @@ function RecordURLItem({
     return (
       <div className='flex flex-row mb-1'>
         <input
-          className='input input-bordered input-sm w-2/6'
+          className='input input-bordered input-sm w-1/3 max-w-[120px]'
           value={recordURL.siteName}
           onChange={(e) => {
             setRecordURL({ ...recordURL, siteName: e.target.value });
@@ -38,7 +38,7 @@ function RecordURLItem({
         />
         <div className='divider divider-horizontal m-1' />
         <input
-          className='input input-bordered input-sm w-4/6'
+          className='input input-bordered input-sm w-full'
           value={recordURL.url}
           onChange={(e) => {
             setRecordURL({ ...recordURL, url: e.target.value });
@@ -77,7 +77,7 @@ function RecordEditingItem({
           />
           <input
             type='date'
-            className='input input-bordered input-sm min-w-min max-w-max text-neutral mt-2 md:m-0 md:ml-2'
+            className='input input-bordered input-sm w-full md:min-w-min md:max-w-min text-neutral mt-2 md:m-0 md:ml-2'
             value={record.performDate}
             onChange={(e) => {
               setRecord({ ...record, performDate: e.target.value });
