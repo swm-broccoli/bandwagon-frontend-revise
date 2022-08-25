@@ -7,6 +7,7 @@ import positionOptions, {
 import { useEffect, useState } from 'react';
 import ProfileAddModal from '../../components/ProfileAddModal';
 import BandProfileAPI from '../../apis/BandProfileAPI';
+import { FaCrown } from 'react-icons/fa';
 
 export function BandProfileAvatar({
   avatarURL,
@@ -119,21 +120,25 @@ function BandMemberListItem({
   } else if (!editing) {
     // 편집 중이 아닐 경우
     return (
-      <li className='flex flex-row items-center border rounded-lg p-2'>
-        <p className='text-accent text-base mr-2.5'>
+      <li className='flex flex-row w-full items-center border rounded-lg p-2'>
+        <p className='text-accent text-base mr-2.5 md:min-w-fit flex-row md:flex-col'>
           {member.name}
           {isFrontman ? (
-            <span className='badge badge-secondary ml-1'>Frontman</span>
+            <span className='badge badge-secondary min-w-fit md:ml-2'>
+              <FaCrown />
+            </span>
           ) : null}
         </p>
-        {member.positions.length
-          ? member.positions.map((position) => (
-              <TagElement
-                key={position.id}
-                tag={positionToKorean[position.name]}
-              />
-            ))
-          : null}
+        <div className='flex flex-row overflow-x-auto'>
+          {member.positions.length
+            ? member.positions.map((position) => (
+                <TagElement
+                  key={position.id}
+                  tag={positionToKorean[position.name]}
+                />
+              ))
+            : null}
+        </div>
       </li>
     );
   } else {
@@ -161,12 +166,12 @@ function BandMemberListItem({
                 ))}
               </select>
               <button className='absolute right-1' onClick={deleteMember}>
-                X
+                {'\u2715'}
               </button>
             </>
           ) : null}
           {isFrontman ? (
-            <span className='badge badge-secondary ml-1'>Frontman</span>
+            <span className='badge badge-secondary ml-2'>Frontman</span>
           ) : null}
         </div>
         <div className='flex flex-row w-full mt-2 justify-start'>
@@ -186,7 +191,7 @@ function BandMemberListItem({
                       }}
                       className='mr-1'
                     >
-                      X
+                      {'\u2715'}
                     </button>
                   ) : null}
                 </div>
