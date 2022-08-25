@@ -85,7 +85,7 @@ function ProfileSelectField({
     <>
       <div className='form-control h-min w-full flex flex-row justify-between items-center my-2'>
         <div className='w-full flex flex-row justify-start'>
-          <label className='label w-1/4 py-0'>
+          <label className='label w-1/4 py-0 min-w-[60px] max-w-[120px]'>
             <span className='label-text text-accent'>{label}</span>
           </label>
           <div
@@ -104,15 +104,14 @@ function ProfileSelectField({
               />
             ))}
           </div>
+          <ProfileFieldAddButton
+            label={label}
+            editing={editing}
+            selected={selected}
+            setSelected={setSelected}
+            options={options}
+          />
         </div>
-
-        <ProfileFieldAddButton
-          label={label}
-          editing={editing}
-          selected={selected}
-          setSelected={setSelected}
-          options={options}
-        />
       </div>
       <div className='divider m-0' />
     </>
