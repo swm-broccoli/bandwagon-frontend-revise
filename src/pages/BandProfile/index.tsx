@@ -88,6 +88,8 @@ function BandProfile() {
     }
   };
 
+  const navigate = useNavigate();
+
   const onBandQuit = (bandID: number) => {
     let BandQuitConfirm = confirm(`밴드를 정말로 탈퇴하시겠습니까?`);
     if (BandQuitConfirm) {
@@ -99,12 +101,11 @@ function BandProfile() {
           console.log(err, '밴드 탈퇴 실패');
         });
       alert(`밴드를 탈퇴했습니다.`);
+      navigate('/');
     } else {
       console.log('취소됨');
     }
   };
-
-  const navigate = useNavigate();
 
   const onBandBreakup = (bandID: number) => {
     let BandBreakupConfirm = confirm(`밴드를 정말로 해체하시겠습니까?`);
@@ -117,10 +118,10 @@ function BandProfile() {
           console.log(err, '밴드 해체 실패');
         });
       alert(`밴드를 해체했습니다.`);
+      navigate('/');
     } else {
       console.log('취소됨');
     }
-    navigate('/');
   };
 
   // 정보를 못 받아왔다면 id가 -1인 상태이다
@@ -131,12 +132,11 @@ function BandProfile() {
       <div>
         <div className='flex flex-row justify-between'>
           <h1 className='text-bold text-2xl font-bold'>밴드 정보</h1>
-          <div className='flex flex-row'>
+          <div className='flex flex-row min-w-[120px] w-1/3'>
             {curBandProfile.isReaderFrontman && !profileEditing ? (
-              <div className='dropdown'>
-                <label tabIndex={0} className='btn btn-primary w-20 p-0'>
-                  프론트맨
-                  <br /> 양도하기
+              <div className='dropdown w-1/2'>
+                <label tabIndex={0} className='btn btn-primary w-full p-0'>
+                  팀장 양도
                 </label>
                 <ul
                   tabIndex={0}
@@ -158,7 +158,7 @@ function BandProfile() {
               </div>
             ) : null}
             <button
-              className={`btn w-20 p-0 ${
+              className={`btn w-1/2 p-0 ${
                 profileEditing ? 'bg-base-100 hover:bg-base-200' : 'btn-primary'
               }`}
               onClick={onBandProfileEditDone}
@@ -284,7 +284,7 @@ function BandProfile() {
             />
           </div>
           <button
-            className='btn text-base-100 w-40 self-start'
+            className='btn btn-error hover:bg-rose-700 w-40 self-start'
             onClick={() => {
               if (curBandProfile.isReaderFrontman) {
                 onBandBreakup(curBandProfile.id);
