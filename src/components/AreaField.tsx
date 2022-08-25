@@ -19,7 +19,9 @@ function AreaFieldItem({
       </div>
     );
   } else {
-    return <div className='mr-2'>{`${area.city} ${area.district}`}</div>;
+    return (
+      <div className='badge badge-outline py-3 mr-2'>{`${area.city} ${area.district}`}</div>
+    );
   }
 }
 

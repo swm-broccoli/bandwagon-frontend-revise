@@ -5,7 +5,9 @@ import ProfileReadOnlyTextField from '../../components/ProfileReadOnlyTextField'
 import ProfileSelectField from '../../components/ProfileSelectField';
 import AreaField from '../../components/AreaField';
 import areaOptions from '../../assets/options/areaOptions';
-import positionOptions from '../../assets/options/positionOptions';
+import positionOptions, {
+  positionToKorean,
+} from '../../assets/options/positionOptions';
 import genreOptions from '../../assets/options/genreOptions';
 import DescriptionField from '../../components/DescriptionField';
 import { UserProfileType } from '../../types/types';

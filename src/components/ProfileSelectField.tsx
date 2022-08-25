@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ProfileAddModal from './ProfileAddModal';
 import { SelectionType } from '../types/types';
 import TagElement from './TagElement';
+import { positionToKorean } from '../assets/options/positionOptions';
 
 function ProfileFieldAddButton({
   label,
