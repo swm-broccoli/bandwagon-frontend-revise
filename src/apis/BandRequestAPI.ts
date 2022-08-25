@@ -7,6 +7,10 @@ interface BandRequestApiType {
   InviteBand: (userId: number) => Promise<AxiosResponse>;
   GetApplyRequest: (type: boolean) => Promise<AxiosResponse>;
   GetInviteRequest: (type: boolean) => Promise<AxiosResponse>;
+  AcceptApply: (accept: boolean, requestId: number) => Promise<AxiosResponse>;
+  DeleteApply: (requestId: number) => Promise<AxiosResponse>;
+  AcceptInvite: (accept: boolean, requestId: number) => Promise<AxiosResponse>;
+  DeleteInvite: (requestId: number) => Promise<AxiosResponse>;
 };
 
 const BandRequestAPI: BandRequestApiType = {
@@ -23,7 +27,21 @@ const BandRequestAPI: BandRequestApiType = {
   GetInviteRequest: (type) => {
     if (type) return request.get('api/request/invite?sent=true');
     else return request.get('api/request/invite?sent=false');
-  }
+  },
+  AcceptApply: (accept, requestId) => {
+    if (accept) return request.post('api/request/apply/' + requestId.toString() + '?accept=true');
+    else return request.post('api/request/apply/' + requestId.toString() + '?accept=false');
+  },
+  DeleteApply: (requestId) => {
+    return request.delete('api/request/apply/' + requestId.toString());
+  },
+  AcceptInvite: (accept, requestId) => {
+    if (accept) return request.post('api/request/invite/' + requestId.toString() + '?accept=true');
+    else return request.post('api/request/apply/' + requestId.toString() + '?accept=false');
+  },
+  DeleteInvite: (requestId) => {
+    return request.delete('api/request/invite/' + requestId.toString());
+  },
 };
 
 export default BandRequestAPI;

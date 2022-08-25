@@ -2,10 +2,42 @@ import React from 'react';
 import { BandRequestType } from '../../types/types';
 import ExamplePic from '../../assets/examplepic.png';
 import { Link } from 'react-router-dom';
+import BandRequestAPI from '../../apis/BandRequestAPI';
 
 function ApplyCard(props: {
   type: boolean
   request: BandRequestType}) {
+
+  function handleAcceptClick (e: React.MouseEvent<HTMLButtonElement>) {
+    BandRequestAPI.AcceptApply(true, props.request.id)
+    .then((res) => {
+      window.alert(props.request.user.name + ' 님이 멤버가 되었습니다!');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+
+  function handleRejectClick (e: React.MouseEvent<HTMLButtonElement>) {
+    BandRequestAPI.AcceptApply(true, props.request.id)
+    .then((res) => {
+      window.alert('지원을 거절하였습니다');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+
+  function handleDeleteClick (e: React.MouseEvent<HTMLButtonElement>) {
+    BandRequestAPI.DeleteApply(props.request.id)
+    .then((res) => {
+      window.alert('지원을 취소하였습니다');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+  
   return (
     <div className='w-full h-full grid grid-cols-[100px_auto] grid-rows-3 gap-x-4 gap-y-2'>
       {props.type ?
@@ -33,10 +65,16 @@ function ApplyCard(props: {
       </Link>
       {props.type ?
       <div className='row-start-3 col-start-2 h-full justify-self-end flex gap-2'>
-        <button className='btn btn-primary min-h-fit h-full text-sm'>수락</button>
-        <button className='btn btn-error min-h-fit h-full text-sm'>거절</button>
+        <button
+          onClick={handleAcceptClick}
+          className='btn btn-primary min-h-fit h-full text-sm'>수락</button>
+        <button
+          onClick={handleRejectClick}
+          className='btn btn-error min-h-fit h-full text-sm'>거절</button>
       </div> :
-      <button className='btn bg-base-300 border-base-300 text-gray-700 min-h-fit h-full row-start-3 col-start-2 justify-self-end'>취소</button>}
+      <button
+        onClick={handleDeleteClick}
+        className='btn bg-base-300 border-base-300 text-gray-700 min-h-fit h-full row-start-3 col-start-2 justify-self-end'>취소</button>}
     </div>
   )
 }

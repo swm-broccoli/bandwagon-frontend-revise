@@ -37,6 +37,7 @@ export interface PerformanceRecordType {
 }
 
 export interface UserProfileType {
+  id: number;
   avatarUrl: string;
   name: string;
   birthday: string;
