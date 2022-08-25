@@ -121,7 +121,7 @@ function BandMemberListItem({
     // 편집 중이 아닐 경우
     return (
       <li className='flex flex-row w-full items-center border rounded-lg p-2'>
-        <p className='text-accent text-base mr-2.5 md:min-w-fit flex-row md:flex-col'>
+        <p className='inline-block text-accent text-base mr-2.5 w-20 min-w-fit flex-row md:flex-col'>
           {member.name}
           {isFrontman ? (
             <span className='badge badge-secondary min-w-fit md:ml-2'>
@@ -171,7 +171,9 @@ function BandMemberListItem({
             </>
           ) : null}
           {isFrontman ? (
-            <span className='badge badge-secondary ml-2'>Frontman</span>
+            <span className='badge badge-secondary ml-2'>
+              <FaCrown />
+            </span>
           ) : null}
         </div>
         <div className='flex flex-row w-full mt-2 justify-start overflow-x-auto'>
