@@ -14,9 +14,13 @@ function ProfileReadOnlyTextField({
           <span className='label-text text-accent'>{label}</span>
         </label>
         {editing ? (
-          <input value={value} className='input input-bordered' disabled />
+          <input
+            value={value}
+            className='input input-bordered w-full'
+            disabled
+          />
         ) : (
-          <div className='flex items-center h-10 w-3/5'>{value}</div>
+          <div className='flex items-center h-10 w-full'>{value}</div>
         )}
       </div>
       <div className='divider m-0' />
