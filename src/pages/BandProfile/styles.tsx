@@ -75,7 +75,7 @@ export function ProfileTextField({
         {editing ? (
           <input
             value={value}
-            className='input input-bordered w-full text-lg'
+            className='input input-bordered w-full text-base'
             onChange={(e) => {
               setValue(e.target.value);
             }}

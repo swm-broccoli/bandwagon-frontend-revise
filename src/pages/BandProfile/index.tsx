@@ -165,18 +165,6 @@ function BandProfile() {
             >
               {profileEditing ? '수정 완료' : '수정하기'}
             </button>
-            <button
-              className='btn btn-error'
-              onClick={() => {
-                if (curBandProfile.isReaderFrontman) {
-                  onBandBreakup(curBandProfile.id);
-                } else {
-                  onBandQuit(curBandProfile.id);
-                }
-              }}
-            >
-              {curBandProfile.isReaderFrontman ? '해체하기' : '탈퇴하기'}
-            </button>
           </div>
         </div>
         <div className='mt-6 flex flex-col items-center'>
@@ -295,6 +283,18 @@ function BandProfile() {
               editing={profileEditing}
             />
           </div>
+          <button
+            className='btn text-base-100 w-40 self-start'
+            onClick={() => {
+              if (curBandProfile.isReaderFrontman) {
+                onBandBreakup(curBandProfile.id);
+              } else {
+                onBandQuit(curBandProfile.id);
+              }
+            }}
+          >
+            {curBandProfile.isReaderFrontman ? '해체하기' : '탈퇴하기'}
+          </button>
         </div>
       </div>
     );
