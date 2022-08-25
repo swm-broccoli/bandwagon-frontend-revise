@@ -20,7 +20,7 @@ function AreaFieldItem({
     );
   } else {
     return (
-      <div className='badge badge-outline py-5 px-3 md:py-3 md:px-1 mr-2'>{`${area.city} ${area.district}`}</div>
+      <div className='badge badge-outline min-w-max py-3 px-3 mr-2'>{`${area.city} ${area.district}`}</div>
     );
   }
 }
