@@ -3,6 +3,8 @@ import BandProfileAPI from '../../apis/BandProfileAPI';
 import BandRequestAPI from '../../apis/BandRequestAPI';
 import MyPageTemplate from '../../components/MyPageTemplate';
 import { BandRequestType } from '../../types/types';
+import ApplyCard from './ApplyCard';
+import InviteCard from './InviteCard';
 
 function BandRequest() {
   const [type, setType] = useState<boolean>(false);
@@ -46,7 +48,17 @@ function BandRequest() {
 
   return (
     <MyPageTemplate>
-
+      <ul className='flex flex-col gap-4'>
+      {requestList.map((request, index) =>
+      <li
+        key={index}
+        className='w-full max-w-xl h-36 p-5 border-solid border-[#e9e9e9] border bg-white rounded-xl'>
+        {request.type == 'APPLY' ? 
+        <ApplyCard type={type} request={request} /> :
+        <InviteCard type={type} request={request} />}
+      </li>
+      )}
+      </ul>
     </MyPageTemplate>
   )
 
