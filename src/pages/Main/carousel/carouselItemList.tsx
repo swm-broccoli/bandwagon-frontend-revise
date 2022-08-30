@@ -1,9 +1,9 @@
-import carouselImage from '../../assets/carousel-intro.jpg';
-import carouselImage2 from '../../assets/carousel-paragon.jpg';
-import carouselImage3 from '../../assets/carousel-house.jpg';
-import carouselImage4 from '../../assets/carousel-woman.jpg';
-import carouselImage5 from '../../assets/carousel-wallpaper.jpg';
-import carouselImage6 from '../../assets/examplepic.png';
+import carouselImage from '../../../assets/carousel-intro.jpg';
+import carouselImage2 from '../../../assets/carousel-paragon.jpg';
+import carouselImage3 from '../../../assets/carousel-house.jpg';
+import carouselImage4 from '../../../assets/carousel-woman.jpg';
+import carouselImage5 from '../../../assets/carousel-wallpaper.jpg';
+import carouselImage6 from '../../../assets/examplepic.png';
 
 export interface CarouselItemType {
   id: number;

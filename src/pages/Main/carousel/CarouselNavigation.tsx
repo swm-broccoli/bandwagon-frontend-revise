@@ -1,5 +1,5 @@
 import { CarouselItemType } from './carouselItemList';
-import { CarouselIndexType } from './index';
+import { CarouselIndexType } from './Carousel';
 import {
   IoIosArrowForward,
   IoIosArrowBack,
@@ -109,9 +109,9 @@ export function CarouselNavigation({
 
   return (
     <dl className='flex flex-row justify-center w-full h-[15%] bg-gray-400/70 z-20'>
-      <button className='absolute bottom-[15%] btn btn-xs bg-gray-400/70 hover:bg-gray-400 w-28 h-7 z-30 border-none rounded-none rounded-t-lg text-lg tracking-[0.3rem]'>
+      <div className='absolute bottom-[15%] btn btn-xs bg-gray-400/70 hover:bg-gray-400/70 w-28 h-7 z-30 border-none rounded-none rounded-t-lg text-lg tracking-[0.3rem]'>
         {carouselIndex.currentIndex + 1} / {items.length}
-      </button>
+      </div>
       <button onClick={handlePrevClick} className='z-10 h-full'>
         <IoIosArrowBack className='text-gray-300' size={30} />
       </button>
