@@ -10,128 +10,149 @@ import {
   RecommendedRecruitments,
 } from './RecommendedRecruitments';
 import { tempRecentPosts, MainRecentPosts } from './MainRecentPosts';
-import carouselImage from '../../assets/carousel-intro.jpg';
-import carouselImage2 from '../../assets/carousel-paragon.jpg';
+import { CarouselItemType, carouselItemList } from './carouselItemList';
 
-interface CarouselItemType {
-  id: number;
-  image: string;
-  title: string;
-  content: string;
-  link: string;
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
+import { CarouselNavigation } from './CarouselNavigation';
+
+export interface CarouselIndexType {
+  previousIndex: number;
+  currentIndex: number;
 }
 
-const carouselItems: CarouselItemType[] = [
-  {
-    id: 0,
-    image: carouselImage,
-    title: '안녕하세요',
-    content: '전국 모든 밴드의 커뮤니티 밴드웨건입니다.',
-    link: '/login',
-  },
-  {
-    id: 1,
-    image: carouselImage2,
-    title: '안녕하세요 2',
-    content: '여기서 당신의 음악의 꿈을 펼치세요.',
-    link: '/signup',
-  },
-  {
-    id: 2,
-    image: carouselImage,
-    title: '안녕하세요 3',
-    content: '함께 꿈을 펼칠 사람도 찾아봐요.',
-    link: '/login',
-  },
-  {
-    id: 3,
-    image: carouselImage2,
-    title: '안녕하세요 4',
-    content: '여기서 당신의 음악의 꿈을 펼치세요.',
-    link: '/signup',
-  },
-];
+const CarouselItemStates = {
+  CURRENT: 'current',
+  PREVIOUS: 'previous',
+  INACTIVE: 'inactive',
+} as const;
+type CarouselItemStateType =
+  typeof CarouselItemStates[keyof typeof CarouselItemStates];
 
-function CarouselItem({ item }: { item: CarouselItemType }) {
-  return (
-    <div className='relative w-full shrink-0 overflow-hidden'>
+function CarouselItem({
+  item,
+  itemState,
+}: {
+  item: CarouselItemType;
+  itemState: CarouselItemStateType;
+}) {
+  const carouselItemStateConfig = {
+    [CarouselItemStates.CURRENT]: 'opacity-100',
+    [CarouselItemStates.PREVIOUS]: 'opacity-0 z-10',
+    [CarouselItemStates.INACTIVE]: 'hidden',
+  };
+
+  return itemState !== CarouselItemStates.INACTIVE ? (
+    <div
+      className={`absolute flex flex-col justify-center items-center w-full h-full shrink-0 transition-opacity duration-500 ${carouselItemStateConfig[itemState]}`}
+    >
       <img
-        className='w-full h-full shrink-0'
+        className='object-fill w-full h-full'
         src={item.image}
-        alt={item.title}
+        alt={`carousel-item-${item.id}`}
       />
-      <div className='absolute top-1/3 left-1/3 flex flex-col items-center gap-2'>
-        <h3 className='text-base-100 text-3xl font-bold'>{item.title}</h3>
-        <p className='text-base-100 text-xl'>{item.content}</p>
-        <Link className='text-teal-300' to={item.link}>
-          <button className='btn btn-primary btn-outline glass'>
-            사용하러 가기
+      <div className='backdrop-blur-md p-3 rounded-3xl absolute flex flex-col gap-2 items-center'>
+        <h1 className='text-4xl text-base-100'>{item.title}</h1>
+        <h2 className='text-2xl text-base-100'>{item.subtitle}</h2>
+        <p className='text-base text-base-100'>{item.content}</p>
+        <Link to={item.link}>
+          <button className='btn btn-primary w-32 btn-outline glass hover:glass'>
+            이동하기
           </button>
         </Link>
       </div>
     </div>
-  );
+  ) : null;
 }
 
-function MainCarousel({ items }: { items: CarouselItemType[] }) {
-  const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
+function Carousel({ items }: { items: CarouselItemType[] }) {
+  const [carouselIndex, setCarouselIndex] = useState<CarouselIndexType>({
+    previousIndex: items.length - 1,
+    currentIndex: 0,
+  });
 
-  const calculateCarouselTranslation = (index: number) => {
-    if (index === 0) {
-      return 0;
-    }
-    return index * 100;
+  const [touchPosition, setTouchPosition] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touchDown = e.touches[0].clientX;
+    setTouchPosition(touchDown);
   };
 
-  const handleNextClick = () => {
-    if (currentCarouselIndex === items.length - 1) {
-      setCurrentCarouselIndex(0);
-    } else {
-      setCurrentCarouselIndex(currentCarouselIndex + 1);
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touchStarted = touchPosition;
+
+    if (touchStarted === null) {
+      return;
     }
-    console.log(calculateCarouselTranslation(currentCarouselIndex));
+
+    const currentTouch = e.touches[0].clientX;
+    const diff = touchStarted - currentTouch;
+
+    if (diff > 10) {
+      setCarouselIndex((prev) => ({
+        previousIndex: prev.currentIndex,
+        currentIndex: (prev.currentIndex + 1) % items.length,
+      }));
+    }
+    // 차이가 음수이면 오른쪽으로 스와이프했다는 뜻
+    if (diff < -10) {
+      setCarouselIndex((prev) => ({
+        previousIndex: prev.currentIndex,
+        currentIndex: (prev.currentIndex - 1 + items.length) % items.length,
+      }));
+    }
+
+    setTouchPosition(null);
   };
 
-  const handlePrevClick = () => {
-    if (currentCarouselIndex === 0) {
-      setCurrentCarouselIndex((prev) => items.length - 1);
-    } else {
-      setCurrentCarouselIndex((prev) => prev - 1);
-    }
-  };
+  // 각 캐로셀 아이템의 상태를 결정하는 함수
+  const determineCarouselItemState = useCallback(
+    (itemIndex: number) => {
+      if (itemIndex === carouselIndex.currentIndex) {
+        return CarouselItemStates.CURRENT;
+      } else if (itemIndex === carouselIndex.previousIndex) {
+        return CarouselItemStates.PREVIOUS;
+      } else {
+        return CarouselItemStates.INACTIVE;
+      }
+    },
+    [carouselIndex],
+  );
 
-  /*useEffect(() => {
-    setInterval(() => {
-      handleNextClick();
-    }, 1000);
-  }, []);*/
+  useEffect(() => {
+    const carouselTimer = setInterval(() => {
+      setCarouselIndex((prev) => ({
+        previousIndex: prev.currentIndex,
+        currentIndex: (prev.currentIndex + 1) % items.length,
+      }));
+    }, 3000);
+
+    return () => {
+      clearInterval(carouselTimer);
+    };
+  }, []);
 
   return (
-    <div>
-      <section className='relative'>
-        <div
-          className={`flex flex-row h-60 md:h-96 transform -translate-x-[${calculateCarouselTranslation(
-            currentCarouselIndex,
-          )}%]`}
-        >
-          {items.map((item) => (
-            <CarouselItem key={item.id} item={item} />
-          ))}
-        </div>
-        <button
-          onClick={handlePrevClick}
-          className='btn h-60 md:h-96 text-base-100 text-4xl bg-transparent border-none absolute top-0 left-0'
-        >
-          ←
-        </button>
-        <button
-          onClick={handleNextClick}
-          className='btn h-60 md:h-96 text-base-100 text-4xl bg-transparent border-none absolute top-0 right-0'
-        >
-          →
-        </button>
-      </section>
-    </div>
+    <section>
+      <div
+        className='relative flex flex-row items-end justify-between w-full h-[50vh]'
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+      >
+        {/* 이 CarouselItem들은 absolute position이기 때문에 레이아웃에서 공간을 차지하지 않는다 */}
+        {items.map((item, index) => (
+          <CarouselItem
+            key={item.id}
+            item={item}
+            itemState={determineCarouselItemState(index)}
+          />
+        ))}
+        <CarouselNavigation
+          items={items}
+          carouselIndex={carouselIndex}
+          setCarouselIndex={setCarouselIndex}
+        />
+      </div>
+    </section>
   );
 }
 
@@ -139,7 +160,7 @@ function MainPage() {
   return (
     <main>
       <GlobalNavBar />
-      <MainCarousel items={carouselItems} />
+      <Carousel items={carouselItemList} />
       <RecruitMenu menuList={recruitMenuList} />
       <RecommendedRecruitments recruitments={tempRecommendedRecruitments} />
       <MainRecentPosts recentPosts={tempRecentPosts} />
