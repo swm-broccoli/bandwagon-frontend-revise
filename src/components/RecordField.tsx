@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RecordURLType, PerformanceRecordType } from '../types/types';
 import ProfileAddModal from './ProfileAddModal';
-import { v4 } from 'uuid';
 
 function getTodayDate() {
   const today = new Date();
@@ -21,17 +20,19 @@ function RecordURLItem({
 }) {
   if (!editing) {
     return (
-      <div className='grid grid-cols-7 mb-1'>
-        <div className='col-span-2'>{recordURL.siteName}</div>
-        <div className='divider divider-horizontal' />
-        <div className='col-span-4 break-all'>{recordURL.url}</div>
+      <div className='flex flex-row py-1'>
+        <div className='w-1/3 max-w-[120px] md:min-w-[120px]'>
+          {recordURL.siteName}
+        </div>
+        <div className='divider divider-horizontal ml-0 mr-2' />
+        <div className='w-full break-all'>{recordURL.url}</div>
       </div>
     );
   } else {
     return (
       <div className='flex flex-row mb-1'>
         <input
-          className='input input-bordered input-sm w-2/6'
+          className='input input-bordered input-sm w-1/3 max-w-[120px]'
           value={recordURL.siteName}
           onChange={(e) => {
             setRecordURL({ ...recordURL, siteName: e.target.value });
@@ -39,14 +40,14 @@ function RecordURLItem({
         />
         <div className='divider divider-horizontal m-1' />
         <input
-          className='input input-bordered input-sm w-4/6'
+          className='input input-bordered input-sm w-full'
           value={recordURL.url}
           onChange={(e) => {
             setRecordURL({ ...recordURL, url: e.target.value });
           }}
         />
         <button className='ml-1' onClick={deleteRecordURL}>
-          X
+          {'\u2715'}
         </button>
       </div>
     );
@@ -65,29 +66,34 @@ function RecordEditingItem({
   editing: boolean;
 }) {
   return (
-    <div className='grid grid-flow-row border border-base-200 mt-2 px-4 py-2 rounded-lg'>
+    <div className='grid grid-flow-row border border-base-200 mt-2 px-2 py-2 rounded-lg'>
       <div className='flex flex-row'>
-        <input
-          type='text'
-          className='input input-bordered input-sm w-3/5 text-accent'
-          value={record.musicTitle === null ? '' : record.musicTitle}
-          onChange={(e) => {
-            setRecord({ ...record, musicTitle: e.target.value });
-          }}
-        />
-        <input
-          type='date'
-          className='input input-bordered input-sm w-2/5 text-neutral'
-          value={record.performDate}
-          onChange={(e) => {
-            setRecord({ ...record, performDate: e.target.value });
-          }}
-        />
-        <button className='ml-1' onClick={deleteRecord}>
-          X
+        <div className='flex flex-col md:flex-row w-full'>
+          <input
+            type='text'
+            className='input input-bordered input-sm w-full text-accent'
+            value={record.musicTitle === null ? '' : record.musicTitle}
+            onChange={(e) => {
+              setRecord({ ...record, musicTitle: e.target.value });
+            }}
+          />
+          <input
+            type='date'
+            className='input input-bordered input-sm w-full md:min-w-min md:max-w-min text-neutral mt-2 md:m-0 md:ml-2'
+            value={record.performDate}
+            onChange={(e) => {
+              setRecord({ ...record, performDate: e.target.value });
+            }}
+          />
+        </div>
+        <button
+          className='mt-1 md:mt-0 ml-1 self-start md:self-center'
+          onClick={deleteRecord}
+        >
+          {'\u2715'}
         </button>
       </div>
-      <div className='flex flex-row justify-between items-center'>
+      <div className='flex flex-row justify-between items-center my-2'>
         <h4 className='text-sm'>🔗 연주기록 링크 추가</h4>
         <button
           className='btn btn-sm bg-base-100 border-base-300 hover:bg-base-200 mr-[14.55px]'
@@ -140,12 +146,10 @@ function RecordConstantItem({
   // 연주 기록이 수정중이 아닐 때 기록 하나를 보여줌
   return (
     <div className='grid grid-flow-row bg-success mt-2 px-4 py-2 rounded-lg'>
-      <div className='grid grid-cols-2'>
-        <span className='text-accent col-start-1'>{record.musicTitle}</span>
-        <span className='text-neutral col-start-1 text-sm'>
-          {record.performDate}
-        </span>
-      </div>
+      <span className='text-accent col-start-1'>{record.musicTitle}</span>
+      <span className='text-neutral col-start-1 text-sm'>
+        {record.performDate}
+      </span>
       {record.urls.map((recordLink, index) => (
         <RecordURLItem
           key={index}

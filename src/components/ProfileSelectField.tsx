@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ProfileAddModal from './ProfileAddModal';
 import { SelectionType } from '../types/types';
 import TagElement from './TagElement';
+import { positionToKorean } from '../assets/options/positionOptions';
 
 function ProfileFieldAddButton({
   label,
@@ -58,8 +59,8 @@ function ProfileSelectFieldItem({
 }) {
   if (editing) {
     return (
-      <div className='mr-2'>
-        {label} <button onClick={deleteSelected}>X</button>
+      <div className='mr-2 min-w-fit'>
+        {label} <button onClick={deleteSelected}>{'\u2715'}</button>
       </div>
     );
   } else {
@@ -83,11 +84,13 @@ function ProfileSelectField({
   return (
     <>
       <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
-        <div className='w-4/5 flex flex-row justify-start'>
-          <label className='label w-1/4 py-0'>
+        <div className='w-full flex flex-row justify-start'>
+          <label className='label w-1/4 min-w-[60px] max-w-[120px] py-0'>
             <span className='label-text text-accent'>{label}</span>
           </label>
-          <div className='flex flex-row items-center h-10 w-3/4 text-accent'>
+          <div
+            className={`flex flex-row items-center h-full w-full text-accent overflow-x-auto overflow-y-hidden`}
+          >
             {selected.map((item, index) => (
               <ProfileSelectFieldItem
                 key={index}
@@ -101,15 +104,14 @@ function ProfileSelectField({
               />
             ))}
           </div>
+          <ProfileFieldAddButton
+            label={label}
+            editing={editing}
+            selected={selected}
+            setSelected={setSelected}
+            options={options}
+          />
         </div>
-
-        <ProfileFieldAddButton
-          label={label}
-          editing={editing}
-          selected={selected}
-          setSelected={setSelected}
-          options={options}
-        />
       </div>
       <div className='divider m-0' />
     </>
