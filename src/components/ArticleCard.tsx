@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TagElement from './TagElement';
-import ExamplePic from '../assets/examplepic.jpeg';
+import ExamplePic from '../assets/examplepic.png';
 import Heart from '../assets/ic_heart.svg';
 import CheckedHeart from '../assets/ic_heart_checked.svg';
 import { PostCardType } from '../types/types';
