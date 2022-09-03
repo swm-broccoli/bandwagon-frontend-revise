@@ -4,6 +4,8 @@ import MyInfoIcon from '../assets/ico_my1@2x.png';
 import MyInfoActiveIcon from '../assets/ico_my1_on@2x.png';
 import BandInfoIcon from '../assets/live_music.png';
 import BandInfoActiveIcon from '../assets/live_music_on.png';
+import BandRequestIcon from '../assets/ico_request.svg';
+import BandRequestActiveIcon from '../assets/ico_request_on.svg';
 import PortfolioIcon from '../assets/research.png';
 import PortfolioActiveIcon from '../assets/research_on.png';
 import AccountInfoIcon from '../assets/ico_my2@2x.png';
@@ -48,6 +50,12 @@ export const myPageMenuItems = [
     to: '/edit/password',
     icon: PasswordChangeIcon,
     activeIcon: PasswordChangeActiveIcon,
+  },
+  {
+    label: '지원 현황',
+    to: '/profile/request',
+    icon: BandRequestIcon,
+    activeIcon: BandRequestActiveIcon,
   },
   {
     label: '내 글',

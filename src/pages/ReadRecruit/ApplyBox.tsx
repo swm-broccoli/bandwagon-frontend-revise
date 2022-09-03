@@ -8,18 +8,12 @@ import ico_x from '../../assets/ico_x.svg';
 import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 import { AreaType, PrequisiteResponseType, SelectionType } from '../../types/types';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
+import BandRequestAPI from '../../apis/BandRequestAPI';
+import { useParams } from 'react-router-dom';
 
-function PrequisiteTooltip (props: {checked: PrequisiteResponseType[]}) {
-  const [checkedAll, setCheckedAll] = useState<boolean>(true);
-
-  useEffect(() => {
-    props.checked.map((preq) => {
-      if (!preq.check) {
-        setCheckedAll(false);
-      }
-    })
-
-  }, [props.checked])
+function PrequisiteTooltip (props: {
+  checked: PrequisiteResponseType[]
+  checkedAll: boolean}) {
 
   return (
     <div className='hidden group-hover:flex flex-col gap-[0.325rem] w-56 h-fit p-4 mt-8 -ml-40 bg-white border border-solid border-[#f2f2f2] rounded-xl shadow-md absolute'>
@@ -28,7 +22,7 @@ function PrequisiteTooltip (props: {checked: PrequisiteResponseType[]}) {
         <li key={index}><PrequisiteElementBox element={preq} /></li>
       )}
       </ul>
-      {checkedAll ?
+      {props.checkedAll ?
       <p className='mt-1 w-fit ml-1 text-accent text-xs'>
         ※ 지금 바로 지원해 보세요!
       </p> :
@@ -174,9 +168,11 @@ function ApplyBox (props: {
   isLoggedIn: boolean,
   isLiked: boolean,
   likeCount: number}) {
+  const {postID} = useParams();
   const [likeCount, setLikeCount] = useState<number>(0);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [preqCheck, setPreqCheck] = useState<PrequisiteResponseType[]>();
+  const [checkedAll, setCheckedAll] = useState<boolean>(true);
 
   useEffect(() => {
     setLikeCount(props.likeCount);
@@ -196,6 +192,14 @@ function ApplyBox (props: {
     }
   }, [props.postId, props.type])
 
+  useEffect(() => {
+    preqCheck?.map((preq) => {
+      if (!preq.check) {
+        setCheckedAll(false);
+      }
+    })
+  }, [preqCheck]);
+
   function handleHeartClick (e: React.MouseEvent<HTMLButtonElement>) {
     if (isLiked) {
       setLikeCount(likeCount - 1);
@@ -204,6 +208,21 @@ function ApplyBox (props: {
     }
     RecruitPostAPI.ChangeLike(isLiked, props.postId);
     setIsLiked(!isLiked);
+  }
+
+  function handleApplyClick (e: React.MouseEvent<HTMLButtonElement>) {
+    if (checkedAll && postID) {
+      BandRequestAPI.ApplyBand(postID)
+      .then((res) => {
+        console.log(res);
+        if (res) {window.alert('지원이 완료되었습니다!');}
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    } else {
+      window.alert('조건이 맞지 않아 지원이 불가합니다!')
+    }
   }
 
   return (
@@ -227,11 +246,15 @@ function ApplyBox (props: {
         <p className='text-neutral text-sm text-center'>채팅하기</p>
       </div>
         <div className='flex flex-col gap-[0.325rem]'>
-          <button className='group'>
+          <button
+            onClick={handleApplyClick}
+            className='group'>
               <img src={btn_apply} />
               {props.type ?
                 preqCheck ?
-                  <PrequisiteTooltip checked={preqCheck}/> :
+                  <PrequisiteTooltip
+                    checked={preqCheck}
+                    checkedAll={checkedAll}/> :
                   <></> :
                 <></>}
           </button>

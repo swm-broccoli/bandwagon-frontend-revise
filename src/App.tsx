@@ -18,6 +18,7 @@ import FindPasswordPage from './pages/FindPassword';
 import FindEmailPage from './pages/FindEmail';
 import NotFoundPage from './pages/NotFound';
 import LikedPost from './pages/LikedPost';
+import BandRequest from './pages/BandRequest';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path='user' element={<UserProfilePage />} />
           <Route path='band' element={<BandProfilePage />} />
           <Route path='mylike' element={<LikedPost />} />
+          <Route path='request' element={<BandRequest />} />
         </Route>
         <Route path='portfolio' element={<Outlet />}>
           <Route path='' element={<PortfolioPage />} />
