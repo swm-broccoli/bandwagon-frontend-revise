@@ -48,6 +48,15 @@ export const tempRecentPosts: RecentPostItemType[] = [
     likes: 16384,
     link: '/post/2',
   },
+  {
+    image: 'https://picsum.photos/200/300',
+    avatar: 'https://picsum.photos/50/50',
+    title: '그레이트 서울 인베이전 방송',
+    date: '2020-01-01',
+    content: '서울 인베이전 방송',
+    likes: 10911,
+    link: '/post/1',
+  },
 ];
 
 function MainRecentPostItem({
@@ -56,11 +65,13 @@ function MainRecentPostItem({
   recentPost: RecentPostItemType;
 }) {
   return (
-    <div className='flex-1 card rounded-lg min-w-[200px] card-compact bg-base-100 shadow-xl mx-3 my-4'>
+    <div className='flex-1 card rounded-lg min-w-[180px] card-compact bg-base-100 shadow-xl mx-3 lg:mx-5 my-4'>
       <img className='aspect-square' src={recentPost.image} alt='Shoes' />
-      <div className='p-3'>
-        <h2 className='truncate text-xl font-bold'>{recentPost.title}</h2>
-        <p className='line-clamp-3'>{recentPost.content}</p>
+      <div className='p-2'>
+        <h2 className='text-lg font-bold line-clamp-2'>{recentPost.title}</h2>
+        <p className='text-sm text-neutral line-clamp-2'>
+          {recentPost.content}
+        </p>
         <span className='text-rose-500'>❤︎ {recentPost.likes}</span>
       </div>
     </div>
@@ -73,12 +84,12 @@ export function MainRecentPosts({
   recentPosts: RecentPostItemType[];
 }) {
   return (
-    <section className='grid grid-cols-6 items-center my-10'>
-      <div className='col-span-full lg:col-start-2 lg:col-end-6 flex flex-col items-center'>
+    <section className='w-full flex justify-center items-center my-10 mx-8'>
+      <div className='w-full max-w-[1280px] flex flex-col items-center'>
         <h1 className='text-2xl font-bold'>최근 인기글</h1>
         <h2 className='text-neutral tracking-[0.2rem] mb-5'>P O P U L A R</h2>
         <div className='w-full flex flex-row justify-between overflow-x-auto'>
-          {recentPosts.slice(0, 4).map((recentPost, index) => (
+          {recentPosts.slice(0, 5).map((recentPost, index) => (
             <MainRecentPostItem key={index} recentPost={recentPost} />
           ))}
         </div>
