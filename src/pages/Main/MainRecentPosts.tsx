@@ -67,7 +67,7 @@ function MainRecentPostItem({
   return (
     <div className='flex-1 card rounded-lg min-w-[180px] card-compact bg-base-100 shadow-xl mx-3 lg:mx-5 my-4'>
       <img className='aspect-square' src={recentPost.image} alt='Shoes' />
-      <div className='p-2'>
+      <div className='p-2 flex flex-col h-full justify-between'>
         <h2 className='text-lg font-bold line-clamp-2'>{recentPost.title}</h2>
         <p className='text-sm text-neutral line-clamp-2'>
           {recentPost.content}
