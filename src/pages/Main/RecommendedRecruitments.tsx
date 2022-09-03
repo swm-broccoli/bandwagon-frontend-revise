@@ -49,7 +49,7 @@ export function RecommendedRecruitments({
   recruitments: RecommendedRecruitmentItemType[];
 }) {
   return (
-    <section className='bg-[#f4f9f9] grid grid-cols-6 pt-6'>
+    <section className='bg-[#f4f9f9] grid grid-cols-6 py-10'>
       <div className='col-span-full lg:col-start-2 lg:col-end-6 flex flex-col md:flex-row'>
         <div className='col-start-2 place-self-center md:place-self-auto mx-4 min-w-[160px]'>
           <h1 className='text-2xl font-bold'>추천 구인·구직글</h1>
