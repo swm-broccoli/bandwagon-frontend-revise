@@ -7,6 +7,7 @@ import positionOptions, {
 import React, { useEffect, useState } from 'react';
 import ProfileAddModal from '../../components/ProfileAddModal';
 import BandProfileAPI from '../../apis/BandProfileAPI';
+import { FaCrown } from 'react-icons/fa';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
 import BandRequestAPI from '../../apis/BandRequestAPI';
 
@@ -70,19 +71,19 @@ export function ProfileTextField({
   return (
     <>
       <div className='form-control h-10 w-full flex flex-row justify-start items-center my-2'>
-        <label className='label w-1/5 py-0'>
+        <label className='label w-1/4 min-w-[60px] max-w-[120px] py-0'>
           <span className='label-text text-accent'>{label}</span>
         </label>
         {editing ? (
           <input
             value={value}
-            className='input input-bordered'
+            className='input input-bordered w-full text-base'
             onChange={(e) => {
               setValue(e.target.value);
             }}
           />
         ) : (
-          <div className='flex items-center h-10 w-3/5'>{value}</div>
+          <div className='flex items-center h-10 w-full'>{value}</div>
         )}
       </div>
       <div className='divider m-0' />
@@ -121,21 +122,25 @@ function BandMemberListItem({
   } else if (!editing) {
     // 편집 중이 아닐 경우
     return (
-      <li className='flex flex-row items-center border rounded-lg p-2'>
-        <p className='text-accent text-base mr-2.5'>
+      <li className='flex flex-row w-full items-center border rounded-lg p-2'>
+        <p className='inline-block text-accent text-base mr-2.5 w-20 min-w-fit flex-row md:flex-col'>
           {member.name}
           {isFrontman ? (
-            <span className='badge badge-secondary ml-1'>Frontman</span>
+            <span className='badge badge-secondary min-w-fit md:ml-2'>
+              <FaCrown />
+            </span>
           ) : null}
         </p>
-        {member.positions.length
-          ? member.positions.map((position) => (
-              <TagElement
-                key={position.id}
-                tag={positionToKorean[position.name]}
-              />
-            ))
-          : null}
+        <div className='flex flex-row overflow-x-auto'>
+          {member.positions.length
+            ? member.positions.map((position) => (
+                <TagElement
+                  key={position.id}
+                  tag={positionToKorean[position.name]}
+                />
+              ))
+            : null}
+        </div>
       </li>
     );
   } else {
@@ -163,18 +168,20 @@ function BandMemberListItem({
                 ))}
               </select>
               <button className='absolute right-1' onClick={deleteMember}>
-                X
+                {'\u2715'}
               </button>
             </>
           ) : null}
           {isFrontman ? (
-            <span className='badge badge-secondary ml-1'>Frontman</span>
+            <span className='badge badge-secondary ml-2'>
+              <FaCrown />
+            </span>
           ) : null}
         </div>
-        <div className='flex flex-row w-full mt-2 justify-start'>
+        <div className='flex flex-row w-full mt-2 justify-start overflow-x-auto'>
           {member.positions.length
             ? member.positions.map((position) => (
-                <div className='flex flex-row' key={position.id}>
+                <div className='flex flex-row min-w-fit' key={position.id}>
                   <TagElement tag={positionToKorean[position.name]} />
                   {frontmanReading ? (
                     <button
@@ -188,7 +195,7 @@ function BandMemberListItem({
                       }}
                       className='mr-1'
                     >
-                      X
+                      {'\u2715'}
                     </button>
                   ) : null}
                 </div>
@@ -375,13 +382,13 @@ function BandProfileAlbumItem({
     return null;
   } else {
     return (
-      <div className='flex flex-row shrink-0 mr-4 items-start'>
+      <div className='flex flex-row shrink-0 mr-4 items-start border p-2 rounded-lg'>
         <img
           className='w-32 h-32 rounded-xl mr-1'
           src={photo.name}
           alt={`밴드 사진`}
         />
-        {editing ? <button onClick={deletePhoto}>X</button> : null}
+        {editing ? <button onClick={deletePhoto}>{'\u2715'}</button> : null}
       </div>
     );
   }

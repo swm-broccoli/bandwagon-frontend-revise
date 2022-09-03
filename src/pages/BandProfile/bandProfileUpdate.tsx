@@ -361,7 +361,27 @@ export async function updateBandMembers(
       } else {
         //id가 양수이면 기존에 있던 멤버이다
         console.log('기존 멤버 업데이트');
-        Promise.all(
+        // 포지션 다시 추가
+        const serverMember = serverBandMembers.find((m) => m.id === member.id);
+        //기존 이 멤버의 포지션들
+        const serverMemberPositions = serverMember
+          ? serverMember.positions
+          : undefined;
+
+        // 서버에 저장되어 있던 이 멤버의 포지션을 일단 모두 삭제
+        if (serverMemberPositions !== undefined) {
+          await Promise.all(
+            serverMemberPositions.map((position) => {
+              return BandProfileAPI.deleteBandMemberPosition(
+                bandID,
+                member.id,
+                position.id,
+              );
+            }),
+          );
+        }
+
+        await Promise.all(
           member.positions.map((position) => {
             return BandProfileAPI.addBandMemberPosition(
               bandID,
@@ -374,7 +394,26 @@ export async function updateBandMembers(
     } else {
       // 자기 자신에 대하여서도 포지션은 업데이트해줘야 한다.
       console.log('자기 자신 업데이트');
-      Promise.all(
+      const serverMember = serverBandMembers.find((m) => m.id === member.id);
+      //기존 이 멤버의 포지션들
+      const serverMemberPositions = serverMember
+        ? serverMember.positions
+        : undefined;
+
+      // 서버에 저장되어 있던 이 멤버의 포지션을 일단 모두 삭제
+      if (serverMemberPositions !== undefined) {
+        await Promise.all(
+          serverMemberPositions.map((position) => {
+            return BandProfileAPI.deleteBandMemberPosition(
+              bandID,
+              member.id,
+              position.id,
+            );
+          }),
+        );
+      }
+
+      await Promise.all(
         member.positions.map((position) => {
           return BandProfileAPI.addBandMemberPosition(
             bandID,
