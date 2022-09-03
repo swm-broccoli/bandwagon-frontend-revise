@@ -56,11 +56,11 @@ function MainRecentPostItem({
   recentPost: RecentPostItemType;
 }) {
   return (
-    <div className='card rounded-lg aspect-[4/5] card-compact w-full bg-base-100 shadow-xl mx-3'>
-      <img className='h-3/5' src={recentPost.image} alt='Shoes' />
+    <div className='flex-1 card rounded-lg min-w-[200px] card-compact bg-base-100 shadow-xl mx-3 my-4'>
+      <img className='aspect-square' src={recentPost.image} alt='Shoes' />
       <div className='p-3'>
         <h2 className='truncate text-xl font-bold'>{recentPost.title}</h2>
-        <p className='truncate'>{recentPost.content}</p>
+        <p className='line-clamp-3'>{recentPost.content}</p>
         <span className='text-rose-500'>❤︎ {recentPost.likes}</span>
       </div>
     </div>
@@ -73,12 +73,12 @@ export function MainRecentPosts({
   recentPosts: RecentPostItemType[];
 }) {
   return (
-    <section className='grid grid-flow-row grid-cols-6 items-center my-10'>
-      <div className='col-span-full md:col-start-2 md:col-end-6 flex flex-col items-center'>
+    <section className='grid grid-cols-6 items-center my-10'>
+      <div className='col-span-full lg:col-start-2 lg:col-end-6 flex flex-col items-center'>
         <h1 className='text-2xl font-bold'>최근 인기글</h1>
         <h2 className='text-neutral tracking-[0.2rem] mb-5'>P O P U L A R</h2>
-        <div className='w-full flex flex-row justify-between'>
-          {recentPosts.slice(0, 3).map((recentPost, index) => (
+        <div className='w-full flex flex-row justify-between overflow-x-auto'>
+          {recentPosts.slice(0, 4).map((recentPost, index) => (
             <MainRecentPostItem key={index} recentPost={recentPost} />
           ))}
         </div>
