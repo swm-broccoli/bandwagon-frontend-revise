@@ -56,7 +56,7 @@ export function RecruitMenu({
   menuList: { image: string; title: string; link: string }[];
 }) {
   return (
-    <section className='grid grid-cols-6 h-28 items-center'>
+    <section className='grid grid-cols-6 h-32 items-center'>
       <div className='col-span-full md:col-start-2 md:col-end-6 py-0 min-h-fit bg-base-100 flex flex-row justify-evenly'>
         {menuList.map((item) => (
           <RecruitMenuItem
