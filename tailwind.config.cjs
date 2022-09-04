@@ -13,9 +13,9 @@ module.exports = {
         },
       },
       animation: {
-        'wave-animation': 'wave 10s -3s linear infinite',
-        'wave-animation-2': 'wave 18s linear reverse infinite',
-        'wave-animation-3': 'wave 20s -1s linear infinite',
+        'wave-animation': 'wave 5s -2.5s linear infinite',
+        'wave-animation-2': 'wave 5s linear reverse infinite',
+        'wave-animation-3': 'wave 5s -1s linear infinite',
       },
     },
   },
