@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import waveShape from '../../assets/wave_shape.svg';
 
 export interface bandPortfolioBriefType {
   title: string;
@@ -72,6 +73,28 @@ function TodaysPortfolioItem({
   }
 }
 
+function WaveItem() {
+  return (
+    <div
+      className={`absolute w-[200%] h-full z-20 bottom-0 opacity-50 first-of-type:opacity-80 first-of-type:animate-wave-animation animate-wave-animation-2 last-of-type:animate-wave-animation-3`}
+      style={{
+        backgroundImage: `url(${waveShape})`,
+        backgroundRepeat: 'repeat-x',
+      }}
+    ></div>
+  );
+}
+
+function Wave() {
+  return (
+    <div className='w-full h-1/2 absolute left-0 bottom-1/2 overflow-x-hidden'>
+      <WaveItem />
+      <WaveItem />
+      <WaveItem />
+    </div>
+  );
+}
+
 export function TodayPortfolioCarousel({
   todayPortfolios,
 }: {
@@ -104,7 +127,8 @@ export function TodayPortfolioCarousel({
   }, [indexes.currentIndex]);
 
   return (
-    <div className='w-full h-full flex flex-col items-center'>
+    <div className='relative w-full h-full flex flex-col items-center'>
+      <Wave />
       <button className='mb-10' onClick={handleCardTransition}>
         Transition to Next
       </button>
@@ -121,6 +145,8 @@ export function TodayPortfolioCarousel({
   );
 }
 
+// css animation from https://codepen.io/Prachl/pen/XLveVd
+// https://www.section.io/engineering-education/pure-css-wave-animations-website/
 export function TodayPortfolio({
   todayPortfolios,
 }: {
