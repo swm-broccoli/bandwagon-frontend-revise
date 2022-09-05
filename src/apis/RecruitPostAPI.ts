@@ -16,7 +16,7 @@ interface RecruitPostApiType {
   }) => Promise<AxiosResponse>;
   ChangeLike: (current: boolean, postId: string) => Promise<AxiosResponse>;
   DeletePost: (postId: string | undefined) => Promise<AxiosResponse>;
-  LoadMyBandPost: () => Promise<AxiosResponse>;
+  LoadMyBandPost: (page: string) => Promise<AxiosResponse>;
   LoadMyUserPost: () => Promise<AxiosResponse>;
 }
 
@@ -55,8 +55,8 @@ const RecruitPostAPI: RecruitPostApiType = {
   DeletePost: (postId) => {
     return request.delete('api/post/' + postId)
   },
-  LoadMyBandPost: () => {
-    return request.get('api/my/band/post');
+  LoadMyBandPost: (page) => {
+    return request.get('api/my/band/post' + page);
   },
   LoadMyUserPost: () => {
     return request.get('api/my/user/post');

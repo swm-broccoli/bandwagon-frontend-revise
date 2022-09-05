@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
 import ArticleCard from '../../components/ArticleCard';
 import MyPageTemplate from '../../components/MyPageTemplate';
+import Pagination from '../../components/Pagination';
+import { useSearchPostStore } from '../../stores/SearchPostStore';
 import { PostCardType } from '../../types/types';
 
 function Tab (props: {label: string}) {
@@ -16,6 +18,8 @@ function Tab (props: {label: string}) {
 function MyPostPage () {
   const [userPost, setUserPost] = useState<PostCardType>();
   const [bandPost, setBandPost] = useState<PostCardType[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const {pageStore} = useSearchPostStore();
 
   useEffect(() => {
     RecruitPostAPI.LoadMyUserPost()
@@ -26,7 +30,7 @@ function MyPostPage () {
       console.log(err);
     });
 
-    RecruitPostAPI.LoadMyBandPost()
+    RecruitPostAPI.LoadMyBandPost('')
     .then((res) => {
       setBandPost(res.data.posts);
     })
@@ -34,6 +38,17 @@ function MyPostPage () {
       console.log(err);
     });
   }, []);
+
+  useEffect(() => {
+    RecruitPostAPI.LoadMyBandPost(pageStore)
+    .then((res) => {
+      setBandPost(res.data.posts);
+      setTotalPages(res.data.totalPages);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }, [pageStore]);
 
   return (
     <MyPageTemplate>
@@ -52,6 +67,7 @@ function MyPostPage () {
           <></>
           }
         </div>
+        <Pagination type={false} totalPage={totalPages - 1} />
       </div>
     </MyPageTemplate>
   )
