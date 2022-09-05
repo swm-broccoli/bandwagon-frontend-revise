@@ -57,14 +57,14 @@ function MyPostPage () {
           <Tab label='구직' />
           {userPost ?
             <ArticleCard postInfo={userPost} /> :
-            <></>}
+            <p className='w-fit text-lg text-[#464646] my-8 justify-self-center'>글이 존재하지 않습니다!</p>}
         </div>
         <div className='flex flex-col'>
           <Tab label='구인' />
           {bandPost ?
           bandPost.map((post, index) => 
             <ArticleCard key={index} postInfo={post} />) :
-          <></>
+            <p className='w-fit text-lg text-[#464646] my-8 justify-self-center'>글이 존재하지 않습니다!</p>
           }
         </div>
         <Pagination type={false} totalPage={totalPages - 1} />
