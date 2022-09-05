@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SiteLogo from './Logo';
 import { useLoginStore } from '../stores/LoginStore';
+import RecruitProcessAPI from '../apis/RecruitProcessAPI';
+import { NotificationType } from '../types/types';
 
 function NavBarItem({ label, link }: { label: string; link: string }) {
   return (
@@ -11,6 +13,43 @@ function NavBarItem({ label, link }: { label: string; link: string }) {
       </Link>
     </li>
   );
+}
+
+function NotificationBox () {
+  const [notificationList, setNotificationList] = useState<NotificationType[]>([]);
+  const notification = notificationList.map((notification, index) => {
+    <li key={index}>{notification.message}</li>
+  });
+
+  useEffect(() => {
+    RecruitProcessAPI.getNotification()
+    .then((res) => {
+      console.log(res.data.notifications);
+      setNotificationList(res.data.notifications);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, []);
+
+  function handleNotificationClick (e: React.MouseEvent<HTMLButtonElement>) {
+    console.log('click', notificationList);
+  }
+
+  return (
+    <li className='menu-item'>
+      <div className='dropdown'>
+        <button
+          onClick={handleNotificationClick}
+          tabIndex={0}
+          className='text-[#676767] active:bg-neutral'>
+          알림
+        </button>
+        <ul tabIndex={0} className='menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4'>
+        </ul>
+      </div>
+    </li>
+  )
 }
 
 function GlobalNavBar() {
@@ -29,6 +68,10 @@ function GlobalNavBar() {
     {
       link: '/',
       label: '채팅',
+    },
+    {
+      link: '/',
+      label: '알림',
     },
     {
       link: '/profile/user',
@@ -53,6 +96,8 @@ function GlobalNavBar() {
         <ul className='menu menu-horizontal flex justify-evenly'>
           {(isLoggedIn ? loggedInNavBarItems : notLoggedInNavBarItems).map(
             (item) => (
+              item.label === '알림' ?
+              <NotificationBox key={item.label} /> :
               <NavBarItem
                 key={item.label}
                 label={item.label}

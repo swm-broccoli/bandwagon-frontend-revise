@@ -184,3 +184,9 @@ export interface BandRequestInfoType {
   name: string;
   avatarUrl: string | null;
 }
+
+export interface NotificationType {
+  notificationId: number;
+  message: string;
+  isRead: boolean;
+}
