@@ -17,11 +17,8 @@ function NavBarItem({ label, link }: { label: string; link: string }) {
 
 function NotificationBox () {
   const [notificationList, setNotificationList] = useState<NotificationType[]>([]);
-  const notification = notificationList.map((notification, index) => {
-    <li key={index}>{notification.message}</li>
-  });
 
-  useEffect(() => {
+  function handleNotificationClick (e: React.MouseEvent<HTMLLabelElement>) {
     RecruitProcessAPI.getNotification()
     .then((res) => {
       console.log(res.data.notifications);
@@ -30,22 +27,21 @@ function NotificationBox () {
     .catch((err) => {
       console.log(err);
     });
-  }, []);
-
-  function handleNotificationClick (e: React.MouseEvent<HTMLButtonElement>) {
-    console.log('click', notificationList);
-  }
+  };
 
   return (
     <li className='menu-item'>
       <div className='dropdown'>
-        <button
+        <label
           onClick={handleNotificationClick}
           tabIndex={0}
           className='text-[#676767] active:bg-neutral'>
           알림
-        </button>
-        <ul tabIndex={0} className='menu dropdown-content p-2 shadow bg-base-100 rounded-box w-52 mt-4'>
+        </label>
+        <ul tabIndex={0} className='dropdown-content menu flex flex-col gap-5 p-5 shadow bg-base-100 rounded-lg w-72 mt-80'>
+        {notificationList.map((notification, index) => 
+          <li key={index} className='w-full'>{notification.message}</li>
+        )}
         </ul>
       </div>
     </li>
