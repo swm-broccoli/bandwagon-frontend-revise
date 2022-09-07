@@ -151,7 +151,7 @@ function SelectGenre () {
     deleteGenre} = useSearchPostStore();
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-    if (selectStore.find((e) => e == {type: 'genre', id: genre.id.toString()})) {
+    if (selectStore.find((e) => e.type == 'genre' && e.id == genre.id.toString())) {
       window.alert('이미 추가된 조건입니다!');
     } else {
       addGenre(genre);
@@ -231,7 +231,7 @@ function SelectArea () {
     deleteArea} = useSearchPostStore();
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-    if (selectStore.find((e) => e == {type: 'area', id: area.id.toString()})) {
+    if (selectStore.find((e) => e.type == 'area' && e.id == area.id.toString())) {
       window.alert('이미 추가된 조건입니다!');
     } else {
       addArea(area);

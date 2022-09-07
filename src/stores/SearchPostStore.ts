@@ -76,7 +76,7 @@ export const useSearchPostStore = create<searchPostStoreType>()(
     deleteSelectStore: (type, id) => {
       set((state) => ({
         selectStore: state.selectStore.filter(
-          (todo) => todo !== {type: type, id: id.toString()})
+          (element) => element.type !== type || element.id !== id.toString())
       }))
     },
     addGender: (type, gender) => {
@@ -86,7 +86,7 @@ export const useSearchPostStore = create<searchPostStoreType>()(
     deleteGender: (type, gender) => {
       set((state) => ({
         selectStore: state.selectStore.filter(
-          (todo) => todo !== {type: type, id: gender})
+          (element) => element.type !== type || element.id !== gender)
       }))
     },
     addGenre: (element) => {
