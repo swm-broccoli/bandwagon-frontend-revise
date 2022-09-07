@@ -55,7 +55,7 @@ export function RecommendedRecruitments({
           <h1 className='text-2xl font-bold'>추천 구인·구직글</h1>
           <h2 className='text-neutral'>R E C O M M E N D</h2>
         </div>
-        <div className='flex flex-row overflow-x-auto w-full'>
+        <div className='flex flex-row overflow-x-auto w-full mt-5 md:mt-0'>
           {recruitments.map((recruitment) => (
             <RecommendedRecruitmentItem
               key={recruitment.title}
