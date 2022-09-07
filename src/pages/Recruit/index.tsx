@@ -9,16 +9,29 @@ import Pagination from '../../components/Pagination';
 import { PostCardType } from '../../types/types';
 import RecruitAPI from '../../apis/RecruitAPI';
 import { useSearchPostStore } from '../../stores/SearchPostStore';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
+
+
+interface RecruitTypeProps {
+  type: boolean;
+}
+
+interface LocationProps {
+  search: string;
+}
 
 // true: 구인, false: 구직
-function RecruitPage(props: {type: boolean}) {
+function RecruitPage(props: {type: boolean},) {
   const [postList, setPostList] = useState<PostCardType[]>([]);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { search } = useLocation();
   const {
     pageStore,
     selectStore,
+    genreArray,
+    areaArray,
     titleStore,
     minAgeStore,
     maxAgeStore,
@@ -26,10 +39,13 @@ function RecruitPage(props: {type: boolean}) {
     
 
   useEffect(() => {
-    clearStore();
-    
+    if (!search) {
+      console.log('clear');
+      clearStore();
+    }
+
     if (props.type) {
-      RecruitAPI.LoadBandPost('')
+      RecruitAPI.LoadBandPost(search)
       .then((res) => {
         console.log(res.data);
         setPostList(res.data.posts);
@@ -40,7 +56,7 @@ function RecruitPage(props: {type: boolean}) {
         console.log(err);
       })
     } else {
-      RecruitAPI.LoadUserPost('')
+      RecruitAPI.LoadUserPost(search)
       .then((res) => {
         console.log(res.data);
         setPostList(res.data.posts);
@@ -51,66 +67,32 @@ function RecruitPage(props: {type: boolean}) {
         console.log(err);
       })
     }
-  }, [props.type])
+  }, [props.type, search])
 
   useEffect(() => {
-    const requestParam = pageStore + titleStore + minAgeStore + maxAgeStore + selectStore.join('');
+    const query = new URLSearchParams(search);
 
-    if (props.type) {
-      RecruitAPI.LoadBandPost(requestParam)
-      .then((res) => {
-        console.log(res.data);
-        setPostList(res.data.posts);
-        setTotalItems(res.data.totalItems);
-        setTotalPages(res.data.totalPages);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    } else {
-      RecruitAPI.LoadUserPost(requestParam)
-      .then((res) => {
-        console.log(res.data);
-        setPostList(res.data.posts);
-        setTotalItems(res.data.totalItems);
-        setTotalPages(res.data.totalPages);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    }
-
+    query.set('page', pageStore);
+    setSearchParams(query);
   }, [pageStore])
   
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-    const requestParam = '?page=0' + titleStore + minAgeStore + maxAgeStore + selectStore.join('');
+    const query = new URLSearchParams();
 
-    console.log(requestParam);
+    console.log(selectStore);
+    console.log(genreArray);
+    console.log(areaArray);
 
-    if (props.type) {
-      RecruitAPI.LoadBandPost(requestParam)
-      .then((res) => {
-        console.log(res.data);
-        setPostList(res.data.posts);
-        setTotalItems(res.data.totalItems);
-        setTotalPages(res.data.totalPages);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    } else {
-      RecruitAPI.LoadUserPost(requestParam)
-      .then((res) => {
-        console.log(res.data);
-        setPostList(res.data.posts);
-        setTotalItems(res.data.totalItems);
-        setTotalPages(res.data.totalPages);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-    }
+    if (titleStore) query.set('title', titleStore);
+    if (minAgeStore) query.set('minAge', minAgeStore);
+    if (maxAgeStore) query.set('maxAge', maxAgeStore);
+    
+    selectStore.forEach(element => query.append(element.type, element.id));
+
+    setSearchParams(query);
+
+    console.log('click');
   }
 
   return (
