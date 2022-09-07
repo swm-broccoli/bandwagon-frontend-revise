@@ -11,15 +11,6 @@ import RecruitAPI from '../../apis/RecruitAPI';
 import { useSearchPostStore } from '../../stores/SearchPostStore';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
-
-interface RecruitTypeProps {
-  type: boolean;
-}
-
-interface LocationProps {
-  search: string;
-}
-
 // true: 구인, false: 구직
 function RecruitPage(props: {type: boolean},) {
   const [postList, setPostList] = useState<PostCardType[]>([]);
