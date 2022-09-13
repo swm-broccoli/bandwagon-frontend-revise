@@ -14,6 +14,7 @@ import { Carousel } from './carousel/Carousel';
 import { carouselItemList } from './carousel/carouselItemList';
 import MainPageAPI from '../../apis/MainPageAPI';
 import defaultPopularPostImage from '../../assets/carousel-paragon.jpg';
+import defauleProfileImage from '../../assets/band-default-pic.png';
 
 function MainPage() {
   const [popularPosts, setPopularPosts] = useState<PopularPostItemType[]>([]);
@@ -31,6 +32,9 @@ function MainPage() {
               title: post.title,
               content: post.body,
               author: post.bandName,
+              authorProfileImage: post.bandAvatarUrl
+                ? post.bandAvatarUrl
+                : defaultPopularPostImage,
               likeCount: post.likeCount,
               link: `/band/${post.id}`,
             };
@@ -42,6 +46,9 @@ function MainPage() {
               title: post.title,
               content: post.body,
               author: post.nickname,
+              authorProfileImage: post.userAvatarUrl
+                ? post.userAvatarUrl
+                : defaultPopularPostImage,
               likeCount: post.likeCount,
               link: `/portfolio/${post.id}`,
             };

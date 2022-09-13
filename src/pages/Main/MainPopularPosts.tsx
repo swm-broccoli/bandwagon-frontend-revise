@@ -5,6 +5,7 @@ export interface PopularPostItemType {
   title: string;
   content: string;
   author: string;
+  authorProfileImage: string;
   likeCount: number;
   link: string;
 }
@@ -19,7 +20,14 @@ function MainPopularPostItem({
       <img className='aspect-square' src={recentPost.image} alt='Shoes' />
       <div className='p-2 flex flex-col h-full justify-between'>
         <h2 className='text-lg font-bold line-clamp-2'>{recentPost.title}</h2>
-        <p className='text-sm text-neutral line-clamp-2'>{recentPost.author}</p>
+        <p className='text-sm text-neutral line-clamp-2'>
+          <img
+            className='w-6 h-6 rounded-full float-left mr-2'
+            src={recentPost.authorProfileImage}
+            alt='author avatar'
+          />
+          {recentPost.author}
+        </p>
         <span className='text-rose-500'>❤︎ {recentPost.likeCount}</span>
       </div>
     </div>
