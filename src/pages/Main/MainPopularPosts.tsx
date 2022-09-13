@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export interface PopularPostItemType {
   image: string;
   title: string;
@@ -14,7 +16,10 @@ function MainPopularPostItem({
   recentPost: PopularPostItemType;
 }) {
   return (
-    <div className='flex-1 card rounded-lg min-w-[180px] card-compact bg-base-100 shadow-xl mx-3 my-4'>
+    <Link
+      to={recentPost.link}
+      className='flex-1 card rounded-lg min-w-[180px] card-compact bg-base-100 shadow-xl mx-3 my-4'
+    >
       <img className='aspect-square' src={recentPost.image} alt='Shoes' />
       <div className='p-2 flex flex-col h-full justify-between'>
         <h2 className='text-lg font-bold line-clamp-2'>{recentPost.title}</h2>
@@ -28,7 +33,7 @@ function MainPopularPostItem({
         </p>
         <span className='text-rose-500'>❤︎ {recentPost.likeCount}</span>
       </div>
-    </div>
+    </Link>
   );
 }
 

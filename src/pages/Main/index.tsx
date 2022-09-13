@@ -43,7 +43,7 @@ function MainPage() {
                 ? post.bandAvatarUrl
                 : defauleProfileImage,
               likeCount: post.likeCount,
-              link: `/band/${post.id}`,
+              link: `/recruit/${post.id}`,
             };
           } else {
             return {
@@ -58,7 +58,7 @@ function MainPage() {
                 ? post.userAvatarUrl
                 : defauleProfileImage,
               likeCount: post.likeCount,
-              link: `/portfolio/${post.id}`,
+              link: `/recruit/${post.id}`,
             };
           }
         }),
