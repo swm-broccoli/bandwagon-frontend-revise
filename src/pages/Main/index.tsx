@@ -21,7 +21,7 @@ function MainPage() {
       <RecruitMenu menuList={recruitMenuList} />
       <RecommendedRecruitments recruitments={tempRecommendedRecruitments} />
       <MainPopularPosts />
-      <TodayPortfolio todayPortfolios={bandPortfolioBrief} />
+      <TodayPortfolio />
       <div className='text-3xl text-teal-500'>메인 페이지입니다.</div>
       <div className='text-2xl text-teal-700'>페이지들의 링크는 아래에</div>
       <div className='grid grid-flow-col gap-3 mt-5 w-full'>
