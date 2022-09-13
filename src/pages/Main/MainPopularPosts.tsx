@@ -1,63 +1,12 @@
+import parse from 'html-react-parser';
+
 export interface PopularPostItemType {
   image: string;
-  avatar: string;
   title: string;
-  date: string;
   content: string;
-  likes: number;
+  likeCount: number;
   link: string;
 }
-
-export const tempPopularPosts: PopularPostItemType[] = [
-  {
-    image: 'https://picsum.photos/200/300',
-    avatar: 'https://picsum.photos/50/50',
-    title: '그레이트 서울 인베이전 방송',
-    date: '2020-01-01',
-    content: '서울 인베이전 방송',
-    likes: 10911,
-    link: '/post/1',
-  },
-  {
-    image: 'https://picsum.photos/200/300',
-    avatar: 'https://picsum.photos/50/50',
-    title: '일렉기타 셋업 온라인 강좌',
-    date: '2020-01-01',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    likes: 16384,
-    link: '/post/2',
-  },
-  {
-    image: 'https://picsum.photos/200/300',
-    avatar: 'https://picsum.photos/50/50',
-    title: '오랜만에 해본 기타 커버 영상',
-    date: '2020-01-01',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    likes: 998244353,
-    link: '/post/2',
-  },
-  {
-    image: 'https://picsum.photos/200/300',
-    avatar: 'https://picsum.photos/50/50',
-    title: '일렉기타 셋업 온라인 강좌',
-    date: '2020-01-01',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    likes: 16384,
-    link: '/post/2',
-  },
-  {
-    image: 'https://picsum.photos/200/300',
-    avatar: 'https://picsum.photos/50/50',
-    title: '그레이트 서울 인베이전 방송',
-    date: '2020-01-01',
-    content: '서울 인베이전 방송',
-    likes: 10911,
-    link: '/post/1',
-  },
-];
 
 function MainPopularPostItem({
   recentPost,
@@ -72,7 +21,7 @@ function MainPopularPostItem({
         <p className='text-sm text-neutral line-clamp-2'>
           {recentPost.content}
         </p>
-        <span className='text-rose-500'>❤︎ {recentPost.likes}</span>
+        <span className='text-rose-500'>❤︎ {recentPost.likeCount}</span>
       </div>
     </div>
   );

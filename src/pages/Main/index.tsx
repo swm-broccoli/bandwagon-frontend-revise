@@ -13,13 +13,39 @@ import { MainPopularPosts, PopularPostItemType } from './MainPopularPosts';
 import { Carousel } from './carousel/Carousel';
 import { carouselItemList } from './carousel/carouselItemList';
 import MainPageAPI from '../../apis/MainPageAPI';
+import defaultPopularPostImage from '../../assets/carousel-paragon.jpg';
 
 function MainPage() {
   const [popularPosts, setPopularPosts] = useState<PopularPostItemType[]>([]);
 
   useEffect(() => {
     MainPageAPI.getPopularPosts().then((res) => {
-      console.log(res.data);
+      console.log(res.data.posts);
+      setPopularPosts(
+        res.data.posts.map((post: any): PopularPostItemType => {
+          if (post.dtype === 'Band') {
+            return {
+              image: post.bandAvatarUrl
+                ? post.bandAvatarUrl
+                : defaultPopularPostImage,
+              title: post.title,
+              content: post.body,
+              likeCount: post.likeCount,
+              link: `/band/${post.id}`,
+            };
+          } else {
+            return {
+              image: post.userAvatarUrl
+                ? post.userAvatarUrl
+                : defaultPopularPostImage,
+              title: post.title,
+              content: post.body,
+              likeCount: post.likeCount,
+              link: `/portfolio/${post.id}`,
+            };
+          }
+        }),
+      );
     });
   }, []);
 
@@ -29,7 +55,7 @@ function MainPage() {
       <Carousel items={carouselItemList} />
       <RecruitMenu menuList={recruitMenuList} />
       <RecommendedRecruitments recruitments={tempRecommendedRecruitments} />
-      <MainPopularPosts recentPosts={[]} />
+      <MainPopularPosts recentPosts={popularPosts} />
       <TodayPortfolio todayPortfolios={bandPortfolioBrief} />
       <div className='text-3xl text-teal-500'>메인 페이지입니다.</div>
       <div className='text-2xl text-teal-700'>페이지들의 링크는 아래에</div>
