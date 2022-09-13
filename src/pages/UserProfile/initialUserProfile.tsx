@@ -1,6 +1,7 @@
 import { UserProfileType } from '../../types/types';
 
 export const vacantUserProfile: UserProfileType = {
+  id: -1,
   avatarUrl: '',
   name: '',
   birthday: '2000-01-01',

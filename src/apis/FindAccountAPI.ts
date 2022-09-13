@@ -1,6 +1,5 @@
 // 아이디, 비밀번호 찾기 관련 API
 import axios, { AxiosResponse } from 'axios';
-import { request } from './request';
 
 const baseURL =
   'http://bandwagon-vpc-alb-private-dev-830505980.ap-northeast-2.elb.amazonaws.com/';
