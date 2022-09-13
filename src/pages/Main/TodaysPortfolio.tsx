@@ -127,7 +127,7 @@ export function TodayPortfolioCarousel({
             : prevState.currentIndex + 2,
       }));
     }
-  }, [indexes.currentIndex]);
+  }, [indexes.currentIndex, todayPortfolios]);
 
   return (
     <div className='relative w-full h-full flex flex-col items-center'>
