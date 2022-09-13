@@ -37,7 +37,7 @@ function TodaysPortfolioItem({
   switch (currentState) {
     case 'current':
       return (
-        <div className='absolute flex flex-row w-3/5 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all duration-500 z-20'>
+        <div className='absolute flex flex-row w-3/5 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all duration-500 z-30'>
           <img
             className='w-1/2 h-full object-fill'
             src={todayPortfolio.image}
@@ -54,8 +54,8 @@ function TodaysPortfolioItem({
       return (
         <div
           className={`${
-            currentState === 'previous' ? '-translate-x-40' : 'translate-x-40'
-          } absolute flex flex-row w-3/5 h-4/5 scale-75 opacity-50 shrink-0 card card-side bg-base-100 shadow-xl transition-all`}
+            currentState === 'previous' ? 'left-0' : 'right-0'
+          } absolute flex flex-row w-3/5 h-4/5 scale-75 shrink-0 card card-side bg-base-100 shadow-xl transition-all z-20`}
         >
           <img
             className='w-1/2 h-full object-fill'
@@ -76,7 +76,7 @@ function TodaysPortfolioItem({
 function WaveItem() {
   return (
     <div
-      className={`absolute w-[200%] h-full z-20 bottom-0 opacity-50 first-of-type:opacity-80 first-of-type:animate-wave-animation animate-wave-animation-2 last-of-type:animate-wave-animation-3`}
+      className={`absolute w-[200%] h-full z-20 bottom-0 opacity-30 first-of-type:opacity-50 first-of-type:animate-wave-animation animate-wave-animation-2 last-of-type:animate-wave-animation-3`}
       style={{
         backgroundImage: `url(${waveShape})`,
         backgroundRepeat: 'repeat-x',
@@ -87,7 +87,7 @@ function WaveItem() {
 
 function Wave() {
   return (
-    <div className='w-full h-1/2 absolute left-0 bottom-1/2 overflow-x-hidden'>
+    <div className='w-full h-full absolute left-0 bottom-0 overflow-x-hidden'>
       <WaveItem />
       <WaveItem />
       <WaveItem />
@@ -108,6 +108,7 @@ export function TodayPortfolioCarousel({
 
   const handleCardTransition = useCallback(() => {
     // useCallback 을 이용해서 indexes.currentIndex 가 변할 때만 이 함수가 새로 생성되도록 한다
+
     if (indexes.currentIndex >= todayPortfolios.length - 1) {
       setIndexes((prevState) => ({
         previousIndex: todayPortfolios.length - 1,
@@ -129,7 +130,7 @@ export function TodayPortfolioCarousel({
   return (
     <div className='relative w-full h-full flex flex-col items-center'>
       <Wave />
-      <button className='mb-10' onClick={handleCardTransition}>
+      <button className='mb-10 z-30' onClick={handleCardTransition}>
         Transition to Next
       </button>
       <div className='w-full h-full relative flex flex-row justify-center mx-auto'>
