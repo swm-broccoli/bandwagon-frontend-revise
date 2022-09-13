@@ -2,7 +2,22 @@
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        wave: {
+          '0%': { transform: 'translateX(0)' },
+          '25%': { transform: 'translateX(-25%)' },
+          '50%': { transform: 'translateX(-50%)' },
+          '75%': { transform: 'translateX(-25%)' },
+          '100%': { transform: 'translateX(-0%)' },
+        },
+      },
+      animation: {
+        'wave-animation': 'wave 5s -2.5s linear infinite',
+        'wave-animation-2': 'wave 5s linear reverse infinite',
+        'wave-animation-3': 'wave 5s -1s linear infinite',
+      },
+    },
   },
   plugins: [require('daisyui'), require('@tailwindcss/line-clamp')],
   daisyui: {
