@@ -30,6 +30,7 @@ function MainPage() {
                 : defaultPopularPostImage,
               title: post.title,
               content: post.body,
+              author: post.bandName,
               likeCount: post.likeCount,
               link: `/band/${post.id}`,
             };
@@ -40,6 +41,7 @@ function MainPage() {
                 : defaultPopularPostImage,
               title: post.title,
               content: post.body,
+              author: post.nickname,
               likeCount: post.likeCount,
               link: `/portfolio/${post.id}`,
             };
