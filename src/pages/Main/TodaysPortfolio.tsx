@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import MainPageAPI from '../../apis/MainPageAPI';
 import waveShape from '../../assets/wave_shape.svg';
 
 export interface bandPortfolioBriefType {
@@ -153,6 +154,11 @@ export function TodayPortfolio({
 }: {
   todayPortfolios: bandPortfolioBriefType[];
 }) {
+  useEffect(() => {
+    MainPageAPI.getTodayPortfolios().then((res) => {
+      console.log(res.data);
+    });
+  }, []);
   return (
     <section className='w-full h-96 overflow-hidden flex flex-col items-center bg-gradient-to-br from-primary to-secondary'>
       <h1 className='text-base-100 text-2xl'>오늘의 밴드 포트폴리오</h1>

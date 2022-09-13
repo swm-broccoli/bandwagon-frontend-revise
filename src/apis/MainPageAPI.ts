@@ -5,10 +5,12 @@ const baseURL =
 
 interface MainPageApiType {
   getPopularPosts: () => Promise<AxiosResponse>;
+  getTodayPortfolios: () => Promise<AxiosResponse>;
 }
 
 const MainPageAPI: MainPageApiType = {
   getPopularPosts: () => axios.get(baseURL + 'api/post/popular'),
+  getTodayPortfolios: () => axios.get(baseURL + 'api/random'),
 };
 
 export default MainPageAPI;
