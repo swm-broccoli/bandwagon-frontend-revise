@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import MainPageAPI from '../../apis/MainPageAPI';
 import waveShape from '../../assets/wave_shape.svg';
+import defaultAvatar from '../../assets/indie-band.jpeg';
 
 export interface bandPortfolioBriefType {
   id: number;
@@ -43,7 +44,11 @@ function TodaysPortfolioItem({
         <div className='absolute flex flex-row w-3/5 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all duration-500 z-30'>
           <img
             className='w-1/2 h-full object-fill'
-            src={todayPortfolio.avatarUrl}
+            src={
+              todayPortfolio.avatarUrl
+                ? todayPortfolio.avatarUrl
+                : defaultAvatar
+            }
             alt={`${todayPortfolio.name} 사진`}
           />
           <div className='card-body w-1/2'>
@@ -62,7 +67,11 @@ function TodaysPortfolioItem({
         >
           <img
             className='w-1/2 h-full object-fill'
-            src={todayPortfolio.avatarUrl}
+            src={
+              todayPortfolio.avatarUrl
+                ? todayPortfolio.avatarUrl
+                : defaultAvatar
+            }
             alt={`${todayPortfolio.name} 사진`}
           />
           <div className='w-1/2 card-body'>
