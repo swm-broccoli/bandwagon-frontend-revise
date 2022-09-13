@@ -13,7 +13,7 @@ import DescriptionField from '../../components/DescriptionField';
 import { UserProfileType } from '../../types/types';
 import RecordField from '../../components/RecordField';
 import UserProfileAPI from '../../apis/UserProfileAPI';
-import { initialUserProfile } from './initialUserProfile';
+import { vacantUserProfile } from './initialUserProfile';
 import { UserProfileAvatar } from './styles';
 import {
   updateUserAreas,
@@ -23,6 +23,7 @@ import {
   updateUserPerformances,
   updateUserPositions,
 } from './userProfileUpdate';
+import { vacantBandProfile } from '../BandProfile/initialBandProfile';
 
 function parseUserProfile(userProfile: UserProfileType) {
   return {
@@ -37,19 +38,10 @@ function parseUserProfile(userProfile: UserProfileType) {
 
 function UserProfile() {
   const [curUserProfile, setCurUserProfile] =
-    useState<UserProfileType>(initialUserProfile);
+    useState<UserProfileType>(vacantUserProfile);
 
-  const [serverUserProfile, setServerUserProfile] = useState<UserProfileType>({
-    avatarUrl: '',
-    name: '',
-    birthday: '',
-    gender: false,
-    positions: [],
-    genres: [],
-    areas: [],
-    description: '',
-    userPerformances: [],
-  });
+  const [serverUserProfile, setServerUserProfile] =
+    useState<UserProfileType>(vacantUserProfile);
 
   const [profileEditing, setProfileEditing] = useState<boolean>(false);
   const navigate = useNavigate();
