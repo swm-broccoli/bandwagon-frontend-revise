@@ -4,10 +4,12 @@ import TagElement from '../../components/TagElement';
 import positionOptions, {
   positionToKorean,
 } from '../../assets/options/positionOptions';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProfileAddModal from '../../components/ProfileAddModal';
 import BandProfileAPI from '../../apis/BandProfileAPI';
 import { FaCrown } from 'react-icons/fa';
+import RecruitPostAPI from '../../apis/RecruitPostAPI';
+import BandRequestAPI from '../../apis/BandRequestAPI';
 
 export function BandProfileAvatar({
   avatarURL,
@@ -214,11 +216,31 @@ function BandMemberAddButton({
 }) {
   const [newMemberEmail, setNewMemberEmail] = useState<string>('');
 
+  function handleMemberAddClick() {
+    RecruitPostAPI.LoadUserInfo(newMemberEmail)
+    .then((res) => {
+      if (res.data.id) {
+        BandRequestAPI.InviteBand(res.data.id)
+        .then((res) => {
+          console.log(res);
+          if (res) window.alert(newMemberEmail + '에게 초대를 보냈습니다!');
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
+
   return (
     <ProfileAddModal
       label={`${label} 추가`}
       addSelected={() => {
-        addMemberByEmail(newMemberEmail);
+        handleMemberAddClick();
+        // addMemberByEmail(newMemberEmail);
         setNewMemberEmail('');
       }}
     >

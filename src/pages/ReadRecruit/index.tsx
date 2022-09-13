@@ -148,10 +148,10 @@ function ReadRecruitPage() {
             )}
           </div>
           <ReadArticleCard article={postInfo?.body} />
-          <div className='row-start-4 col-start-2 md:row-start-2 md:col-start-3 md:mt-9 justify-self-end'>
+          <div className='row-start-4 col-start-2 md:row-start-2 md:col-start-3 md:mt-9 justify-self-end w-full md:w-fit'>
             {postID ? (
               isAuthor ? (
-                <div className='flex flex-row gap-2 md:flex-col md:gap-5'>
+                <div className='flex flex-row gap-2 justify-end md:flex-col md:gap-5'>
                   {type ? (
                     <Link to={'/recruit/band/write/' + postID}>
                       <Button

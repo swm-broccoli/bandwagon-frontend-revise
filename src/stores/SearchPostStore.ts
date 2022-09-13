@@ -7,7 +7,7 @@ interface searchPostStoreType {
   titleStore: string,
   minAgeStore: string,
   maxAgeStore: string,
-  selectStore: string[],
+  selectStore: {type: string, id: string}[],
   genreArray: SelectionType[],
   areaArray: AreaType[],
   clearStore: () => void,
@@ -27,7 +27,7 @@ interface searchPostStoreType {
 
 export const useSearchPostStore = create<searchPostStoreType>()(
   devtools((set) => ({
-    pageStore: '?page=0',
+    pageStore: '0',
     titleStore: '',
     minAgeStore: '',
     maxAgeStore: '',
@@ -36,7 +36,7 @@ export const useSearchPostStore = create<searchPostStoreType>()(
     areaArray: [],
     clearStore: () => {
       set((state) => ({
-        pageStore: '?page=0',
+        pageStore: '0',
         titleStore: '',
         minAgeStore: '',
         maxAgeStore: '',
@@ -46,47 +46,47 @@ export const useSearchPostStore = create<searchPostStoreType>()(
       }))
     },
     changePage: (page) => {
-      set((state) => ({pageStore: '?page=' + page.toString()}))
+      set((state) => ({pageStore: page.toString()}))
     },
     changeTitle: (title) => {
       if (title) {
-        set((state) => ({titleStore: '&title=' + title}))
+        set((state) => ({titleStore: title}))
       } else {
         set((state) => ({titleStore: ''}))
       }
     },
     changeMinAge: (min) => {
       if (min) {
-        set((state) => ({minAgeStore: '&minAge=' + min}))
+        set((state) => ({minAgeStore: min}))
       } else {
         set((state) => ({minAgeStore: ''}))
       }
     },
     changeMaxAge: (max) => {
       if (max) {
-        set((state) => ({maxAgeStore: '&maxAge=' + max}))
+        set((state) => ({maxAgeStore: max}))
       } else {
         set((state) => ({maxAgeStore: ''}))
       }
     },
     addSelectStore: (type, id) => {
       set((state) => ({
-        selectStore: [...state.selectStore, '&' + type + '=' + id.toString()]}))
+        selectStore: [...state.selectStore, {type: type, id: id.toString()}]}))
     },
     deleteSelectStore: (type, id) => {
       set((state) => ({
         selectStore: state.selectStore.filter(
-          (todo) => todo !== '&' + type + '=' + id.toString())
+          (element) => element.type !== type || element.id !== id.toString())
       }))
     },
     addGender: (type, gender) => {
       set((state) => ({
-        selectStore: [...state.selectStore, '&' + type + '=' + gender]}))
+        selectStore: [...state.selectStore, {type: type, id: gender}]}))
     },
     deleteGender: (type, gender) => {
       set((state) => ({
         selectStore: state.selectStore.filter(
-          (todo) => todo !== '&' + type + '=' + gender)
+          (element) => element.type !== type || element.id !== gender)
       }))
     },
     addGenre: (element) => {
