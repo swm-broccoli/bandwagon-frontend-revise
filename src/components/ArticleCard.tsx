@@ -80,15 +80,17 @@ function ArticleCard(props: { postInfo: PostCardType }) {
       {props.postInfo ? (
         props.postInfo.dtype == 'Band' ? (
           <div className='flex flex-wrap gap-1.5 row-start-3 col-start-2 w-full h-full'>
-            <TagElement tag={props.postInfo.tagInfo.areas[0].district} />
-            <TagElement tag={props.postInfo.tagInfo.genres[0].name} />
-            <TagElement tag={props.postInfo.tagInfo.days[0].name} />
+            {props.postInfo.tagInfo.length ?
+              props.postInfo.tagInfo.map((tag: {id: number, name: string}, index: number) =>
+              <TagElement key={index} tag={tag.name} />) :
+              <TagElement tag='누구나 지원 가능!' />}
           </div>
         ) : (
           <div className='flex flex-wrap gap-1.5 row-start-3 col-start-2 w-full h-full'>
-            <TagElement tag={props.postInfo.tagInfo.positions[0].name} />
-            <TagElement tag={props.postInfo.tagInfo.areas[0].district} />
-            <TagElement tag={props.postInfo.tagInfo.genres[0].name} />
+            {props.postInfo.tagInfo.length ?
+              props.postInfo.tagInfo.map((tag: {id: number, name: string}, index: number) =>
+              <TagElement key={index} tag={tag.name} />) :
+              <TagElement tag='누구나 지원 가능!' />}
           </div>
         )
       ) : (
