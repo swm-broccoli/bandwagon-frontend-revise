@@ -23,7 +23,6 @@ import {
   updateUserPerformances,
   updateUserPositions,
 } from './userProfileUpdate';
-import { vacantBandProfile } from '../BandProfile/initialBandProfile';
 
 function parseUserProfile(userProfile: UserProfileType) {
   return {
