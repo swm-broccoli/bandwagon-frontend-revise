@@ -9,18 +9,27 @@ import {
   tempRecommendedRecruitments,
   RecommendedRecruitments,
 } from './RecommendedRecruitments';
-import { tempRecentPosts, MainRecentPosts } from './MainRecentPosts';
+import { MainPopularPosts, PopularPostItemType } from './MainPopularPosts';
 import { Carousel } from './carousel/Carousel';
 import { carouselItemList } from './carousel/carouselItemList';
+import MainPageAPI from '../../apis/MainPageAPI';
 
 function MainPage() {
+  const [popularPosts, setPopularPosts] = useState<PopularPostItemType[]>([]);
+
+  useEffect(() => {
+    MainPageAPI.getPopularPosts().then((res) => {
+      console.log(res.data);
+    });
+  }, []);
+
   return (
     <main>
       <GlobalNavBar />
       <Carousel items={carouselItemList} />
       <RecruitMenu menuList={recruitMenuList} />
       <RecommendedRecruitments recruitments={tempRecommendedRecruitments} />
-      <MainRecentPosts recentPosts={tempRecentPosts} />
+      <MainPopularPosts recentPosts={[]} />
       <TodayPortfolio todayPortfolios={bandPortfolioBrief} />
       <div className='text-3xl text-teal-500'>메인 페이지입니다.</div>
       <div className='text-2xl text-teal-700'>페이지들의 링크는 아래에</div>

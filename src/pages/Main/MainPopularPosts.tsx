@@ -1,4 +1,4 @@
-interface RecentPostItemType {
+export interface PopularPostItemType {
   image: string;
   avatar: string;
   title: string;
@@ -8,7 +8,7 @@ interface RecentPostItemType {
   link: string;
 }
 
-export const tempRecentPosts: RecentPostItemType[] = [
+export const tempPopularPosts: PopularPostItemType[] = [
   {
     image: 'https://picsum.photos/200/300',
     avatar: 'https://picsum.photos/50/50',
@@ -59,10 +59,10 @@ export const tempRecentPosts: RecentPostItemType[] = [
   },
 ];
 
-function MainRecentPostItem({
+function MainPopularPostItem({
   recentPost,
 }: {
-  recentPost: RecentPostItemType;
+  recentPost: PopularPostItemType;
 }) {
   return (
     <div className='flex-1 card rounded-lg min-w-[180px] card-compact bg-base-100 shadow-xl mx-3 my-4'>
@@ -78,10 +78,10 @@ function MainRecentPostItem({
   );
 }
 
-export function MainRecentPosts({
+export function MainPopularPosts({
   recentPosts,
 }: {
-  recentPosts: RecentPostItemType[];
+  recentPosts: PopularPostItemType[];
 }) {
   return (
     <section className='w-full grid grid-cols-6 justify-center items-center py-10 md:mx-8'>
@@ -90,7 +90,7 @@ export function MainRecentPosts({
         <h2 className='text-neutral tracking-[0.2rem] mb-5'>P O P U L A R</h2>
         <div className='w-full max-w-[1280px] flex flex-row justify-between overflow-x-auto'>
           {recentPosts.slice(0, 4).map((recentPost, index) => (
-            <MainRecentPostItem key={index} recentPost={recentPost} />
+            <MainPopularPostItem key={index} recentPost={recentPost} />
           ))}
         </div>
       </div>
