@@ -16,6 +16,13 @@ import MainPageAPI from '../../apis/MainPageAPI';
 import defaultPopularPostImage from '../../assets/carousel-paragon.jpg';
 import defauleProfileImage from '../../assets/band-default-pic.png';
 
+function extractImageFromHtml(html: string): string {
+  const img = new DOMParser()
+    .parseFromString(html, 'text/html')
+    .querySelector('img');
+  return img ? img.src : '';
+}
+
 function MainPage() {
   const [popularPosts, setPopularPosts] = useState<PopularPostItemType[]>([]);
 
@@ -26,29 +33,31 @@ function MainPage() {
         res.data.posts.map((post: any): PopularPostItemType => {
           if (post.dtype === 'Band') {
             return {
-              image: post.bandAvatarUrl
-                ? post.bandAvatarUrl
-                : defaultPopularPostImage,
+              image:
+                extractImageFromHtml(post.body) === ''
+                  ? defaultPopularPostImage
+                  : extractImageFromHtml(post.body),
               title: post.title,
               content: post.body,
               author: post.bandName,
               authorProfileImage: post.bandAvatarUrl
                 ? post.bandAvatarUrl
-                : defaultPopularPostImage,
+                : defauleProfileImage,
               likeCount: post.likeCount,
               link: `/band/${post.id}`,
             };
           } else {
             return {
-              image: post.userAvatarUrl
-                ? post.userAvatarUrl
-                : defaultPopularPostImage,
+              image:
+                extractImageFromHtml(post.body) === ''
+                  ? defaultPopularPostImage
+                  : extractImageFromHtml(post.body),
               title: post.title,
               content: post.body,
               author: post.nickname,
               authorProfileImage: post.userAvatarUrl
                 ? post.userAvatarUrl
-                : defaultPopularPostImage,
+                : defauleProfileImage,
               likeCount: post.likeCount,
               link: `/portfolio/${post.id}`,
             };

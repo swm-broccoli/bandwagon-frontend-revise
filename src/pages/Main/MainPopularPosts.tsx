@@ -1,4 +1,5 @@
 import parse from 'html-react-parser';
+import { useEffect } from 'react';
 
 export interface PopularPostItemType {
   image: string;
