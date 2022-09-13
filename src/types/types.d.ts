@@ -189,4 +189,5 @@ export interface NotificationType {
   notificationId: number;
   message: string;
   isRead: boolean;
+  type: string;
 }

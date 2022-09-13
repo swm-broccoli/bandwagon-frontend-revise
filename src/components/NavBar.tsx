@@ -4,6 +4,7 @@ import SiteLogo from './Logo';
 import { useLoginStore } from '../stores/LoginStore';
 import RecruitProcessAPI from '../apis/RecruitProcessAPI';
 import { NotificationType } from '../types/types';
+import NotificationBox from './NotificationBox';
 
 function NavBarItem({ label, link }: { label: string; link: string }) {
   return (
@@ -13,39 +14,6 @@ function NavBarItem({ label, link }: { label: string; link: string }) {
       </Link>
     </li>
   );
-}
-
-function NotificationBox () {
-  const [notificationList, setNotificationList] = useState<NotificationType[]>([]);
-
-  function handleNotificationClick (e: React.MouseEvent<HTMLLabelElement>) {
-    RecruitProcessAPI.getNotification()
-    .then((res) => {
-      console.log(res.data.notifications);
-      setNotificationList(res.data.notifications);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  };
-
-  return (
-    <li className='menu-item'>
-      <div className='dropdown'>
-        <label
-          onClick={handleNotificationClick}
-          tabIndex={0}
-          className='text-[#676767] active:bg-neutral'>
-          알림
-        </label>
-        <ul tabIndex={0} className='dropdown-content menu flex flex-col gap-5 p-5 shadow bg-base-100 rounded-lg w-72 mt-80'>
-        {notificationList.map((notification, index) => 
-          <li key={index} className='w-full'>{notification.message}</li>
-        )}
-        </ul>
-      </div>
-    </li>
-  )
 }
 
 function GlobalNavBar() {
