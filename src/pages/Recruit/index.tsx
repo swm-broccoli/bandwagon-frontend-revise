@@ -26,6 +26,9 @@ function RecruitPage(props: {type: boolean},) {
     titleStore,
     minAgeStore,
     maxAgeStore,
+    anyPositionStore,
+    anyGenreStore,
+    anyAreaStore,
     clearStore} = useSearchPostStore();
     
 
@@ -78,6 +81,9 @@ function RecruitPage(props: {type: boolean},) {
     if (titleStore) query.set('title', titleStore);
     if (minAgeStore) query.set('minAge', minAgeStore);
     if (maxAgeStore) query.set('maxAge', maxAgeStore);
+    if (anyPositionStore) query.set('anyPosition', 'true');
+    if (anyGenreStore) query.set('anyGenre', 'true');
+    if (anyAreaStore) query.set('anyArea', 'true');
     
     selectStore.forEach(element => query.append(element.type, element.id));
 

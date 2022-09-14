@@ -33,10 +33,16 @@ function ConditionLabel (props: {label: string, row: string}) {
   );
 };
 
-function SelectAnyPosition (props: {type: string}) {
+function SelectAnyCondition (props: {type: string}) {
+  const {changeAnyStore} = useSearchPostStore();
+
+  function handleClick (e: React.MouseEvent<HTMLInputElement>) {
+    changeAnyStore(props.type);
+  }
+
   return (
     <div className='flex gap-2 items-center ml-3'>
-      <input type='checkbox' className='checkbox' />
+      <input type='checkbox' onClick={handleClick} className='checkbox' />
       <p className='flex text-sm text-[#888888]'>조건 무관</p>
     </div>
   )
@@ -145,7 +151,7 @@ function SelectSession () {
       <li key={index}>
         <SelectSessionButton label={position} />
       </li>)}
-      <SelectAnyPosition type='anySession'/>
+      <SelectAnyCondition type='session'/>
     </ul>
   )
 }
@@ -183,7 +189,7 @@ function SelectGenre () {
           y='h-[3.125rem] '
           textSize='text-base'
           onclick={handleClick} />
-        <SelectAnyPosition type='anyPosition'/>
+        <SelectAnyCondition type='genre'/>
       </div>
       <ul className='flex gap-4'>
         {genreArray.map((genre, index) =>
@@ -260,7 +266,7 @@ function SelectArea () {
           y='h-[3.125rem] '
           textSize='text-base'
           onclick={handleClick} />
-        <SelectAnyPosition type='anySession'/>
+        <SelectAnyCondition type='area'/>
       </div>
       <ul className='flex gap-4'>
         {areaArray.map((area, index) =>
