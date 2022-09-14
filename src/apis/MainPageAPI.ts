@@ -4,9 +4,11 @@ const baseURL =
   'http://bandwagon-vpc-alb-private-dev-830505980.ap-northeast-2.elb.amazonaws.com/';
 
 interface MainPageApiType {
-  getPopularPost: () => Promise<AxiosResponse>;
+  getPopularPosts: () => Promise<AxiosResponse>;
 }
 
 const MainPageAPI: MainPageApiType = {
-  getPopularPost: () => axios.get(baseURL + 'api/post/popular'),
+  getPopularPosts: () => axios.get(baseURL + 'api/post/popular'),
 };
+
+export default MainPageAPI;
