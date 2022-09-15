@@ -12,68 +12,16 @@ import {
 import { MainPopularPosts, PopularPostItemType } from './MainPopularPosts';
 import { Carousel } from './carousel/Carousel';
 import { carouselItemList } from './carousel/carouselItemList';
-import MainPageAPI from '../../apis/MainPageAPI';
-import defaultPopularPostImage from '../../assets/carousel-paragon.jpg';
-import defauleProfileImage from '../../assets/band-default-pic.png';
-
-function extractImageFromHtml(html: string): string {
-  const img = new DOMParser()
-    .parseFromString(html, 'text/html')
-    .querySelector('img');
-  return img ? img.src : '';
-}
 
 function MainPage() {
-  const [popularPosts, setPopularPosts] = useState<PopularPostItemType[]>([]);
-
-  useEffect(() => {
-    MainPageAPI.getPopularPosts().then((res) => {
-      setPopularPosts(
-        res.data.posts.map((post: any): PopularPostItemType => {
-          if (post.dtype === 'Band') {
-            return {
-              image:
-                extractImageFromHtml(post.body) === ''
-                  ? defaultPopularPostImage
-                  : extractImageFromHtml(post.body),
-              title: post.title,
-              content: post.body,
-              author: post.bandName,
-              authorProfileImage: post.bandAvatarUrl
-                ? post.bandAvatarUrl
-                : defauleProfileImage,
-              likeCount: post.likeCount,
-              link: `/recruit/${post.id}`,
-            };
-          } else {
-            return {
-              image:
-                extractImageFromHtml(post.body) === ''
-                  ? defaultPopularPostImage
-                  : extractImageFromHtml(post.body),
-              title: post.title,
-              content: post.body,
-              author: post.nickname,
-              authorProfileImage: post.userAvatarUrl
-                ? post.userAvatarUrl
-                : defauleProfileImage,
-              likeCount: post.likeCount,
-              link: `/recruit/${post.id}`,
-            };
-          }
-        }),
-      );
-    });
-  }, []);
-
   return (
     <main>
       <GlobalNavBar />
       <Carousel items={carouselItemList} />
       <RecruitMenu menuList={recruitMenuList} />
       <RecommendedRecruitments recruitments={tempRecommendedRecruitments} />
-      <MainPopularPosts recentPosts={popularPosts} />
-      <TodayPortfolio todayPortfolios={bandPortfolioBrief} />
+      <MainPopularPosts />
+      <TodayPortfolio />
       <div className='text-3xl text-teal-500'>메인 페이지입니다.</div>
       <div className='text-2xl text-teal-700'>페이지들의 링크는 아래에</div>
       <div className='grid grid-flow-col gap-3 mt-5 w-full'>

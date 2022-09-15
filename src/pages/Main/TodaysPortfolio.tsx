@@ -1,10 +1,14 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import MainPageAPI from '../../apis/MainPageAPI';
 import waveShape from '../../assets/wave_shape.svg';
+import defaultAvatar from '../../assets/indie-band.jpeg';
 
 export interface bandPortfolioBriefType {
-  title: string;
+  id: number;
+  avatarUrl: string;
+  name: string;
   description: string;
-  image: string;
+  dtype: 'User' | 'Band';
 }
 
 interface CarouselIndexes {
@@ -40,11 +44,15 @@ function TodaysPortfolioItem({
         <div className='absolute flex flex-row w-3/5 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all duration-500 z-30'>
           <img
             className='w-1/2 h-full object-fill'
-            src={todayPortfolio.image}
-            alt={`${todayPortfolio.title} 사진`}
+            src={
+              todayPortfolio.avatarUrl
+                ? todayPortfolio.avatarUrl
+                : defaultAvatar
+            }
+            alt={`${todayPortfolio.name} 사진`}
           />
           <div className='card-body w-1/2'>
-            <h2 className='card-title'>{todayPortfolio.title}</h2>
+            <h2 className='card-title'>{todayPortfolio.name}</h2>
             <p>{todayPortfolio.description}</p>
           </div>
         </div>
@@ -59,11 +67,15 @@ function TodaysPortfolioItem({
         >
           <img
             className='w-1/2 h-full object-fill'
-            src={todayPortfolio.image}
-            alt={`${todayPortfolio.title} 사진`}
+            src={
+              todayPortfolio.avatarUrl
+                ? todayPortfolio.avatarUrl
+                : defaultAvatar
+            }
+            alt={`${todayPortfolio.name} 사진`}
           />
           <div className='w-1/2 card-body'>
-            <h2 className='card-title'>{todayPortfolio.title}</h2>
+            <h2 className='card-title'>{todayPortfolio.name}</h2>
             <p>{todayPortfolio.description}</p>
           </div>
         </div>
@@ -108,7 +120,6 @@ export function TodayPortfolioCarousel({
 
   const handleCardTransition = useCallback(() => {
     // useCallback 을 이용해서 indexes.currentIndex 가 변할 때만 이 함수가 새로 생성되도록 한다
-
     if (indexes.currentIndex >= todayPortfolios.length - 1) {
       setIndexes((prevState) => ({
         previousIndex: todayPortfolios.length - 1,
@@ -125,7 +136,7 @@ export function TodayPortfolioCarousel({
             : prevState.currentIndex + 2,
       }));
     }
-  }, [indexes.currentIndex]);
+  }, [indexes.currentIndex, todayPortfolios]);
 
   return (
     <div className='relative w-full h-full flex flex-col items-center'>
@@ -148,11 +159,17 @@ export function TodayPortfolioCarousel({
 
 // css animation from https://codepen.io/Prachl/pen/XLveVd
 // https://www.section.io/engineering-education/pure-css-wave-animations-website/
-export function TodayPortfolio({
-  todayPortfolios,
-}: {
-  todayPortfolios: bandPortfolioBriefType[];
-}) {
+export function TodayPortfolio() {
+  const [todayPortfolios, setTodayPortfolios] = useState<
+    bandPortfolioBriefType[]
+  >([]);
+
+  useEffect(() => {
+    MainPageAPI.getTodayPortfolios().then((res) => {
+      console.log(res.data);
+      setTodayPortfolios(res.data);
+    });
+  }, []);
   return (
     <section className='w-full h-96 overflow-hidden flex flex-col items-center bg-gradient-to-br from-primary to-secondary'>
       <h1 className='text-base-100 text-2xl'>오늘의 밴드 포트폴리오</h1>
