@@ -171,7 +171,7 @@ export function TodayPortfolio() {
     });
   }, []);
   return (
-    <section className='w-full h-96 overflow-hidden flex flex-col items-center bg-gradient-to-br from-primary to-secondary'>
+    <section className='w-full h-[40vh] overflow-hidden flex flex-col items-center bg-gradient-to-br from-primary to-secondary'>
       <h1 className='text-base-100 text-2xl'>오늘의 밴드 포트폴리오</h1>
       <h2 className='text-base-100 text-lg tracking-[0.5rem]'>PORTFOLIO</h2>
       <TodayPortfolioCarousel todayPortfolios={todayPortfolios} />
