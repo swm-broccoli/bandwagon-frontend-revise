@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
-import MainPageAPI from '../../apis/MainPageAPI';
-import waveShape from '../../assets/wave_shape.svg';
-import defaultAvatar from '../../assets/indie-band.jpeg';
+import MainPageAPI from '../../../apis/MainPageAPI';
+import Wave from './Wave';
+import defaultAvatar from '../../../assets/indie-band.jpeg';
 
 export interface bandPortfolioBriefType {
   id: number;
@@ -85,28 +85,6 @@ function TodaysPortfolioItem({
   }
 }
 
-function WaveItem() {
-  return (
-    <div
-      className={`absolute w-[200%] h-full z-20 bottom-0 opacity-30 first-of-type:opacity-50 first-of-type:animate-wave-animation animate-wave-animation-2 last-of-type:animate-wave-animation-3`}
-      style={{
-        backgroundImage: `url(${waveShape})`,
-        backgroundRepeat: 'repeat-x',
-      }}
-    ></div>
-  );
-}
-
-function Wave() {
-  return (
-    <div className='w-full h-full absolute left-0 bottom-0 overflow-x-hidden'>
-      <WaveItem />
-      <WaveItem />
-      <WaveItem />
-    </div>
-  );
-}
-
 export function TodayPortfolioCarousel({
   todayPortfolios,
 }: {
@@ -118,32 +96,31 @@ export function TodayPortfolioCarousel({
     nextIndex: 2,
   });
 
-  const handleCardTransition = useCallback(() => {
-    // useCallback 을 이용해서 indexes.currentIndex 가 변할 때만 이 함수가 새로 생성되도록 한다
-    if (indexes.currentIndex >= todayPortfolios.length - 1) {
-      setIndexes((prevState) => ({
+  const handleTransition = (transitionIndex: number) => {
+    if (transitionIndex === 0) {
+      setIndexes({
         previousIndex: todayPortfolios.length - 1,
         currentIndex: 0,
         nextIndex: 1,
-      }));
+      });
+    } else if (transitionIndex === todayPortfolios.length - 1) {
+      setIndexes({
+        previousIndex: todayPortfolios.length - 2,
+        currentIndex: todayPortfolios.length - 1,
+        nextIndex: 0,
+      });
     } else {
-      setIndexes((prevState) => ({
-        previousIndex: prevState.currentIndex,
-        currentIndex: prevState.currentIndex + 1,
-        nextIndex:
-          prevState.currentIndex + 2 === todayPortfolios.length
-            ? 0
-            : prevState.currentIndex + 2,
-      }));
+      setIndexes({
+        previousIndex: transitionIndex - 1,
+        currentIndex: transitionIndex,
+        nextIndex: transitionIndex + 1,
+      });
     }
-  }, [indexes.currentIndex, todayPortfolios]);
+  };
 
   return (
     <div className='relative w-full h-full flex flex-col items-center'>
       <Wave />
-      <button className='mb-10 z-30' onClick={handleCardTransition}>
-        Transition to Next
-      </button>
       <div className='w-full h-full relative flex flex-row justify-center mx-auto'>
         {todayPortfolios.map((todayPortfolio, index) => (
           <TodaysPortfolioItem
@@ -151,6 +128,19 @@ export function TodayPortfolioCarousel({
             todayPortfolio={todayPortfolio}
             currentState={determineCardState(index, indexes)}
           />
+        ))}
+      </div>
+      <div className='flex flex-row'>
+        {todayPortfolios.map((todayPortfolio, index) => (
+          <button
+            key={index}
+            className={`${
+              index === indexes.currentIndex ? 'bg-base-100' : 'bg-base-200'
+            } w-32 h-1 mb-5 z-40`}
+            onClick={() => {
+              handleTransition(index);
+            }}
+          ></button>
         ))}
       </div>
     </div>
@@ -170,6 +160,7 @@ export function TodayPortfolio() {
       setTodayPortfolios(res.data);
     });
   }, []);
+
   return (
     <section className='w-full h-[40vh] overflow-hidden flex flex-col items-center bg-gradient-to-br from-primary to-secondary'>
       <h1 className='text-base-100 text-2xl'>오늘의 밴드 포트폴리오</h1>
