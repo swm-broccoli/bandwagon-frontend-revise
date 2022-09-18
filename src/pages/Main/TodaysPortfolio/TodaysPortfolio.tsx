@@ -41,7 +41,7 @@ function TodaysPortfolioItem({
   switch (currentState) {
     case 'current':
       return (
-        <div className='absolute flex flex-row w-3/5 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all duration-500 z-30'>
+        <div className='flex flex-row w-2/3 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all duration-500 z-30'>
           <img
             className='w-1/2 h-full object-fill'
             src={
@@ -63,7 +63,7 @@ function TodaysPortfolioItem({
         <div
           className={`${
             currentState === 'previous' ? 'left-0' : 'right-0'
-          } absolute flex flex-row w-3/5 h-4/5 scale-75 shrink-0 card card-side bg-base-100 shadow-xl transition-all z-20`}
+          } flex flex-row w-3/5 h-3/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all z-20`}
         >
           <img
             className='w-1/2 h-full object-fill'
@@ -121,7 +121,7 @@ export function TodayPortfolioCarousel({
   return (
     <div className='relative w-full h-full flex flex-col items-center'>
       <Wave />
-      <div className='w-full h-full relative flex flex-row justify-center mx-auto'>
+      <div className='w-full h-full relative flex flex-row justify-center items-center mx-auto'>
         {todayPortfolios.map((todayPortfolio, index) => (
           <TodaysPortfolioItem
             key={index}
@@ -136,7 +136,7 @@ export function TodayPortfolioCarousel({
             key={index}
             className={`${
               index === indexes.currentIndex ? 'bg-base-100' : 'bg-base-200'
-            } w-32 h-1 mb-5 z-40`}
+            } w-40 h-1 mb-5 z-40`}
             onClick={() => {
               handleTransition(index);
             }}
@@ -162,7 +162,7 @@ export function TodayPortfolio() {
   }, []);
 
   return (
-    <section className='w-full h-[40vh] overflow-hidden flex flex-col items-center bg-gradient-to-br from-primary to-secondary'>
+    <section className='w-full overflow-hidden flex flex-col items-center bg-gradient-to-br from-primary to-secondary'>
       <h1 className='text-base-100 text-2xl'>오늘의 밴드 포트폴리오</h1>
       <h2 className='text-base-100 text-lg tracking-[0.5rem]'>PORTFOLIO</h2>
       <TodayPortfolioCarousel todayPortfolios={todayPortfolios} />
