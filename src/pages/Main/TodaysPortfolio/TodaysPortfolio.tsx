@@ -41,7 +41,7 @@ function TodaysPortfolioItem({
   switch (currentState) {
     case 'current':
       return (
-        <div className='flex flex-row w-2/3 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all duration-500 z-30'>
+        <div className='absolute flex flex-row w-2/3 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all duration-500 z-30'>
           <img
             className='w-1/2 h-full object-fill'
             src={
@@ -63,7 +63,7 @@ function TodaysPortfolioItem({
         <div
           className={`${
             currentState === 'previous' ? 'left-0' : 'right-0'
-          } flex flex-row w-3/5 h-3/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all z-20`}
+          } absolute flex flex-row w-3/5 h-3/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all z-20`}
         >
           <img
             className='w-1/2 h-full object-fill'
@@ -121,7 +121,7 @@ export function TodayPortfolioCarousel({
   return (
     <div className='relative w-full h-full flex flex-col items-center'>
       <Wave />
-      <div className='w-full h-full relative flex flex-row justify-center items-center mx-auto'>
+      <div className='relative w-full h-[30vw] flex flex-row justify-center items-center mx-auto'>
         {todayPortfolios.map((todayPortfolio, index) => (
           <TodaysPortfolioItem
             key={index}
@@ -130,13 +130,13 @@ export function TodayPortfolioCarousel({
           />
         ))}
       </div>
-      <div className='flex flex-row'>
+      <div className='flex flex-row w-1/2'>
         {todayPortfolios.map((todayPortfolio, index) => (
           <button
             key={index}
             className={`${
               index === indexes.currentIndex ? 'bg-base-100' : 'bg-base-200'
-            } w-40 h-1 mb-5 z-40`}
+            } w-1/3 h-1 mb-5 z-40`}
             onClick={() => {
               handleTransition(index);
             }}
