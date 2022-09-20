@@ -5,7 +5,7 @@ import MainPageAPI from '../../apis/MainPageAPI';
 interface RecommendedRecruitmentItemType {
   id: number;
   image: string;
-  recruitInfo: string;
+  recruitInfo: { id: string; name: string }[];
   title: string;
 }
 
@@ -20,7 +20,13 @@ function RecommendedRecruitmentItem({
       to={`/recruit/${recruitment.id}`}
     >
       <img className='rounded-lg object-fill' src={recruitment.image} />
-      <span className='badge badge-secondary badge-outline'>대충아무거나</span>
+      <div className='flex flex-row'>
+        {recruitment.recruitInfo.map((info) => (
+          <span className='badge badge-secondary badge-outline mr-2 text-sm text-gray-500'>
+            {info.name}
+          </span>
+        ))}
+      </div>
       <p>{recruitment.title}</p>
     </Link>
   );
@@ -46,8 +52,9 @@ export function RecommendedRecruitments() {
           };
         }),
       );
+      console.log(res.data.posts);
     });
-  });
+  }, []);
 
   return (
     <section className='bg-[#f4f9f9] grid grid-cols-6 py-10'>
