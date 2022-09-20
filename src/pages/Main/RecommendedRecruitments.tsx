@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MainPageAPI from '../../apis/MainPageAPI';
+import { positionToKorean } from '../../assets/options/positionOptions';
 
 interface RecommendedRecruitmentItemType {
   id: number;
@@ -22,8 +23,11 @@ function RecommendedRecruitmentItem({
       <img className='rounded-lg object-fill' src={recruitment.image} />
       <div className='flex flex-row'>
         {recruitment.recruitInfo.map((info) => (
-          <span className='badge badge-secondary badge-outline mr-2 text-sm text-gray-500'>
-            {info.name}
+          <span
+            key={info.id}
+            className='badge badge-secondary badge-outline mr-2 text-sm text-gray-500'
+          >
+            {positionToKorean[info.name]}
           </span>
         ))}
       </div>
