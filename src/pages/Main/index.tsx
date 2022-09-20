@@ -4,28 +4,18 @@ import { Link } from 'react-router-dom';
 import { TodayPortfolio } from './TodaysPortfolio/TodaysPortfolio';
 import GlobalFooter from '../../components/Footer';
 import { recruitMenuList, RecruitMenu } from './RecruitMenu';
-import {
-  tempRecommendedRecruitments,
-  RecommendedRecruitments,
-} from './RecommendedRecruitments';
-import { MainPopularPosts, PopularPostItemType } from './MainPopularPosts';
+import { RecommendedRecruitments } from './RecommendedRecruitments';
+import { MainPopularPosts } from './MainPopularPosts';
 import { Carousel } from './carousel/Carousel';
 import { carouselItemList } from './carousel/carouselItemList';
-import MainPageAPI from '../../apis/MainPageAPI';
 
 function MainPage() {
-  useEffect(() => {
-    MainPageAPI.getRecommendedRecruits().then((res) => {
-      console.log(res);
-    });
-  }, []);
-
   return (
     <main>
       <GlobalNavBar />
       <Carousel items={carouselItemList} />
       <RecruitMenu menuList={recruitMenuList} />
-      <RecommendedRecruitments recruitments={tempRecommendedRecruitments} />
+      <RecommendedRecruitments />
       <MainPopularPosts />
       <TodayPortfolio />
       <div className='text-3xl text-teal-500'>메인 페이지입니다.</div>

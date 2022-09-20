@@ -1,31 +1,11 @@
+import { useEffect, useState } from 'react';
+import MainPageAPI from '../../apis/MainPageAPI';
+
 interface RecommendedRecruitmentItemType {
   image: string;
-  region: string;
+  recruitInfo: string;
   title: string;
 }
-
-export const tempRecommendedRecruitments: RecommendedRecruitmentItemType[] = [
-  {
-    image: 'https://picsum.photos/200',
-    region: '서울',
-    title: '서울 마포구 밴드 기타 모집합니다.',
-  },
-  {
-    image: 'https://picsum.photos/201',
-    region: '인천',
-    title: '인천 부평 밴드 여보컬 모집합니다.',
-  },
-  {
-    image: 'https://picsum.photos/200',
-    region: '경기',
-    title: '일산 백석 직밴 건반 모십니다.',
-  },
-  {
-    image: 'https://picsum.photos/200',
-    region: '경기',
-    title: '경기 구리시 밴드 베이스 모십니다.',
-  },
-];
 
 function RecommendedRecruitmentItem({
   recruitment,
@@ -35,19 +15,34 @@ function RecommendedRecruitmentItem({
   return (
     <div className='grid grid-flow-row flex-1 min-w-[150px] mx-3 gap-2'>
       <img className='rounded-lg object-fill' src={recruitment.image} />
-      <span className='badge badge-secondary badge-outline'>
-        {recruitment.region}
-      </span>
+      <span className='badge badge-secondary badge-outline'>대충아무거나</span>
       <p>{recruitment.title}</p>
     </div>
   );
 }
 
-export function RecommendedRecruitments({
-  recruitments,
-}: {
-  recruitments: RecommendedRecruitmentItemType[];
-}) {
+export function RecommendedRecruitments() {
+  const [recruitments, setRecruitments] = useState<
+    RecommendedRecruitmentItemType[]
+  >([]);
+
+  useEffect(() => {
+    MainPageAPI.getRecommendedRecruits().then((res) => {
+      setRecruitments(
+        res.data.posts.map((recruit: any): RecommendedRecruitmentItemType => {
+          return {
+            image:
+              recruit.dtype === 'Band'
+                ? recruit.bandAvatarUrl
+                : recruit.userAvatarUrl,
+            recruitInfo: recruit.tagInfo,
+            title: recruit.title,
+          };
+        }),
+      );
+    });
+  });
+
   return (
     <section className='bg-[#f4f9f9] grid grid-cols-6 py-10'>
       <div className='col-span-full lg:col-start-2 lg:col-end-6 flex flex-col md:flex-row'>
