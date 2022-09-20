@@ -224,6 +224,7 @@ function SignUpForm() {
         setValue={(newBirthday) => {
           setSignUpUserInput({ ...signUpUserInput, birthday: newBirthday });
         }}
+        required
       />
       <SelectionInput
         label='성별'
