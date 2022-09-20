@@ -96,6 +96,48 @@ export function TodayPortfolioCarousel({
     nextIndex: 2,
   });
 
+  const [touchPosition, setTouchPosition] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touchDown = e.touches[0].clientX;
+    setTouchPosition(touchDown);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touchStarted = touchPosition;
+    if (touchStarted === null) {
+      return;
+    }
+
+    const currentTouch = e.touches[0].clientX;
+    const diff = touchStarted - currentTouch;
+
+    if (diff > 10) {
+      console.log('touch left');
+      setIndexes({
+        previousIndex: (indexes.previousIndex + 1) % todayPortfolios.length,
+        currentIndex: (indexes.currentIndex + 1) % todayPortfolios.length,
+        nextIndex: (indexes.nextIndex + 1) % todayPortfolios.length,
+      });
+    }
+
+    if (diff < -10) {
+      console.log('touch right');
+      setIndexes({
+        previousIndex:
+          (indexes.previousIndex - 1 + todayPortfolios.length) %
+          todayPortfolios.length,
+        currentIndex:
+          (indexes.currentIndex - 1 + todayPortfolios.length) %
+          todayPortfolios.length,
+        nextIndex:
+          (indexes.nextIndex - 1 + todayPortfolios.length) %
+          todayPortfolios.length,
+      });
+    }
+    setTouchPosition(null);
+  };
+
   const handleTransition = (transitionIndex: number) => {
     if (transitionIndex === 0) {
       setIndexes({
@@ -119,7 +161,11 @@ export function TodayPortfolioCarousel({
   };
 
   return (
-    <div className='relative w-full h-full flex flex-col items-center'>
+    <div
+      className='relative w-full h-full flex flex-col items-center'
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+    >
       <Wave />
       <div className='relative w-full h-[30vw] flex flex-row justify-center items-center mx-auto'>
         {todayPortfolios.map((todayPortfolio, index) => (
