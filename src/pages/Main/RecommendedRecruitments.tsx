@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import MainPageAPI from '../../apis/MainPageAPI';
 
 interface RecommendedRecruitmentItemType {
+  id: number;
   image: string;
   recruitInfo: string;
   title: string;
@@ -13,11 +15,14 @@ function RecommendedRecruitmentItem({
   recruitment: RecommendedRecruitmentItemType;
 }) {
   return (
-    <div className='grid grid-flow-row flex-1 min-w-[150px] mx-3 gap-2'>
+    <Link
+      className='grid grid-flow-row flex-1 min-w-[150px] mx-3 gap-2'
+      to={`/recruit/${recruitment.id}`}
+    >
       <img className='rounded-lg object-fill' src={recruitment.image} />
       <span className='badge badge-secondary badge-outline'>대충아무거나</span>
       <p>{recruitment.title}</p>
-    </div>
+    </Link>
   );
 }
 
@@ -31,6 +36,7 @@ export function RecommendedRecruitments() {
       setRecruitments(
         res.data.posts.map((recruit: any): RecommendedRecruitmentItemType => {
           return {
+            id: recruit.id,
             image:
               recruit.dtype === 'Band'
                 ? recruit.bandAvatarUrl
