@@ -11,8 +11,15 @@ import {
 import { MainPopularPosts, PopularPostItemType } from './MainPopularPosts';
 import { Carousel } from './carousel/Carousel';
 import { carouselItemList } from './carousel/carouselItemList';
+import MainPageAPI from '../../apis/MainPageAPI';
 
 function MainPage() {
+  useEffect(() => {
+    MainPageAPI.getRecommendedRecruits().then((res) => {
+      console.log(res);
+    });
+  }, []);
+
   return (
     <main>
       <GlobalNavBar />
