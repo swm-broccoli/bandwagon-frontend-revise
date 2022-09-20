@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
-import MainPageAPI from '../../apis/MainPageAPI';
-import waveShape from '../../assets/wave_shape.svg';
-import defaultAvatar from '../../assets/indie-band.jpeg';
+import MainPageAPI from '../../../apis/MainPageAPI';
+import Wave from './Wave';
+import defaultAvatar from '../../../assets/indie-band.jpeg';
 
 export interface bandPortfolioBriefType {
   id: number;
@@ -41,7 +41,7 @@ function TodaysPortfolioItem({
   switch (currentState) {
     case 'current':
       return (
-        <div className='absolute flex flex-row w-3/5 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all duration-500 z-30'>
+        <div className='absolute flex flex-row w-2/3 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all duration-500 z-30'>
           <img
             className='w-1/2 h-full object-fill'
             src={
@@ -63,7 +63,7 @@ function TodaysPortfolioItem({
         <div
           className={`${
             currentState === 'previous' ? 'left-0' : 'right-0'
-          } absolute flex flex-row w-3/5 h-4/5 scale-75 shrink-0 card card-side bg-base-100 shadow-xl transition-all z-20`}
+          } absolute flex flex-row w-3/5 h-3/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all z-20`}
         >
           <img
             className='w-1/2 h-full object-fill'
@@ -85,28 +85,6 @@ function TodaysPortfolioItem({
   }
 }
 
-function WaveItem() {
-  return (
-    <div
-      className={`absolute w-[200%] h-full z-20 bottom-0 opacity-30 first-of-type:opacity-50 first-of-type:animate-wave-animation animate-wave-animation-2 last-of-type:animate-wave-animation-3`}
-      style={{
-        backgroundImage: `url(${waveShape})`,
-        backgroundRepeat: 'repeat-x',
-      }}
-    ></div>
-  );
-}
-
-function Wave() {
-  return (
-    <div className='w-full h-full absolute left-0 bottom-0 overflow-x-hidden'>
-      <WaveItem />
-      <WaveItem />
-      <WaveItem />
-    </div>
-  );
-}
-
 export function TodayPortfolioCarousel({
   todayPortfolios,
 }: {
@@ -118,39 +96,97 @@ export function TodayPortfolioCarousel({
     nextIndex: 2,
   });
 
-  const handleCardTransition = useCallback(() => {
-    // useCallback 을 이용해서 indexes.currentIndex 가 변할 때만 이 함수가 새로 생성되도록 한다
-    if (indexes.currentIndex >= todayPortfolios.length - 1) {
-      setIndexes((prevState) => ({
+  const [touchPosition, setTouchPosition] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touchDown = e.touches[0].clientX;
+    setTouchPosition(touchDown);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touchStarted = touchPosition;
+    if (touchStarted === null) {
+      return;
+    }
+
+    const currentTouch = e.touches[0].clientX;
+    const diff = touchStarted - currentTouch;
+
+    if (diff > 10) {
+      console.log('touch left');
+      setIndexes({
+        previousIndex: (indexes.previousIndex + 1) % todayPortfolios.length,
+        currentIndex: (indexes.currentIndex + 1) % todayPortfolios.length,
+        nextIndex: (indexes.nextIndex + 1) % todayPortfolios.length,
+      });
+    }
+
+    if (diff < -10) {
+      console.log('touch right');
+      setIndexes({
+        previousIndex:
+          (indexes.previousIndex - 1 + todayPortfolios.length) %
+          todayPortfolios.length,
+        currentIndex:
+          (indexes.currentIndex - 1 + todayPortfolios.length) %
+          todayPortfolios.length,
+        nextIndex:
+          (indexes.nextIndex - 1 + todayPortfolios.length) %
+          todayPortfolios.length,
+      });
+    }
+    setTouchPosition(null);
+  };
+
+  const handleTransition = (transitionIndex: number) => {
+    if (transitionIndex === 0) {
+      setIndexes({
         previousIndex: todayPortfolios.length - 1,
         currentIndex: 0,
         nextIndex: 1,
-      }));
+      });
+    } else if (transitionIndex === todayPortfolios.length - 1) {
+      setIndexes({
+        previousIndex: todayPortfolios.length - 2,
+        currentIndex: todayPortfolios.length - 1,
+        nextIndex: 0,
+      });
     } else {
-      setIndexes((prevState) => ({
-        previousIndex: prevState.currentIndex,
-        currentIndex: prevState.currentIndex + 1,
-        nextIndex:
-          prevState.currentIndex + 2 === todayPortfolios.length
-            ? 0
-            : prevState.currentIndex + 2,
-      }));
+      setIndexes({
+        previousIndex: transitionIndex - 1,
+        currentIndex: transitionIndex,
+        nextIndex: transitionIndex + 1,
+      });
     }
-  }, [indexes.currentIndex, todayPortfolios]);
+  };
 
   return (
-    <div className='relative w-full h-full flex flex-col items-center'>
+    <div
+      className='relative w-full h-full flex flex-col items-center'
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+    >
       <Wave />
-      <button className='mb-10 z-30' onClick={handleCardTransition}>
-        Transition to Next
-      </button>
-      <div className='w-full h-full relative flex flex-row justify-center mx-auto'>
+      <div className='relative w-full h-[30vw] flex flex-row justify-center items-center mx-auto'>
         {todayPortfolios.map((todayPortfolio, index) => (
           <TodaysPortfolioItem
             key={index}
             todayPortfolio={todayPortfolio}
             currentState={determineCardState(index, indexes)}
           />
+        ))}
+      </div>
+      <div className='flex flex-row w-1/2'>
+        {todayPortfolios.map((todayPortfolio, index) => (
+          <button
+            key={index}
+            className={`${
+              index === indexes.currentIndex ? 'bg-base-100' : 'bg-base-200'
+            } w-1/3 h-1 mb-5 z-40`}
+            onClick={() => {
+              handleTransition(index);
+            }}
+          ></button>
         ))}
       </div>
     </div>
@@ -170,8 +206,9 @@ export function TodayPortfolio() {
       setTodayPortfolios(res.data);
     });
   }, []);
+
   return (
-    <section className='w-full h-96 overflow-hidden flex flex-col items-center bg-gradient-to-br from-primary to-secondary'>
+    <section className='w-full overflow-hidden flex flex-col items-center bg-gradient-to-br from-primary to-secondary'>
       <h1 className='text-base-100 text-2xl'>오늘의 밴드 포트폴리오</h1>
       <h2 className='text-base-100 text-lg tracking-[0.5rem]'>PORTFOLIO</h2>
       <TodayPortfolioCarousel todayPortfolios={todayPortfolios} />

@@ -1,8 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import GlobalNavBar from '../../components/NavBar';
 import { Link } from 'react-router-dom';
-import { bandPortfolioBrief } from './tempTodayPortfolio';
-import { TodayPortfolio } from './TodaysPortfolio';
+import { TodayPortfolio } from './TodaysPortfolio/TodaysPortfolio';
 import GlobalFooter from '../../components/Footer';
 import { recruitMenuList, RecruitMenu } from './RecruitMenu';
 import {
