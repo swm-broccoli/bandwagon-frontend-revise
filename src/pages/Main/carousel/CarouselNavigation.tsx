@@ -1,5 +1,4 @@
-import { CarouselItemType } from './carouselItemList';
-import { CarouselIndexType } from './Carousel';
+import { CarouselIndexType, CarouselItemType } from './Carousel';
 import {
   IoIosArrowForward,
   IoIosArrowBack,
@@ -18,31 +17,16 @@ function CarouselNavigationItem({
   // active는 현재 캐로셀에서 보이고 있는 아이템에 해당하는 버튼의 상태
   // pending은 화면에는 보이지만 활성화되어 있지 않은 버튼의 상태
   const carouselItemConfig: { [key: string]: string } = {
-    active: 'text-base-100',
-    pending: 'brightness-50 text-gray-500',
+    active: 'bg-gray-800',
+    pending: 'bg-gray-500',
     inactive: 'hidden',
   };
 
   return (
     <button
       onClick={onItemClick}
-      className={`flex-1 flex flex-row mx-1 items-center transition-all duration-700 ${carouselItemConfig[itemState]}`}
-    >
-      <dt
-        className={`hidden md:block flex-1 w-full h-full ${
-          itemState === 'active' ? 'py-1.5 px-1' : 'p-2'
-        }`}
-      >
-        <img
-          className={`object-fill w-full h-full ${
-            itemState === 'active' ? 'border-2 border-primary' : ''
-          }`}
-          src={item.image}
-          alt={`carousel-item-${item.id}`}
-        />
-      </dt>
-      <dd className='flex-1 text-sm'>{item.title}</dd>
-    </button>
+      className={`btn btn-xs btn-circle mx-1 items-center transition-all duration-700 ${carouselItemConfig[itemState]}`}
+    />
   );
 }
 
@@ -108,13 +92,7 @@ export function CarouselNavigation({
   };
 
   return (
-    <dl className='flex flex-row justify-center w-full h-[15%] bg-gray-400/70 z-20'>
-      <div className='absolute bottom-[15%] btn btn-xs bg-gray-400/70 hover:bg-gray-400/70 w-28 h-7 z-30 border-none rounded-none rounded-t-lg text-lg tracking-[0.3rem]'>
-        {carouselIndex.currentIndex + 1} / {items.length}
-      </div>
-      <button onClick={handlePrevClick} className='z-10 h-full'>
-        <IoIosArrowBack className='text-gray-300' size={30} />
-      </button>
+    <dl className='flex flex-row justify-center w-full h-[15%] z-20'>
       {items.map((item, index) => (
         <CarouselNavigationItem
           key={index}
@@ -129,9 +107,6 @@ export function CarouselNavigation({
           }}
         />
       ))}
-      <button onClick={handleNextClick} className='z-10 h-full'>
-        <IoIosArrowForward className='text-gray-300' size={30} />
-      </button>
     </dl>
   );
 }

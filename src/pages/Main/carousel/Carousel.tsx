@@ -60,7 +60,7 @@ export function Carousel() {
     {
       id: 2,
       title: '당신의 추억을 정리해 드립니다.',
-      subtitle: '당신의 추억을 정리해 드립니다.',
+      subtitle: '밴드 활동의 기록을 남겨보세요.',
       link: isLoggedIn ? '/portfolio/user' : '/login',
     },
   ]);
@@ -116,7 +116,7 @@ export function Carousel() {
     [carouselIndex],
   );
 
-  useEffect(() => {
+  /*useEffect(() => {
     const carouselTimer = setInterval(() => {
       setCarouselIndex((prev) => ({
         previousIndex: prev.currentIndex,
@@ -127,7 +127,7 @@ export function Carousel() {
     return () => {
       clearInterval(carouselTimer);
     };
-  }, []);
+  }, []);*/
 
   return (
     <section>
