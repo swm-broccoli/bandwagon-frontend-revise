@@ -25,7 +25,7 @@ function CarouselNavigationItem({
   return (
     <button
       onClick={onItemClick}
-      className={`btn btn-xs btn-circle mx-1 items-center transition-all duration-700 ${carouselItemConfig[itemState]}`}
+      className={`w-4 h-4 btn-circle mx-1 items-center transition-all duration-700 ${carouselItemConfig[itemState]}`}
     />
   );
 }
