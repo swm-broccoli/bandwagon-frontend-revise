@@ -116,7 +116,7 @@ export function Carousel() {
     [carouselIndex],
   );
 
-  /*useEffect(() => {
+  useEffect(() => {
     const carouselTimer = setInterval(() => {
       setCarouselIndex((prev) => ({
         previousIndex: prev.currentIndex,
@@ -127,7 +127,7 @@ export function Carousel() {
     return () => {
       clearInterval(carouselTimer);
     };
-  }, []);*/
+  }, []);
 
   return (
     <section>
