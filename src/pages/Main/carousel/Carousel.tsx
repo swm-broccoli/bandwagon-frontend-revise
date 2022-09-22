@@ -1,7 +1,14 @@
-import { CarouselItemType } from './carouselItemList';
 import { CarouselNavigation } from './CarouselNavigation';
 import { Link } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
+import { useLoginStore } from '../../../stores/LoginStore';
+
+export interface CarouselItemType {
+  id: number;
+  title: string;
+  subtitle: string;
+  link: string;
+}
 
 export interface CarouselIndexType {
   previousIndex: number;
@@ -31,19 +38,13 @@ function CarouselItem({
 
   return itemState !== CarouselItemStates.INACTIVE ? (
     <div
-      className={`absolute flex flex-col justify-center items-center w-full h-full shrink-0 transition-opacity duration-500 ${carouselItemStateConfig[itemState]}`}
+      className={`bg-base-200 absolute flex flex-col justify-center items-center w-full h-full shrink-0 transition-opacity duration-500 ${carouselItemStateConfig[itemState]}`}
     >
-      <img
-        className='object-fill w-full h-full'
-        src={item.image}
-        alt={`carousel-item-${item.id}`}
-      />
       <div className='backdrop-blur-md p-3 rounded-3xl absolute flex flex-col gap-2 items-center'>
-        <h1 className='text-4xl text-base-100'>{item.title}</h1>
-        <h2 className='text-2xl text-base-100'>{item.subtitle}</h2>
-        <p className='text-base text-base-100'>{item.content}</p>
+        <h2 className='text-2xl'>{item.title}</h2>
+        <p className='text-base'>{item.subtitle}</p>
         <Link to={item.link}>
-          <button className='btn btn-primary w-32 btn-outline glass hover:glass'>
+          <button className='btn btn-primary btn-sm w-32 btn-outline glass hover:glass'>
             이동하기
           </button>
         </Link>
@@ -52,7 +53,24 @@ function CarouselItem({
   ) : null;
 }
 
-export function Carousel({ items }: { items: CarouselItemType[] }) {
+export function Carousel() {
+  const isLoggedIn = useLoginStore((state) => state.isLoggedIn);
+
+  const [items, setItems] = useState<CarouselItemType[]>([
+    {
+      id: 1,
+      title: '세상 모든 밴드들의 커뮤니티, 밴드웨건입니다.',
+      subtitle: '새롭게 함께할 사람들을 찾고 추억을 쌓아가요.',
+      link: isLoggedIn ? '/recruit/band' : '/login',
+    },
+    {
+      id: 2,
+      title: '당신의 추억을 정리해 드립니다.',
+      subtitle: '당신의 추억을 정리해 드립니다.',
+      link: isLoggedIn ? '/portfolio/user' : '/login',
+    },
+  ]);
+
   const [carouselIndex, setCarouselIndex] = useState<CarouselIndexType>({
     previousIndex: items.length - 1,
     currentIndex: 0,
@@ -120,7 +138,7 @@ export function Carousel({ items }: { items: CarouselItemType[] }) {
   return (
     <section>
       <div
-        className='relative flex flex-row items-end justify-between w-full h-[50vh]'
+        className='relative flex flex-row items-end justify-between w-full h-[30vh]'
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
       >
