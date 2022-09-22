@@ -53,7 +53,7 @@ export function Carousel() {
   const [items, setItems] = useState<CarouselItemType[]>([
     {
       id: 1,
-      title: '세상 모든 밴드들의 커뮤니티, 밴드웨건입니다.',
+      title: '모든 밴드들의 커뮤니티, 밴드웨건입니다.',
       subtitle: '새롭게 함께할 사람들을 찾고 추억을 쌓아가요.',
       link: isLoggedIn ? '/recruit/band' : '/login',
     },
