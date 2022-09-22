@@ -37,19 +37,13 @@ function CarouselItem({
   };
 
   return itemState !== CarouselItemStates.INACTIVE ? (
-    <div
+    <Link
+      to={item.link}
       className={`bg-base-200 absolute flex flex-col justify-center items-center w-full h-full shrink-0 transition-opacity duration-500 ${carouselItemStateConfig[itemState]}`}
     >
-      <div className='backdrop-blur-md p-3 rounded-3xl absolute flex flex-col gap-2 items-center'>
-        <h2 className='text-2xl'>{item.title}</h2>
-        <p className='text-base'>{item.subtitle}</p>
-        <Link to={item.link}>
-          <button className='btn btn-primary btn-sm w-32 btn-outline glass hover:glass'>
-            이동하기
-          </button>
-        </Link>
-      </div>
-    </div>
+      <h2 className='text-2xl'>{item.title}</h2>
+      <p className='text-base'>{item.subtitle}</p>
+    </Link>
   ) : null;
 }
 
