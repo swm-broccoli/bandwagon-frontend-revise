@@ -22,7 +22,7 @@ function MainPopularPostItem({
   return (
     <Link
       to={popularPost.link}
-      className='flex-1 card rounded-lg min-w-[180px] card-compact bg-base-100 shadow-xl mx-3 my-4'
+      className='flex-1 card rounded-lg min-w-[180px] card-compact bg-base-100 shadow-xl my-4'
     >
       <img className='aspect-square' src={popularPost.image} alt='Shoes' />
       <div className='p-2 flex flex-col h-full justify-between'>
@@ -92,11 +92,11 @@ export function MainPopularPosts() {
   }, []);
 
   return (
-    <section className='w-full grid grid-cols-6 justify-center items-center py-10 md:mx-8'>
+    <section className='w-full grid grid-cols-6 justify-center items-center py-10'>
       <div className='col-span-full lg:col-start-2 lg:col-end-6 flex flex-col items-center'>
         <h1 className='text-2xl font-bold'>최근 인기글</h1>
         <h2 className='text-neutral tracking-[0.2rem] mb-5'>P O P U L A R</h2>
-        <div className='w-full max-w-[1280px] flex flex-row justify-between overflow-x-auto'>
+        <div className='w-full max-w-[1280px] flex flex-row justify-between overflow-x-auto px-10 lg:px-0 gap-5'>
           {popularPosts.slice(0, 4).map((popularPost, index) => (
             <MainPopularPostItem key={index} popularPost={popularPost} />
           ))}
