@@ -3,6 +3,8 @@ import EditPageInput from '../../components/EditPageInput';
 import UserAccountAPI from '../../apis/UserAccountAPI';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLoginStore } from '../../stores/LoginStore';
+import SendbirdChat from '@sendbird/chat';
 
 interface UserAccountFormType {
   name: string;
@@ -19,6 +21,24 @@ function parseUserProfile(userProfile: UserAccountFormType) {
   };
 }
 
+const setupUser = async (nickname: string, email: string) => {
+  const { VITE_SENDBIRD_API_KEY } = import.meta.env;
+
+  const sendbirdChat = await SendbirdChat.init({
+    appId: VITE_SENDBIRD_API_KEY,
+  });
+
+  await sendbirdChat.connect(email);
+  
+  const userUpdateParams = {
+    nickname: nickname,
+    userId: email
+  };
+  await sendbirdChat.updateCurrentUserInfo(userUpdateParams);
+
+  sendbirdChat.disconnect();
+}
+
 function AccountEditForm({ label }: { label: string }) {
   const [userAccountInfo, setUserAccountInfo] = useState<UserAccountFormType>({
     name: '',
@@ -30,6 +50,7 @@ function AccountEditForm({ label }: { label: string }) {
 
   const onAccountEditSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setupUser(userAccountInfo.nickname, userAccountInfo.email);
     UserAccountAPI.updateUserAccountInfo(userAccountInfo)
       .then((res) => {
         alert('수정 성공');
