@@ -19,6 +19,7 @@ import FindEmailPage from './pages/FindEmail';
 import NotFoundPage from './pages/NotFound';
 import LikedPost from './pages/LikedPost';
 import BandRequest from './pages/BandRequest';
+import ChatListPage from './pages/ChatList';
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
           />
           <Route path=':postID' element={<ReadRecruitPage />} />
         </Route>
+        <Route path='chat' element={<ChatListPage />} />
         <Route path='ui' element={<UIPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
