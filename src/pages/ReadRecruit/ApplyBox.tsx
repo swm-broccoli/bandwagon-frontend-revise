@@ -10,6 +10,13 @@ import { AreaType, PrequisiteResponseType, SelectionType } from '../../types/typ
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
 import BandRequestAPI from '../../apis/BandRequestAPI';
 import { useParams } from 'react-router-dom';
+import { useLoginStore } from '../../stores/LoginStore';
+import SendbirdChat from '@sendbird/chat';
+import {
+  GroupChannelCreateParams,
+    GroupChannelHandler,
+    GroupChannelModule,
+} from '@sendbird/chat/groupChannel';
 
 function PrequisiteTooltip (props: {
   checked: PrequisiteResponseType[]
@@ -165,6 +172,7 @@ function PrequisiteElementBox (props: {
 function ApplyBox (props: {
   type: boolean,
   postId: string,
+  author: string,
   isLoggedIn: boolean,
   isLiked: boolean,
   likeCount: number}) {
@@ -173,6 +181,7 @@ function ApplyBox (props: {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [preqCheck, setPreqCheck] = useState<PrequisiteResponseType[]>();
   const [checkedAll, setCheckedAll] = useState<boolean>(true);
+  const { isLoggedIn, userId } = useLoginStore();
 
   useEffect(() => {
     setLikeCount(props.likeCount);
@@ -199,6 +208,31 @@ function ApplyBox (props: {
       }
     })
   }, [preqCheck]);
+  
+  const makeChat = async (email: string) => {
+    const { VITE_SENDBIRD_API_KEY } = import.meta.env;
+  
+    const sendbirdChat = await SendbirdChat.init({
+      appId: VITE_SENDBIRD_API_KEY,
+      modules: [new GroupChannelModule()]
+    });
+  
+    await sendbirdChat.connect(email);
+
+    try {
+      const params: GroupChannelCreateParams = {
+        invitedUserIds: [userId, props.author],
+        name: ''
+      };
+
+      const groupChannel = await sendbirdChat.groupChannel.createChannel(params);
+      console.log(groupChannel);
+    } catch (error) {
+      console.log(error)
+    }
+
+    sendbirdChat.disconnect();
+  }
 
   function handleHeartClick (e: React.MouseEvent<HTMLButtonElement>) {
     if (isLiked) {
@@ -208,6 +242,15 @@ function ApplyBox (props: {
     }
     RecruitPostAPI.ChangeLike(isLiked, props.postId);
     setIsLiked(!isLiked);
+  }
+
+  function handleChatClick (e: React.MouseEvent<HTMLButtonElement>) {
+    console.log(props.author);
+    if (isLoggedIn) {
+      makeChat(userId);
+    } else {
+      window.alert('로그인 후 이용해 주세요!');
+    }
   }
 
   function handleApplyClick (e: React.MouseEvent<HTMLButtonElement>) {
@@ -242,7 +285,7 @@ function ApplyBox (props: {
         }
       </div>
       <div className='flex flex-col gap-[0.325rem]'>
-        <button><img src={btn_chat} /></button>
+        <button onClick={handleChatClick}><img src={btn_chat} /></button>
         <p className='text-neutral text-sm text-center'>채팅하기</p>
       </div>
         <div className='flex flex-col gap-[0.325rem]'>

@@ -3,7 +3,6 @@ import EditPageInput from '../../components/EditPageInput';
 import UserAccountAPI from '../../apis/UserAccountAPI';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLoginStore } from '../../stores/LoginStore';
 import SendbirdChat from '@sendbird/chat';
 
 interface UserAccountFormType {
