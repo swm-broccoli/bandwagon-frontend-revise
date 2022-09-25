@@ -222,7 +222,8 @@ function ApplyBox (props: {
     try {
       const params: GroupChannelCreateParams = {
         invitedUserIds: [userId, props.author],
-        name: ''
+        name: '',
+        isDistinct: true
       };
 
       const groupChannel = await sendbirdChat.groupChannel.createChannel(params);
