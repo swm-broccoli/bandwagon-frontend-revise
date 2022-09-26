@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import MainPageAPI from '../../apis/MainPageAPI';
 import defaultPopularPostImage from '../../assets/carousel-intro.jpg';
 import defauleProfileImage from '../../assets/band-default-pic.png';
+import parse from 'html-react-parser';
 
 export interface PopularPostItemType {
   image: string;
@@ -22,10 +23,14 @@ function MainPopularPostItem({
   return (
     <Link
       to={popularPost.link}
-      className='flex-1 card rounded-lg min-w-[180px] card-compact bg-base-100 shadow-xl my-4'
+      className='flex-col flex-1 card rounded-lg min-w-[150px] card-compact bg-base-100 shadow-xl my-4'
     >
-      <img className='aspect-square' src={popularPost.image} alt='Shoes' />
-      <div className='p-2 flex flex-col h-full justify-between'>
+      <img
+        className='aspect-square flex-1'
+        src={popularPost.image}
+        alt='popular-posts'
+      />
+      <div className='flex-1 p-2 flex flex-col h-full justify-between'>
         <h2 className='text-lg font-bold line-clamp-2'>{popularPost.title}</h2>
         <p className='text-sm text-neutral line-clamp-2'>
           <img
@@ -96,7 +101,7 @@ export function MainPopularPosts() {
       <div className='col-span-full lg:col-start-2 lg:col-end-6 flex flex-col items-center'>
         <h1 className='text-2xl font-bold'>최근 인기글</h1>
         <h2 className='text-neutral tracking-[0.2rem] mb-5'>P O P U L A R</h2>
-        <div className='w-full max-w-[1280px] flex flex-row justify-between overflow-x-auto px-10 lg:px-0 gap-5'>
+        <div className='w-full max-w-[1280px] flex flex-row justify-between overflow-x-auto px-5 md:px-10 lg:px-0 gap-5'>
           {popularPosts.slice(0, 4).map((popularPost, index) => (
             <MainPopularPostItem key={index} popularPost={popularPost} />
           ))}
