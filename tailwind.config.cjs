@@ -18,6 +18,7 @@ module.exports = {
         'wave-animation-3': 'wave 5s -1s linear infinite',
       },
       fontFamily: {
+        sans: ['Noto Sans KR', 'sans-serif'],
         'sans-kr': ['Noto Sans KR', 'sans-serif'],
         montserrat: ['Montserrat', 'sans-serif'],
       },
