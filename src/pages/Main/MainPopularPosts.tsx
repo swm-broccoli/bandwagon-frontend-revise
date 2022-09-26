@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import MainPageAPI from '../../apis/MainPageAPI';
-import defaultPopularPostImage from '../../assets/carousel-paragon.jpg';
+import defaultPopularPostImage from '../../assets/carousel-intro.jpg';
 import defauleProfileImage from '../../assets/band-default-pic.png';
 
 export interface PopularPostItemType {

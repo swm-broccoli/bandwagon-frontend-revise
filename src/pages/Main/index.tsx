@@ -7,13 +7,12 @@ import { recruitMenuList, RecruitMenu } from './RecruitMenu';
 import { RecommendedRecruitments } from './RecommendedRecruitments';
 import { MainPopularPosts } from './MainPopularPosts';
 import { Carousel } from './carousel/Carousel';
-import { carouselItemList } from './carousel/carouselItemList';
 
 function MainPage() {
   return (
     <main>
       <GlobalNavBar />
-      <Carousel items={carouselItemList} />
+      <Carousel />
       <RecruitMenu menuList={recruitMenuList} />
       <RecommendedRecruitments />
       <MainPopularPosts />
