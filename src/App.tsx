@@ -20,6 +20,8 @@ import NotFoundPage from './pages/NotFound';
 import LikedPost from './pages/LikedPost';
 import BandRequest from './pages/BandRequest';
 import ChatListPage from './pages/ChatList';
+import ChatPage from './pages/Chat';
+import UiKit from './pages/ChatList/UiKit';
 
 function App() {
   return (
@@ -62,7 +64,8 @@ function App() {
           />
           <Route path=':postID' element={<ReadRecruitPage />} />
         </Route>
-        <Route path='chat' element={<ChatListPage />} />
+        <Route path='chatlist' element={<ChatListPage />} />
+        <Route path='chat/:chatId' element={<ChatPage />} />
         <Route path='ui' element={<UIPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>

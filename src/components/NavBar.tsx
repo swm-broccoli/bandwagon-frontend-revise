@@ -30,7 +30,7 @@ function GlobalNavBar() {
       label: '구인구직',
     },
     {
-      link: '/chat',
+      link: '/chatlist',
       label: '채팅',
     },
     {

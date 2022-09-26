@@ -16,6 +16,8 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "node_modules/@sendbird/uikit-react/index.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
