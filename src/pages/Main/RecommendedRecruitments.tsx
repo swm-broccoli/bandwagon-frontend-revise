@@ -25,13 +25,13 @@ function RecommendedRecruitmentItem({
         {recruitment.recruitInfo.map((info) => (
           <span
             key={info.id}
-            className='badge badge-secondary badge-outline mr-2 text-sm text-gray-500'
+            className='badge badge-secondary badge-outline mr-2 text-sm text-gray-500 font-sans-kr'
           >
             {positionToKorean[info.name]}
           </span>
         ))}
       </div>
-      <p>{recruitment.title}</p>
+      <p className='font-sans-kr'>{recruitment.title}</p>
     </Link>
   );
 }
@@ -64,8 +64,8 @@ export function RecommendedRecruitments() {
     <section className='bg-[#f4f9f9] grid grid-cols-6 py-5 md:py-10'>
       <div className='col-span-full lg:col-start-2 lg:col-end-6 flex flex-col md:flex-row px-5 md:px-10 lg:px-0'>
         <div className='col-start-2 place-self-center md:place-self-auto mx-4 min-w-[160px]'>
-          <h1 className='text-2xl font-bold'>추천 구인·구직글</h1>
-          <h2 className='text-neutral'>R E C O M M E N D</h2>
+          <h1 className='text-xl font-bold font-sans-kr'>추천 구인·구직글</h1>
+          <h2 className='text-neutral font-montserrat'>R E C O M M E N D</h2>
         </div>
         <div className='flex flex-row overflow-x-auto w-full mt-5 md:mt-0 gap-5'>
           {recruitments.map((recruitment) => (

@@ -52,8 +52,8 @@ function TodaysPortfolioItem({
             alt={`${todayPortfolio.name} 사진`}
           />
           <div className='card-body w-1/2'>
-            <h2 className='card-title'>{todayPortfolio.name}</h2>
-            <p>{todayPortfolio.description}</p>
+            <h2 className='card-title font-sans-kr'>{todayPortfolio.name}</h2>
+            <p className='font-sans-kr'>{todayPortfolio.description}</p>
           </div>
         </div>
       );
@@ -75,8 +75,8 @@ function TodaysPortfolioItem({
             alt={`${todayPortfolio.name} 사진`}
           />
           <div className='w-1/2 card-body'>
-            <h2 className='card-title'>{todayPortfolio.name}</h2>
-            <p>{todayPortfolio.description}</p>
+            <h2 className='card-title font-sans-kr'>{todayPortfolio.name}</h2>
+            <p className='font-sans-kr'>{todayPortfolio.description}</p>
           </div>
         </div>
       );
@@ -206,8 +206,12 @@ export function TodayPortfolio() {
 
   return (
     <section className='w-full overflow-hidden flex flex-col items-center bg-gradient-to-br from-primary to-secondary'>
-      <h1 className='text-base-100 text-2xl'>오늘의 밴드 포트폴리오</h1>
-      <h2 className='text-base-100 text-lg tracking-[0.5rem]'>PORTFOLIO</h2>
+      <h1 className='text-base-100 text-xl font-sans-kr'>
+        오늘의 밴드 포트폴리오
+      </h1>
+      <h2 className='text-base-100 text-md font-montserrat'>
+        P O R T F O L I O
+      </h2>
       <TodayPortfolioCarousel todayPortfolios={todayPortfolios} />
     </section>
   );
