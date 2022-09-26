@@ -113,7 +113,6 @@ export function TodayPortfolioCarousel({
     const diff = touchStarted - currentTouch;
 
     if (diff > 10) {
-      console.log('touch left');
       setIndexes({
         previousIndex: (indexes.previousIndex + 1) % todayPortfolios.length,
         currentIndex: (indexes.currentIndex + 1) % todayPortfolios.length,
@@ -122,7 +121,6 @@ export function TodayPortfolioCarousel({
     }
 
     if (diff < -10) {
-      console.log('touch right');
       setIndexes({
         previousIndex:
           (indexes.previousIndex - 1 + todayPortfolios.length) %
@@ -202,7 +200,6 @@ export function TodayPortfolio() {
 
   useEffect(() => {
     MainPageAPI.getTodayPortfolios().then((res) => {
-      console.log(res.data);
       setTodayPortfolios(res.data);
     });
   }, []);

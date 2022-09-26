@@ -1,31 +1,14 @@
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import MainPageAPI from '../../apis/MainPageAPI';
+import { positionToKorean } from '../../assets/options/positionOptions';
+
 interface RecommendedRecruitmentItemType {
+  id: number;
   image: string;
-  region: string;
+  recruitInfo: { id: string; name: string }[];
   title: string;
 }
-
-export const tempRecommendedRecruitments: RecommendedRecruitmentItemType[] = [
-  {
-    image: 'https://picsum.photos/200',
-    region: '서울',
-    title: '서울 마포구 밴드 기타 모집합니다.',
-  },
-  {
-    image: 'https://picsum.photos/201',
-    region: '인천',
-    title: '인천 부평 밴드 여보컬 모집합니다.',
-  },
-  {
-    image: 'https://picsum.photos/200',
-    region: '경기',
-    title: '일산 백석 직밴 건반 모십니다.',
-  },
-  {
-    image: 'https://picsum.photos/200',
-    region: '경기',
-    title: '경기 구리시 밴드 베이스 모십니다.',
-  },
-];
 
 function RecommendedRecruitmentItem({
   recruitment,
@@ -33,21 +16,50 @@ function RecommendedRecruitmentItem({
   recruitment: RecommendedRecruitmentItemType;
 }) {
   return (
-    <div className='grid grid-flow-row flex-1 min-w-[150px] mx-3 gap-2'>
+    <Link
+      className='grid grid-flow-row flex-1 min-w-[150px] mx-3 gap-2'
+      to={`/recruit/${recruitment.id}`}
+    >
       <img className='rounded-lg object-fill' src={recruitment.image} />
-      <span className='badge badge-secondary badge-outline'>
-        {recruitment.region}
-      </span>
+      <div className='flex flex-row'>
+        {recruitment.recruitInfo.map((info) => (
+          <span
+            key={info.id}
+            className='badge badge-secondary badge-outline mr-2 text-sm text-gray-500'
+          >
+            {positionToKorean[info.name]}
+          </span>
+        ))}
+      </div>
       <p>{recruitment.title}</p>
-    </div>
+    </Link>
   );
 }
 
-export function RecommendedRecruitments({
-  recruitments,
-}: {
-  recruitments: RecommendedRecruitmentItemType[];
-}) {
+export function RecommendedRecruitments() {
+  const [recruitments, setRecruitments] = useState<
+    RecommendedRecruitmentItemType[]
+  >([]);
+
+  useEffect(() => {
+    MainPageAPI.getRecommendedRecruits().then((res) => {
+      setRecruitments(
+        res.data.posts.map((recruit: any): RecommendedRecruitmentItemType => {
+          return {
+            id: recruit.id,
+            image:
+              recruit.dtype === 'Band'
+                ? recruit.bandAvatarUrl
+                : recruit.userAvatarUrl,
+            recruitInfo: recruit.tagInfo,
+            title: recruit.title,
+          };
+        }),
+      );
+      console.log(res.data.posts);
+    });
+  }, []);
+
   return (
     <section className='bg-[#f4f9f9] grid grid-cols-6 py-10'>
       <div className='col-span-full lg:col-start-2 lg:col-end-6 flex flex-col md:flex-row'>
