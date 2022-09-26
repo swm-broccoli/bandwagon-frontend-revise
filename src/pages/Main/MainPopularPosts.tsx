@@ -56,6 +56,7 @@ function extractImageFromHtml(html: string): string {
 export function MainPopularPosts() {
   const [popularPosts, setPopularPosts] = useState<PopularPostItemType[]>([]);
 
+  //
   useEffect(() => {
     MainPageAPI.getPopularPosts().then((res) => {
       setPopularPosts(
