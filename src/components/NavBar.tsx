@@ -6,7 +6,7 @@ import { useLoginStore } from '../stores/LoginStore';
 function NavBarItem({ label, link }: { label: string; link: string }) {
   return (
     <li className='menu-item'>
-      <Link to={link} className='text-[#676767] active:bg-neutral'>
+      <Link to={link} className='text-[#676767] active:bg-neutral font-sans-kr'>
         {label}
       </Link>
     </li>
