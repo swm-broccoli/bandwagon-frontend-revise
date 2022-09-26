@@ -17,7 +17,7 @@ function RecommendedRecruitmentItem({
 }) {
   return (
     <Link
-      className='grid grid-flow-row flex-1 min-w-[150px] mx-3 gap-2'
+      className='grid grid-flow-row flex-1 min-w-[150px] gap-2'
       to={`/recruit/${recruitment.id}`}
     >
       <img className='rounded-lg object-fill' src={recruitment.image} />
@@ -61,13 +61,13 @@ export function RecommendedRecruitments() {
   }, []);
 
   return (
-    <section className='bg-[#f4f9f9] grid grid-cols-6 py-10'>
-      <div className='col-span-full lg:col-start-2 lg:col-end-6 flex flex-col md:flex-row'>
+    <section className='bg-[#f4f9f9] grid grid-cols-6 py-5 md:py-10'>
+      <div className='col-span-full lg:col-start-2 lg:col-end-6 flex flex-col md:flex-row px-5 md:px-10 lg:px-0'>
         <div className='col-start-2 place-self-center md:place-self-auto mx-4 min-w-[160px]'>
           <h1 className='text-2xl font-bold'>추천 구인·구직글</h1>
           <h2 className='text-neutral'>R E C O M M E N D</h2>
         </div>
-        <div className='flex flex-row overflow-x-auto w-full mt-5 md:mt-0'>
+        <div className='flex flex-row overflow-x-auto w-full mt-5 md:mt-0 gap-5'>
           {recruitments.map((recruitment) => (
             <RecommendedRecruitmentItem
               key={recruitment.title}
