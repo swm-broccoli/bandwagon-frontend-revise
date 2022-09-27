@@ -41,8 +41,8 @@ function CarouselItem({
       to={item.link}
       className={`bg-base-200 absolute flex flex-col justify-center items-center w-full h-full shrink-0 transition-opacity duration-500 ${carouselItemStateConfig[itemState]}`}
     >
-      <h2 className='text-2xl'>{item.title}</h2>
-      <p className='text-base'>{item.subtitle}</p>
+      <h2 className='text-2xl font-sans-kr'>{item.title}</h2>
+      <p className='text-base font-sans-kr'>{item.subtitle}</p>
     </Link>
   ) : null;
 }

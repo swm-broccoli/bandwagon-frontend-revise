@@ -4,6 +4,7 @@ import MainPageAPI from '../../apis/MainPageAPI';
 import defaultPopularPostImage from '../../assets/carousel-intro.jpg';
 import defauleProfileImage from '../../assets/band-default-pic.png';
 import parse from 'html-react-parser';
+import { FaHeart } from 'react-icons/fa';
 
 export interface PopularPostItemType {
   image: string;
@@ -31,16 +32,20 @@ function MainPopularPostItem({
         alt='popular-posts'
       />
       <div className='flex-1 p-2 flex flex-col h-full justify-between'>
-        <h2 className='text-lg font-bold line-clamp-2'>{popularPost.title}</h2>
-        <p className='text-sm text-neutral line-clamp-2'>
+        <h2 className='text-md font-bold font-sans-kr line-clamp-2'>
+          {popularPost.title}
+        </h2>
+        <p className='text-sm text-neutral font-sans-kr'>
           <img
-            className='w-6 h-6 rounded-full float-left mr-2'
+            className='w-6 h-6 rounded-full float-left mr-1'
             src={popularPost.authorProfileImage}
             alt='author avatar'
           />
           {popularPost.author}
         </p>
-        <span className='text-rose-500'>❤︎ {popularPost.likeCount}</span>
+        <div className='flex flex-row items-center text-rose-500 font-sans-kr'>
+          <FaHeart className='mr-1' /> {popularPost.likeCount}
+        </div>
       </div>
     </Link>
   );
@@ -56,6 +61,7 @@ function extractImageFromHtml(html: string): string {
 export function MainPopularPosts() {
   const [popularPosts, setPopularPosts] = useState<PopularPostItemType[]>([]);
 
+  //
   useEffect(() => {
     MainPageAPI.getPopularPosts().then((res) => {
       setPopularPosts(
@@ -99,8 +105,10 @@ export function MainPopularPosts() {
   return (
     <section className='w-full grid grid-cols-6 justify-center items-center py-10'>
       <div className='col-span-full lg:col-start-2 lg:col-end-6 flex flex-col items-center'>
-        <h1 className='text-2xl font-bold'>최근 인기글</h1>
-        <h2 className='text-neutral tracking-[0.2rem] mb-5'>P O P U L A R</h2>
+        <h1 className='text-xl font-bold font-sans-kr'>최근 인기글</h1>
+        <h2 className='text-neutral font-montserrat tracking-[0.2rem] mb-5'>
+          P O P U L A R
+        </h2>
         <div className='w-full max-w-[1280px] flex flex-row justify-between overflow-x-auto px-5 md:px-10 lg:px-0 gap-5'>
           {popularPosts.slice(0, 4).map((popularPost, index) => (
             <MainPopularPostItem key={index} popularPost={popularPost} />
