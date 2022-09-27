@@ -43,7 +43,7 @@ function TodaysPortfolioItem({
       return (
         <div className='absolute flex flex-row w-2/3 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all duration-500 z-30'>
           <img
-            className='w-1/2 h-full object-fill'
+            className='w-1/3 md:w-1/2 h-full object-fill'
             src={
               todayPortfolio.avatarUrl
                 ? todayPortfolio.avatarUrl
@@ -51,7 +51,7 @@ function TodaysPortfolioItem({
             }
             alt={`${todayPortfolio.name} 사진`}
           />
-          <div className='card-body w-1/2'>
+          <div className='card-body w-2/3 md:w-1/2 p-2 md:p-8'>
             <h2 className='card-title font-sans-kr'>{todayPortfolio.name}</h2>
             <p className='font-sans-kr'>{todayPortfolio.description}</p>
           </div>
