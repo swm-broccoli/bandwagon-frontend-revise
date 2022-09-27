@@ -70,7 +70,7 @@ export function RecommendedRecruitments() {
         <div className='flex flex-row overflow-x-auto w-full mt-5 md:mt-0 gap-5'>
           {recruitments.map((recruitment) => (
             <RecommendedRecruitmentItem
-              key={recruitment.title}
+              key={recruitment.id}
               recruitment={recruitment}
             />
           ))}
