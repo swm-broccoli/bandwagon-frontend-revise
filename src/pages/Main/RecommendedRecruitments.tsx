@@ -67,13 +67,24 @@ export function RecommendedRecruitments() {
           <h1 className='text-xl font-bold font-sans-kr'>추천 구인·구직글</h1>
           <h2 className='text-neutral font-montserrat'>R E C O M M E N D</h2>
         </div>
-        <div className='flex flex-row overflow-x-auto w-full mt-5 md:mt-0 gap-5'>
-          {recruitments.map((recruitment) => (
-            <RecommendedRecruitmentItem
-              key={recruitment.id}
-              recruitment={recruitment}
-            />
-          ))}
+        <div className='flex flex-row justify-center overflow-x-auto w-full mt-5 md:mt-0 gap-5'>
+          {recruitments.length ? (
+            recruitments.map((recruitment) => (
+              <RecommendedRecruitmentItem
+                key={recruitment.id}
+                recruitment={recruitment}
+              />
+            ))
+          ) : (
+            <div className='flex flex-col items-center'>
+              <h2>로그인을 하시면 딱 맞는 밴드를 추천해 드려요!</h2>
+              <Link to='/login'>
+                <button className='btn btn-primary btn-outline'>
+                  로그인하러 가기
+                </button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </section>

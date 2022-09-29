@@ -19,9 +19,8 @@ import FindEmailPage from './pages/FindEmail';
 import NotFoundPage from './pages/NotFound';
 import LikedPost from './pages/LikedPost';
 import BandRequest from './pages/BandRequest';
-import ChatListPage from './pages/ChatList';
+import ChatListPage from './pages/Chat';
 import ChatPage from './pages/Chat';
-import UiKit from './pages/ChatList/UiKit';
 
 function App() {
   return (
@@ -53,7 +52,10 @@ function App() {
           <Route path='band' element={<RecruitPage type={true} />} />
           <Route path='user' element={<RecruitPage type={false} />} />
           <Route path='band/write' element={<WriteRecruitPage type={true} />} />
-          <Route path='band/write/:postId' element={<WriteRecruitPage type={true} />} />
+          <Route
+            path='band/write/:postId'
+            element={<WriteRecruitPage type={true} />}
+          />
           <Route
             path='user/write'
             element={<WriteRecruitPage type={false} />}
