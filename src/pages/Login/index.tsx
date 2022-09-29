@@ -5,6 +5,7 @@ import { NaverLoginButton, KaKaoLoginButton } from './styles';
 import TextInput from '../../components/TextInput';
 import { useLoginStore } from '../../stores/LoginStore';
 import AuthAPI from '../../apis/AuthAPI';
+import logoImage from '../../assets/logo.png';
 
 function LoginForm() {
   const [id, setId] = useState('');
@@ -43,7 +44,7 @@ function LoginForm() {
   return (
     <form
       onSubmit={signInSubmit}
-      className='flex flex-col items-center w-full min-w-[200px] mt-10'
+      className='flex flex-col items-center w-full min-w-[200px] mt-4'
     >
       <TextInput label='이메일' value={id} setValue={setId} required />
       <TextInput
@@ -68,10 +69,8 @@ function LoginPage() {
     <>
       <GlobalNavBar />
       <div className='flex flex-col items-center mt-10'>
-        <div className='site-logo w-fit leading-normal font-sans text-5xl text-transparent bg-clip-text bg-gradient-to-r font-extrabold from-primary to-secondary'>
-          Band:Wagon
-        </div>
-        <div className='text-neutral'>
+        <img className='w-72' src={logoImage} />
+        <div className='text-neutral mt-2'>
           안녕하세요. 전국 모든 밴드의 커뮤니티 밴드웨건입니다.
         </div>
         <LoginForm />

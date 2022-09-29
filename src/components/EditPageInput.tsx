@@ -14,7 +14,7 @@ function EditPageInput({
   return (
     <>
       <div className='form-control w-full flex flex-row justify-start py-2'>
-        <label className='label w-1/5 py-0'>
+        <label className='label w-28 py-0'>
           <span className='label-text text-accent'>{label}</span>
         </label>
         <input

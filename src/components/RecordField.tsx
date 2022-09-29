@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RecordURLType, PerformanceRecordType } from '../types/types';
 import ProfileAddModal from './ProfileAddModal';
+import { Link } from 'react-router-dom';
 
 function getTodayDate() {
   const today = new Date();
@@ -25,7 +26,13 @@ function RecordURLItem({
           {recordURL.siteName}
         </div>
         <div className='divider divider-horizontal ml-0 mr-2' />
-        <div className='w-full break-all'>{recordURL.url}</div>
+        <a
+          href={`https://${recordURL.url}`}
+          target='_blank'
+          className='w-full break-all underline'
+        >
+          {recordURL.url}
+        </a>
       </div>
     );
   } else {

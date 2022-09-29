@@ -94,7 +94,7 @@ function MyPageMenuItem({
 }: MyPageMenuItemProps) {
   return (
     <li
-      className={`flex flex-row mx-3 items-center rounded-lg ${
+      className={`flex flex-row mx-2 items-center rounded-lg ${
         active
           ? 'bg-success hover:bg-[#bbf7d0]'
           : 'bg-base-100 hover:bg-base-200'
@@ -102,7 +102,7 @@ function MyPageMenuItem({
     >
       <Link
         to={to}
-        className={`pl-2 pr-1.5 py-1 md:py-2 w-full ${
+        className={`pl-1 pr-1.5 py-1 md:py-2 w-full ${
           active
             ? 'bg-success hover:bg-[#bbf7d0]'
             : 'bg-base-100 hover:bg-base-200'
@@ -114,7 +114,9 @@ function MyPageMenuItem({
           className='w-5 h-5 rounded-none'
         />
         <span
-          className={`${active ? 'text-primary' : 'text-neutral'} text-center`}
+          className={` ${
+            active ? 'text-primary' : 'text-neutral'
+          } text-center text-sm`}
         >
           {label}
         </span>
