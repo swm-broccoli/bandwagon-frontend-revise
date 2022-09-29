@@ -52,6 +52,7 @@ function BandRequest() {
     requestList.sort(function (a, b) {
       return b.id - a.id;
     });
+    console.log(requestList);
   }, [loadApply, loadInvite]); 
 
   return (

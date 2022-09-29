@@ -64,8 +64,7 @@ function App() {
           />
           <Route path=':postID' element={<ReadRecruitPage />} />
         </Route>
-        <Route path='chatlist' element={<ChatListPage />} />
-        <Route path='chat/:chatId' element={<ChatPage />} />
+        <Route path='chat' element={<ChatPage />} />
         <Route path='ui' element={<UIPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
