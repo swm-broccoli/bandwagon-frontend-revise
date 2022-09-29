@@ -181,6 +181,7 @@ export interface BandRequestType {
 
 export interface BandRequestInfoType {
   id: number;
+  email: string;
   name: string;
   avatarUrl: string | null;
 }

@@ -26,6 +26,7 @@ function BandRequest() {
   useEffect(() => {
     BandRequestAPI.GetApplyRequest(type)
     .then((res) => {
+      console.log(res.data.requests);
       res.data.requests.map((request: BandRequestType) => {
         setRequestSet(requestSet.add(request));
       });
@@ -37,6 +38,7 @@ function BandRequest() {
 
     BandRequestAPI.GetInviteRequest((type))
     .then((res) => {
+      console.log(res.data.requests);
       res.data.requests.map((request: BandRequestType) => {
         setRequestSet(requestSet.add(request));
       });
@@ -52,7 +54,6 @@ function BandRequest() {
     requestList.sort(function (a, b) {
       return b.id - a.id;
     });
-    console.log(requestList);
   }, [loadApply, loadInvite]); 
 
   return (
