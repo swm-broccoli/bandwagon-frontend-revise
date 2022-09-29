@@ -188,7 +188,7 @@ function SignUpForm() {
         <button
           type='button'
           onClick={userEmailDuplicationCheck}
-          className='absolute ml-[248px] md:ml-[328px] btn btn-primary self-end'
+          className='font-sans-kr px-0 w-14 text-sm absolute ml-[248px] md:ml-[328px] btn btn-primary self-end'
         >
           중복확인
         </button>
