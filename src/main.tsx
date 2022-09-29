@@ -5,7 +5,7 @@ import App from './App';
 import './index.css';
 import { useLoginStore } from './stores/LoginStore';
 
-useLoginStore.getState().checkLoggedIn();
+useLoginStore.getState().checkNotification();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

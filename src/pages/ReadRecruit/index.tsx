@@ -8,7 +8,7 @@ import ApplyBox from './ApplyBox';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
 import { Link, useParams } from 'react-router-dom';
 import { useLoginStore } from '../../stores/LoginStore';
-import { BandProfileType, PostType, UserProfileType } from '../../types/types';
+import { BandMemberType, BandProfileType, PostType, UserProfileType } from '../../types/types';
 import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 import UserInfoCard from '../../components/UserInfoCard';
 import Button from '../../components/Button';
@@ -69,6 +69,7 @@ function ReadRecruitPage() {
   const [userId, setUserId] = useState<string>();
   const [userInfo, setUserInfo] = useState<UserProfileType>();
   const [isAuthor, setIsAuthor] = useState<boolean>(false);
+  const [author, setAuthor] = useState<string>('');
 
   useEffect(() => {
     RecruitPostAPI.LoadPost(postID)
@@ -80,6 +81,7 @@ function ReadRecruitPage() {
           setBandId(res.data.bandId);
         } else if (res.data.dtype == 'User') {
           setUserId(res.data.userEmail);
+          setAuthor(res.data.userEmail);
         }
       })
       .catch((err) => {
@@ -93,6 +95,8 @@ function ReadRecruitPage() {
         .then((res) => {
           console.log(res.data);
           setBandInfo(res.data);
+          setAuthor(res.data.bandMembers.filter((
+            member: BandMemberType) => member.isFrontman)[0].email);
         })
         .catch((err) => {
           console.log(err);
@@ -180,6 +184,7 @@ function ReadRecruitPage() {
                   type={type}
                   isLoggedIn={isLoggedIn}
                   postId={postID}
+                  author={author}
                   likeCount={postInfo.likeCount}
                   isLiked={postInfo.isLiked}
                 />

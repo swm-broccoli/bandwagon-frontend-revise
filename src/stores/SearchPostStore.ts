@@ -7,6 +7,9 @@ interface searchPostStoreType {
   titleStore: string,
   minAgeStore: string,
   maxAgeStore: string,
+  anyPositionStore: boolean,
+  anyGenreStore: boolean,
+  anyAreaStore: boolean,
   selectStore: {type: string, id: string}[],
   genreArray: SelectionType[],
   areaArray: AreaType[],
@@ -15,6 +18,7 @@ interface searchPostStoreType {
   changeTitle: (title: string) => void,
   changeMinAge: (min: string) => void,
   changeMaxAge: (max: string) => void,
+  changeAnyStore: (type: string) => void,
   addSelectStore: (type: string, id: number) => void,
   deleteSelectStore: (type: string, id: number) => void,
   addGender: (type: string, gender: string) => void,
@@ -31,6 +35,9 @@ export const useSearchPostStore = create<searchPostStoreType>()(
     titleStore: '',
     minAgeStore: '',
     maxAgeStore: '',
+    anyPositionStore: false,
+    anyGenreStore: false,
+    anyAreaStore: false,
     selectStore: [],
     genreArray: [],
     areaArray: [],
@@ -40,6 +47,9 @@ export const useSearchPostStore = create<searchPostStoreType>()(
         titleStore: '',
         minAgeStore: '',
         maxAgeStore: '',
+        anyPositionStore: false,
+        anyGenreStore: false,
+        anyAreaStore: false,
         selectStore: [],
         genreArray: [],
         areaArray: []
@@ -67,6 +77,26 @@ export const useSearchPostStore = create<searchPostStoreType>()(
         set((state) => ({maxAgeStore: max}))
       } else {
         set((state) => ({maxAgeStore: ''}))
+      }
+    },
+    changeAnyStore: (type) => {
+      console.log(type);
+      switch (type) {
+        case 'session':
+          set((state) => ({
+            anyPositionStore: !state.anyPositionStore
+          }))
+          break;
+        case 'genre':
+          set((state) => ({
+            anyGenreStore: !state.anyGenreStore
+          }))
+          break;
+        case 'area':
+          set((state) => ({
+            anyAreaStore: !state.anyAreaStore
+          }))
+          break;
       }
     },
     addSelectStore: (type, id) => {

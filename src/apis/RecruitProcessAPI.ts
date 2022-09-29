@@ -13,8 +13,10 @@ interface RecruitProcessApiType {
     genres: {id: number}[] | null;
     positions: {id: number}[] | null;
   }, postId: string, preqId: number) => Promise<AxiosResponse>,
-  getPrequisites: (postId: string) => Promise<AxiosResponse>
-  checkPrequisites: (postId: string | undefined) => Promise<AxiosResponse>
+  getPrequisites: (postId: string) => Promise<AxiosResponse>,
+  checkPrequisites: (postId: string | undefined) => Promise<AxiosResponse>,
+  checkNotification: () => Promise<AxiosResponse>,
+  getNotification: () => Promise<AxiosResponse>
 }
 
 const RecruitProcessAPI: RecruitProcessApiType = {
@@ -28,6 +30,12 @@ const RecruitProcessAPI: RecruitProcessApiType = {
   },
   checkPrequisites: (postId) => {
     return request.get('/api/band/post/' + postId + '/prerequisites/check');
+  },
+  checkNotification: () => {
+    return request.get('api/notifications/count');
+  },
+  getNotification: () => {
+    return request.get('api/notifications');
   }
 }
 
