@@ -43,9 +43,11 @@ function RecruitMenuItem({
   link: string;
 }) {
   return (
-    <Link to={link} className='flex flex-col items-center'>
+    <Link to={link} className='flex flex-col items-center mx-1'>
       <img className='scale-75 h-[52.5px]' src={image} alt={title} />
-      <div className='text-sm mt-1 title'>{title}</div>
+      <div className='text-sm mt-1 break-keep text-center font-sans-kr'>
+        {title}
+      </div>
     </Link>
   );
 }
@@ -56,8 +58,8 @@ export function RecruitMenu({
   menuList: { image: string; title: string; link: string }[];
 }) {
   return (
-    <section className='grid grid-cols-6 h-28 items-center'>
-      <div className='col-start-2 col-end-6 py-0 min-h-fit bg-base-100 flex flex-row justify-evenly'>
+    <section className='grid grid-cols-6 h-32 items-center'>
+      <div className='col-span-full md:col-start-2 md:col-end-6 py-0 min-h-fit bg-base-100 flex flex-row justify-evenly'>
         {menuList.map((item) => (
           <RecruitMenuItem
             key={item.title}

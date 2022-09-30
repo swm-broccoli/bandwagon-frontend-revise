@@ -25,7 +25,9 @@ function MyPostPage () {
   useEffect(() => {
     RecruitPostAPI.LoadMyUserPost()
     .then((res) => {
-      setUserPost(res.data);
+      if (!res.data.errorMessage) {
+        setUserPost(res.data);
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -33,6 +35,7 @@ function MyPostPage () {
 
     RecruitPostAPI.LoadMyBandPost('')
     .then((res) => {
+      console.log(res.data.posts);
       setBandPost(res.data.posts);
     })
     .catch((err) => {

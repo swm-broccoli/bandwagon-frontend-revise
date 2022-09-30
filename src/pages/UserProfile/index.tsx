@@ -13,7 +13,7 @@ import DescriptionField from '../../components/DescriptionField';
 import { UserProfileType } from '../../types/types';
 import RecordField from '../../components/RecordField';
 import UserProfileAPI from '../../apis/UserProfileAPI';
-import { initialUserProfile } from './initialUserProfile';
+import { vacantUserProfile } from './initialUserProfile';
 import { UserProfileAvatar } from './styles';
 import {
   updateUserAreas,
@@ -27,7 +27,7 @@ import {
 function parseUserProfile(userProfile: UserProfileType) {
   return {
     ...userProfile,
-    description: userProfile.description || '프론트 개발자 김성현입니다.',
+    description: userProfile.description || '',
     userPerformances: userProfile.userPerformances.map((performance) => ({
       ...performance,
       performDate: performance.performDate.split('T')[0],
@@ -37,19 +37,10 @@ function parseUserProfile(userProfile: UserProfileType) {
 
 function UserProfile() {
   const [curUserProfile, setCurUserProfile] =
-    useState<UserProfileType>(initialUserProfile);
+    useState<UserProfileType>(vacantUserProfile);
 
-  const [serverUserProfile, setServerUserProfile] = useState<UserProfileType>({
-    avatarUrl: '',
-    name: '',
-    birthday: '',
-    gender: false,
-    positions: [],
-    genres: [],
-    areas: [],
-    description: '',
-    userPerformances: [],
-  });
+  const [serverUserProfile, setServerUserProfile] =
+    useState<UserProfileType>(vacantUserProfile);
 
   const [profileEditing, setProfileEditing] = useState<boolean>(false);
   const navigate = useNavigate();

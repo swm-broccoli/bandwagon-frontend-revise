@@ -56,10 +56,10 @@ const RecruitPostAPI: RecruitPostApiType = {
     return request.delete('api/post/' + postId)
   },
   LoadMyBandPost: (page) => {
-    return request.get('api/my/band/post' + page);
+    return request.get('api/my/band/post' + page, { validateStatus: () => true });
   },
   LoadMyUserPost: () => {
-    return request.get('api/my/user/post');
+    return request.get('api/my/user/post', { validateStatus: () => true });
   }
 };
 

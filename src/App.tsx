@@ -20,6 +20,8 @@ import NotFoundPage from './pages/NotFound';
 import LikedPost from './pages/LikedPost';
 import BandRequest from './pages/BandRequest';
 import MyPostPage from './pages/MyPost';
+import ChatListPage from './pages/Chat';
+import ChatPage from './pages/Chat';
 
 function App() {
   return (
@@ -52,7 +54,10 @@ function App() {
           <Route path='band' element={<RecruitPage type={true} />} />
           <Route path='user' element={<RecruitPage type={false} />} />
           <Route path='band/write' element={<WriteRecruitPage type={true} />} />
-          <Route path='band/write/:postId' element={<WriteRecruitPage type={true} />} />
+          <Route
+            path='band/write/:postId'
+            element={<WriteRecruitPage type={true} />}
+          />
           <Route
             path='user/write'
             element={<WriteRecruitPage type={false} />}
@@ -63,6 +68,7 @@ function App() {
           />
           <Route path=':postID' element={<ReadRecruitPage />} />
         </Route>
+        <Route path='chat' element={<ChatPage />} />
         <Route path='ui' element={<UIPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>

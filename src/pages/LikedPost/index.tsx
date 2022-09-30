@@ -4,19 +4,21 @@ import MyPageTemplate from '../../components/MyPageTemplate';
 import { useLoginStore } from '../../stores/LoginStore';
 import { PostCardType } from '../../types/types';
 import ArticleCard from '../../components/ArticleCard';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import Pagination from '../../components/Pagination';
 import { useSearchPostStore } from '../../stores/SearchPostStore';
 
 function LikedPost () {
   const {userId} = useLoginStore();
+  const {search} = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [postList, setPostList] = useState<PostCardType[]>([])
   const [totalPages, setTotalPages] = useState<number>(0);
   const {pageStore} = useSearchPostStore();
 
   useEffect(() => {
     if (userId) {
-      RecruitPostAPI.LoadLikedPost(userId, '')
+      RecruitPostAPI.LoadLikedPost(userId, search)
       .then((res) => {
         console.log(res.data);
         setPostList(res.data.posts);
@@ -26,19 +28,11 @@ function LikedPost () {
         console.log(err);
       })
     }
-  }, [userId]);
+  }, [userId, search]);
 
   useEffect(() => {
-    if (userId) {
-      RecruitPostAPI.LoadLikedPost(userId, pageStore)
-      .then((res) => {
-        console.log(res.data);
-        setPostList(res.data.posts);
-        setTotalPages(res.data.totalPages);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+    if (userId && pageStore) {
+      setSearchParams({page: pageStore});
     }
   }, [pageStore]);
 

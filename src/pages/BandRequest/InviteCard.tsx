@@ -2,10 +2,41 @@ import React from 'react';
 import { BandRequestType } from '../../types/types';
 import ExamplePic from '../../assets/examplepic.png';
 import BandRequestAPI from '../../apis/BandRequestAPI';
+import { GroupChannelCreateParams, GroupChannelModule } from '@sendbird/chat/groupChannel';
+import SendbirdChat from '@sendbird/chat';
+import { useLoginStore } from '../../stores/LoginStore';
 
 function InviteCard(props: {
   type: boolean
   request: BandRequestType}) {
+  
+  const { userId } = useLoginStore();
+
+  const makeChat = async (inviteEmail: string) => {
+    const { VITE_SENDBIRD_API_KEY } = import.meta.env;
+  
+    const sendbirdChat = await SendbirdChat.init({
+      appId: VITE_SENDBIRD_API_KEY,
+      modules: [new GroupChannelModule()]
+    });
+    
+    await sendbirdChat.connect(userId);
+  
+    try {
+      const params: GroupChannelCreateParams = {
+        invitedUserIds: [userId, inviteEmail],
+        name: '',
+        isDistinct: true
+      };
+  
+      const groupChannel = await sendbirdChat.groupChannel.createChannel(params);
+        console.log(groupChannel);
+    } catch (error) {
+      console.log(error)
+    }
+  
+    sendbirdChat.disconnect();
+  }
   
   function handleAcceptClick (e: React.MouseEvent<HTMLButtonElement>) {
     BandRequestAPI.AcceptInvite(true, props.request.id)
@@ -37,6 +68,10 @@ function InviteCard(props: {
     });
   }
 
+  function handleChatClick (e: React.MouseEvent<HTMLButtonElement>) {
+    makeChat(props.type ? props.request.band.email : props.request.user.email)
+  }
+
   return (
     <div className='w-full h-full grid grid-cols-[100px_auto] grid-rows-2 gap-x-4 gap-y-2'>
       {props.type ?
@@ -58,10 +93,18 @@ function InviteCard(props: {
         </h2>
       }
       {props.type ?
-      <button
-        onClick={handleDeleteClick}
-        className='btn bg-base-300 border-base-300 text-gray-700 min-h-fit h-8 row-start-2 col-start-2 self-end justify-self-end'>취소</button> :
-      <div className='row-start-2 col-start-2 h-8 self-end justify-self-end flex gap-2'>
+      <div className='row-start-2 col-start-1 col-end-3 md:col-start-2 h-8 self-end justify-self-end flex gap-2'>
+        <button
+          onClick={handleChatClick}
+          className='btn btn-ghost min-h-fit h-full text-sm'>채팅</button>
+        <button
+          onClick={handleDeleteClick}
+          className='btn bg-base-300 border-base-300 text-gray-700 min-h-fit h-8 row-start-2 col-start-2 self-end justify-self-end'>취소</button>
+      </div> :
+      <div className='row-start-2 col-start-1 col-end-3 md:col-start-2 h-8 self-end justify-self-end flex gap-2'>
+        <button
+          onClick={handleChatClick}
+          className='btn btn-ghost min-h-fit h-full text-sm'>채팅</button>
         <button
           onClick={handleAcceptClick}
           className='btn btn-primary min-h-fit h-full text-sm'>수락</button>

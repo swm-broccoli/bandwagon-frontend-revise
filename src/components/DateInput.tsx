@@ -13,7 +13,9 @@ function DateInput({
 }) {
   return (
     <div className='flex flex-col mt-5'>
-      <label className='text-accent mb-2 text-sm'>{label}</label>
+      <label className='text-accent mb-2 text-sm'>
+        {label} {required ? <span className='text-error'>*</span> : null}
+      </label>
       <input
         type='date'
         placeholder='1997-01-29'

@@ -7,6 +7,7 @@ import AuthAPI from '../../apis/AuthAPI';
 import { useNavigate } from 'react-router-dom';
 import { SignUpUserInputType } from '../../types/types';
 import { validateSignUpForm } from './validateSignUpForm';
+import SendbirdChat from '@sendbird/chat';
 
 interface CheckBoxItemType {
   text: string;
@@ -140,9 +141,28 @@ function SignUpForm() {
 
   const navigate = useNavigate();
 
+  const setupUser = async (nickname: string, email: string) => {
+    const { VITE_SENDBIRD_API_KEY } = import.meta.env;
+  
+    const sendbirdChat = await SendbirdChat.init({
+      appId: VITE_SENDBIRD_API_KEY,
+    });
+  
+    await sendbirdChat.connect(email);
+    
+    const userUpdateParams = {
+      nickname: nickname,
+      userId: email
+    };
+    await sendbirdChat.updateCurrentUserInfo(userUpdateParams);
+  
+    sendbirdChat.disconnect();
+  }
+
   const onSignUpSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('회원가입 폼 제출');
+    setupUser(signUpUserInput.nickname, signUpUserInput.email);
     if (signUpSubmissionValidate(signUpUserInput)) {
       AuthAPI.signUp({
         ...signUpUserInput,
@@ -188,7 +208,7 @@ function SignUpForm() {
         <button
           type='button'
           onClick={userEmailDuplicationCheck}
-          className='absolute ml-[248px] md:ml-[328px] btn btn-primary self-end'
+          className='font-sans-kr px-0 w-14 text-sm absolute ml-[248px] md:ml-[328px] btn btn-primary self-end'
         >
           중복확인
         </button>
@@ -224,6 +244,7 @@ function SignUpForm() {
         setValue={(newBirthday) => {
           setSignUpUserInput({ ...signUpUserInput, birthday: newBirthday });
         }}
+        required
       />
       <SelectionInput
         label='성별'

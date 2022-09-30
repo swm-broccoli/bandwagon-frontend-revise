@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SiteLogo from './Logo';
 import { useLoginStore } from '../stores/LoginStore';
+import RecruitProcessAPI from '../apis/RecruitProcessAPI';
+import { NotificationType } from '../types/types';
+import NotificationBox from './NotificationBox';
 
 function NavBarItem({ label, link }: { label: string; link: string }) {
   return (
     <li className='menu-item'>
-      <Link to={link} className='text-[#676767] active:bg-neutral'>
+      <Link to={link} className='text-[#676767] active:bg-neutral font-sans-kr'>
         {label}
       </Link>
     </li>
@@ -27,8 +30,12 @@ function GlobalNavBar() {
       label: '구인구직',
     },
     {
-      link: '/',
+      link: '/chat',
       label: '채팅',
+    },
+    {
+      link: '/',
+      label: '알림',
     },
     {
       link: '/profile/user',
@@ -53,6 +60,8 @@ function GlobalNavBar() {
         <ul className='menu menu-horizontal flex justify-evenly'>
           {(isLoggedIn ? loggedInNavBarItems : notLoggedInNavBarItems).map(
             (item) => (
+              item.label === '알림' ?
+              <NotificationBox key={item.label} /> :
               <NavBarItem
                 key={item.label}
                 label={item.label}

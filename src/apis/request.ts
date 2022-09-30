@@ -57,7 +57,7 @@ function setInterceptors(instance: AxiosInstance) {
 const createInstance = () => {
   const instance = axios.create({
     baseURL:
-      'http://bandwagon-vpc-alb-private-dev-830505980.ap-northeast-2.elb.amazonaws.com/',
+      import.meta.env.VITE_BASE_URL,
     timeout: 10000,
     headers: { 'Content-Type': 'application/json' },
   });
