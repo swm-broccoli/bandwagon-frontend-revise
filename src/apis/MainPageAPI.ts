@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { request } from './request';
 
+const { VITE_API_URL } = import.meta.env;
+
 const baseURL =
   'http://bandwagon-vpc-alb-private-dev-830505980.ap-northeast-2.elb.amazonaws.com/';
 
@@ -12,10 +14,10 @@ interface MainPageApiType {
 
 const MainPageAPI: MainPageApiType = {
   getRecommendedRecruits: () => {
-    return request.get(baseURL + 'api/recommendations');
+    return request.get(VITE_API_URL + 'api/recommendations');
   },
-  getPopularPosts: () => axios.get(baseURL + 'api/post/popular'),
-  getTodayPortfolios: () => axios.get(baseURL + 'api/random'),
+  getPopularPosts: () => axios.get(VITE_API_URL + 'api/post/popular'),
+  getTodayPortfolios: () => axios.get(VITE_API_URL + 'api/random'),
 };
 
 export default MainPageAPI;
