@@ -55,7 +55,8 @@ function setInterceptors(instance: AxiosInstance) {
 
 const createInstance = () => {
   const instance = axios.create({
-    baseURL: VITE_API_URL,
+    baseURL:
+      import.meta.env.VITE_BASE_URL,
     timeout: 10000,
     headers: { 'Content-Type': 'application/json' },
   });
