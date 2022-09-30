@@ -1,6 +1,8 @@
 import axios, { AxiosInstance } from 'axios';
 import AuthAPI from './AuthAPI';
 
+const { VITE_API_URL } = import.meta.env;
+
 function setInterceptors(instance: AxiosInstance) {
   // API 요청 이전 처리
   instance.interceptors.request.use(
@@ -28,12 +30,9 @@ function setInterceptors(instance: AxiosInstance) {
       } else if (error.response.status == 403) {
         // access token 만료
         axios
-          .post(
-            'http://bandwagon-vpc-alb-private-dev-830505980.ap-northeast-2.elb.amazonaws.com/api/refresh',
-            {
-              refreshToken: localStorage.getItem('refreshToken'),
-            },
-          )
+          .post('https://api.bandwagon-back.com/api/refresh', {
+            refreshToken: localStorage.getItem('refreshToken'),
+          })
           .then((response) => {
             localStorage.setItem('accessToken', response.data.accessToken);
             error.config.headers.Authorization =
@@ -56,8 +55,7 @@ function setInterceptors(instance: AxiosInstance) {
 
 const createInstance = () => {
   const instance = axios.create({
-    baseURL:
-      'http://bandwagon-vpc-alb-private-dev-830505980.ap-northeast-2.elb.amazonaws.com/',
+    baseURL: VITE_API_URL,
     timeout: 10000,
     headers: { 'Content-Type': 'application/json' },
   });
