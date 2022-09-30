@@ -1,6 +1,8 @@
 // 아이디, 비밀번호 찾기 관련 API
 import axios, { AxiosResponse } from 'axios';
 
+const { VITE_API_URL } = import.meta.env;
+
 const baseURL =
   'http://bandwagon-vpc-alb-private-dev-830505980.ap-northeast-2.elb.amazonaws.com/';
 
@@ -20,9 +22,9 @@ interface FindAccountApiType {
 */
 const FindAccountAPI: FindAccountApiType = {
   findEmail: (findEmailInfo) =>
-    axios.post(baseURL + 'api/find/email', findEmailInfo),
+    axios.post(VITE_API_URL + 'api/find/email', findEmailInfo),
   findPassword: (findPasswordInfo) =>
-    axios.post(baseURL + 'api/find/password', findPasswordInfo),
+    axios.post(VITE_API_URL + 'api/find/password', findPasswordInfo),
 };
 
 export default FindAccountAPI;
