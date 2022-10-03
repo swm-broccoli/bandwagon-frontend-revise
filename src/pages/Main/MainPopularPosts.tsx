@@ -64,6 +64,7 @@ export function MainPopularPosts() {
   //
   useEffect(() => {
     MainPageAPI.getPopularPosts().then((res) => {
+      console.log(res.data);
       setPopularPosts(
         res.data.posts.map((post: any): PopularPostItemType => {
           if (post.dtype === 'Band') {
