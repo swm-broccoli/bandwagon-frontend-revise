@@ -14,6 +14,7 @@ interface MainPageApiType {
 
 const MainPageAPI: MainPageApiType = {
   getRecommendedRecruits: () => {
+    console.log(VITE_BASE_URL);
     return request.get(VITE_BASE_URL + 'api/recommendations');
   },
   getPopularPosts: () => axios.get(VITE_BASE_URL + 'api/post/popular'),
