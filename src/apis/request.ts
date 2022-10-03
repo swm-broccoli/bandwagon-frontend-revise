@@ -1,8 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import AuthAPI from './AuthAPI';
 
-const { VITE_BASE_URL } = import.meta.env;
-
 function setInterceptors(instance: AxiosInstance) {
   // API 요청 이전 처리
   instance.interceptors.request.use(
@@ -55,7 +53,7 @@ function setInterceptors(instance: AxiosInstance) {
 
 const createInstance = () => {
   const instance = axios.create({
-    baseURL: VITE_BASE_URL,
+    baseURL: import.meta.env.VITE_BASE_URL,
     timeout: 10000,
     headers: { 'Content-Type': 'application/json' },
   });
