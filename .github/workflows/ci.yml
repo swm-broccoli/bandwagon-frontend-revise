@@ -58,7 +58,7 @@ jobs:
         
       - name: Create Cloudfront Cache Invalidation
         uses: chetan/invalidate-cloudfront-action@v2
-        with:
+        env:
           DISTRIBUTION: ${{ secrets.AWS_CF_DISTRIBUTION_ID }}
           PATHS: '/*'
           AWS_REGION: 'ap-northeast-2'
