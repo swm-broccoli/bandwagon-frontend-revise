@@ -57,7 +57,8 @@ jobs:
         run: aws s3 sync ./dist s3://www.band-wagon.net
         
       - name: Create Cloudfront Cache Invalidation
-        env:
+        uses: aws-actions/invalidate-cloudfront-action@v1
+        with:
           DISTRIBUTION: ${{ secrets.AWS_CF_DISTRIBUTION_ID }}
           PATHS: '/*'
           AWS_REGION: 'ap-northeast-2'
