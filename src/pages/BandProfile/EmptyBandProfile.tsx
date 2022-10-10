@@ -44,7 +44,9 @@ function EmptyBandProfile({ emptyBandPicture }: { emptyBandPicture: string }) {
     <section>
       <h1 className='text-bold text-2xl font-bold'>밴드 정보</h1>
       <div className='grid grid-flow-row justify-center'>
-        <img src={emptyBandPicture} alt='밴드가 없을 때 사진' />
+        <div className='h-48'>
+          <iframe src='https://embed.lottiefiles.com/animation/87716' />
+        </div>
         아직 밴드에 가입하지 않으셨습니다!
         <Link to='/recruit/user' className='w-full'>
           <button className='btn btn-sm bg-base-100 hover:bg-base-200 h-8 my-2 w-full'>
