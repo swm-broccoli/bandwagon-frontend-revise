@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
 import ArticleCard from '../../components/ArticleCard';
 import MyPageTemplate from '../../components/MyPageTemplate';
@@ -20,6 +20,8 @@ function MyPostPage () {
   const [userPost, setUserPost] = useState<PostCardType>();
   const [bandPost, setBandPost] = useState<PostCardType[]>([]);
   const [totalPages, setTotalPages] = useState<number>(0);
+  const {search} = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const {pageStore} = useSearchPostStore();
 
   useEffect(() => {
@@ -33,26 +35,26 @@ function MyPostPage () {
       console.log(err);
     });
 
-    RecruitPostAPI.LoadMyBandPost('')
+    RecruitPostAPI.LoadMyBandPost(search)
     .then((res) => {
-      console.log(res.data.posts);
-      setBandPost(res.data.posts);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }, []);
-
-  useEffect(() => {
-    RecruitPostAPI.LoadMyBandPost(pageStore)
-    .then((res) => {
+      console.log(res.data);
       setBandPost(res.data.posts);
       setTotalPages(res.data.totalPages);
     })
     .catch((err) => {
       console.log(err);
-    })
+    });
+  }, [search]);
+
+  useEffect(() => {
+    if (pageStore) {
+      setSearchParams({page: pageStore});
+    }
   }, [pageStore]);
+
+  useEffect(() => {
+    console.log('check', bandPost);
+  }, [bandPost])
 
   return (
     <MyPageTemplate>

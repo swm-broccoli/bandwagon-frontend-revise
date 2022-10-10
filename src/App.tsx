@@ -20,7 +20,6 @@ import NotFoundPage from './pages/NotFound';
 import LikedPost from './pages/LikedPost';
 import BandRequest from './pages/BandRequest';
 import MyPostPage from './pages/MyPost';
-import ChatListPage from './pages/Chat';
 import ChatPage from './pages/Chat';
 
 function App() {
