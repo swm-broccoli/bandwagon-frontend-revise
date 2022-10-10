@@ -21,6 +21,7 @@ import {
 import usePortfolioStore from './PortfolioStore';
 import { vacantUserProfile } from '../UserProfile/initialUserProfile';
 import UserProfileAPI from '../../apis/UserProfileAPI';
+import EmptyBandProfile from '../BandProfile/EmptyBandProfile';
 
 function UserPortfolioMaker() {
   const [userProfile, setUserProfile] =
@@ -196,6 +197,9 @@ function BandPortfolioMaker() {
       });
   }, []);
 
+  if (bandProfile.id === -1) {
+    return <EmptyBandProfile />;
+  }
   return (
     <div>
       <PortfolioMakerAvatar avatarURL={bandProfile.avatarUrl} />

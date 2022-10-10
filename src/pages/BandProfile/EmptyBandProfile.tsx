@@ -37,7 +37,7 @@ function BandMakingForm() {
   );
 }
 
-function EmptyBandProfile({ emptyBandPicture }: { emptyBandPicture: string }) {
+function EmptyBandProfile() {
   const [bandMaking, setBandMaking] = useState<boolean>(false);
 
   return (
