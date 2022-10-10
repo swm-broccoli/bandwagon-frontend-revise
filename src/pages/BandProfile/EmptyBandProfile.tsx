@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import BandProfileAPI from '../../apis/BandProfileAPI';
+import { Link } from 'react-router-dom';
 
 function BandMakingForm() {
   const [bandName, setBandName] = useState<string>('');
@@ -44,7 +45,12 @@ function EmptyBandProfile({ emptyBandPicture }: { emptyBandPicture: string }) {
       <h1 className='text-bold text-2xl font-bold'>밴드 정보</h1>
       <div className='grid grid-flow-row justify-center'>
         <img src={emptyBandPicture} alt='밴드가 없을 때 사진' />
-        가입한 밴드가 존재하지 않습니다!
+        아직 밴드에 가입하지 않으셨습니다!
+        <Link to='/recruit/user' className='w-full'>
+          <button className='btn btn-sm bg-base-100 hover:bg-base-200 h-8 my-2 w-full'>
+            밴드 구하러 가기
+          </button>
+        </Link>
         <button
           onClick={() => {
             setBandMaking((prev) => !prev);
