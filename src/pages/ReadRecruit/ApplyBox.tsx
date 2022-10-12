@@ -9,7 +9,7 @@ import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 import { AreaType, PrequisiteResponseType, SelectionType } from '../../types/types';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
 import BandRequestAPI from '../../apis/BandRequestAPI';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useLoginStore } from '../../stores/LoginStore';
 import SendbirdChat from '@sendbird/chat';
 import {
@@ -286,8 +286,10 @@ function ApplyBox (props: {
         }
       </div>
       <div className='flex flex-col gap-[0.325rem]'>
+      <Link to='/chat'>
         <button onClick={handleChatClick}><img src={btn_chat} /></button>
-        <p className='text-neutral text-sm text-center'>채팅하기</p>
+      </Link>
+      <p className='text-neutral text-sm text-center'>채팅하기</p>
       </div>
         <div className='flex flex-col gap-[0.325rem]'>
           <button
