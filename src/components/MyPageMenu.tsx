@@ -64,12 +64,6 @@ export const myPageMenuItems = [
     activeIcon: MyPostActiveIcon,
   },
   {
-    label: '내 댓글',
-    to: '/profile/mycomment',
-    icon: MyCommentIcon,
-    activeIcon: MyCommentActiveIcon,
-  },
-  {
     label: '찜한 글',
     to: '/profile/mylike',
     icon: MyLikeIcon,
