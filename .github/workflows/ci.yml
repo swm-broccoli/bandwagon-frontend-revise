@@ -55,8 +55,18 @@ jobs:
         
       - name: upload to s3                  # Upload build file to S3
         run: aws s3 sync ./dist s3://www.band-wagon.net
+        
+      - name: Create Cloudfront Cache Invalidation
+        uses: chetan/invalidate-cloudfront-action@v2
+        env:
+          DISTRIBUTION: ${{ secrets.AWS_CF_DISTRIBUTION_ID }}
+          PATHS: '/*'
+          AWS_REGION: 'ap-northeast-2'
+          AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
 
       - name: Run a multi-line script
         run: |
+          echo cf cache invalidation added
           echo Add other actions to build,
           echo test, and deploy your project.

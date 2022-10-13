@@ -22,9 +22,12 @@ interface FindAccountApiType {
 */
 const FindAccountAPI: FindAccountApiType = {
   findEmail: (findEmailInfo) =>
-    axios.post(VITE_BASE_URL + 'api/find/email', findEmailInfo),
+    axios.post(import.meta.env.VITE_BASE_URL + 'api/find/email', findEmailInfo),
   findPassword: (findPasswordInfo) =>
-    axios.post(VITE_BASE_URL + 'api/find/password', findPasswordInfo),
+    axios.post(
+      import.meta.env.VITE_BASE_URL + 'api/find/password',
+      findPasswordInfo,
+    ),
 };
 
 export default FindAccountAPI;

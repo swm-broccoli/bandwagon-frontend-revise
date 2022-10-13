@@ -126,7 +126,7 @@ function BandProfile() {
 
   // 정보를 못 받아왔다면 id가 -1인 상태이다
   if (curBandProfile.id === -1) {
-    return <EmptyBandProfile emptyBandPicture={noBandPicture} />;
+    return <EmptyBandProfile />;
   } else {
     return (
       <div>
