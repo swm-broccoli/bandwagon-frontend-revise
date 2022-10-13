@@ -27,16 +27,16 @@ const AuthAPI: AuthApiType = {
     return request.post('api/login', userInfo);
   },
   logOut: () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('userID');
-    localStorage.removeItem('isSocial');
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('refreshToken');
+    sessionStorage.removeItem('userID');
+    sessionStorage.removeItem('isSocial');
     // window.location.href = '/login';
     useLoginStore.getState().logOut();
   },
   signUp: (userInfo) => request.post('api/signup', userInfo),
   checkEmail: (userInfo) => request.post('api/duplicate', userInfo),
-  checkToken: () => request.get('')
+  checkToken: () => request.get(''),
 };
 
 export default AuthAPI;
