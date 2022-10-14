@@ -335,7 +335,7 @@ export async function updateBandMembers(
   serverBandMembers: BandMemberType[],
 ) {
   // 서버의 멤버 목록을 다 삭제한 후에 사용자의 수정 내역을 보내줘야 하므로 Async 를 써준다
-  const curUserID = localStorage.getItem('userID');
+  const curUserID = sessionStorage.getItem('userID');
 
   for (const member of curBandMembers) {
     if (member.email !== curUserID) {

@@ -167,7 +167,7 @@ function ReadRecruitPage() {
                       />
                     </Link>
                   ) : (
-                    <Link to={'recruit/user/write/' + postID}>
+                    <Link to={'/recruit/user/write/' + postID}>
                       <Button
                         label='수정'
                         x='w-20 '

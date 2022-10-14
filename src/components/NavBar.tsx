@@ -59,15 +59,16 @@ function GlobalNavBar() {
         <SiteLogo />
         <ul className='menu menu-horizontal flex justify-evenly'>
           {(isLoggedIn ? loggedInNavBarItems : notLoggedInNavBarItems).map(
-            (item) => (
-              item.label === '알림' ?
-              <NotificationBox key={item.label} /> :
-              <NavBarItem
-                key={item.label}
-                label={item.label}
-                link={item.link}
-              />
-            ),
+            (item) =>
+              item.label === '알림' ? (
+                <NotificationBox key={item.label} />
+              ) : (
+                <NavBarItem
+                  key={item.label}
+                  label={item.label}
+                  link={item.link}
+                />
+              ),
           )}
           {isLoggedIn ? (
             <li className='menu-item'>
@@ -75,10 +76,10 @@ function GlobalNavBar() {
                 to='/'
                 onClick={() => {
                   logOut();
-                  localStorage.removeItem('accessToken');
-                  localStorage.removeItem('refreshToken');
-                  localStorage.removeItem('userID');
-                  localStorage.removeItem('isSocial');
+                  sessionStorage.removeItem('accessToken');
+                  sessionStorage.removeItem('refreshToken');
+                  sessionStorage.removeItem('userID');
+                  sessionStorage.removeItem('isSocial');
                   window.location.href = '/';
                 }}
                 className='text-[#676767] active:bg-neutral'

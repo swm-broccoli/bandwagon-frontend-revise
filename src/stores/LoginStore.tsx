@@ -16,23 +16,24 @@ export const useLoginStore = create<loginStoreType>()((set) => ({
   isLoggedIn: false,
   notificationCount: 0,
   checkNotification: () => {
-    const token = localStorage.getItem('accessToken');
-    const userID = localStorage.getItem('userID');
+    const token = sessionStorage.getItem('accessToken');
+    const userID = sessionStorage.getItem('userID');
 
     if (token && userID) {
       RecruitProcessAPI.checkNotification()
-      .then((res) => {
-        console.log(res.data);
-        if (localStorage.getItem('userID')) {
-          set((state) => ({
-            userId: userID,
-            isLoggedIn: true,
-            notificationCount: res.data.count }));
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+        .then((res) => {
+          console.log(res.data);
+          if (sessionStorage.getItem('userID')) {
+            set((state) => ({
+              userId: userID,
+              isLoggedIn: true,
+              notificationCount: res.data.count,
+            }));
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       return;
     }

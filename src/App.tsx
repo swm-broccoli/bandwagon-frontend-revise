@@ -19,7 +19,7 @@ import FindEmailPage from './pages/FindEmail';
 import NotFoundPage from './pages/NotFound';
 import LikedPost from './pages/LikedPost';
 import BandRequest from './pages/BandRequest';
-import ChatListPage from './pages/Chat';
+import MyPostPage from './pages/MyPost';
 import ChatPage from './pages/Chat';
 
 function App() {
@@ -36,6 +36,7 @@ function App() {
         <Route path='profile'>
           <Route path='user' element={<UserProfilePage />} />
           <Route path='band' element={<BandProfilePage />} />
+          <Route path='mypost' element={<MyPostPage />} />
           <Route path='mylike' element={<LikedPost />} />
           <Route path='request' element={<BandRequest />} />
         </Route>

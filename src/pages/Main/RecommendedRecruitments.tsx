@@ -68,13 +68,24 @@ export function RecommendedRecruitments() {
           <h2 className='text-neutral font-montserrat'>R E C O M M E N D</h2>
         </div>
         <div className='flex flex-row justify-center overflow-x-auto w-full mt-5 md:mt-0 gap-5'>
-          {localStorage.getItem('userID') ? (
-            recruitments.map((recruitment) => (
-              <RecommendedRecruitmentItem
-                key={recruitment.id}
-                recruitment={recruitment}
-              />
-            ))
+          {sessionStorage.getItem('userID') ? (
+            recruitments.length ? (
+              recruitments.map((recruitment) => (
+                <RecommendedRecruitmentItem
+                  key={recruitment.id}
+                  recruitment={recruitment}
+                />
+              ))
+            ) : (
+              <div>
+                <h2>추천 구인/구직 글이 없습니다.</h2>
+                <Link to='/recruit/user'>
+                  <button className='btn btn-primary btn-outline'>
+                    직접 구하러 가기
+                  </button>
+                </Link>
+              </div>
+            )
           ) : (
             <div className='flex flex-col items-center'>
               <h2>로그인을 하시면 딱 맞는 밴드를 추천해 드려요!</h2>

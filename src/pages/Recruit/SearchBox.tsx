@@ -27,7 +27,7 @@ function SearchTextField () {
 };
 
 function ConditionLabel (props: {label: string, row: string}) {
-  const pStyle = 'row-start-' + props.row + ' col-start-1 text-base text-accent mt-3 mr-3 max-w-[7.25rem] min-w-max'
+  const pStyle = 'row-start-' + props.row + ' col-start-1 hidden md:flex text-base text-accent mt-3 mr-3 max-w-[7.25rem] min-w-max'
   return (
     <p className={pStyle}>{props.label}</p>
   );
@@ -146,7 +146,7 @@ function SelectGenderButton (props: {
 
 function SelectSession () {
   return (
-    <ul className='row-start-3 col-start-2 flex flex-row flex-wrap gap-[0.625rem]'>
+    <ul className='row-start-3 col-start-1 col-end-3 md:col-start-2 flex flex-row flex-wrap gap-[0.625rem]'>
       {positionOptions.map((position, index) => 
       <li key={index}>
         <SelectSessionButton label={position} />
@@ -176,7 +176,7 @@ function SelectGenre () {
   }
 
   return (
-    <div className='flex flex-col flex-wrap gap-4 row-start-4 col-start-2'>
+    <div className='flex flex-col flex-wrap gap-4 row-start-4 col-start-1 col-end-3 md:col-start-2'>
       <div className='flex flex-row flex-wrap gap-[0.625rem]'>
         <Select
           label='장르를 선택하세요'
@@ -191,7 +191,7 @@ function SelectGenre () {
           onclick={handleClick} />
         <SelectAnyCondition type='genre'/>
       </div>
-      <ul className='flex gap-4'>
+      <ul className='flex flex-wrap gap-4'>
         {genreArray.map((genre, index) =>
           <li key={index} className='flex flex-row gap-[0.625rem]'>
             <div className='text-base text-accent'>{genre.name}</div>
@@ -218,7 +218,7 @@ function SelectAge () {
   }, [minAge, maxAge]);
 
   return (
-    <div className='row-start-5 col-start-2 flex flex-row flex-wrap gap-[0.625rem] w-full h-fit items-center'>
+    <div className='row-start-5 col-start-1 col-end-3 md:col-start-2 flex flex-row flex-wrap gap-[0.625rem] w-full h-fit items-center'>
       <input
       placeholder='최소 나이 입력'
       value={minAge}
@@ -257,7 +257,7 @@ function SelectArea () {
   }
 
   return (
-    <div className='flex flex-col flex-wrap gap-4 row-start-6 col-start-2'>
+    <div className='flex flex-col flex-wrap gap-4 row-start-6 col-start-1 col-end-3 md:col-start-2'>
       <div className='flex flex-row flex-wrap gap-[0.625rem]'>
         <AreaSelect curOption={area} setOption={setArea} />
         <Button
@@ -268,7 +268,7 @@ function SelectArea () {
           onclick={handleClick} />
         <SelectAnyCondition type='area'/>
       </div>
-      <ul className='flex gap-4'>
+      <ul className='flex flex-wrap gap-4'>
         {areaArray.map((area, index) =>
           <li key={index} className='flex flex-row gap-[0.625rem]'>
             <div className='text-base text-accent'>
@@ -288,7 +288,7 @@ function SelectArea () {
 
 function SelectPracticeDay () {
   return (
-    <ul className='row-start-7 col-start-2 flex flex-row flex-wrap gap-[0.625rem]'>
+    <ul className='row-start-7 col-start-1 col-end-3 md:col-start-2 flex flex-row flex-wrap gap-[0.625rem]'>
       {weekdayOptions.map((day, index) => 
       <li key={index}>
         <SelectPracticeDayButton label={day} />
@@ -303,7 +303,7 @@ function SelectGender () {
     {type: 'true', name: '여자'}];
 
   return (
-    <ul className='row-start-7 col-start-2 flex flex-row flex-wrap gap-[0.625rem]'>
+    <ul className='row-start-7 col-start-1 col-end-3 md:col-start-2 flex flex-row flex-wrap gap-[0.625rem]'>
       {genderOptions.map((gender, index) => 
       <li key={index}>
         <SelectGenderButton label={gender} />
@@ -316,7 +316,7 @@ function SearchBox (props: {
   type: boolean,
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void}) {
   return (
-    <div className='w-full h-fit row-start-2 col-start-2 col-end-4 grid auto-rows-auto grid-cols-[minmax(auto,_116px)_auto] gap-4 p-10 max-w-7xl border border-solid border-base-200 rounded-xl bg-white mt-5'>
+    <div className='w-full h-fit row-start-2 col-start-2 col-end-4 grid auto-rows-auto grid-cols-[minmax(auto,_116px)_auto] gap-4 p-4 md:p-10 max-w-7xl border border-solid border-base-200 rounded-xl bg-white mt-5'>
       <div className='flex flex-row gap-3 row-start-1 col-start-1 col-end-3 w-full h-[3.125rem]'>
         <SearchTextField />
         <Button
