@@ -6,7 +6,7 @@ function setInterceptors(instance: AxiosInstance) {
   instance.interceptors.request.use(
     (config) => {
       // header에 access token 추가
-      const token = localStorage.getItem('accessToken');
+      const token = sessionStorage.getItem('accessToken');
       if (config.headers && token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -29,10 +29,10 @@ function setInterceptors(instance: AxiosInstance) {
         // access token 만료
         axios
           .post('https://api.bandwagon-back.com/api/refresh', {
-            refreshToken: localStorage.getItem('refreshToken'),
+            refreshToken: sessionStorage.getItem('refreshToken'),
           })
           .then((response) => {
-            localStorage.setItem('accessToken', response.data.accessToken);
+            sessionStorage.setItem('accessToken', response.data.accessToken);
             error.config.headers.Authorization =
               'Bearer ' + response.data.accessToken;
             return instance.request(error.config);

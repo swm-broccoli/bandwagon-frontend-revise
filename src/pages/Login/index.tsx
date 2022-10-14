@@ -25,11 +25,11 @@ function LoginForm() {
     AuthAPI.signIn({ email: id, password: password })
       .then((res) => {
         console.log(res);
-        localStorage.setItem('accessToken', res.data.accessToken);
-        localStorage.setItem('refreshToken', res.data.refreshToken);
-        localStorage.setItem('userID', id);
+        sessionStorage.setItem('accessToken', res.data.accessToken);
+        sessionStorage.setItem('refreshToken', res.data.refreshToken);
+        sessionStorage.setItem('userID', id);
         // 소셜 로그인인지 확인하는 변수
-        localStorage.setItem('isSocial', 'false');
+        sessionStorage.setItem('isSocial', 'false');
         logIn(id);
         alert('로그인 성공');
         navigate('/');

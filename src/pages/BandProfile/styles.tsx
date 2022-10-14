@@ -218,21 +218,21 @@ function BandMemberAddButton({
 
   function handleMemberAddClick() {
     RecruitPostAPI.LoadUserInfo(newMemberEmail)
-    .then((res) => {
-      if (res.data.id) {
-        BandRequestAPI.InviteBand(res.data.id)
-        .then((res) => {
-          console.log(res);
-          if (res) window.alert(newMemberEmail + '에게 초대를 보냈습니다!');
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+      .then((res) => {
+        if (res.data.id) {
+          BandRequestAPI.InviteBand(res.data.id)
+            .then((res) => {
+              console.log(res);
+              if (res) window.alert(newMemberEmail + '에게 초대를 보냈습니다!');
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -275,7 +275,7 @@ export function BandMemberList({
     BandProfileAPI.getNewMemberInfo(email)
       .then((res) => {
         // res에는 새로 추가할 사용자의 정보가 들어 있다.
-        const curUserID = localStorage.getItem('userID');
+        const curUserID = sessionStorage.getItem('userID');
         if (curUserID === email) {
           alert('자기 자신은 밴드에 추가할 수 없습니다.');
         } else if (

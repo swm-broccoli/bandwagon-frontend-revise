@@ -68,7 +68,7 @@ export function RecommendedRecruitments() {
           <h2 className='text-neutral font-montserrat'>R E C O M M E N D</h2>
         </div>
         <div className='flex flex-row justify-center overflow-x-auto w-full mt-5 md:mt-0 gap-5'>
-          {localStorage.getItem('userID') ? (
+          {sessionStorage.getItem('userID') ? (
             recruitments.length ? (
               recruitments.map((recruitment) => (
                 <RecommendedRecruitmentItem

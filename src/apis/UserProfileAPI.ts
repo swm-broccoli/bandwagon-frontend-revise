@@ -35,13 +35,13 @@ interface UserProfileApiType {
 
 const UserProfileAPI: UserProfileApiType = {
   getUserProfileInfo: () => {
-    const userID = localStorage.getItem('userID');
+    const userID = sessionStorage.getItem('userID');
     return request.get(`/api/users/${userID}/mypage`, {
       validateStatus: () => true,
     });
   },
   updateUserAvatar: (avatar: File) => {
-    const userID = localStorage.getItem('userID');
+    const userID = sessionStorage.getItem('userID');
     const formData = new FormData();
     formData.append('image', avatar);
     return request.post(`/api/users/${userID}/avatar`, formData, {
@@ -50,46 +50,46 @@ const UserProfileAPI: UserProfileApiType = {
   },
   addUserPosition: (positionID) => {
     console.log(positionID, '포지션 추가됨');
-    const userID = localStorage.getItem('userID');
+    const userID = sessionStorage.getItem('userID');
     return request.post(`/api/users/${userID}/positions/${positionID}`);
   },
   deleteUserPosition: (positionID) => {
     console.log(`${positionID} 삭제중`);
-    const userID = localStorage.getItem('userID');
+    const userID = sessionStorage.getItem('userID');
     return request.delete(`/api/users/${userID}/positions/${positionID}`);
   },
   addUserGenre: (genreID) => {
-    const userID = localStorage.getItem('userID');
+    const userID = sessionStorage.getItem('userID');
     return request.post(`/api/users/${userID}/genres/${genreID}`, genreID);
   },
   deleteUserGenre: (genreID) => {
-    const userID = localStorage.getItem('userID');
+    const userID = sessionStorage.getItem('userID');
     return request.delete(`/api/users/${userID}/genres/${genreID}`);
   },
   addUserArea: (areaID) => {
-    const userID = localStorage.getItem('userID');
+    const userID = sessionStorage.getItem('userID');
     return request.post(`/api/users/${userID}/areas/${areaID}`);
   },
   deleteUserArea: (areaID) => {
-    const userID = localStorage.getItem('userID');
+    const userID = sessionStorage.getItem('userID');
     return request.delete(`/api/users/${userID}/areas/${areaID}`);
   },
   setUserDescription: (description) => {
-    const userID = localStorage.getItem('userID');
+    const userID = sessionStorage.getItem('userID');
     return request.put(`/api/users/${userID}/description`, {
       description: description,
     });
   },
   addUserPerformance: (newPerformance) => {
-    const userID = localStorage.getItem('userID');
+    const userID = sessionStorage.getItem('userID');
     return request.post(`/api/users/${userID}/performance`, newPerformance);
   },
   deleteUserPerformance: (performanceID) => {
-    const userID = localStorage.getItem('userID');
+    const userID = sessionStorage.getItem('userID');
     return request.delete(`/api/users/${userID}/performance/${performanceID}`);
   },
   updateUserPerformance: (updatedPerformance) => {
-    const userID = localStorage.getItem('userID');
+    const userID = sessionStorage.getItem('userID');
     return request.put(
       `/api/users/${userID}/performance/${updatedPerformance.id}`,
       {
