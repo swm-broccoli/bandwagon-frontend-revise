@@ -14,6 +14,11 @@ interface CheckBoxItemType {
   checked: boolean;
 }
 
+function getTodayDate() {
+  const today = new Date();
+  return today.toISOString().split('T')[0];
+}
+
 function TermAgreeBox({
   label,
   setAgreed,
@@ -102,7 +107,7 @@ function SignUpForm() {
     email: '',
     password: '',
     passwordCheck: '',
-    birthday: '',
+    birthday: getTodayDate(),
     gender: '남자',
   });
 
@@ -143,21 +148,21 @@ function SignUpForm() {
 
   const setupUser = async (nickname: string, email: string) => {
     const { VITE_SENDBIRD_API_KEY } = import.meta.env;
-  
+
     const sendbirdChat = await SendbirdChat.init({
       appId: VITE_SENDBIRD_API_KEY,
     });
-  
+
     await sendbirdChat.connect(email);
-    
+
     const userUpdateParams = {
       nickname: nickname,
-      userId: email
+      userId: email,
     };
     await sendbirdChat.updateCurrentUserInfo(userUpdateParams);
-  
+
     sendbirdChat.disconnect();
-  }
+  };
 
   const onSignUpSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
