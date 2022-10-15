@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import TextInput from '../../components/TextInput';
-
+import {
+  validateUserName,
+  validateEmail,
+  validatePassword,
+} from './validateSignUpForm';
 import DateInput from '../../components/DateInput';
 import SelectionInput from '../../components/SelectionInput';
 import AuthAPI from '../../apis/AuthAPI';
@@ -13,6 +17,58 @@ import TermAgreeBox from './TermAgreeBox';
 function getTodayDate() {
   const today = new Date();
   return today.toISOString().split('T')[0];
+}
+
+function SignUpInputMsg({ message }: { message: string }) {
+  return (
+    <small className='w-60 md:w-80 text-neutral mt-1 break-words'>
+      {message}
+    </small>
+  );
+}
+
+function SignUpInput({
+  label,
+  value,
+  setValue,
+  password = false,
+  // 회원가입 등 입력 항목에서 필수 항목인지
+  validator,
+  validateMessage,
+}: {
+  label: string;
+  value: string;
+  setValue: (value: string) => void;
+  password?: boolean;
+  validator: (value: string) => boolean;
+  validateMessage: string;
+}) {
+  const [isValidate, setIsValidate] = useState(false);
+
+  useEffect(() => {
+    setIsValidate(!validator(value));
+  }, [value]);
+
+  return (
+    <div className='form-control flex flex-col mt-5'>
+      <label className='label text-accent text-sm justify-start'>
+        <span>{label}</span>
+        <span className='text-error'>*</span>
+      </label>
+      <input
+        required
+        type={password ? 'password' : 'text'}
+        placeholder={label}
+        className={`input input-bordered w-60 md:w-80 focus:outline-none focus:border-primary focus:required:invalid:border-error text-accent`}
+        value={value}
+        onChange={(e) => {
+          setValue(e.target.value);
+          console.log(isValidate);
+        }}
+      />
+      {isValidate ? <SignUpInputMsg message={validateMessage} /> : null}
+    </div>
+  );
 }
 
 function SignUpForm() {
@@ -102,30 +158,33 @@ function SignUpForm() {
 
   return (
     <form onSubmit={onSignUpSubmit} className='mt-5'>
-      <TextInput
+      <SignUpInput
         label='이름'
         value={signUpUserInput.name}
         setValue={(newName) => {
           setSignUpUserInput({ ...signUpUserInput, name: newName });
         }}
-        required
+        validator={validateUserName}
+        validateMessage='이름은 2자 이상 15자 이하의 한글 혹은 영어로 입력해주세요.'
       />
-      <TextInput
+      <SignUpInput
         label='닉네임'
         value={signUpUserInput.nickname}
         setValue={(newNickName) => {
           setSignUpUserInput({ ...signUpUserInput, nickname: newNickName });
         }}
-        required
+        validator={validateUserName}
+        validateMessage='닉네임은 2자 이상 15자 이하의 한글 혹은 영어로 입력해주세요.'
       />
       <div className='flex flex-row'>
-        <TextInput
+        <SignUpInput
           label='이메일'
           value={signUpUserInput.email}
           setValue={(newEmail) => {
             setSignUpUserInput({ ...signUpUserInput, email: newEmail });
           }}
-          required
+          validator={validateEmail}
+          validateMessage='이메일 형식에 맞게 입력해주세요.'
         />
         <button
           type='button'
@@ -135,18 +194,17 @@ function SignUpForm() {
           중복확인
         </button>
       </div>
-
-      <TextInput
+      <SignUpInput
         label='비밀번호'
         value={signUpUserInput.password}
         setValue={(newPassword) => {
           setSignUpUserInput({ ...signUpUserInput, password: newPassword });
         }}
         password
-        required
-        message='알파벳과 숫자, 특수문자를 포함하여 8-20자로 입력해주세요.'
+        validator={validatePassword}
+        validateMessage='비밀번호는 8자 이상 20자 이하의 영문, 숫자, 특수문자로 입력해주세요.'
       />
-      <TextInput
+      <SignUpInput
         label='비밀번호 확인'
         value={signUpUserInput.passwordCheck}
         setValue={(newPasswordCheck) => {
@@ -156,8 +214,10 @@ function SignUpForm() {
           });
         }}
         password
-        required
-        message='비밀번호를 한번 더 입력해주세요.'
+        validator={() =>
+          signUpUserInput.password === signUpUserInput.passwordCheck
+        }
+        validateMessage='비밀번호가 일치하지 않습니다.'
       />
 
       <DateInput
