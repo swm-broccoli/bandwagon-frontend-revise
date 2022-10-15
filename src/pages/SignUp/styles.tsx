@@ -19,14 +19,6 @@ function getTodayDate() {
   return today.toISOString().split('T')[0];
 }
 
-function SignUpInputMsg({ message }: { message: string }) {
-  return (
-    <small className='w-60 md:w-80 text-neutral mt-1 break-words'>
-      {message}
-    </small>
-  );
-}
-
 function SignUpInput({
   label,
   value,
@@ -59,14 +51,20 @@ function SignUpInput({
         required
         type={password ? 'password' : 'text'}
         placeholder={label}
-        className={`input input-bordered w-60 md:w-80 focus:outline-none focus:border-primary focus:required:invalid:border-error text-accent`}
+        className={`input input-bordered peer w-60 md:w-80 focus:outline-none ${
+          isValidate ? 'focus:border-error' : 'focus:border-primary'
+        } text-accent`}
         value={value}
         onChange={(e) => {
           setValue(e.target.value);
           console.log(isValidate);
         }}
       />
-      {isValidate ? <SignUpInputMsg message={validateMessage} /> : null}
+      <label className='label peer-focus:text-error text-neutral text-sm justify-start'>
+        {isValidate ? (
+          <small className='w-60 md:w-80 break-words'>{validateMessage}</small>
+        ) : null}
+      </label>
     </div>
   );
 }
