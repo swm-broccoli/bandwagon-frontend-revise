@@ -21,7 +21,7 @@ export function UserProfileAvatar({
   return (
     <>
       <div className='avatar w-1/3'>
-        <div className='w-full rounded-full'>
+        <div className='w-full rounded-full border border-base-300'>
           <img src={avatarURL} alt='프로필 사진' />
         </div>
         {editing ? (
