@@ -44,6 +44,8 @@ function App() {
           <Route path='' element={<PortfolioPage />} />
           <Route path='user' element={<UserPortFolioPage />} />
           <Route path='band' element={<BandPortFolioPage />} />
+          <Route path='user/:userEmail' element={<UserPortFolioPage />} />
+          <Route path='band/:bandId' element={<BandPortFolioPage />} />
         </Route>
         <Route path='edit'>
           <Route path='password' element={<PasswordEditPage />} />

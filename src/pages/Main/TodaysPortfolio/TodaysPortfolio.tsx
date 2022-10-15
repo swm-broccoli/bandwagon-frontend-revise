@@ -216,8 +216,8 @@ export function TodayPortfolio() {
             ...portfolio,
             portfolioLink:
               portfolio.dtype === 'User'
-                ? `/portfolio/${portfolio.userEmail}`
-                : `/portfolio/${portfolio.bandId}`,
+                ? `/portfolio/user/${portfolio.userEmail}`
+                : `/portfolio/band/${portfolio.bandId}`,
           };
         }),
       );
