@@ -60,11 +60,11 @@ function SignUpInput({
           console.log(isValidate);
         }}
       />
-      <label className='label peer-focus:text-error text-neutral text-sm justify-start'>
-        {isValidate ? (
+      {isValidate ? (
+        <label className='label peer-focus:text-error text-neutral text-sm justify-start pb-0'>
           <small className='w-60 md:w-80 break-words'>{validateMessage}</small>
-        ) : null}
-      </label>
+        </label>
+      ) : null}
     </div>
   );
 }
@@ -187,7 +187,9 @@ function SignUpForm() {
         <button
           type='button'
           onClick={userEmailDuplicationCheck}
-          className='font-sans-kr px-0 w-14 text-sm absolute ml-[248px] md:ml-[328px] btn btn-primary self-end'
+          className={`font-sans-kr px-0 w-14 text-sm absolute ml-[248px] md:ml-[328px] btn btn-primary self-end ${
+            validateEmail(signUpUserInput.email) ? 'mb-0' : 'mb-7'
+          }`}
         >
           중복확인
         </button>
