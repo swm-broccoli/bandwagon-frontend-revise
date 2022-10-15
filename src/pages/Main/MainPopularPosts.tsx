@@ -24,7 +24,7 @@ function MainPopularPostItem({
   return (
     <Link
       to={popularPost.link}
-      className='flex-col flex-1 card rounded-lg min-w-[150px] card-compact bg-base-100 shadow-xl my-4'
+      className='flex-col flex-1 card rounded-lg min-w-[150px] card-compact bg-base-100 shadow-md my-4'
     >
       <img
         className='aspect-square flex-1'
