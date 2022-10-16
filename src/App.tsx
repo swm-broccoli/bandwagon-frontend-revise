@@ -13,7 +13,7 @@ import WriteRecruitPage from './pages/WriteRecruit';
 import ReadRecruitPage from './pages/ReadRecruit';
 import BandPortFolioPage from './pages/Portfolio/Band';
 import UserPortFolioPage from './pages/Portfolio/User';
-import PortfolioPage from './pages/Portfolio';
+import MyPortfolioPage from './pages/Portfolio';
 import FindPasswordPage from './pages/FindPassword';
 import FindEmailPage from './pages/FindEmail';
 import NotFoundPage from './pages/NotFound';
@@ -21,6 +21,7 @@ import LikedPost from './pages/LikedPost';
 import BandRequest from './pages/BandRequest';
 import MyPostPage from './pages/MyPost';
 import ChatPage from './pages/Chat';
+import UserPortfolioDisplay from './pages/Portfolio/Display';
 
 function App() {
   return (
@@ -41,10 +42,10 @@ function App() {
           <Route path='request' element={<BandRequest />} />
         </Route>
         <Route path='portfolio' element={<Outlet />}>
-          <Route path='' element={<PortfolioPage />} />
+          <Route path='' element={<MyPortfolioPage />} />
           <Route path='user' element={<UserPortFolioPage />} />
           <Route path='band' element={<BandPortFolioPage />} />
-          <Route path='user/:userEmail' element={<UserPortFolioPage />} />
+          <Route path='user/:userEmail' element={<UserPortfolioDisplay />} />
           <Route path='band/:bandId' element={<BandPortFolioPage />} />
         </Route>
         <Route path='edit'>
