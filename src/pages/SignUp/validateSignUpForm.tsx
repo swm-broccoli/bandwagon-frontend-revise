@@ -1,17 +1,17 @@
 import { SignUpUserInputType } from '../../types/types';
 
-function validateUserName(userName: string) {
-  const name_regexp = /^[가-힣a-zA-Z0-9]{2,15}$/;
+export function validateUserName(userName: string) {
+  const name_regexp = /^[가-힣a-zA-Z]{2,15}$/;
   return name_regexp.test(userName);
 }
 
-function validateEmail(email: string) {
+export function validateEmail(email: string) {
   const email_regexp =
     /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
   return email_regexp.test(email);
 }
 
-function validatePassword(password: string) {
+export function validatePassword(password: string) {
   // 8자에서 20자, 하나 이상의 문자, 하나 이상의 숫자, 하나 이상의 특수 문자가 들어갔는지 검증
   const password_regexp =
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/;
