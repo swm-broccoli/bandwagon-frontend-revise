@@ -47,9 +47,11 @@ function NotificationBox () {
           알림
         </label>
         <ul tabIndex={0} className='dropdown-content menu flex flex-col gap-5 p-5 shadow bg-base-100 rounded-lg w-72 top-12'>
-        {notificationList.map((notification, index) => 
-          <NotificationElement key={index} notification={notification} />
-        )}
+        {notificationList.length ?
+          notificationList.map((notification, index) => 
+            <NotificationElement key={index} notification={notification} />
+          ) : 
+          <div className='w-full my-11 text-center'>알림이 존재하지 않습니다!</div>}
         </ul>
       </div>
     </li>
