@@ -56,7 +56,7 @@ export function RecommendedRecruitments() {
           };
         }),
       );
-      console.log(res.data.posts);
+      //console.log(res.data.posts);
     });
   }, []);
 

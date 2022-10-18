@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import MainPageAPI from '../../../apis/MainPageAPI';
 import Wave from './Wave';
 import defaultAvatar from '../../../assets/indie-band.jpeg';
+import { Link } from 'react-router-dom';
 
 export interface bandPortfolioBriefType {
   id: number;
@@ -9,6 +10,7 @@ export interface bandPortfolioBriefType {
   name: string;
   description: string;
   dtype: 'User' | 'Band';
+  portfolioLink: string;
 }
 
 interface CarouselIndexes {
@@ -33,15 +35,20 @@ function determineCardState(cardIndex: number, indexes: CarouselIndexes) {
 function TodaysPortfolioItem({
   todayPortfolio,
   currentState,
+  portfolioLink,
 }: {
   todayPortfolio: bandPortfolioBriefType;
   currentState: string;
   // 현재 상태가 active인지 등등을 나타냄
+  portfolioLink: string;
 }) {
   switch (currentState) {
     case 'current':
       return (
-        <div className='absolute flex flex-row w-2/3 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all duration-500 z-30'>
+        <Link
+          to={portfolioLink}
+          className='absolute flex flex-row w-2/3 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all duration-500 z-30'
+        >
           <img
             className='w-1/3 md:w-1/2 h-full object-fill'
             src={
@@ -55,12 +62,13 @@ function TodaysPortfolioItem({
             <h2 className='card-title font-sans-kr'>{todayPortfolio.name}</h2>
             <p className='font-sans-kr'>{todayPortfolio.description}</p>
           </div>
-        </div>
+        </Link>
       );
     case 'previous':
     case 'next':
       return (
-        <div
+        <Link
+          to={portfolioLink}
           className={`${
             currentState === 'previous' ? 'left-0' : 'right-0'
           } absolute flex flex-row w-3/5 h-3/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all z-20`}
@@ -78,7 +86,7 @@ function TodaysPortfolioItem({
             <h2 className='card-title font-sans-kr'>{todayPortfolio.name}</h2>
             <p className='font-sans-kr'>{todayPortfolio.description}</p>
           </div>
-        </div>
+        </Link>
       );
     default:
       return null;
@@ -171,6 +179,7 @@ export function TodayPortfolioCarousel({
             key={index}
             todayPortfolio={todayPortfolio}
             currentState={determineCardState(index, indexes)}
+            portfolioLink={todayPortfolio.portfolioLink}
           />
         ))}
       </div>
@@ -200,9 +209,24 @@ export function TodayPortfolio() {
 
   useEffect(() => {
     MainPageAPI.getTodayPortfolios().then((res) => {
-      setTodayPortfolios(res.data);
+      console.log(todayPortfolios);
+      setTodayPortfolios(
+        res.data.map((portfolio: any) => {
+          return {
+            ...portfolio,
+            portfolioLink:
+              portfolio.dtype === 'User'
+                ? `/portfolio/user/${portfolio.userEmail}`
+                : `/portfolio/band/${portfolio.bandId}`,
+          };
+        }),
+      );
     });
   }, []);
+
+  useEffect(() => {
+    console.log(todayPortfolios);
+  }, [todayPortfolios]);
 
   return (
     <section className='w-full overflow-hidden flex flex-col items-center bg-gradient-to-br from-primary to-secondary'>

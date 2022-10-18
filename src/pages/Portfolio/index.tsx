@@ -254,7 +254,7 @@ function BandPortfolioMaker() {
   );
 }
 
-function PortfolioPage() {
+function MyPortfolioPage() {
   const [portfolioTarget, setPortfolioTarget] = useState('user');
 
   return (
@@ -295,4 +295,4 @@ function PortfolioPage() {
   );
 }
 
-export default PortfolioPage;
+export default MyPortfolioPage;
