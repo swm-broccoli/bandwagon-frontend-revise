@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import TextInput from '../../components/TextInput';
-import CheckBox from '../../components/CheckBox';
+import {
+  validateUserName,
+  validateEmail,
+  validatePassword,
+} from './validateSignUpForm';
 import DateInput from '../../components/DateInput';
 import SelectionInput from '../../components/SelectionInput';
 import AuthAPI from '../../apis/AuthAPI';
@@ -8,92 +12,59 @@ import { useNavigate } from 'react-router-dom';
 import { SignUpUserInputType } from '../../types/types';
 import { validateSignUpForm } from './validateSignUpForm';
 import SendbirdChat from '@sendbird/chat';
-
-interface CheckBoxItemType {
-  text: string;
-  checked: boolean;
-}
+import TermAgreeBox from './TermAgreeBox';
 
 function getTodayDate() {
   const today = new Date();
   return today.toISOString().split('T')[0];
 }
 
-function TermAgreeBox({
+function SignUpInput({
   label,
-  setAgreed,
+  value,
+  setValue,
+  password = false,
+  // 회원가입 등 입력 항목에서 필수 항목인지
+  validator,
+  validateMessage,
 }: {
   label: string;
-  setAgreed: (newAgreed: boolean) => void;
+  value: string;
+  setValue: (value: string) => void;
+  password?: boolean;
+  validator: (value: string) => boolean;
+  validateMessage: string;
 }) {
-  //약관 동의 박스
-  const [checkedList, setCheckedList] = useState<CheckBoxItemType[]>([
-    {
-      text: '만 14세 이상입니다.',
-      checked: false,
-    },
-    {
-      text: '서비스 이용약관에 동의합니다.',
-      checked: false,
-    },
-    {
-      text: '개인정보 수집 및 이용에 동의합니다.',
-      checked: false,
-    },
-    {
-      text: '위치정보 이용약관에 동의합니다.',
-      checked: false,
-    },
-  ]);
+  const [isValidate, setIsValidate] = useState(false);
 
   useEffect(() => {
-    setAgreed(checkedList.every((checked) => checked.checked === true));
-  }, [checkedList]);
+    setIsValidate(!validator(value));
+  }, [value]);
 
   return (
-    <div className='flex flex-col mt-5 w-60 md:w-80'>
-      <label className='text-accent mb-2 text-sm'>{label}</label>
-      <div className='border border-base-200 rounded-lg px-3 md:px-5'>
-        <div className='mt-2'>
-          <CheckBox
-            text='약관 전체 동의'
-            checked={checkedList.every((checked) => checked.checked === true)}
-            onClick={() => {
-              if (checkedList.every((checked) => checked.checked === true)) {
-                //만약 모두 true
-                setCheckedList(
-                  checkedList.map((checked) => ({
-                    ...checked,
-                    checked: false,
-                  })),
-                );
-              } else {
-                setCheckedList(
-                  checkedList.map((checked) => ({
-                    ...checked,
-                    checked: true,
-                  })),
-                );
-              }
-            }}
-          />
-        </div>
-        <div className='divider m-0' />
-        {checkedList.map((checked, index) => (
-          <CheckBox
-            key={index}
-            text={checked.text}
-            checked={checked.checked}
-            onClick={() => {
-              setCheckedList(
-                checkedList.map((item, i) =>
-                  i === index ? { ...item, checked: !item.checked } : item,
-                ),
-              );
-            }}
-          />
-        ))}
-      </div>
+    <div className='form-control flex flex-col mt-5'>
+      <label className='label text-accent text-sm justify-start'>
+        <span>{label}</span>
+        <span className='text-error'>*</span>
+      </label>
+      <input
+        required
+        type={password ? 'password' : 'text'}
+        placeholder={label}
+        className={`input input-bordered peer w-60 md:w-80 focus:outline-none ${
+          isValidate ? 'focus:border-error' : 'focus:border-primary'
+        } text-accent`}
+        value={value}
+        onChange={(e) => {
+          setValue(e.target.value);
+          console.log(isValidate);
+        }}
+      />
+      {isValidate ? (
+        <label className='label peer-focus:text-error text-neutral text-sm justify-start pb-0'>
+          <small className='w-60 md:w-80 break-words'>{validateMessage}</small>
+        </label>
+      ) : null}
     </div>
   );
 }
@@ -185,51 +156,55 @@ function SignUpForm() {
 
   return (
     <form onSubmit={onSignUpSubmit} className='mt-5'>
-      <TextInput
+      <SignUpInput
         label='이름'
         value={signUpUserInput.name}
         setValue={(newName) => {
           setSignUpUserInput({ ...signUpUserInput, name: newName });
         }}
-        required
+        validator={validateUserName}
+        validateMessage='이름은 2자 이상 15자 이하의 한글 혹은 영어로 입력해주세요.'
       />
-      <TextInput
+      <SignUpInput
         label='닉네임'
         value={signUpUserInput.nickname}
         setValue={(newNickName) => {
           setSignUpUserInput({ ...signUpUserInput, nickname: newNickName });
         }}
-        required
+        validator={validateUserName}
+        validateMessage='닉네임은 2자 이상 15자 이하의 한글 혹은 영어로 입력해주세요.'
       />
       <div className='flex flex-row'>
-        <TextInput
+        <SignUpInput
           label='이메일'
           value={signUpUserInput.email}
           setValue={(newEmail) => {
             setSignUpUserInput({ ...signUpUserInput, email: newEmail });
           }}
-          required
+          validator={validateEmail}
+          validateMessage='이메일 형식에 맞게 입력해주세요.'
         />
         <button
           type='button'
           onClick={userEmailDuplicationCheck}
-          className='font-sans-kr px-0 w-14 text-sm absolute ml-[248px] md:ml-[328px] btn btn-primary self-end'
+          className={`font-sans-kr px-0 w-14 text-sm absolute ml-[248px] md:ml-[328px] btn btn-primary self-end ${
+            validateEmail(signUpUserInput.email) ? 'mb-0' : 'mb-7'
+          }`}
         >
           중복확인
         </button>
       </div>
-
-      <TextInput
+      <SignUpInput
         label='비밀번호'
         value={signUpUserInput.password}
         setValue={(newPassword) => {
           setSignUpUserInput({ ...signUpUserInput, password: newPassword });
         }}
         password
-        required
-        message='알파벳과 숫자, 특수문자를 포함하여 8-20자로 입력해주세요.'
+        validator={validatePassword}
+        validateMessage='비밀번호는 8자 이상 20자 이하의 영문, 숫자, 특수문자로 입력해주세요.'
       />
-      <TextInput
+      <SignUpInput
         label='비밀번호 확인'
         value={signUpUserInput.passwordCheck}
         setValue={(newPasswordCheck) => {
@@ -239,8 +214,10 @@ function SignUpForm() {
           });
         }}
         password
-        required
-        message='비밀번호를 한번 더 입력해주세요.'
+        validator={() =>
+          signUpUserInput.password === signUpUserInput.passwordCheck
+        }
+        validateMessage='비밀번호가 일치하지 않습니다.'
       />
 
       <DateInput
