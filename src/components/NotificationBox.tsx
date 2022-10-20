@@ -6,7 +6,7 @@ import { NotificationType } from '../types/types';
 function NotificationElement (props: {notification: NotificationType}) {
   if (props.notification.type == 'APPLY' || props.notification.type == 'INVITE') {
     return (
-      <li className='w-full'>
+      <li className='w-full h-fit'>
         <Link to='/profile/request'>
           {props.notification.message}
         </Link>
@@ -14,7 +14,7 @@ function NotificationElement (props: {notification: NotificationType}) {
     )
   } else {
     return (
-      <li className='w-full'>
+      <li className='w-full h-fit'>
         <Link to='/profile/band'>
           {props.notification.message}
         </Link>
@@ -46,10 +46,12 @@ function NotificationBox () {
           className='text-[#676767] active:bg-neutral'>
           알림
         </label>
-        <ul tabIndex={0} className='dropdown-content menu flex flex-col gap-5 p-5 shadow bg-base-100 rounded-lg w-72 top-12'>
-        {notificationList.map((notification, index) => 
-          <NotificationElement key={index} notification={notification} />
-        )}
+        <ul tabIndex={0} className='dropdown-content menu flex flex-col flex-nowrap gap-3 p-5 shadow bg-base-100 rounded-lg w-60 md:w-72 top-12 h-fit max-h-96 overflow-y-scroll'>
+        {notificationList.length ?
+          notificationList.map((notification, index) => 
+            <NotificationElement key={index} notification={notification} />
+          ) : 
+          <div className='w-full my-11 text-center'>알림이 존재하지 않습니다!</div>}
         </ul>
       </div>
     </li>
