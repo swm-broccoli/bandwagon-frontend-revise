@@ -4,11 +4,11 @@ import KakaoLogin from '../../assets/kakao_login.png';
 const { VITE_BASE_URL } = import.meta.env;
 
 const NaverLoginClick = () => {
-  window.location.replace(`${VITE_BASE_URL}/oauth2/authorization/naver`);
+  window.location.replace(`${VITE_BASE_URL}oauth2/authorization/naver`);
 };
 
 const KakaoLoginClick = () => {
-  window.location.replace(`${VITE_BASE_URL}/oauth2/authorization/kakao`);
+  window.location.replace(`${VITE_BASE_URL}oauth2/authorization/kakao`);
 };
 
 export function NaverLoginButton() {
