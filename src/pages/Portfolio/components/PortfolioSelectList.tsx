@@ -1,28 +1,26 @@
-import { AreaType } from '../../../types/types';
+import { SelectionType } from '../../../types/types';
+import TagElement from '../../../components/TagElement';
 
-function PortfolioAreaList({
+function PortfolioSelectList({
   label,
-  areas,
+  selections,
   name,
 }: {
   label: string;
-  areas: AreaType[];
+  selections: SelectionType[];
   name: string;
 }) {
   return (
     <>
       <div className='flex flex-row items-center'>
         <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
-          <div className='flex w-4/5 flex-row justify-start'>
+          <div className='w-4/5 flex flex-row justify-start'>
             <label className='label w-1/4 py-0'>
               <span className='label-text text-accent'>{label}</span>
             </label>
-            <div className='flex flex-row items-center h-10 w-3/4 mr-2 text-accent'>
-              {areas.map((area) => (
-                <div
-                  key={area.id}
-                  className='mr-2'
-                >{`${area.city} ${area.district}`}</div>
+            <div className='flex flex-row items-center h-10 w-3/4 text-accent'>
+              {selections.map((item, index) => (
+                <TagElement key={index} tag={item.name} />
               ))}
             </div>
           </div>
@@ -33,4 +31,4 @@ function PortfolioAreaList({
   );
 }
 
-export default PortfolioAreaList;
+export default PortfolioSelectList;

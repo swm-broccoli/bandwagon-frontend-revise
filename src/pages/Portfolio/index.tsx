@@ -8,20 +8,14 @@ import {
 } from '../../types/types';
 import { vacantBandProfile } from '../BandProfile/initialBandProfile';
 import BandProfileAPI from '../../apis/BandProfileAPI';
-import {
-  PortfolioMakerAvatar,
-  PortfolioMakerText,
-  PortfolioMakerMemberList,
-  PortfolioMakerAreaList,
-  PortfolioMakerSelectList,
-  PortfolioMakerDescription,
-  PortfolioMakerRecordField,
-  PortfolioMakerAlbum,
-} from './PortfolioMakerStyles';
 import usePortfolioStore from './PortfolioStore';
 import { vacantUserProfile } from '../UserProfile/initialUserProfile';
 import UserProfileAPI from '../../apis/UserProfileAPI';
 import EmptyBandProfile from '../BandProfile/EmptyBandProfile';
+
+function PortfolioMakerWrapper() {
+  const { userPortfolio, setUserPortfolio } = usePortfolioStore();
+}
 
 function UserPortfolioMaker() {
   const [userProfile, setUserProfile] =
