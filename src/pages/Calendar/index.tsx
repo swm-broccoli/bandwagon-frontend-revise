@@ -3,6 +3,7 @@ import { MdArrowBack, MdArrowForward } from 'react-icons/md';
 
 const Weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+// 참고 https://bigtop.tistory.com/64?category=827794
 function prevMonthDates(date: Date) {
   const prevDate = new Date(date.getFullYear(), date.getMonth(), 0);
   const prevLastDate = prevDate.getDate();
@@ -67,18 +68,18 @@ function Calendar() {
       </div>
       <div className='grid grid-cols-7'>
         {Weekdays.map((weekday) => (
-          <div>{weekday}</div>
+          <div key={weekday}>{weekday}</div>
         ))}
       </div>
       <div className='grid grid-cols-7'>
         {prevMonthDates(currentDate).map((date) => (
-          <div>{date}</div>
+          <div key={date}>{date}</div>
         ))}
         {currentMonthDates(currentDate).map((date) => (
-          <div>{date}</div>
+          <div key={date}>{date}</div>
         ))}
         {nextMonthDates(currentDate).map((date) => (
-          <div>{date}</div>
+          <div key={date}>{date}</div>
         ))}
       </div>
     </section>
