@@ -22,6 +22,7 @@ import BandRequest from './pages/BandRequest';
 import MyPostPage from './pages/MyPost';
 import ChatPage from './pages/Chat';
 import UserPortfolioDisplay from './pages/Portfolio/Display';
+import CalendarPage from './pages/Calendar';
 
 function App() {
   return (
@@ -71,6 +72,7 @@ function App() {
           <Route path=':postID' element={<ReadRecruitPage />} />
         </Route>
         <Route path='chat' element={<ChatPage />} />
+        <Route path='calendar' element={<CalendarPage />} />
         <Route path='ui' element={<UIPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
