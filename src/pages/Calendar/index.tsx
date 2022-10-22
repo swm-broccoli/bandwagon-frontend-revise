@@ -1,42 +1,15 @@
 import { useState } from 'react';
 import { MdArrowBack, MdArrowForward } from 'react-icons/md';
+import {
+  prevMonthDates,
+  currentMonthDates,
+  nextMonthDates,
+} from './calculateDate';
 
 const Weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-// 참고 https://bigtop.tistory.com/64?category=827794
-function prevMonthDates(date: Date) {
-  const prevDate = new Date(date.getFullYear(), date.getMonth(), 0);
-  const prevLastDate = prevDate.getDate();
-  const prevLastDay = prevDate.getDay();
-
-  const prevDates = [];
-  for (let i = prevLastDay + 1; i > 0; i--) {
-    prevDates.push(prevLastDate - i + 1);
-  }
-  return prevDates;
-}
-
-function nextMonthDates(date: Date) {
-  const nextDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
-  const nextLastDay = nextDate.getDay();
-
-  const nextDates = [];
-  for (let i = 1; i <= 7 - nextLastDay; i++) {
-    nextDates.push(i);
-  }
-  return nextDates;
-}
-
-function currentMonthDates(date: Date) {
-  const currentMonth = date.getMonth();
-  const currentYear = date.getFullYear();
-  const currentLastDate = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-  const dates = [];
-  for (let i = 1; i <= currentLastDate; i++) {
-    dates.push(i);
-  }
-  return dates;
+function DateBlock({ dateText }: { dateText: string }) {
+  return <div className='border border-base-300 h-12'>{dateText}</div>;
 }
 
 function Calendar() {
@@ -68,18 +41,18 @@ function Calendar() {
       </div>
       <div className='grid grid-cols-7'>
         {Weekdays.map((weekday) => (
-          <div key={weekday}>{weekday}</div>
+          <DateBlock key={weekday} dateText={weekday} />
         ))}
       </div>
       <div className='grid grid-cols-7'>
         {prevMonthDates(currentDate).map((date) => (
-          <div key={date}>{date}</div>
+          <DateBlock key={date} dateText={date.toString()} />
         ))}
         {currentMonthDates(currentDate).map((date) => (
-          <div key={date}>{date}</div>
+          <DateBlock key={date} dateText={date.toString()} />
         ))}
         {nextMonthDates(currentDate).map((date) => (
-          <div key={date}>{date}</div>
+          <DateBlock key={date} dateText={date.toString()} />
         ))}
       </div>
     </section>
