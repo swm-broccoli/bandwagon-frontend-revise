@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MdArrowBack, MdArrowForward } from 'react-icons/md';
 import {
   prevMonthDates,
@@ -6,10 +6,37 @@ import {
   nextMonthDates,
 } from './calculateDate';
 
+interface Schedule {
+  type: string;
+  title: string;
+  date: Date;
+  location: string;
+  description: string;
+}
+
+const BandSchedule: Schedule[] = [
+  {
+    type: 'concert',
+    title: '밴드 콘서트',
+    date: new Date(2022, 10, 3),
+    location: 'Seoul',
+    description: 'Concert in Seoul',
+  },
+];
+
 const Weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-function DateBlock({ dateText }: { dateText: string }) {
-  return <div className='border border-base-300 h-12'>{dateText}</div>;
+function DateBlock({ date }: { date: Date }) {
+  return (
+    <button
+      onClick={() => {
+        console.log(date);
+      }}
+      className='border border-base-300 h-12'
+    >
+      {date.getDate()}
+    </button>
+  );
 }
 
 function Calendar() {
@@ -41,18 +68,20 @@ function Calendar() {
       </div>
       <div className='grid grid-cols-7'>
         {Weekdays.map((weekday) => (
-          <DateBlock key={weekday} dateText={weekday} />
+          <div key={weekday} className='border border-base-300 h-12'>
+            {weekday}
+          </div>
         ))}
       </div>
       <div className='grid grid-cols-7'>
         {prevMonthDates(currentDate).map((date) => (
-          <DateBlock key={date} dateText={date.toString()} />
+          <DateBlock key={date.getDate()} date={date} />
         ))}
         {currentMonthDates(currentDate).map((date) => (
-          <DateBlock key={date} dateText={date.toString()} />
+          <DateBlock key={date.getDate()} date={date} />
         ))}
         {nextMonthDates(currentDate).map((date) => (
-          <DateBlock key={date} dateText={date.toString()} />
+          <DateBlock key={date.getDate()} date={date} />
         ))}
       </div>
     </section>

@@ -6,7 +6,9 @@ export function prevMonthDates(date: Date) {
 
   const prevDates = [];
   for (let i = prevLastDay + 1; i > 0; i--) {
-    prevDates.push(prevLastDate - i + 1);
+    prevDates.push(
+      new Date(date.getFullYear(), date.getMonth() - 1, prevLastDate - i + 1),
+    );
   }
   return prevDates;
 }
@@ -14,11 +16,11 @@ export function prevMonthDates(date: Date) {
 export function currentMonthDates(date: Date) {
   const currentMonth = date.getMonth();
   const currentYear = date.getFullYear();
-  const currentLastDate = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const currentLastDate = new Date(currentYear, currentMonth + 1, 0);
 
-  const dates = [];
-  for (let i = 1; i <= currentLastDate; i++) {
-    dates.push(i);
+  const dates: Date[] = [];
+  for (let i = 1; i <= currentLastDate.getDate(); i++) {
+    dates.push(new Date(currentYear, currentMonth, i));
   }
   return dates;
 }
@@ -29,7 +31,7 @@ export function nextMonthDates(date: Date) {
 
   const nextDates = [];
   for (let i = 1; i <= 7 - nextLastDay; i++) {
-    nextDates.push(i);
+    nextDates.push(new Date(date.getFullYear(), date.getMonth() + 1, i));
   }
   return nextDates;
 }
