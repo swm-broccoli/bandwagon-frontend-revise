@@ -33,7 +33,7 @@ jobs:
         env:
           VITE_SENDBIRD_API_KEY: ${{ secrets.VITE_SENDBIRD_API_KEY }}
           VITE_BASE_URL: ${{ secrets.VITE_DEV_BASE_URL }}
-          VITE_GOOGLE_ANALYTICS_ID: ${{ secret.VITE_DEV_GOOGLE_ANALYTICS_ID }}
+          VITE_GOOGLE_ANALYTICS_ID: ${{ secrets.VITE_DEV_GOOGLE_ANALYTICS_ID }}
       
       - name: install packages
         run: npm install
