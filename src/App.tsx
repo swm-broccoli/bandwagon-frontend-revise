@@ -22,8 +22,11 @@ import BandRequest from './pages/BandRequest';
 import MyPostPage from './pages/MyPost';
 import ChatPage from './pages/Chat';
 import UserPortfolioDisplay from './pages/Portfolio/Display';
+import RouteChangeTracker from './modules/RouteChangeTracker';
 
 function App() {
+  RouteChangeTracker();
+  
   return (
     <div className='App'>
       <Routes>
