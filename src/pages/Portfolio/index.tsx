@@ -6,18 +6,18 @@ import {
   PerformanceRecordType,
   UserProfileType,
 } from '../../types/types';
-import { vacantBandProfile } from '../BandProfile/initialBandProfile';
-import BandProfileAPI from '../../apis/BandProfileAPI';
 import {
   PortfolioMakerAvatar,
   PortfolioMakerText,
-  PortfolioMakerMemberList,
-  PortfolioMakerAreaList,
   PortfolioMakerSelectList,
+  PortfolioMakerAreaList,
   PortfolioMakerDescription,
   PortfolioMakerRecordField,
   PortfolioMakerAlbum,
+  PortfolioMakerMemberList,
 } from './PortfolioMakerStyles';
+import { vacantBandProfile } from '../BandProfile/initialBandProfile';
+import BandProfileAPI from '../../apis/BandProfileAPI';
 import usePortfolioStore from './PortfolioStore';
 import { vacantUserProfile } from '../UserProfile/initialUserProfile';
 import UserProfileAPI from '../../apis/UserProfileAPI';
