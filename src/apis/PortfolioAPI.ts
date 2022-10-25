@@ -12,7 +12,7 @@ interface PortfolioApiType {
 
 const PortfolioAPI: PortfolioApiType = {
   getUserPortfolioInfo: (userEmail: string) => {
-    return request.get(`${baseURL}/api/users/${userEmail}/mypage`);
+    return axios.get(`${baseURL}/api/users/${userEmail}/mypage`);
   },
   getBandPortfolioInfo: (bandID: number) => {
     return axios.get(`/api/band/${bandID}/bandpage`);
