@@ -21,12 +21,15 @@ import LikedPost from './pages/LikedPost';
 import BandRequest from './pages/BandRequest';
 import MyPostPage from './pages/MyPost';
 import ChatPage from './pages/Chat';
-import UserPortfolioDisplay from './pages/Portfolio/UserDisplay';
 import CalendarPage from './pages/Calendar';
 import BandCommunityPage from './pages/BandCommunity';
 import BandPortfolioDisplay from './pages/Portfolio/BandDisplay';
+import UserPortfolioDisplay from './pages/Portfolio/Display';
+import RouteChangeTracker from './modules/RouteChangeTracker';
 
 function App() {
+  RouteChangeTracker();
+  
   return (
     <div className='App'>
       <Routes>
