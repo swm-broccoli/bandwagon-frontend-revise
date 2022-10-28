@@ -25,6 +25,7 @@ import UserPortfolioDisplay from './pages/Portfolio/UserDisplay';
 import CalendarPage from './pages/Calendar';
 import BandCommunityPage from './pages/BandCommunity';
 import BandPortfolioDisplay from './pages/Portfolio/BandDisplay';
+import OauthPage from './pages/Oauth';
 
 function App() {
   return (
@@ -77,6 +78,7 @@ function App() {
         <Route path='calendar' element={<CalendarPage />} />
         <Route path='community' element={<BandCommunityPage />} />
         <Route path='ui' element={<UIPage />} />
+        <Route path='oauth2/redirect' element={<OauthPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </div>
