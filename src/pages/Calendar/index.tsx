@@ -23,14 +23,14 @@ const BandSchedule: Schedule[] = [
   {
     type: 'concert',
     title: '일정 타입',
-    date: new Date(2022, 10, 3),
+    date: new Date('2022-10-03'),
     location: 'Seoul',
     description: 'Concert in Seoul',
   },
   {
     type: 'concert',
     title: '밴드 합주',
-    date: new Date(2022, 10, 20),
+    date: new Date('2022-10-20'),
     location: 'Seoul',
     description: 'Concert in Seoul',
   },

@@ -21,8 +21,10 @@ import LikedPost from './pages/LikedPost';
 import BandRequest from './pages/BandRequest';
 import MyPostPage from './pages/MyPost';
 import ChatPage from './pages/Chat';
-import UserPortfolioDisplay from './pages/Portfolio/Display';
+import UserPortfolioDisplay from './pages/Portfolio/UserDisplay';
 import CalendarPage from './pages/Calendar';
+import BandCommunityPage from './pages/BandCommunity';
+import BandPortfolioDisplay from './pages/Portfolio/BandDisplay';
 
 function App() {
   return (
@@ -47,7 +49,7 @@ function App() {
           <Route path='user' element={<UserPortFolioPage />} />
           <Route path='band' element={<BandPortFolioPage />} />
           <Route path='user/:userEmail' element={<UserPortfolioDisplay />} />
-          <Route path='band/:bandId' element={<BandPortFolioPage />} />
+          <Route path='band/:bandId' element={<BandPortfolioDisplay />} />
         </Route>
         <Route path='edit'>
           <Route path='password' element={<PasswordEditPage />} />
@@ -73,6 +75,7 @@ function App() {
         </Route>
         <Route path='chat' element={<ChatPage />} />
         <Route path='calendar' element={<CalendarPage />} />
+        <Route path='community' element={<BandCommunityPage />} />
         <Route path='ui' element={<UIPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>

@@ -25,7 +25,7 @@ function UserPortfolioDisplay() {
   }, []);
   return (
     <div>
-      <PortfolioAvatar avatarURL={userProfile.avatarURL} />
+      <PortfolioAvatar avatarURL={userProfile.avatarUrl} />
       <PortfolioText label='이름' text={userProfile.name} />
       <PortfolioText label='생년월일' text={userProfile.birthday} />
       <PortfolioText label='성별' text={userProfile.gender ? '여자' : '남자'} />

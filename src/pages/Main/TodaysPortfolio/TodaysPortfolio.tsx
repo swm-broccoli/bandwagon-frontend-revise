@@ -209,7 +209,7 @@ export function TodayPortfolio() {
 
   useEffect(() => {
     MainPageAPI.getTodayPortfolios().then((res) => {
-      console.log(todayPortfolios);
+      console.log(res.data);
       setTodayPortfolios(
         res.data.map((portfolio: any) => {
           return {
@@ -217,7 +217,7 @@ export function TodayPortfolio() {
             portfolioLink:
               portfolio.dtype === 'User'
                 ? `/portfolio/user/${portfolio.userEmail}`
-                : `/portfolio/band/${portfolio.bandId}`,
+                : `/portfolio/band/${portfolio.id}`,
           };
         }),
       );
