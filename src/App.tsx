@@ -21,10 +21,11 @@ import LikedPost from './pages/LikedPost';
 import BandRequest from './pages/BandRequest';
 import MyPostPage from './pages/MyPost';
 import ChatPage from './pages/Chat';
+import UserPortfolioDisplay from './pages/Portfolio/UserDisplay';
 import CalendarPage from './pages/Calendar';
 import BandCommunityPage from './pages/BandCommunity';
 import BandPortfolioDisplay from './pages/Portfolio/BandDisplay';
-import UserPortfolioDisplay from './pages/Portfolio/Display';
+import OauthPage from './pages/Oauth';
 import RouteChangeTracker from './modules/RouteChangeTracker';
 
 function App() {
@@ -80,6 +81,7 @@ function App() {
         <Route path='calendar' element={<CalendarPage />} />
         <Route path='community' element={<BandCommunityPage />} />
         <Route path='ui' element={<UIPage />} />
+        <Route path='oauth2/redirect' element={<OauthPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </div>

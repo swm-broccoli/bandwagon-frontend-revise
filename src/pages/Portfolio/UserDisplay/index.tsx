@@ -42,7 +42,7 @@ function UserPortfolioDisplay() {
       />
       <PortfolioDescription
         label='자기소개'
-        description={userProfile.description}
+        description={userProfile.description || ''}
         name='description'
       />
       <PortfolioRecordField

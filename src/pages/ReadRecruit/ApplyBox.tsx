@@ -291,21 +291,21 @@ function ApplyBox (props: {
       </Link>
       <p className='text-neutral text-sm text-center'>채팅하기</p>
       </div>
+      {props.type ? 
         <div className='flex flex-col gap-[0.325rem]'>
           <button
             onClick={handleApplyClick}
             className='group'>
               <img src={btn_apply} />
-              {props.type ?
-                preqCheck ?
+              {preqCheck ?
                   <PrequisiteTooltip
                     checked={preqCheck}
                     checkedAll={checkedAll}/> :
-                  <></> :
-                <></>}
+                  <></>}
           </button>
           <p className='text-neutral text-sm text-center'>지원하기</p>
-        </div>
+        </div> :
+        <></>}
     </div>
   );
 };
