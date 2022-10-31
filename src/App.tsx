@@ -26,8 +26,11 @@ import CalendarPage from './pages/Calendar';
 import BandCommunityPage from './pages/BandCommunity';
 import BandPortfolioDisplay from './pages/Portfolio/BandDisplay';
 import OauthPage from './pages/Oauth';
+import RouteChangeTracker from './modules/RouteChangeTracker';
 
 function App() {
+  RouteChangeTracker();
+  
   return (
     <div className='App'>
       <Routes>
