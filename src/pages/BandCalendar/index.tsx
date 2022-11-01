@@ -1,28 +1,15 @@
 import { useEffect, useState } from 'react';
 import { MdArrowBack, MdArrowForward } from 'react-icons/md';
 import BandPageTemplate from '../../components/BandPageTemplate';
-import GlobalFooter from '../../components/Footer';
-import GlobalNavBar from '../../components/NavBar';
 import {
   prevMonthDates,
   currentMonthDates,
   nextMonthDates,
 } from './calculateDate';
+import { ScheduleType, CalendarDateType } from './types';
+import CalendarDateBlock from './CalendarDateBlock';
 
-interface Schedule {
-  type: string;
-  title: string;
-  date: Date;
-  location: string;
-  description: string;
-}
-
-interface CalendarEventDate {
-  date: Date;
-  schedules: Schedule[];
-}
-
-const BandSchedule: Schedule[] = [
+const BandSchedule: ScheduleType[] = [
   {
     type: 'concert',
     title: '일정 타입',
@@ -44,9 +31,9 @@ const Weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 function ScheduleMaker({
   addSchedule,
 }: {
-  addSchedule: (schedule: Schedule) => void;
+  addSchedule: (schedule: ScheduleType) => void;
 }) {
-  const [currentSchedule, setCurrentSchedule] = useState<Schedule>({
+  const [currentSchedule, setCurrentSchedule] = useState<ScheduleType>({
     type: '',
     title: '',
     date: new Date(),
@@ -135,32 +122,17 @@ function ScheduleMaker({
   );
 }
 
-function EventDateBlock({ eventDate }: { eventDate: CalendarEventDate }) {
-  return (
-    <button
-      onClick={() => {
-        console.log(eventDate.schedules);
-      }}
-      className='border border-base-300 h-16'
-    >
-      {eventDate.date.getDate()}
-      {eventDate.schedules.map((schedule, index) => (
-        <div key={index}>{schedule.title}</div>
-      ))}
-    </button>
-  );
-}
-
 function Calendar() {
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(today);
   const [currentMonthEvents, setCurrentMonthEvents] = useState<
-    CalendarEventDate[]
+    CalendarDateType[]
   >([]);
 
-  const [bandSchedules, setBandSchedules] = useState<Schedule[]>(BandSchedule);
+  const [bandSchedules, setBandSchedules] =
+    useState<ScheduleType[]>(BandSchedule);
 
-  const addBandSchedule = (schedule: Schedule) => {
+  const addBandSchedule = (schedule: ScheduleType) => {
     setBandSchedules([...bandSchedules, schedule]);
   };
 
@@ -181,7 +153,7 @@ function Calendar() {
     const currentMonth = currentMonthDates(currentDate);
     const nextMonth = nextMonthDates(currentDate);
 
-    const calendarEventDates: CalendarEventDate[] = [];
+    const calendarEventDates: CalendarDateType[] = [];
 
     [...prevMonth, ...currentMonth, ...nextMonth].forEach((date) => {
       const schedules = bandSchedules.filter((schedule) => {
@@ -221,7 +193,7 @@ function Calendar() {
       </div>
       <div className='grid grid-cols-7'>
         {currentMonthEvents.map((eventDate) => (
-          <EventDateBlock
+          <CalendarDateBlock
             key={eventDate.date.toString()}
             eventDate={eventDate}
           />
