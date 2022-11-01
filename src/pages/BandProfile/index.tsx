@@ -15,7 +15,7 @@ import genreOptions from '../../assets/options/genreOptions';
 import DescriptionField from '../../components/DescriptionField';
 import RecordField from '../../components/RecordField';
 import BandProfileAPI from '../../apis/BandProfileAPI';
-import noBandPicture from '../../assets/noband.png';
+import DefaultBandImg from '../../assets/default/band_no_img.svg'
 import { updateBandProfile } from './bandProfileUpdate';
 import EmptyBandProfile from './EmptyBandProfile';
 import { vacantBandProfile } from './initialBandProfile';
@@ -169,7 +169,7 @@ function BandProfile() {
         </div>
         <div className='mt-6 flex flex-col items-center'>
           <BandProfileAvatar
-            avatarURL={curBandProfile.avatarUrl}
+            avatarURL={curBandProfile.avatarUrl ? curBandProfile.avatarUrl : DefaultBandImg}
             setAvatarURL={(newAvatarUrl) => {
               setCurBandProfile({
                 ...curBandProfile,

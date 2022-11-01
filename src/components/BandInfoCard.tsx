@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import RecruitPostAPI from '../apis/RecruitPostAPI';
-import profilePic from '../assets/examplepic.png';
+import DefaultBandImg from '../assets/default/band_no_img.svg';
+import DefaultUserImg from '../assets/default/man_no_img.svg';
 import {
   AreaType,
   BandMemberType,
@@ -20,7 +21,7 @@ function ProfilePic(props: { avatarUrl: string | undefined }) {
         />
       ) : (
         <img
-          src={profilePic}
+          src={DefaultBandImg}
           className='md:row-start-1 md:row-end-3 md:col-start-1 justify-self-center w-48 h-48 rounded-full'
         />
       )}
@@ -91,7 +92,7 @@ function MemberInfo(props: { members: BandMemberType[] | undefined }) {
             {member.avatarUrl ? (
               <img src={member.avatarUrl} className='w-7 h-7 rounded-full' />
             ) : (
-              <img src={profilePic} className='w-7 h-7 rounded-full' />
+              <img src={DefaultUserImg} className='w-7 h-7 rounded-full' />
             )}
             <p className='text-accent text-base font-medium'>{member.name}</p>
             {member.positions.length ? (

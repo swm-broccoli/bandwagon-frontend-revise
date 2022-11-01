@@ -9,6 +9,8 @@ import PortfolioAreaList from '../components/PortfolioAreaList';
 import PortfolioDescription from '../components/PortfolioDescription';
 import PortfolioRecordField from '../components/PortfolioRecordField';
 import { vacantBandProfile } from '../../BandProfile/initialBandProfile';
+import DefaultBandImg from '../../../assets/default/band_no_img.svg';
+import DefaultUserImg from '../../../assets/default/man_no_img.svg';
 
 function BandPortfolioDisplay() {
   const { bandId } = useParams();
@@ -25,7 +27,7 @@ function BandPortfolioDisplay() {
   }, []);
   return (
     <div>
-      <PortfolioAvatar avatarURL={bandProfile.avatarUrl} />
+      <PortfolioAvatar avatarURL={bandProfile.avatarUrl ? bandProfile.avatarUrl : DefaultBandImg} />
       <PortfolioText label='밴드명' text={bandProfile.name} />
       <PortfolioAreaList
         label='활동 지역'

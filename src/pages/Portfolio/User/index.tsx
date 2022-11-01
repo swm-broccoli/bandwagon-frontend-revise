@@ -5,6 +5,7 @@ import { useReactToPrint } from 'react-to-print';
 import { positionToKorean } from '../../../assets/options/positionOptions';
 import { PortfolioRecordItem } from '../PortfolioStyles';
 import { useNavigate } from 'react-router-dom';
+import DefaultUserImg from '../../../assets/default/man_no_img.svg';
 
 function getAgeFromBirthday(birthday: string) {
   const today = new Date();
@@ -31,7 +32,7 @@ function UserPortfolio({ portfolio }: { portfolio: UserProfileType }) {
       </h2>
       <div className='avatar'>
         <div className='w-40 rounded-full border border-base-300'>
-          <img src={portfolio.avatarUrl} alt={portfolio.name + '프로필 사진'} />
+          <img src={portfolio.avatarUrl ? portfolio.avatarUrl : DefaultUserImg} alt={portfolio.name + '프로필 사진'} />
         </div>
       </div>
       {portfolio.positions.length ? (

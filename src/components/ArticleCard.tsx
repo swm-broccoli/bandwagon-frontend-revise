@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import TagElement from './TagElement';
 import ExamplePic from '../assets/examplepic.png';
+import DefaultPostImg from '../assets/default/post_no_img.png';
+import DefaultBandImg from '../assets/default/band_no_img.svg';
+import DefaultUserImg from '../assets/default/man_no_img.svg';
 import Heart from '../assets/ic_heart.svg';
 import CheckedHeart from '../assets/ic_heart_checked.svg';
 import { PostCardType } from '../types/types';
@@ -24,23 +27,23 @@ function ArticleCard(props: { postInfo: PostCardType }) {
       {props.postInfo.dtype == 'Band' ? (
         props.postInfo.bandAvatarUrl ? (
           <img
-            src={props.postInfo.bandAvatarUrl}
+            src={DefaultPostImg}
             className='w-[7.5rem] h-[7.5rem] row-start-1 row-end-4 col-start-1 mr-7 object-cover rounded-xl'
           />
         ) : (
           <img
-            src={ExamplePic}
+            src={DefaultPostImg}
             className='w-[7.5rem] h-[7.5rem] row-start-1 row-end-4 col-start-1 mr-7 object-cover rounded-xl'
           />
         )
       ) : props.postInfo.userAvatarUrl ? (
         <img
-          src={props.postInfo.bandAvatarUrl}
+          src={DefaultPostImg}
           className='w-[7.5rem] h-[7.5rem] row-start-1 row-end-4 col-start-1 mr-7 object-cover rounded-xl'
         />
       ) : (
         <img
-          src={ExamplePic}
+          src={DefaultPostImg}
           className='w-[7.5rem] h-[7.5rem] row-start-1 row-end-4 col-start-1 mr-7 object-cover rounded-xl'
         />
       )}
@@ -56,7 +59,7 @@ function ArticleCard(props: { postInfo: PostCardType }) {
             />
           ) : (
             <img
-              src={ExamplePic}
+              src={DefaultBandImg}
               className='w-[1.625rem] h-[1.625rem] mr-2.5 object-cover rounded-full'
             />
           )
@@ -67,7 +70,7 @@ function ArticleCard(props: { postInfo: PostCardType }) {
           />
         ) : (
           <img
-            src={ExamplePic}
+            src={DefaultUserImg}
             className='w-[1.625rem] h-[1.625rem] mr-2.5 object-cover rounded-full'
           />
         )}

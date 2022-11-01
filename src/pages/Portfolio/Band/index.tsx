@@ -8,6 +8,7 @@ import {
   PortfolioRecordItem,
 } from '../PortfolioStyles';
 import { useNavigate } from 'react-router-dom';
+import DefaultBandImg from '../../../assets/default/band_no_img.svg';
 
 function BandPortFolio({ portfolio }: { portfolio: BandProfileType }) {
   return (
@@ -15,7 +16,7 @@ function BandPortFolio({ portfolio }: { portfolio: BandProfileType }) {
       <h1 className='text-3xl'>우리는 {portfolio.name} 밴드입니다!</h1>
       <div className='avatar'>
         <div className='w-40 rounded-full border border-base-300'>
-          <img src={portfolio.avatarUrl} alt={portfolio.name + '프로필 사진'} />
+          <img src={portfolio.avatarUrl ? portfolio.avatarUrl : DefaultBandImg} alt={portfolio.name + '프로필 사진'} />
         </div>
       </div>
       <section>

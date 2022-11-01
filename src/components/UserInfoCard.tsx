@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import RecruitPostAPI from '../apis/RecruitPostAPI';
-import profilePic from '../assets/examplepic.png';
+import DefaultUserImg from '../assets/default/man_no_img.svg';
 import { AreaType, SelectionType, UserProfileType } from '../types/types';
 import TagElement from './TagElement';
 
@@ -15,7 +15,7 @@ function ProfilePic(props: { avatarUrl: string | undefined }) {
         />
       ) : (
         <img
-          src={profilePic}
+          src={DefaultUserImg}
           className='md:row-start-1 md:row-end-3 md:col-start-1 justify-self-center w-48 h-48 rounded-full'
         />
       )}

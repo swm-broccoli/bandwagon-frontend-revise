@@ -9,6 +9,7 @@ import PortfolioSelectList from '../components/PortfolioSelectList';
 import PortfolioAreaList from '../components/PortfolioAreaList';
 import PortfolioDescription from '../components/PortfolioDescription';
 import PortfolioRecordField from '../components/PortfolioRecordField';
+import DefaultUserImg from '../../../assets/default/man_no_img.svg';
 
 function UserPortfolioDisplay() {
   const { userEmail } = useParams();
@@ -25,7 +26,7 @@ function UserPortfolioDisplay() {
   }, []);
   return (
     <div>
-      <PortfolioAvatar avatarURL={userProfile.avatarUrl} />
+      <PortfolioAvatar avatarURL={userProfile.avatarUrl ? userProfile.avatarUrl : DefaultUserImg} />
       <PortfolioText label='이름' text={userProfile.name} />
       <PortfolioText label='생년월일' text={userProfile.birthday} />
       <PortfolioText label='성별' text={userProfile.gender ? '여자' : '남자'} />
