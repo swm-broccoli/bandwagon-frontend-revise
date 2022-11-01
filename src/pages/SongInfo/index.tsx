@@ -47,6 +47,44 @@ const siteInfoList = [
   }
 ];
 
+const FirstCoverList = [
+  {
+    url: 'jCOcd0NGebM',
+    bandName: '네이키드'
+  },
+  {
+    url: 'jCOcd0NGebM',
+    bandName: '네이키드'
+  },
+  {
+    url: 'jCOcd0NGebM',
+    bandName: '네이키드'
+  },
+  {
+    url: 'jCOcd0NGebM',
+    bandName: '네이키드'
+  }
+]
+
+const SecondCoverList = [
+  {
+    url: 'QR3sZPKcsoM',
+    bandName: '인드키'
+  },
+  {
+    url: 'QR3sZPKcsoM',
+    bandName: '인드키'
+  },
+  {
+    url: 'QR3sZPKcsoM',
+    bandName: '인드키'
+  },
+  {
+    url: 'QR3sZPKcsoM',
+    bandName: '인드키'
+  }
+]
+
 function DivisionLine () {
   return (
     <div className='max-w-2xl w-10/12 bg-base-200 h-px' />
@@ -83,13 +121,13 @@ function SheetInfoTitle() {
   return (
     <div className='flex mb-2'>
       <h2 className='text-base text-accent w-1/3'>악보 정보</h2>
-      <div className='flex w-full justify-between pr-[4%] md:pr-[9%]'>
+      <div className='flex w-full justify-between pr-[4%] md:pr-[9%] pl-2 md:pl-0'>
         {sessionList.map((session, index) =>
           <div key={index} className='flex flex-col gap-2 items-center'>
             <div className='hidden md:flex justify-items-center h-9'>
               <img src={session.img} />
               </div>
-            <p className='text-accent text-xs'>{session.label}</p>
+            <p className='text-accent text-xs mt-1 md:mt-0'>{session.label}</p>
           </div>
         )}
       </div>
@@ -111,10 +149,10 @@ function SheetInfoElement(props: {sheetInfo: {
       <div className='flex w-full justify-between pr-[4%] md:pr-[9%]'>
         {props.sheetInfo.sheet.map((info, index) =>
           info ?
-            <div className='flex justify-center w-9'>
+            <div key={index} className='flex justify-center w-9'>
               <img src={YesIcon} />
             </div> :
-            <div className='flex justify-center w-9'>
+            <div key={index} className='flex justify-center w-9'>
               <img src={NoneIcon} />
             </div>)
         }
@@ -131,17 +169,39 @@ function SheetInfo(props: {sheetInfo: {
     <div className='flex flex-col gap-1 w-10/12 max-w-2xl px-[15px]'>
       <SheetInfoTitle />
       {props.sheetInfo.map((sheet, index) =>
-        <SheetInfoElement sheetInfo={sheet} />)}
+        <SheetInfoElement key={index} sheetInfo={sheet} />)}
     </div>
   )
 }
 
-function CoverInfo() {
+function CoverElement (props: {cover: {url: string, bandName: string}}) {
+  return (
+    <div className='flex flex-col items-center gap-3'>
+      <iframe width='100%' height='162' src={'https://www.youtube.com/embed/' + props.cover.url} frameBorder='0' allowFullScreen></iframe>
+      <p className='text-[#888888] text-sm'>{props.cover.bandName}</p>
+    </div>
+  )
+}
+
+function CoverInfo () {
+  const [coverList, setCoverList] = useState(FirstCoverList);
+
+  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+    setCoverList(coverList.concat(SecondCoverList));
+  }
+
   return (
     <div className='flex flex-col w-10/12 max-w-2xl px-[15px] gap-5'>
       <h2 className='text-base text-accent'>이 곡을 연주한 밴드들</h2>
-      <button className='btn btn-block text-sm text-accent font-normal h-10 bg-white border-base-200'>더보기</button>
-
+      <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
+        {coverList.map((cover, index) =>
+          <CoverElement key={index} cover={cover} />)}
+      </div>
+      <button
+        onClick={handleClick}
+        className='btn btn-block text-sm text-accent font-normal h-10 bg-white border-base-200'>
+          더보기
+        </button>
     </div>
   )
 }
