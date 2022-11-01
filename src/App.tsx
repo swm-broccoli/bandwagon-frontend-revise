@@ -41,12 +41,23 @@ function App() {
           <Route path='password' element={<FindPasswordPage />} />
         </Route>
         <Route path='signup' element={<SignUpPage />} />
-        <Route path='profile'>
-          <Route path='user' element={<UserProfilePage />} />
-          <Route path='band' element={<BandProfilePage />} />
-          <Route path='mypost' element={<MyPostPage />} />
-          <Route path='mylike' element={<LikedPost />} />
-          <Route path='request' element={<BandRequest />} />
+
+        <Route path='my'>
+          <Route path='profile' element={<UserProfilePage />} />
+          <Route path='portfolio' element={<MyPortfolioPage />} />
+          <Route path='account' element={<AccountEditPage />} />
+          <Route path='password' element={<PasswordEditPage />} />
+          <Route path='apply' element={<BandRequest />} />
+          <Route path='post' element={<MyPostPage />} />
+          <Route path='liked' element={<LikedPost />} />
+        </Route>
+
+        <Route path='band'>
+          <Route path='profile' element={<BandProfilePage />} />
+          <Route path='calendar' element={<CalendarPage />} />
+          <Route path='community' element={<BandCommunityPage />} />
+          <Route path='portfolio' element={<BandPortFolioPage />} />
+          <Route path='apply' element={<BandRequest />} />
         </Route>
         <Route path='portfolio' element={<Outlet />}>
           <Route path='' element={<MyPortfolioPage />} />
@@ -54,10 +65,6 @@ function App() {
           <Route path='band' element={<BandPortFolioPage />} />
           <Route path='user/:userEmail' element={<UserPortfolioDisplay />} />
           <Route path='band/:bandId' element={<BandPortfolioDisplay />} />
-        </Route>
-        <Route path='edit'>
-          <Route path='password' element={<PasswordEditPage />} />
-          <Route path='account' element={<AccountEditPage />} />
         </Route>
         <Route path='recruit'>
           <Route path='band' element={<RecruitPage type={true} />} />
