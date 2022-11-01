@@ -30,7 +30,7 @@ import RouteChangeTracker from './modules/RouteChangeTracker';
 
 function App() {
   RouteChangeTracker();
-  
+
   return (
     <div className='App'>
       <Routes>
