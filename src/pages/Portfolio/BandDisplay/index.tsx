@@ -10,6 +10,7 @@ import PortfolioDescription from '../components/PortfolioDescription';
 import PortfolioRecordField from '../components/PortfolioRecordField';
 import { vacantBandProfile } from '../../BandProfile/initialBandProfile';
 import DefaultBandImg from '../../../assets/default/band_no_img.svg';
+import DefaultUserImg from '../../../assets/default/man_no_img.svg';
 
 function BandPortfolioDisplay() {
   const { bandId } = useParams();
