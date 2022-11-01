@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MainPageAPI from '../../apis/MainPageAPI';
 import { positionToKorean } from '../../assets/options/positionOptions';
+import DefaultBandImg from '../../assets/default/band_no_img.svg';
+import DefaultUserImg from '../../assets/default/man_no_img.svg';
 
 interface RecommendedRecruitmentItemType {
   id: number;
@@ -48,9 +50,13 @@ export function RecommendedRecruitments() {
           return {
             id: recruit.id,
             image:
-              recruit.dtype === 'Band'
-                ? recruit.bandAvatarUrl
-                : recruit.userAvatarUrl,
+              recruit.dtype === 'Band' ?
+                recruit.bandAvatarUrl ?
+                recruit.bandAvatarUrl :
+                DefaultBandImg :
+                recruit.userAvatarUrl ?
+                recruit.userAvatarUrl :
+                DefaultUserImg,
             recruitInfo: recruit.tagInfo,
             title: recruit.title,
           };

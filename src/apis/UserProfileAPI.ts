@@ -44,6 +44,7 @@ const UserProfileAPI: UserProfileApiType = {
     const userID = sessionStorage.getItem('userID');
     const formData = new FormData();
     formData.append('image', avatar);
+    console.log(formData);
     return request.post(`/api/users/${userID}/avatar`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });

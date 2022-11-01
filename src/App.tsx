@@ -23,8 +23,16 @@ import MyPostPage from './pages/MyPost';
 import ChatPage from './pages/Chat';
 import UserPortfolioDisplay from './pages/Portfolio/Display';
 import SongInfoPage from './pages/SongInfo';
+import UserPortfolioDisplay from './pages/Portfolio/UserDisplay';
+import CalendarPage from './pages/Calendar';
+import BandCommunityPage from './pages/BandCommunity';
+import BandPortfolioDisplay from './pages/Portfolio/BandDisplay';
+import OauthPage from './pages/Oauth';
+import RouteChangeTracker from './modules/RouteChangeTracker';
 
 function App() {
+  RouteChangeTracker();
+
   return (
     <div className='App'>
       <Routes>
@@ -47,7 +55,7 @@ function App() {
           <Route path='user' element={<UserPortFolioPage />} />
           <Route path='band' element={<BandPortFolioPage />} />
           <Route path='user/:userEmail' element={<UserPortfolioDisplay />} />
-          <Route path='band/:bandId' element={<BandPortFolioPage />} />
+          <Route path='band/:bandId' element={<BandPortfolioDisplay />} />
         </Route>
         <Route path='edit'>
           <Route path='password' element={<PasswordEditPage />} />
@@ -73,7 +81,10 @@ function App() {
         </Route>
         <Route path='chat' element={<ChatPage />} />
         <Route path='song' element={<SongInfoPage />} />
+        <Route path='calendar' element={<CalendarPage />} />
+        <Route path='community' element={<BandCommunityPage />} />
         <Route path='ui' element={<UIPage />} />
+        <Route path='oauth2/redirect' element={<OauthPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </div>

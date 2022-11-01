@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { request } from './request';
 
-const baseURL = 'https://api.bandwagon-back.com';
+const baseURL = import.meta.env.VITE_BASE_URL;
 
 interface PortfolioApiType {
   getUserPortfolioInfo: (userEmail: string) => Promise<AxiosResponse>;
@@ -12,10 +12,10 @@ interface PortfolioApiType {
 
 const PortfolioAPI: PortfolioApiType = {
   getUserPortfolioInfo: (userEmail: string) => {
-    return request.get(`${baseURL}/api/users/${userEmail}/mypage`);
+    return axios.get(`${baseURL}api/users/${userEmail}/mypage`);
   },
   getBandPortfolioInfo: (bandID: number) => {
-    return axios.get(`/api/band/${bandID}/bandpage`);
+    return axios.get(`${baseURL}api/band/${bandID}/bandpage`);
   },
 };
 

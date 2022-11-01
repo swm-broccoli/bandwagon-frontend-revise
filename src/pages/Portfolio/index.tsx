@@ -6,22 +6,24 @@ import {
   PerformanceRecordType,
   UserProfileType,
 } from '../../types/types';
-import { vacantBandProfile } from '../BandProfile/initialBandProfile';
-import BandProfileAPI from '../../apis/BandProfileAPI';
 import {
   PortfolioMakerAvatar,
   PortfolioMakerText,
-  PortfolioMakerMemberList,
-  PortfolioMakerAreaList,
   PortfolioMakerSelectList,
+  PortfolioMakerAreaList,
   PortfolioMakerDescription,
   PortfolioMakerRecordField,
   PortfolioMakerAlbum,
+  PortfolioMakerMemberList,
 } from './PortfolioMakerStyles';
+import { vacantBandProfile } from '../BandProfile/initialBandProfile';
+import BandProfileAPI from '../../apis/BandProfileAPI';
 import usePortfolioStore from './PortfolioStore';
 import { vacantUserProfile } from '../UserProfile/initialUserProfile';
 import UserProfileAPI from '../../apis/UserProfileAPI';
 import EmptyBandProfile from '../BandProfile/EmptyBandProfile';
+import DefaultUserImg from '../../assets/default/man_no_img.svg';
+import DefaultBandImg from '../../assets/default/band_no_img.svg';
 
 function UserPortfolioMaker() {
   const [userProfile, setUserProfile] =
@@ -89,7 +91,7 @@ function UserPortfolioMaker() {
 
   return (
     <div>
-      <PortfolioMakerAvatar avatarURL={userProfile.avatarUrl} />
+      <PortfolioMakerAvatar avatarURL={userProfile.avatarUrl ? userProfile.avatarUrl : DefaultUserImg} />
       <PortfolioMakerText label='이름' text={userProfile.name} />
       <PortfolioMakerText label='생년월일' text={userProfile.birthday} />
       <PortfolioMakerText
@@ -202,7 +204,7 @@ function BandPortfolioMaker() {
   }
   return (
     <div>
-      <PortfolioMakerAvatar avatarURL={bandProfile.avatarUrl} />
+      <PortfolioMakerAvatar avatarURL={bandProfile.avatarUrl ? bandProfile.avatarUrl : DefaultBandImg} />
       <PortfolioMakerText label='밴드 이름' text={bandProfile.name} />
       <PortfolioMakerMemberList
         label='밴드 멤버'

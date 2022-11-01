@@ -13,6 +13,7 @@ import DescriptionField from '../../components/DescriptionField';
 import { UserProfileType } from '../../types/types';
 import RecordField from '../../components/RecordField';
 import UserProfileAPI from '../../apis/UserProfileAPI';
+import DefaultUserImg from '../../assets/default/man_no_img.svg'
 import { vacantUserProfile } from './initialUserProfile';
 import { UserProfileAvatar } from './styles';
 import {
@@ -102,7 +103,7 @@ function UserProfile() {
       </div>
       <div className='mt-6 flex flex-col items-center'>
         <UserProfileAvatar
-          avatarURL={curUserProfile.avatarUrl}
+          avatarURL={curUserProfile.avatarUrl ? curUserProfile.avatarUrl : DefaultUserImg}
           setAvatarURL={(newAvatarURL) => {
             setCurUserProfile({ ...curUserProfile, avatarUrl: newAvatarURL });
           }}
