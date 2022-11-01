@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import MainPageAPI from '../../apis/MainPageAPI';
-import defaultPopularPostImage from '../../assets/carousel-intro.jpg';
-import defauleProfileImage from '../../assets/band-default-pic.png';
+import DefaultPostImg from '../../assets/default/post_no_img.png';
+import DefaultBandImg from '../../assets/default/band_no_img.svg';
+import DefaultUserImg from '../../assets/default/man_no_img.svg';
 import parse from 'html-react-parser';
 import { FaHeart } from 'react-icons/fa';
 
@@ -55,7 +56,7 @@ function extractImageFromHtml(html: string): string {
   const img = new DOMParser()
     .parseFromString(html, 'text/html')
     .querySelector('img');
-  return img ? img.src : '';
+  return img ? img.src : DefaultPostImg;
 }
 
 export function MainPopularPosts() {
@@ -71,14 +72,14 @@ export function MainPopularPosts() {
             return {
               image:
                 extractImageFromHtml(post.body) === ''
-                  ? defaultPopularPostImage
+                  ? DefaultPostImg
                   : extractImageFromHtml(post.body),
               title: post.title,
               content: post.body,
               author: post.bandName,
               authorProfileImage: post.bandAvatarUrl
                 ? post.bandAvatarUrl
-                : defauleProfileImage,
+                : DefaultBandImg,
               likeCount: post.likeCount,
               link: `/recruit/${post.id}`,
             };
@@ -86,14 +87,14 @@ export function MainPopularPosts() {
             return {
               image:
                 extractImageFromHtml(post.body) === ''
-                  ? defaultPopularPostImage
+                  ? DefaultPostImg
                   : extractImageFromHtml(post.body),
               title: post.title,
               content: post.body,
               author: post.nickname,
               authorProfileImage: post.userAvatarUrl
                 ? post.userAvatarUrl
-                : defauleProfileImage,
+                : DefaultUserImg,
               likeCount: post.likeCount,
               link: `/recruit/${post.id}`,
             };

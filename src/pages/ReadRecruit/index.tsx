@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import parser from 'html-react-parser';
-import ExamplePic from '../../assets/examplepic.png';
+import DefaultBandImg from '../../assets/default/band_no_img.svg';
+import DefaultUserImg from '../../assets/default/man_no_img.svg';
 import GlobalFooter from '../../components/Footer';
 import GlobalNavBar from '../../components/NavBar';
 import BandInfoCard from '../../components/BandInfoCard';
@@ -33,8 +34,13 @@ function BasicInfoBox(props: {
             className='w-7 h-7 mr-2.5 object-cover rounded-full'
           />
         ) : (
+          props.type ?
           <img
-            src={ExamplePic}
+            src={DefaultBandImg}
+            className='w-7 h-7 mr-2.5 object-cover rounded-full'
+          /> :
+          <img
+            src={DefaultUserImg}
             className='w-7 h-7 mr-2.5 object-cover rounded-full'
           />
         )}
