@@ -17,13 +17,13 @@ import bandApplyIconActive from '../assets/bandPageIcons/bandApplyIconActive.png
 const bandPageMenuItems = [
   {
     label: '밴드 프로필',
-    to: '/profile/band',
+    to: '/band/profile',
     icon: bandProfileIcon,
     activeIcon: bandProfileIconActive,
   },
   {
     label: '밴드 일정관리',
-    to: '/calendar',
+    to: '/band/calendar',
     icon: bandCalendarIcon,
     activeIcon: bandCalendarIconActive,
   },
@@ -35,7 +35,7 @@ const bandPageMenuItems = [
   },
   {
     label: '밴드 포트폴리오',
-    to: '/portfolio',
+    to: '/band/portfolio',
     icon: bandPortfolioIcon,
     activeIcon: bandPortfolioIconActive,
   },
