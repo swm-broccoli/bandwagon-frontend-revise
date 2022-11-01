@@ -4,7 +4,8 @@ import {
   RecordURLType,
   PerformanceRecordType,
 } from '../../types/types';
-import BandMemberDefaultPic from '../../assets/band-default-pic.png';
+import DefaultUserImg from '../../assets/default/man_no_img.svg';
+import DefaultPostImg from '../../assets/default/post_no_img.png';
 import { positionToKorean } from '../../assets/options/positionOptions';
 import { PictureType } from '../../types/types';
 
@@ -15,7 +16,7 @@ export function PortfolioMemberItem({ member }: { member: BandMemberType }) {
         <div className='avatar mr-2 w-10 h-10 rounded-full'>
           <div className='w-10 h-10 rounded-full'>
             <img
-              src={member.avatarUrl || BandMemberDefaultPic}
+              src={member.avatarUrl || DefaultUserImg}
               alt={member.name}
             />
           </div>
@@ -42,7 +43,7 @@ export function PortfolioAlbumItem({ photo }: { photo: PictureType }) {
     <div className='flex flex-row shrink-0 mr-4 items-start'>
       <img
         className='w-32 h-32 rounded-xl mr-1'
-        src={photo.name || BandMemberDefaultPic}
+        src={photo.name || DefaultPostImg}
         alt={`밴드 사진`}
       />
     </div>
