@@ -38,7 +38,7 @@ function GlobalNavBar() {
       label: '알림',
     },
     {
-      link: '/profile/user',
+      link: '/my/profile',
       label: 'MY',
     },
   ];

@@ -15,11 +15,12 @@ import genreOptions from '../../assets/options/genreOptions';
 import DescriptionField from '../../components/DescriptionField';
 import RecordField from '../../components/RecordField';
 import BandProfileAPI from '../../apis/BandProfileAPI';
-import DefaultBandImg from '../../assets/default/band_no_img.svg'
+import DefaultBandImg from '../../assets/default/band_no_img.svg';
 import { updateBandProfile } from './bandProfileUpdate';
 import EmptyBandProfile from './EmptyBandProfile';
 import { vacantBandProfile } from './initialBandProfile';
 import { useNavigate } from 'react-router-dom';
+import BandPageTemplate from '../../components/BandPageTemplate';
 
 function parseBandProfile(bandProfile: BandProfileType) {
   return {
@@ -169,7 +170,11 @@ function BandProfile() {
         </div>
         <div className='mt-6 flex flex-col items-center'>
           <BandProfileAvatar
-            avatarURL={curBandProfile.avatarUrl ? curBandProfile.avatarUrl : DefaultBandImg}
+            avatarURL={
+              curBandProfile.avatarUrl
+                ? curBandProfile.avatarUrl
+                : DefaultBandImg
+            }
             setAvatarURL={(newAvatarUrl) => {
               setCurBandProfile({
                 ...curBandProfile,
@@ -303,9 +308,9 @@ function BandProfile() {
 
 function BandProfilePage() {
   return (
-    <MyPageTemplate>
+    <BandPageTemplate>
       <BandProfile />
-    </MyPageTemplate>
+    </BandPageTemplate>
   );
 }
 
