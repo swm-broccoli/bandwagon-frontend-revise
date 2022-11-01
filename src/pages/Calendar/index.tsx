@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { MdArrowBack, MdArrowForward } from 'react-icons/md';
+import BandPageTemplate from '../../components/BandPageTemplate';
+import GlobalFooter from '../../components/Footer';
+import GlobalNavBar from '../../components/NavBar';
 import {
   prevMonthDates,
   currentMonthDates,
@@ -231,10 +234,9 @@ function Calendar() {
 
 function CalendarPage() {
   return (
-    <div>
-      <h1 className='text-xl font-bold'>우리 밴드 일정</h1>
+    <BandPageTemplate>
       <Calendar />
-    </div>
+    </BandPageTemplate>
   );
 }
 

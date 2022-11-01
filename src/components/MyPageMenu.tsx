@@ -14,8 +14,6 @@ import PasswordChangeIcon from '../assets/ico_my3@2x.png';
 import PasswordChangeActiveIcon from '../assets/ico_my3_on@2x.png';
 import MyPostIcon from '../assets/ico_my4@2x.png';
 import MyPostActiveIcon from '../assets/ico_my4_on@2x.png';
-import MyCommentIcon from '../assets/ico_my5@2x.png';
-import MyCommentActiveIcon from '../assets/ico_my5_on@2x.png';
 import MyLikeIcon from '../assets/ico_my6@2x.png';
 import MyLikeActiveIcon from '../assets/ico_my6_on@2x.png';
 
