@@ -21,6 +21,8 @@ import LikedPost from './pages/LikedPost';
 import BandRequest from './pages/BandRequest';
 import MyPostPage from './pages/MyPost';
 import ChatPage from './pages/Chat';
+import UserPortfolioDisplay from './pages/Portfolio/Display';
+import SongInfoPage from './pages/SongInfo';
 import UserPortfolioDisplay from './pages/Portfolio/UserDisplay';
 import CalendarPage from './pages/Calendar';
 import BandCommunityPage from './pages/BandCommunity';
@@ -85,6 +87,7 @@ function App() {
           <Route path=':postID' element={<ReadRecruitPage />} />
         </Route>
         <Route path='chat' element={<ChatPage />} />
+        <Route path='song' element={<SongInfoPage />} />
         <Route path='calendar' element={<CalendarPage />} />
         <Route path='community' element={<BandCommunityPage />} />
         <Route path='ui' element={<UIPage />} />
