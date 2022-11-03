@@ -10,3 +10,5 @@ export interface CalendarDateType {
   date: Date;
   schedules: ScheduleType[];
 }
+
+export type WeekdayType = 'SUN' | 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT';

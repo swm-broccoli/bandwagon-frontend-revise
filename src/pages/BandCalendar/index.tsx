@@ -6,8 +6,9 @@ import {
   currentMonthDates,
   nextMonthDates,
 } from './calculateDate';
-import { ScheduleType, CalendarDateType } from './types';
+import { ScheduleType, CalendarDateType, WeekdayType } from './types';
 import CalendarDateBlock from './CalendarDateBlock';
+import WeekdayBlock from './WeekdayBlock';
 
 const BandSchedule: ScheduleType[] = [
   {
@@ -26,7 +27,15 @@ const BandSchedule: ScheduleType[] = [
   },
 ];
 
-const Weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const Weekdays: WeekdayType[] = [
+  'SUN',
+  'MON',
+  'TUE',
+  'WED',
+  'THU',
+  'FRI',
+  'SAT',
+];
 
 function ScheduleMaker({
   addSchedule,
@@ -186,9 +195,7 @@ function Calendar() {
       </div>
       <div className='grid grid-cols-7'>
         {Weekdays.map((weekday) => (
-          <div key={weekday} className='border border-base-300 h-12'>
-            {weekday}
-          </div>
+          <WeekdayBlock weekday={weekday} />
         ))}
       </div>
       <div className='grid grid-cols-7'>

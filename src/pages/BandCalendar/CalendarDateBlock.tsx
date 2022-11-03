@@ -6,7 +6,7 @@ function CalendarDateBlock({ eventDate }: { eventDate: CalendarDateType }) {
       onClick={() => {
         console.log(eventDate.schedules);
       }}
-      className='border border-base-300 h-16'
+      className='border border-[#f1f1f1] h-16'
     >
       {eventDate.date.getDate()}
       {eventDate.schedules.map((schedule, index) => (
