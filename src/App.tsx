@@ -24,7 +24,7 @@ import ChatPage from './pages/Chat';
 import UserPortfolioDisplay from './pages/Portfolio/Display';
 import SongInfoPage from './pages/SongInfo';
 import UserPortfolioDisplay from './pages/Portfolio/UserDisplay';
-import CalendarPage from './pages/Calendar';
+import CalendarPage from './pages/BandCalendar';
 import BandCommunityPage from './pages/BandCommunity';
 import BandPortfolioDisplay from './pages/Portfolio/BandDisplay';
 import OauthPage from './pages/Oauth';
