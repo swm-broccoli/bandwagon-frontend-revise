@@ -21,7 +21,6 @@ import LikedPost from './pages/LikedPost';
 import BandRequest from './pages/BandRequest';
 import MyPostPage from './pages/MyPost';
 import ChatPage from './pages/Chat';
-import UserPortfolioDisplay from './pages/Portfolio/Display';
 import SongInfoPage from './pages/SongInfo';
 import UserPortfolioDisplay from './pages/Portfolio/UserDisplay';
 import CalendarPage from './pages/BandCalendar';
