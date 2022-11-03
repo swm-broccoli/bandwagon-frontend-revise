@@ -44,10 +44,6 @@ function GlobalNavBar() {
   ];
   const notLoggedInNavBarItems = [
     {
-      link: '/',
-      label: '광장',
-    },
-    {
       link: '/login',
       label: '로그인',
     },
