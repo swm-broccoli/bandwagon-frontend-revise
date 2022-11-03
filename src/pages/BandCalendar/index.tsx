@@ -184,18 +184,24 @@ function Calendar() {
 
   return (
     <section>
-      <div className='flex flex-row'>
-        {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월 달력
-        <button onClick={handlePrevMonth} className='btn btn-xs btn-primary'>
+      <div className='flex flex-row font-bold'>
+        {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
+        <button
+          onClick={handlePrevMonth}
+          className='btn btn-xs btn-circle bg-base-300 border-none ml-1'
+        >
           <MdArrowBack />
         </button>
-        <button onClick={handleNextMonth} className='btn btn-xs btn-primary'>
+        <button
+          onClick={handleNextMonth}
+          className='btn btn-xs btn-circle bg-base-300 border-none ml-1'
+        >
           <MdArrowForward />
         </button>
       </div>
       <div className='grid grid-cols-7'>
         {Weekdays.map((weekday) => (
-          <WeekdayBlock weekday={weekday} />
+          <WeekdayBlock key={weekday} weekday={weekday} />
         ))}
       </div>
       <div className='grid grid-cols-7'>
