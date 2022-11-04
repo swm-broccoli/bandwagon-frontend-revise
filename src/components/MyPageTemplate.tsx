@@ -1,4 +1,4 @@
-import GlobalNavBar from './NavBar';
+import GlobalNavBar from './NavBar/NavBar';
 import MyPageMenu, { myPageMenuItems } from './MyPageMenu';
 import GlobalFooter from './Footer';
 

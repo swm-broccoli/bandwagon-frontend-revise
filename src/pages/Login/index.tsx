@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import GlobalNavBar from '../../components/NavBar';
+import GlobalNavBar from '../../components/NavBar/NavBar';
 import { Link, useNavigate } from 'react-router-dom';
 import { NaverLoginButton, KaKaoLoginButton } from './styles';
 import TextInput from '../../components/TextInput';

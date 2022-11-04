@@ -1,4 +1,4 @@
-import GlobalNavBar from './NavBar';
+import GlobalNavBar from './NavBar/NavBar';
 import MyPageMenu from './MyPageMenu';
 import GlobalFooter from './Footer';
 import bandProfileIcon from '../assets/bandPageIcons/bandProfileIcon.png';

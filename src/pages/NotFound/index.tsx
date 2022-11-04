@@ -1,5 +1,5 @@
 import GlobalFooter from '../../components/Footer';
-import GlobalNavBar from '../../components/NavBar';
+import GlobalNavBar from '../../components/NavBar/NavBar';
 
 function NotFoundPage() {
   return (
