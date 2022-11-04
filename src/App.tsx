@@ -23,7 +23,7 @@ import MyPostPage from './pages/MyPost';
 import ChatPage from './pages/Chat';
 import SongInfoPage from './pages/SongInfo';
 import UserPortfolioDisplay from './pages/Portfolio/UserDisplay';
-import CalendarPage from './pages/BandCalendar';
+import SchedulePage from './pages/BandSchedule';
 import BandCommunityPage from './pages/BandCommunity';
 import BandPortfolioDisplay from './pages/Portfolio/BandDisplay';
 import OauthPage from './pages/Oauth';
@@ -55,7 +55,7 @@ function App() {
 
         <Route path='band'>
           <Route path='profile' element={<BandProfilePage />} />
-          <Route path='calendar' element={<CalendarPage />} />
+          <Route path='schedule' element={<SchedulePage />} />
           <Route path='community' element={<BandCommunityPage />} />
           <Route path='portfolio' element={<BandPortFolioPage />} />
           <Route path='apply' element={<BandRequest />} />
@@ -87,7 +87,6 @@ function App() {
         </Route>
         <Route path='chat' element={<ChatPage />} />
         <Route path='song' element={<SongInfoPage />} />
-        <Route path='calendar' element={<CalendarPage />} />
         <Route path='community' element={<BandCommunityPage />} />
         <Route path='ui' element={<UIPage />} />
         <Route path='oauth2/redirect' element={<OauthPage />} />

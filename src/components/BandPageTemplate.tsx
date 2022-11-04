@@ -23,7 +23,7 @@ const bandPageMenuItems = [
   },
   {
     label: '밴드 일정관리',
-    to: '/band/calendar',
+    to: '/band/schedule',
     icon: bandCalendarIcon,
     activeIcon: bandCalendarIconActive,
   },

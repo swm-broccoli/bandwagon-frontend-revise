@@ -217,7 +217,7 @@ function Calendar() {
   );
 }
 
-function CalendarPage() {
+function SchedulePage() {
   return (
     <BandPageTemplate>
       <Calendar />
@@ -225,4 +225,4 @@ function CalendarPage() {
   );
 }
 
-export default CalendarPage;
+export default SchedulePage;
