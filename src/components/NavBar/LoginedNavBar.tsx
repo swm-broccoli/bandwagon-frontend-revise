@@ -25,7 +25,9 @@ const loggedInNavBarItems = [
 function MyPageNavWithBand() {
   return (
     <li className='menu-item dropdown dropdown-end text-[#676767] active:bg-neutral font-sans-kr'>
-      <label tabIndex={0}>MY</label>
+      <label className='px-2 md:px-4' tabIndex={0}>
+        MY
+      </label>
       <ul
         tabIndex={0}
         className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'
@@ -67,7 +69,7 @@ function LoginedNavBar() {
             sessionStorage.removeItem('isSocial');
             window.location.href = '/';
           }}
-          className='text-[#676767] active:bg-neutral'
+          className='text-[#676767] active:bg-neutral px-2 md:px-4'
         >
           로그아웃
         </Link>
