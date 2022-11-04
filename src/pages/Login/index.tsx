@@ -5,6 +5,7 @@ import { NaverLoginButton, KaKaoLoginButton } from './styles';
 import TextInput from '../../components/TextInput';
 import { useLoginStore } from '../../stores/LoginStore';
 import AuthAPI from '../../apis/AuthAPI';
+import BandProfileAPI from '../../apis/BandProfileAPI';
 import logoImage from '../../assets/logo.png';
 
 function LoginForm() {
@@ -30,6 +31,16 @@ function LoginForm() {
         sessionStorage.setItem('userID', id);
         // 소셜 로그인인지 확인하는 변수
         sessionStorage.setItem('isSocial', 'false');
+        // 밴드 id 설정
+        sessionStorage.setItem('bandID', 'None');
+        BandProfileAPI.getBandProfileInfo().then((res) => {
+          if (res.status === 200) {
+            // 제대로 응답을 받았을 경우에는 응답으로 온 프로필을 밴드 프로필로
+            console.log('밴드 ID', res.data.id);
+            sessionStorage.setItem('bandID', res.data.id);
+          }
+          //아닌 경우 밴드가 없거나 뭔가 오류가 발생했다는 뜻이므로 빈 프로필을 보여준다
+        });
         logIn(id);
         alert('로그인 성공');
         navigate('/');
