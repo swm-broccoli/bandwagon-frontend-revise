@@ -1,5 +1,4 @@
 import BandProfileAPI from '../../apis/BandProfileAPI';
-import { AxiosResponse } from 'axios';
 import {
   AreaType,
   PerformanceRecordType,

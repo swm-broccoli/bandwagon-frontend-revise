@@ -47,6 +47,10 @@ function GlobalNavBar() {
       link: '/login',
       label: '로그인',
     },
+    {
+      link: '/signup',
+      label: '회원가입',
+    },
   ];
 
   /* 
