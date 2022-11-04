@@ -20,11 +20,26 @@ const loggedInNavBarItems = [
     link: '/song',
     label: '음악',
   },
-  {
-    link: '/my/profile',
-    label: 'MY',
-  },
 ];
+
+function MyPageNavWithBand() {
+  return (
+    <li className='menu-item dropdown dropdown-end text-[#676767] active:bg-neutral font-sans-kr'>
+      <label tabIndex={0}>MY</label>
+      <ul
+        tabIndex={0}
+        className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'
+      >
+        <li>
+          <Link to='/my/profile'>내 페이지</Link>
+        </li>
+        <li>
+          <Link to='/band/profile'>밴드 페이지</Link>
+        </li>
+      </ul>
+    </li>
+  );
+}
 
 function LoginedNavBar() {
   const logOut = useLoginStore((state) => state.logOut);
@@ -38,6 +53,8 @@ function LoginedNavBar() {
           <NavBarItem key={item.label} label={item.label} link={item.link} />
         ),
       )}
+      {/* 밴드 있으면 드롭다운, 아니면 그냥 마이페이지로*/}
+      <MyPageNavWithBand />
       <li className='menu-item'>
         <Link
           to='/'
