@@ -9,6 +9,17 @@ import {
 import { ScheduleType, CalendarDateType, WeekdayType } from './types';
 import CalendarDateBlock from './CalendarDateBlock';
 import WeekdayBlock from './WeekdayBlock';
+import useSchedule from './useSchedule';
+
+const Weekdays: WeekdayType[] = [
+  'SUN',
+  'MON',
+  'TUE',
+  'WED',
+  'THU',
+  'FRI',
+  'SAT',
+];
 
 const BandSchedule: ScheduleType[] = [
   {
@@ -27,110 +38,6 @@ const BandSchedule: ScheduleType[] = [
   },
 ];
 
-const Weekdays: WeekdayType[] = [
-  'SUN',
-  'MON',
-  'TUE',
-  'WED',
-  'THU',
-  'FRI',
-  'SAT',
-];
-
-function ScheduleMaker({
-  addSchedule,
-}: {
-  addSchedule: (schedule: ScheduleType) => void;
-}) {
-  const [currentSchedule, setCurrentSchedule] = useState<ScheduleType>({
-    type: '',
-    title: '',
-    date: new Date(),
-    location: '',
-    description: '',
-  });
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type } = e.target;
-    if (type === 'date') {
-      setCurrentSchedule({
-        ...currentSchedule,
-        [name]: new Date(value),
-      });
-    } else {
-      setCurrentSchedule({
-        ...currentSchedule,
-        [name]: value,
-      });
-    }
-  };
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(currentSchedule);
-    addSchedule(currentSchedule);
-  };
-
-  return (
-    <div>
-      <h1>새로운 일정 추가</h1>
-      <form className='flex flex-col' onSubmit={onSubmit}>
-        <label>
-          일정 타입
-          <input
-            className='input input-bordered'
-            name='type'
-            value={currentSchedule.type}
-            onChange={onChange}
-            placeholder='일정 타입'
-          />
-        </label>
-        <label>
-          일정 제목
-          <input
-            className='input input-bordered'
-            name='title'
-            value={currentSchedule.title}
-            onChange={onChange}
-            placeholder='일정 제목'
-          />
-        </label>
-        <label>
-          일정 날짜
-          <input
-            type='date'
-            className='input input-bordered'
-            name='date'
-            value={currentSchedule.date.toISOString().split('T')[0]}
-            onChange={onChange}
-          />
-        </label>
-        <label>
-          일정 장소
-          <input
-            className='input input-bordered'
-            name='location'
-            value={currentSchedule.location}
-            onChange={onChange}
-            placeholder='일정 장소'
-          />
-        </label>
-        <label>
-          일정 설명
-          <input
-            className='input input-bordered'
-            name='description'
-            value={currentSchedule.description}
-            onChange={onChange}
-            placeholder='일정 설명'
-          />
-        </label>
-        <button className='btn btn-primary w-60'>일정 추가</button>
-      </form>
-    </div>
-  );
-}
-
 function Calendar() {
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(today);
@@ -138,12 +45,7 @@ function Calendar() {
     CalendarDateType[]
   >([]);
 
-  const [bandSchedules, setBandSchedules] =
-    useState<ScheduleType[]>(BandSchedule);
-
-  const addBandSchedule = (schedule: ScheduleType) => {
-    setBandSchedules([...bandSchedules, schedule]);
-  };
+  const { schedules, addSchedule, removeSchedule } = useSchedule(BandSchedule);
 
   const handlePrevMonth = () => {
     setCurrentDate(
@@ -165,7 +67,7 @@ function Calendar() {
     const calendarEventDates: CalendarDateType[] = [];
 
     [...prevMonth, ...currentMonth, ...nextMonth].forEach((date) => {
-      const schedules = bandSchedules.filter((schedule) => {
+      const dateSchedules = schedules.filter((schedule) => {
         return (
           schedule.date.getFullYear() === date.getFullYear() &&
           schedule.date.getMonth() === date.getMonth() &&
@@ -175,12 +77,12 @@ function Calendar() {
 
       calendarEventDates.push({
         date,
-        schedules,
+        schedules: dateSchedules,
       });
     });
 
     setCurrentMonthEvents(calendarEventDates);
-  }, [currentDate, bandSchedules]);
+  }, [currentDate]);
 
   return (
     <section>
@@ -212,7 +114,6 @@ function Calendar() {
           />
         ))}
       </div>
-      <ScheduleMaker addSchedule={addBandSchedule} />
     </section>
   );
 }
