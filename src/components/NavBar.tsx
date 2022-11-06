@@ -22,10 +22,6 @@ function GlobalNavBar() {
 
   const loggedInNavBarItems = [
     {
-      link: '/',
-      label: '광장',
-    },
-    {
       link: '/recruit/band',
       label: '구인구직',
     },
@@ -38,7 +34,11 @@ function GlobalNavBar() {
       label: '알림',
     },
     {
-      link: '/profile/user',
+      link: '/song',
+      label: '음악',
+    },
+    {
+      link: '/my/profile',
       label: 'MY',
     },
   ];
@@ -53,6 +53,12 @@ function GlobalNavBar() {
     },
   ];
 
+  /* 
+    <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+    <li><Link to='/recruit/band/write'>멤버 찾기</Link></li>
+    <li><Link to='/recruit/user/write'>밴드 찾기</Link></li>
+  </ul>
+  */
   return (
     <div className='grid grid-cols-6 border-b border-[#e2e2e2]'>
       <div className='navbar col-span-full md:col-start-2 md:col-end-6 py-0 min-h-fit bg-base-100 flex flex-col md:flex-row justify-center md:justify-between'>

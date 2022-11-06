@@ -21,9 +21,17 @@ import LikedPost from './pages/LikedPost';
 import BandRequest from './pages/BandRequest';
 import MyPostPage from './pages/MyPost';
 import ChatPage from './pages/Chat';
-import UserPortfolioDisplay from './pages/Portfolio/Display';
+import SongInfoPage from './pages/SongInfo';
+import UserPortfolioDisplay from './pages/Portfolio/UserDisplay';
+import CalendarPage from './pages/BandCalendar';
+import BandCommunityPage from './pages/BandCommunity';
+import BandPortfolioDisplay from './pages/Portfolio/BandDisplay';
+import OauthPage from './pages/Oauth';
+import RouteChangeTracker from './modules/RouteChangeTracker';
 
 function App() {
+  RouteChangeTracker();
+
   return (
     <div className='App'>
       <Routes>
@@ -34,23 +42,30 @@ function App() {
           <Route path='password' element={<FindPasswordPage />} />
         </Route>
         <Route path='signup' element={<SignUpPage />} />
-        <Route path='profile'>
-          <Route path='user' element={<UserProfilePage />} />
-          <Route path='band' element={<BandProfilePage />} />
-          <Route path='mypost' element={<MyPostPage />} />
-          <Route path='mylike' element={<LikedPost />} />
-          <Route path='request' element={<BandRequest />} />
+
+        <Route path='my'>
+          <Route path='profile' element={<UserProfilePage />} />
+          <Route path='portfolio' element={<MyPortfolioPage />} />
+          <Route path='account' element={<AccountEditPage />} />
+          <Route path='password' element={<PasswordEditPage />} />
+          <Route path='apply' element={<BandRequest />} />
+          <Route path='post' element={<MyPostPage />} />
+          <Route path='liked' element={<LikedPost />} />
+        </Route>
+
+        <Route path='band'>
+          <Route path='profile' element={<BandProfilePage />} />
+          <Route path='calendar' element={<CalendarPage />} />
+          <Route path='community' element={<BandCommunityPage />} />
+          <Route path='portfolio' element={<BandPortFolioPage />} />
+          <Route path='apply' element={<BandRequest />} />
         </Route>
         <Route path='portfolio' element={<Outlet />}>
           <Route path='' element={<MyPortfolioPage />} />
           <Route path='user' element={<UserPortFolioPage />} />
           <Route path='band' element={<BandPortFolioPage />} />
           <Route path='user/:userEmail' element={<UserPortfolioDisplay />} />
-          <Route path='band/:bandId' element={<BandPortFolioPage />} />
-        </Route>
-        <Route path='edit'>
-          <Route path='password' element={<PasswordEditPage />} />
-          <Route path='account' element={<AccountEditPage />} />
+          <Route path='band/:bandId' element={<BandPortfolioDisplay />} />
         </Route>
         <Route path='recruit'>
           <Route path='band' element={<RecruitPage type={true} />} />
@@ -71,7 +86,11 @@ function App() {
           <Route path=':postID' element={<ReadRecruitPage />} />
         </Route>
         <Route path='chat' element={<ChatPage />} />
+        <Route path='song' element={<SongInfoPage />} />
+        <Route path='calendar' element={<CalendarPage />} />
+        <Route path='community' element={<BandCommunityPage />} />
         <Route path='ui' element={<UIPage />} />
+        <Route path='oauth2/redirect' element={<OauthPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </div>

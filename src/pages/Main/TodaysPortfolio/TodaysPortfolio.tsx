@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import MainPageAPI from '../../../apis/MainPageAPI';
 import Wave from './Wave';
-import defaultAvatar from '../../../assets/indie-band.jpeg';
+import defaultAvatar from '../../../assets/default/default_portfolio.jpg';
 import { Link } from 'react-router-dom';
 
 export interface bandPortfolioBriefType {
@@ -50,7 +50,7 @@ function TodaysPortfolioItem({
           className='absolute flex flex-row w-2/3 h-4/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all duration-500 z-30'
         >
           <img
-            className='w-1/3 md:w-1/2 h-full object-fill'
+            className='w-1/3 md:w-1/2 h-full object-cover'
             src={
               todayPortfolio.avatarUrl
                 ? todayPortfolio.avatarUrl
@@ -74,7 +74,7 @@ function TodaysPortfolioItem({
           } absolute flex flex-row w-3/5 h-3/5 shrink-0 card card-side bg-base-100 shadow-xl transition-all z-20`}
         >
           <img
-            className='w-1/3 md:w-1/2 h-full object-fill'
+            className='w-1/3 md:w-1/2 h-full object-cover'
             src={
               todayPortfolio.avatarUrl
                 ? todayPortfolio.avatarUrl
@@ -209,7 +209,7 @@ export function TodayPortfolio() {
 
   useEffect(() => {
     MainPageAPI.getTodayPortfolios().then((res) => {
-      console.log(todayPortfolios);
+      console.log(res.data);
       setTodayPortfolios(
         res.data.map((portfolio: any) => {
           return {
@@ -217,7 +217,7 @@ export function TodayPortfolio() {
             portfolioLink:
               portfolio.dtype === 'User'
                 ? `/portfolio/user/${portfolio.userEmail}`
-                : `/portfolio/band/${portfolio.bandId}`,
+                : `/portfolio/band/${portfolio.id}`,
           };
         }),
       );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BandRequestType } from '../../types/types';
-import ExamplePic from '../../assets/examplepic.png';
+import DefaultBandImg from '../../assets/default/band_no_img.svg';
+import DefaultUserImg from '../../assets/default/man_no_img.svg';
 import { Link } from 'react-router-dom';
 import BandRequestAPI from '../../apis/BandRequestAPI';
 import { GroupChannelCreateParams, GroupChannelModule } from '@sendbird/chat/groupChannel';
@@ -78,11 +79,11 @@ function ApplyCard(props: {
       {props.type ?
         <img src={props.request.user.avatarUrl ?
           props.request.user.avatarUrl :
-          ExamplePic}
+          DefaultUserImg}
           className='hidden sm:flex row-start-1 row-end-4 col-start-1 w-full h-[100px] self-center rounded-full object-cover' /> :
         <img src={props.request.band.avatarUrl ?
           props.request.band.avatarUrl :
-          ExamplePic}
+          DefaultBandImg}
           className='hidden sm:flex row-start-1 row-end-4 col-start-1 w-full h-[100px] self-center rounded-full object-cover' />
       }
       {props.type ?

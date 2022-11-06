@@ -1,6 +1,8 @@
 import axios, { AxiosInstance } from 'axios';
 import AuthAPI from './AuthAPI';
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 function setInterceptors(instance: AxiosInstance) {
   // API 요청 이전 처리
   instance.interceptors.request.use(
@@ -28,7 +30,7 @@ function setInterceptors(instance: AxiosInstance) {
       } else if (error.response.status == 403) {
         // access token 만료
         axios
-          .post('https://api.bandwagon-back.com/api/refresh', {
+          .post(`${baseURL}/api/refresh`, {
             refreshToken: sessionStorage.getItem('refreshToken'),
           })
           .then((response) => {
