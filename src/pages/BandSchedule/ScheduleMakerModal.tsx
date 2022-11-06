@@ -1,18 +1,21 @@
 import { ScheduleType } from './types';
 import { useState, useRef } from 'react';
 
+const defaultSchedule: ScheduleType = {
+  type: '',
+  title: '',
+  date: new Date(),
+  location: '',
+  description: '',
+};
+
 function ScheduleMaker({
   addSchedule,
 }: {
   addSchedule: (schedule: ScheduleType) => void;
 }) {
-  const [currentSchedule, setCurrentSchedule] = useState<ScheduleType>({
-    type: '',
-    title: '',
-    date: new Date(),
-    location: '',
-    description: '',
-  });
+  const [currentSchedule, setCurrentSchedule] =
+    useState<ScheduleType>(defaultSchedule);
 
   const newScheduleFormOpen = useRef<HTMLInputElement>(null);
 
@@ -41,6 +44,7 @@ function ScheduleMaker({
           !newScheduleFormOpen.current.checked),
       );
     }
+    setCurrentSchedule(defaultSchedule);
   };
 
   return (
