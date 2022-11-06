@@ -10,6 +10,7 @@ import { ScheduleType, CalendarDateType, WeekdayType } from './types';
 import CalendarDateBlock from './CalendarDateBlock';
 import WeekdayBlock from './WeekdayBlock';
 import useSchedule from './useSchedule';
+import ScheduleMaker from './ScheduleMakerModal';
 
 const Weekdays: WeekdayType[] = [
   'SUN',
@@ -82,7 +83,7 @@ function Calendar() {
     });
 
     setCurrentMonthEvents(calendarEventDates);
-  }, [currentDate]);
+  }, [currentDate, schedules]);
 
   return (
     <section>
@@ -114,6 +115,7 @@ function Calendar() {
           />
         ))}
       </div>
+      <ScheduleMaker addSchedule={addSchedule} />
     </section>
   );
 }

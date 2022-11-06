@@ -4,6 +4,7 @@ export interface ScheduleType {
   date: Date;
   location: string;
   description: string;
+  [key: string]: any;
 }
 
 export interface CalendarDateType {
