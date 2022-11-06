@@ -49,8 +49,11 @@ function ScheduleMaker({
 
   return (
     <div>
-      <label htmlFor='new-schedule-modal' className='btn'>
-        일정 추가
+      <label
+        htmlFor='new-schedule-modal'
+        className='btn btn-sm btn-primary w-20 h-10'
+      >
+        + 추가
       </label>
 
       <input

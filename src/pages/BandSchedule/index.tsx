@@ -87,21 +87,25 @@ function Calendar() {
 
   return (
     <section>
-      <div className='flex flex-row font-bold'>
-        {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
-        <button
-          onClick={handlePrevMonth}
-          className='btn btn-xs btn-circle bg-base-300 border-none ml-1'
-        >
-          <MdArrowBack />
-        </button>
-        <button
-          onClick={handleNextMonth}
-          className='btn btn-xs btn-circle bg-base-300 border-none ml-1'
-        >
-          <MdArrowForward />
-        </button>
+      <div className='flex flex-row justify-between mb-3'>
+        <div className='flex flex-row items-center font-bold text-lg md:text-2xl'>
+          {currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월
+          <button
+            onClick={handlePrevMonth}
+            className='btn btn-xs btn-circle bg-base-300 border-none ml-1'
+          >
+            <MdArrowBack />
+          </button>
+          <button
+            onClick={handleNextMonth}
+            className='btn btn-xs btn-circle bg-base-300 border-none ml-1'
+          >
+            <MdArrowForward />
+          </button>
+        </div>
+        <ScheduleMaker addSchedule={addSchedule} />
       </div>
+
       <div className='grid grid-cols-7'>
         {Weekdays.map((weekday) => (
           <WeekdayBlock key={weekday} weekday={weekday} />
@@ -115,7 +119,6 @@ function Calendar() {
           />
         ))}
       </div>
-      <ScheduleMaker addSchedule={addSchedule} />
     </section>
   );
 }
