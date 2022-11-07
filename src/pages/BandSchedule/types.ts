@@ -1,5 +1,5 @@
 export interface ScheduleType {
-  type: string;
+  type: number;
   title: string;
   date: Date;
   location: string;

@@ -1,8 +1,9 @@
 import { ScheduleType } from './types';
 import { useState, useRef } from 'react';
+import ScheduleTypeSelect from './ScheduleTypeSelect';
 
 const defaultSchedule: ScheduleType = {
-  type: '',
+  type: 1,
   title: '',
   date: new Date(),
   location: '',
@@ -72,16 +73,12 @@ function ScheduleMaker({
             ✕
           </label>
           <form className='flex flex-col' onSubmit={onSubmit}>
-            <label>
-              일정 타입
-              <input
-                className='input input-bordered'
-                name='type'
-                value={currentSchedule.type}
-                onChange={onChange}
-                placeholder='일정 타입'
-              />
-            </label>
+            <ScheduleTypeSelect
+              selected={currentSchedule.type}
+              setSelected={(type) =>
+                setCurrentSchedule({ ...currentSchedule, type })
+              }
+            />
             <label>
               일정 제목
               <input

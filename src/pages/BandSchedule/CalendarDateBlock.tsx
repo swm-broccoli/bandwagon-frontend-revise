@@ -1,4 +1,17 @@
-import { CalendarDateType } from './types';
+import { CalendarDateType, ScheduleType } from './types';
+
+const eventTypeColor = [
+  'bg-[#fe5e94]',
+  'bg-[#fcc306]',
+  'bg-[#59c991]',
+  'bg-[#59c9c2]',
+  'bg-[#62bfef]',
+  'bg-[#9979f2]',
+];
+
+function DateEventBlock({ event }: { event: ScheduleType }) {
+  return <div className={`${eventTypeColor[event.type]}`}>{event.title}</div>;
+}
 
 function CalendarDateBlock({ eventDate }: { eventDate: CalendarDateType }) {
   return (
@@ -6,11 +19,14 @@ function CalendarDateBlock({ eventDate }: { eventDate: CalendarDateType }) {
       onClick={() => {
         console.log(eventDate.schedules);
       }}
-      className='border border-[#f1f1f1] h-16'
+      className='border border-[#f1f1f1] h-16 flex flex-col'
     >
-      {eventDate.date.getDate()}
+      <h3 className='place-self-start mx-1 my-0.5 text-sm md:text-base'>
+        {eventDate.date.getDate()}
+      </h3>
+
       {eventDate.schedules.map((schedule, index) => (
-        <div key={index}>{schedule.title}</div>
+        <DateEventBlock key={index} event={schedule} />
       ))}
     </button>
   );

@@ -24,14 +24,14 @@ const Weekdays: WeekdayType[] = [
 
 const BandSchedule: ScheduleType[] = [
   {
-    type: 'concert',
+    type: 1,
     title: '일정 타입',
     date: new Date('2022-10-03'),
     location: 'Seoul',
     description: 'Concert in Seoul',
   },
   {
-    type: 'concert',
+    type: 2,
     title: '밴드 합주',
     date: new Date('2022-10-20'),
     location: 'Seoul',
