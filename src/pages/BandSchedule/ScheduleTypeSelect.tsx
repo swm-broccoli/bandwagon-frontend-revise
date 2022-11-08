@@ -33,7 +33,7 @@ function ScheduleTypeSelector({
           onChange={handleChange}
         >
           {eventTypeColor.map((color, index) => (
-            <option value={index} selected={selected === index}>
+            <option key={color} value={index}>
               {eventName[index]}
             </option>
           ))}

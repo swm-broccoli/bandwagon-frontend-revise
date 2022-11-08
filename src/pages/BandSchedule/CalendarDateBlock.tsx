@@ -23,7 +23,7 @@ function CalendarDateBlock({ eventDate }: { eventDate: CalendarDateType }) {
       onClick={() => {
         console.log(eventDate.schedules);
       }}
-      className='border border-[#f1f1f1] h-20 flex flex-col'
+      className='border border-[#f1f1f1] h-auto min-h-[80px] flex flex-col'
     >
       <h3 className='place-self-start mx-1 my-0.5 text-sm md:text-base'>
         {eventDate.date.getDate()}
