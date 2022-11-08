@@ -2,15 +2,14 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import PortfolioAPI from '../../../apis/PortfolioAPI';
 import { BandProfileType } from '../../../types/types';
-import PortfolioAvatar from '../components/PortfolioAvatar';
-import PortfolioText from '../components/PortfolioText';
-import PortfolioSelectList from '../components/PortfolioSelectList';
-import PortfolioAreaList from '../components/PortfolioAreaList';
-import PortfolioDescription from '../components/PortfolioDescription';
-import PortfolioRecordField from '../components/PortfolioRecordField';
+import PortfolioAvatar from '../../PortfolioDisplay/components/PortfolioAvatar';
+import PortfolioText from '../../PortfolioDisplay/components/PortfolioText';
+import PortfolioSelectList from '../../PortfolioDisplay/components/PortfolioSelectList';
+import PortfolioAreaList from '../../PortfolioDisplay/components/PortfolioAreaList';
+import PortfolioDescription from '../../PortfolioDisplay/components/PortfolioDescription';
+import PortfolioRecordField from '../../PortfolioDisplay/components/PortfolioRecordField';
 import { vacantBandProfile } from '../../BandProfile/initialBandProfile';
 import DefaultBandImg from '../../../assets/default/band_no_img.svg';
-import DefaultUserImg from '../../../assets/default/man_no_img.svg';
 
 function BandPortfolioDisplay() {
   const { bandId } = useParams();
@@ -27,7 +26,11 @@ function BandPortfolioDisplay() {
   }, []);
   return (
     <div>
-      <PortfolioAvatar avatarURL={bandProfile.avatarUrl ? bandProfile.avatarUrl : DefaultBandImg} />
+      <PortfolioAvatar
+        avatarURL={
+          bandProfile.avatarUrl ? bandProfile.avatarUrl : DefaultBandImg
+        }
+      />
       <PortfolioText label='밴드명' text={bandProfile.name} />
       <PortfolioAreaList
         label='활동 지역'

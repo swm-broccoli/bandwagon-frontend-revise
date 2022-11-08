@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 import PortfolioAPI from '../../../apis/PortfolioAPI';
 import { UserProfileType } from '../../../types/types';
 import { vacantUserProfile } from '../../UserProfile/initialUserProfile';
-import PortfolioAvatar from '../components/PortfolioAvatar';
-import PortfolioText from '../components/PortfolioText';
-import PortfolioSelectList from '../components/PortfolioSelectList';
-import PortfolioAreaList from '../components/PortfolioAreaList';
-import PortfolioDescription from '../components/PortfolioDescription';
-import PortfolioRecordField from '../components/PortfolioRecordField';
+import PortfolioAvatar from '../../PortfolioDisplay/components/PortfolioAvatar';
+import PortfolioText from '../../PortfolioDisplay/components/PortfolioText';
+import PortfolioSelectList from '../../PortfolioDisplay/components/PortfolioSelectList';
+import PortfolioAreaList from '../../PortfolioDisplay/components/PortfolioAreaList';
+import PortfolioDescription from '../../PortfolioDisplay/components/PortfolioDescription';
+import PortfolioRecordField from '../../PortfolioDisplay/components/PortfolioRecordField';
 import DefaultUserImg from '../../../assets/default/man_no_img.svg';
 
 function UserPortfolioDisplay() {
@@ -26,7 +26,11 @@ function UserPortfolioDisplay() {
   }, []);
   return (
     <div>
-      <PortfolioAvatar avatarURL={userProfile.avatarUrl ? userProfile.avatarUrl : DefaultUserImg} />
+      <PortfolioAvatar
+        avatarURL={
+          userProfile.avatarUrl ? userProfile.avatarUrl : DefaultUserImg
+        }
+      />
       <PortfolioText label='이름' text={userProfile.name} />
       <PortfolioText label='생년월일' text={userProfile.birthday} />
       <PortfolioText label='성별' text={userProfile.gender ? '여자' : '남자'} />

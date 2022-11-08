@@ -1,124 +1,144 @@
-import { useEffect, useRef } from 'react';
-import { BandProfileType, UserProfileType } from '../../../types/types';
-import usePortfolioStore from '../PortfolioStore';
-import { useReactToPrint } from 'react-to-print';
-import { positionToKorean } from '../../../assets/options/positionOptions';
-import { PortfolioRecordItem } from '../PortfolioStyles';
-import { useNavigate } from 'react-router-dom';
+import MyPageTemplate from '../../../components/MyPageTemplate';
+import React, { useState, useEffect } from 'react';
+import { PerformanceRecordType, UserProfileType } from '../../../types/types';
+import {
+  PortfolioMakerAvatar,
+  PortfolioMakerText,
+  PortfolioMakerSelectList,
+  PortfolioMakerAreaList,
+  PortfolioMakerDescription,
+  PortfolioMakerRecordField,
+} from '../PortfolioMakerStyles';
+import usePortfolioStore from '../../../stores/PortfolioStore';
+import { vacantUserProfile } from '../../UserProfile/initialUserProfile';
+import UserProfileAPI from '../../../apis/UserProfileAPI';
 import DefaultUserImg from '../../../assets/default/man_no_img.svg';
 
-function getAgeFromBirthday(birthday: string) {
-  const today = new Date();
-  const birthDate = new Date(birthday);
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const m = today.getMonth() - birthDate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-    age--;
-  }
-  return age;
-}
+function UserPortfolioMaker() {
+  const [userProfile, setUserProfile] =
+    useState<UserProfileType>(vacantUserProfile);
 
-function UserPortfolio({ portfolio }: { portfolio: UserProfileType }) {
-  useEffect(() => {
-    console.log(portfolio);
-  }, []);
+  const { userPortfolio, setUserPortfolio } = usePortfolioStore();
 
-  return (
-    <main className='flex flex-col items-start'>
-      <h1 className='text-3xl'>저는 {portfolio.name}입니다!</h1>
-      <h2 className='text-xl'>
-        {getAgeFromBirthday(portfolio.birthday)}살{' '}
-        {portfolio.gender ? '여자' : '남자'}입니다.
-      </h2>
-      <div className='avatar'>
-        <div className='w-40 rounded-full border border-base-300'>
-          <img src={portfolio.avatarUrl ? portfolio.avatarUrl : DefaultUserImg} alt={portfolio.name + '프로필 사진'} />
-        </div>
-      </div>
-      {portfolio.positions.length ? (
-        <section>
-          <h2>이런 포지션 가능합니다.</h2>
-          <div className='flex flex-row items-center'>
-            {portfolio.positions.map((position, index) => (
-              <div key={index} className='badge badge-secondary'>
-                {positionToKorean[position.name]}
-              </div>
-            ))}
-          </div>
-        </section>
-      ) : null}
-      {portfolio.areas.length ? (
-        <section>
-          <h2>이 지역에서 활동합니다.</h2>
-          <div className='flex flex-row items-center'>
-            {portfolio.areas.map((area, index) => (
-              <div key={index} className='badge badge-secondary'>
-                {area.city + ' ' + area.district}
-              </div>
-            ))}
-          </div>
-        </section>
-      ) : null}
-      {portfolio.genres.length ? (
-        <section>
-          <h2>이런 장르들을 좋아합니다.</h2>
-          <div className='flex flex-row items-center'>
-            {portfolio.genres.map((genre, index) => (
-              <div key={index} className='badge badge-secondary'>
-                {genre.name}
-              </div>
-            ))}
-          </div>
-        </section>
-      ) : null}
-      {portfolio.description ? (
-        <section>
-          <h2>이런 사람입니다.</h2>
-          {portfolio.description ? (
-            <div className='border border-base-200 rounded-lg p-3'>
-              {portfolio.description}
-            </div>
-          ) : null}
-        </section>
-      ) : null}
-      {portfolio.userPerformances.length ? (
-        <section>
-          <h2>이런 연주들을 해왔습니다.</h2>
-          <div className='flex flex-col items-center'>
-            {portfolio.userPerformances.map((performance, index) => (
-              <PortfolioRecordItem key={index} record={performance} />
-            ))}
-          </div>
-        </section>
-      ) : null}
-    </main>
-  );
-}
-
-function UserPortFolioPage() {
-  const portfolio = usePortfolioStore((state) => state.userPortfolio);
-
-  const userPortfolioRef = useRef(null);
-  const handlePrint = useReactToPrint({
-    content: () => userPortfolioRef.current,
-  });
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(portfolio);
-    if (userPortfolioRef.current) {
-      handlePrint();
+  const onCheckboxClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    const { name, checked } = e.currentTarget;
+    if (checked) {
+      //체크박스가 체크됨
+      setUserPortfolio({
+        ...userPortfolio,
+        [name]: userProfile[name],
+      });
+    } else {
+      setUserPortfolio({
+        ...userPortfolio,
+        [name]: vacantUserProfile[name],
+      });
     }
-    navigate('/portfolio');
+    console.log(userPortfolio);
+  };
+
+  const onRecordCheckboxClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    const { name, checked, value } = e.currentTarget;
+    console.log(name, value);
+    if (
+      checked &&
+      userPortfolio[name].find(
+        (record: PerformanceRecordType) => record.id === JSON.parse(value).id,
+      ) === undefined
+    ) {
+      //console.log(JSON.parse(value));
+      // 체크박스가 체크되었으며 기존에 없던 기록이 추가되었을 경우
+      setUserPortfolio({
+        ...userPortfolio,
+        [name]: [...userPortfolio[name], JSON.parse(value)],
+      });
+    } else if (!checked) {
+      // 체크박스가 체크되지 않음
+      setUserPortfolio({
+        ...userPortfolio,
+        [name]: userPortfolio[name].filter(
+          (record: PerformanceRecordType) => record.id !== JSON.parse(value).id,
+        ),
+      });
+    }
+    console.log(userPortfolio);
+  };
+
+  useEffect(() => {
+    UserProfileAPI.getUserProfileInfo()
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
+          setUserProfile(res.data);
+          setUserPortfolio(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
+
   return (
-    <div
-      className='flex flex-col justify-center items-center'
-      ref={userPortfolioRef}
-    >
-      <UserPortfolio portfolio={portfolio} />
+    <div>
+      <PortfolioMakerAvatar
+        avatarURL={
+          userProfile.avatarUrl ? userProfile.avatarUrl : DefaultUserImg
+        }
+      />
+      <PortfolioMakerText label='이름' text={userProfile.name} />
+      <PortfolioMakerText label='생년월일' text={userProfile.birthday} />
+      <PortfolioMakerText
+        label='성별'
+        text={
+          // false가 남자, true가 여자
+          userProfile.gender ? '여자' : '남자'
+        }
+      />
+      <PortfolioMakerSelectList
+        label='포지션'
+        selections={userProfile.positions}
+        name='positions'
+        onCheckboxClick={onCheckboxClick}
+      />
+      <PortfolioMakerAreaList
+        label='지역'
+        areas={userProfile.areas}
+        name='areas'
+        onCheckboxClick={onCheckboxClick}
+      />
+      <PortfolioMakerSelectList
+        label='장르'
+        selections={userProfile.genres}
+        name='genres'
+        onCheckboxClick={onCheckboxClick}
+      />
+      <PortfolioMakerDescription
+        label='자기소개'
+        description={userProfile.description ? userProfile.description : ''}
+        name='description'
+        onCheckboxClick={onCheckboxClick}
+      />
+      <PortfolioMakerRecordField
+        label='연주 기록'
+        records={userProfile.userPerformances}
+        name='userPerformances'
+        onRecordCheckboxClick={onRecordCheckboxClick}
+      />
     </div>
   );
 }
 
-export default UserPortFolioPage;
+function UserPortfolioPage() {
+  return (
+    <MyPageTemplate>
+      {/*<div className='flex flex-row'>
+        <button className='btn btn-secondary px-1'>
+          <Link to='/portfolio/user'>PDF 다운로드</Link>
+        </button>
+  </div>*/}
+      <UserPortfolioMaker />
+    </MyPageTemplate>
+  );
+}
+
+export default UserPortfolioPage;
