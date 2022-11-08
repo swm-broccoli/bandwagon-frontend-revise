@@ -316,7 +316,7 @@ function SearchBox (props: {
   type: boolean,
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void}) {
   return (
-    <div className='w-full h-fit row-start-2 col-start-2 col-end-4 grid auto-rows-auto grid-cols-[minmax(auto,_116px)_auto] gap-4 p-4 md:p-10 max-w-7xl border border-solid border-base-200 rounded-xl bg-white mt-5'>
+    <div className='w-full h-fit grid auto-rows-auto grid-cols-[minmax(auto,_116px)_auto] gap-4 p-4 md:p-10 border border-solid border-base-200 rounded-xl bg-white mt-5'>
       <div className='flex flex-row gap-3 row-start-1 col-start-1 col-end-3 w-full h-[3.125rem]'>
         <SearchTextField />
         <Button
