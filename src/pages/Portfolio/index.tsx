@@ -91,7 +91,11 @@ function UserPortfolioMaker() {
 
   return (
     <div>
-      <PortfolioMakerAvatar avatarURL={userProfile.avatarUrl ? userProfile.avatarUrl : DefaultUserImg} />
+      <PortfolioMakerAvatar
+        avatarURL={
+          userProfile.avatarUrl ? userProfile.avatarUrl : DefaultUserImg
+        }
+      />
       <PortfolioMakerText label='이름' text={userProfile.name} />
       <PortfolioMakerText label='생년월일' text={userProfile.birthday} />
       <PortfolioMakerText
@@ -204,7 +208,11 @@ function BandPortfolioMaker() {
   }
   return (
     <div>
-      <PortfolioMakerAvatar avatarURL={bandProfile.avatarUrl ? bandProfile.avatarUrl : DefaultBandImg} />
+      <PortfolioMakerAvatar
+        avatarURL={
+          bandProfile.avatarUrl ? bandProfile.avatarUrl : DefaultBandImg
+        }
+      />
       <PortfolioMakerText label='밴드 이름' text={bandProfile.name} />
       <PortfolioMakerMemberList
         label='밴드 멤버'
@@ -257,42 +265,14 @@ function BandPortfolioMaker() {
 }
 
 function MyPortfolioPage() {
-  const [portfolioTarget, setPortfolioTarget] = useState('user');
-
   return (
     <MyPageTemplate>
-      <div className='flex flex-row'>
-        <button
-          onClick={() => {
-            setPortfolioTarget('user');
-          }}
-          className='btn btn-primary'
-        >
-          사용자 포트폴리오 만들기
-        </button>
-        <button
-          onClick={() => {
-            setPortfolioTarget('band');
-          }}
-          className='btn btn-primary'
-        >
-          밴드 포트폴리오 만들기
-        </button>
+      {/*<div className='flex flex-row'>
         <button className='btn btn-secondary px-1'>
-          <Link to={`/portfolio/${portfolioTarget}`}>
-            PDF
-            <br />
-            다운로드
-          </Link>
+          <Link to='/portfolio/user'>PDF 다운로드</Link>
         </button>
-      </div>
-      <div>
-        {portfolioTarget === 'user' ? (
-          <UserPortfolioMaker />
-        ) : (
-          <BandPortfolioMaker />
-        )}
-      </div>
+  </div>*/}
+      <UserPortfolioMaker />
     </MyPageTemplate>
   );
 }
