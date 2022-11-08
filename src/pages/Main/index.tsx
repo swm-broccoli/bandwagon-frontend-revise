@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import GlobalNavBar from '../../components/NavBar';
+import GlobalNavBar from '../../components/NavBar/NavBar';
 import { Link } from 'react-router-dom';
 import { TodayPortfolio } from './TodaysPortfolio/TodaysPortfolio';
 import GlobalFooter from '../../components/Footer';

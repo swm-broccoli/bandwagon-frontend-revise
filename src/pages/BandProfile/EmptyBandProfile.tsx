@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import BandProfileAPI from '../../apis/BandProfileAPI';
 import { Link } from 'react-router-dom';
+import NoBandImage from '../../assets/default/band_no_img.svg';
 
 function BandMakingForm() {
   const [bandName, setBandName] = useState<string>('');
@@ -44,9 +45,7 @@ function EmptyBandProfile() {
     <section>
       <h1 className='text-bold text-2xl font-bold'>밴드 정보</h1>
       <div className='grid grid-flow-row justify-center'>
-        <div className='h-48'>
-          <iframe src='https://embed.lottiefiles.com/animation/87716' />
-        </div>
+        <img src={NoBandImage} alt='밴드 없음' className='w-full' />
         아직 밴드에 가입하지 않으셨습니다!
         <Link to='/recruit/user' className='w-full'>
           <button className='btn btn-sm bg-base-100 hover:bg-base-200 h-8 my-2 w-full'>

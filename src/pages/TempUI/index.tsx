@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import SiteLogo from '../../components/Logo';
-import GlobalNavBar from '../../components/NavBar';
+import GlobalNavBar from '../../components/NavBar/NavBar';
 import {
   useQuery,
   useQueryClient,
