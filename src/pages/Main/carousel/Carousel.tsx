@@ -31,8 +31,8 @@ function CarouselItem({
   itemState: CarouselItemStateType;
 }) {
   const carouselItemStateConfig = {
-    [CarouselItemStates.CURRENT]: 'opacity-100',
-    [CarouselItemStates.PREVIOUS]: 'opacity-0 z-10',
+    [CarouselItemStates.CURRENT]: 'opacity-100 z-10',
+    [CarouselItemStates.PREVIOUS]: 'opacity-0',
     [CarouselItemStates.INACTIVE]: 'hidden',
   };
 
@@ -61,7 +61,7 @@ export function Carousel() {
       id: 2,
       title: '당신의 추억을 정리해 드립니다.',
       subtitle: '밴드 활동의 기록을 남겨보세요.',
-      link: isLoggedIn ? '/portfolio/user' : '/login',
+      link: isLoggedIn ? '/my/portfolio' : '/login',
     },
   ]);
 
