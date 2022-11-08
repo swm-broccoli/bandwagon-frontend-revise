@@ -10,6 +10,7 @@ import { PostCardType } from '../../types/types';
 import RecruitAPI from '../../apis/RecruitAPI';
 import { useSearchPostStore } from '../../stores/SearchPostStore';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import EmptySearch from '../../assets/empty_search.svg';
 
 // true: 구인, false: 구직
 function RecruitPage(props: { type: boolean }) {
@@ -126,6 +127,11 @@ function RecruitPage(props: { type: boolean }) {
           <h2 className='text-xl'>새 글</h2>
           <h2 className='text-xl text-secondary'>{totalItems + ' 개'}</h2>
         </div>
+        {postList.length == 0 ?
+        <div className='flex flex-col items-center gap-5 my-20'>
+          <img src={EmptySearch}></img>
+          <p className='text-sm text-[#888888]'>게시글이 존재하지 않습니다</p>
+        </div> :
         <div className='w-full grid grid-cols-1 md:grid-cols-2 flex-wrap gap-x-[3%] gap-y-1 justify-center'>
           {postList.map((post, index) => (
             <Link to={'/recruit/' + post.id.toString()} key={index}>
@@ -133,6 +139,7 @@ function RecruitPage(props: { type: boolean }) {
             </Link>
           ))}
         </div>
+        }
         <div className='w-auto h-fit row-start-5 col-start-2 col-end-4 mt-[4.5rem]'>
           <Pagination type={props.type} totalPage={totalPages - 1} />
         </div>
