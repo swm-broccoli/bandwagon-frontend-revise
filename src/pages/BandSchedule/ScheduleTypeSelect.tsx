@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 const eventTypeColor = [
   'bg-[#fe5e94]',
@@ -9,48 +9,82 @@ const eventTypeColor = [
   'bg-[#9979f2]',
 ];
 
+const eventName = ['일반 활동', '오디션', '합주', '공연', '회식', '기타'];
+
+function ScheduleTypeSelector({
+  label,
+  selected,
+  setSelected,
+}: {
+  label: string;
+  selected: number;
+  setSelected: (newSelected: number) => void;
+}) {
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelected(Number(e.target.value));
+  };
+  return (
+    <div className=''>
+      <label>
+        {label}
+        <select
+          className='select select-bordered'
+          value={selected}
+          onChange={handleChange}
+        >
+          {eventTypeColor.map((color, index) => (
+            <option value={index} selected={selected === index}>
+              {eventName[index]}
+            </option>
+          ))}
+        </select>
+      </label>
+    </div>
+  );
+}
+
 function ScheduleTypeOption({ type }: { type: number }) {
   return (
     <li>
       <button
         type='button'
-        className='inline-flex py-2 px-4 w-full text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white'
+        className='inline-flex w-full text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white'
       >
         <div className={`${eventTypeColor[type]} w-3 h-3 rounded-full`} />
-        일정 타입 {type}
+        {eventName[type]}
       </button>
     </li>
   );
 }
 
-function ScheduleTypeSelect({
+function TempScheduleTypeSelect({
+  label,
   selected,
   setSelected,
 }: {
+  label: string;
   selected: number;
   setSelected: (newSelected: number) => void;
 }) {
-  const selectDropdown = useRef<HTMLInputElement>(null);
+  const selectRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const selectButtonClick = () => {
+    selectRef.current?.classList.toggle('hidden');
+  };
 
   return (
-    <div>
-      <label>일정 타입</label>
+    <div className=''>
+      <label>{label}</label>
       <button
-        className='btn bg-white border-base-300'
+        onClick={selectButtonClick}
+        className='btn bg-white border-base-300 hover:bg-base-200 hover:border-gray-400'
         type='button'
-        onClick={() => {
-          selectDropdown.current?.focus();
-          console.log(selectDropdown.current);
-        }}
       >
         일정
       </button>
-      <div
-        tabIndex={0}
-        className='h-0 focus:h-auto overflow-hidden'
-        ref={selectDropdown}
-      >
-        <ul className='z-10 mt-1 rounded-md'>
+      <div tabIndex={-1} ref={selectRef} className='hidden absolute bg-white'>
+        <ul className='z-10 mt-1 rounded-md overflow-hidden'>
           <ScheduleTypeOption type={0} />
           <ScheduleTypeOption type={1} />
         </ul>
@@ -59,4 +93,4 @@ function ScheduleTypeSelect({
   );
 }
 
-export default ScheduleTypeSelect;
+export default ScheduleTypeSelector;
