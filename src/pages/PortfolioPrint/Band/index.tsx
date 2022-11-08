@@ -107,7 +107,7 @@ function BandPortFolioPrintPage() {
     if (bandPortfolioRef.current) {
       handlePrint();
     }
-    navigate('/portfolio');
+    navigate('/band/portfolio');
   }, []);
 
   return (

@@ -112,7 +112,7 @@ function UserPortFolioPrintPage() {
     if (userPortfolioRef.current) {
       handlePrint();
     }
-    navigate('/portfolio/user');
+    navigate('/my/portfolio');
   }, []);
   return (
     <div
