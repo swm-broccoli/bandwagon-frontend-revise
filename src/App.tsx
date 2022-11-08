@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import MainPage from './pages/Main';
 import LoginPage from './pages/Login';
-import UIPage from './pages/TempUI';
 import SignUpPage from './pages/SignUp';
 import BandProfilePage from './pages/BandProfile';
 import UserProfilePage from './pages/UserProfile';
@@ -11,9 +10,6 @@ import AccountEditPage from './pages/EditAccount';
 import RecruitPage from './pages/Recruit';
 import WriteRecruitPage from './pages/WriteRecruit';
 import ReadRecruitPage from './pages/ReadRecruit';
-import BandPortFolioPage from './pages/Portfolio/Band';
-import UserPortFolioPage from './pages/Portfolio/User';
-import MyPortfolioPage from './pages/Portfolio';
 import FindPasswordPage from './pages/FindPassword';
 import FindEmailPage from './pages/FindEmail';
 import NotFoundPage from './pages/NotFound';
@@ -22,12 +18,16 @@ import BandRequest from './pages/BandRequest';
 import MyPostPage from './pages/MyPost';
 import ChatPage from './pages/Chat';
 import SongInfoPage from './pages/SongInfo';
-import UserPortfolioDisplay from './pages/Portfolio/UserDisplay';
-import CalendarPage from './pages/BandCalendar';
+import SchedulePage from './pages/BandSchedule';
 import BandCommunityPage from './pages/BandCommunity';
-import BandPortfolioDisplay from './pages/Portfolio/BandDisplay';
 import OauthPage from './pages/Oauth';
 import RouteChangeTracker from './modules/RouteChangeTracker';
+import UserPortfolioPage from './pages/Portfolio/User';
+import BandPortfolioPage from './pages/Portfolio/Band';
+import UserPortFolioPrintPage from './pages/PortfolioPrint/User';
+import BandPortFolioPrintPage from './pages/PortfolioPrint/Band';
+import UserPortfolioDisplay from './pages/PortfolioDisplay/User';
+import BandPortfolioDisplay from './pages/PortfolioDisplay/Band';
 
 function App() {
   RouteChangeTracker();
@@ -45,7 +45,7 @@ function App() {
 
         <Route path='my'>
           <Route path='profile' element={<UserProfilePage />} />
-          <Route path='portfolio' element={<MyPortfolioPage />} />
+          <Route path='portfolio' element={<UserPortfolioPage />} />
           <Route path='account' element={<AccountEditPage />} />
           <Route path='password' element={<PasswordEditPage />} />
           <Route path='apply' element={<BandRequest />} />
@@ -55,15 +55,14 @@ function App() {
 
         <Route path='band'>
           <Route path='profile' element={<BandProfilePage />} />
-          <Route path='calendar' element={<CalendarPage />} />
+          <Route path='schedule' element={<SchedulePage />} />
           <Route path='community' element={<BandCommunityPage />} />
-          <Route path='portfolio' element={<BandPortFolioPage />} />
+          <Route path='portfolio' element={<BandPortfolioPage />} />
           <Route path='apply' element={<BandRequest />} />
         </Route>
         <Route path='portfolio' element={<Outlet />}>
-          <Route path='' element={<MyPortfolioPage />} />
-          <Route path='user' element={<UserPortFolioPage />} />
-          <Route path='band' element={<BandPortFolioPage />} />
+          <Route path='user/print' element={<UserPortFolioPrintPage />} />
+          <Route path='band/print' element={<BandPortFolioPrintPage />} />
           <Route path='user/:userEmail' element={<UserPortfolioDisplay />} />
           <Route path='band/:bandId' element={<BandPortfolioDisplay />} />
         </Route>
@@ -87,9 +86,7 @@ function App() {
         </Route>
         <Route path='chat' element={<ChatPage />} />
         <Route path='song' element={<SongInfoPage />} />
-        <Route path='calendar' element={<CalendarPage />} />
         <Route path='community' element={<BandCommunityPage />} />
-        <Route path='ui' element={<UIPage />} />
         <Route path='oauth2/redirect' element={<OauthPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>

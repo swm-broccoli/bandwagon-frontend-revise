@@ -1,4 +1,4 @@
-import GlobalNavBar from './NavBar';
+import GlobalNavBar from './NavBar/NavBar';
 import MyPageMenu from './MyPageMenu';
 import GlobalFooter from './Footer';
 import bandProfileIcon from '../assets/bandPageIcons/bandProfileIcon.png';
@@ -23,7 +23,7 @@ const bandPageMenuItems = [
   },
   {
     label: '밴드 일정관리',
-    to: '/band/calendar',
+    to: '/band/schedule',
     icon: bandCalendarIcon,
     activeIcon: bandCalendarIconActive,
   },
@@ -52,7 +52,7 @@ function BandPageTemplate({ children }: { children: React.ReactNode }) {
     <div>
       <GlobalNavBar />
       <div className='grid grid-cols-6'>
-        <div className='col-start-2 col-end-6 flex flex-col md:flex-row'>
+        <div className='col-span-full mx-4 md:mx-0 md:col-start-2 md:col-end-6 flex flex-col md:flex-row'>
           <div className='w-full md:w-1/5 md:col-span-1 min-w-[150px] mt-10'>
             <MyPageMenu menuList={bandPageMenuItems} />
           </div>

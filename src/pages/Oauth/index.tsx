@@ -4,12 +4,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useLoginStore } from '../../stores/LoginStore';
 
 function OauthPage() {
-  const { email, accessToken, refreshToken } = useParams();
-  const location = useLocation();
+  //const { email, accessToken, refreshToken } = useParams();
+  const { search } = useLocation();
   const navigate = useNavigate();
   const logIn = useLoginStore((state) => state.logIn);
 
   useEffect(() => {
+    const query = new URLSearchParams(search);
+    const email = query.get('email');
+    const accessToken = query.get('accessToken');
+    const refreshToken = query.get('refreshToken');
     console.log(email, accessToken, refreshToken);
     sessionStorage.clear();
     sessionStorage.setItem('accessToken', accessToken || '');
@@ -20,7 +24,7 @@ function OauthPage() {
     logIn(email || '');
     alert('로그인 성공');
     navigate('/');
-  }, [location]);
+  }, []);
 
   return <div>Oauth 페이지</div>;
 }

@@ -101,14 +101,7 @@ export function PortfolioMakerAreaList({
   onCheckboxClick: (e: React.MouseEvent<HTMLInputElement>) => void;
 }) {
   return (
-    <div className='flex flex-row items-center'>
-      <input
-        type='checkbox'
-        name={name}
-        onClick={onCheckboxClick}
-        className='checkbox checkbox-primary'
-        defaultChecked
-      />
+    <>
       <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
         <div className='flex w-4/5 flex-row justify-start'>
           <label className='label w-1/4 py-0'>
@@ -125,7 +118,7 @@ export function PortfolioMakerAreaList({
         </div>
       </div>
       <div className='divider m-0' />
-    </div>
+    </>
   );
 }
 
@@ -141,14 +134,7 @@ export function PortfolioMakerSelectList({
   onCheckboxClick: (e: React.MouseEvent<HTMLInputElement>) => void;
 }) {
   return (
-    <div className='flex flex-row items-center'>
-      <input
-        type='checkbox'
-        name={name}
-        onClick={onCheckboxClick}
-        className='checkbox checkbox-primary'
-        defaultChecked
-      />
+    <>
       <div className='form-control h-10 w-full flex flex-row justify-between items-center my-2'>
         <div className='w-4/5 flex flex-row justify-start'>
           <label className='label w-1/4 py-0'>
@@ -162,7 +148,7 @@ export function PortfolioMakerSelectList({
         </div>
       </div>
       <div className='divider m-0' />
-    </div>
+    </>
   );
 }
 
@@ -178,15 +164,8 @@ export function PortfolioMakerDescription({
   onCheckboxClick: (e: React.MouseEvent<HTMLInputElement>) => void;
 }) {
   return (
-    <div className='w-full grid grid-flow-row mt-5'>
+    <div className='w-full grid grid-flow-row mt-3'>
       <div className='w-full flex flex-row justify-start'>
-        <input
-          type='checkbox'
-          name={name}
-          onClick={onCheckboxClick}
-          className='checkbox checkbox-primary'
-          defaultChecked
-        />
         <label className='label min-w-[52px] p-0 pl-1 justify-between'>
           <div>
             <span className='label-text text-accent w-4/5 mr-2'>{label}</span>
@@ -230,14 +209,6 @@ function PortfolioMakerRecordItem({
   return (
     <div className='grid grid-flow-row bg-success mt-2 px-4 py-2 rounded-lg'>
       {/* 기록 자체를 문자열화해서 값으로 가짐으로써 input이 가리키는 기록이 어떤 건지 가리키게 한다 */}
-      <input
-        type='checkbox'
-        className='checkbox checkbox-primary'
-        name={name}
-        value={JSON.stringify(record)}
-        onClick={onRecordCheckboxClick}
-        defaultChecked
-      />
 
       <div className='grid grid-cols-2'>
         <span className='text-accent col-start-1'>{record.musicTitle}</span>

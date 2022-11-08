@@ -1,7 +1,33 @@
 import create from 'zustand';
-import { BandProfileType, UserProfileType } from '../../types/types';
-import { vacantBandProfile } from '../BandProfile/initialBandProfile';
-import { vacantUserProfile } from '../UserProfile/initialUserProfile';
+import { BandProfileType, UserProfileType } from '../types/types';
+
+export const vacantBandProfile: BandProfileType = {
+  id: -1,
+  avatarUrl: '',
+  name: '',
+  bandMembers: [],
+  areas: [],
+  genres: [],
+  days: [],
+  description: '',
+  bandPractices: [],
+  bandGigs: [],
+  bandPhotos: [],
+  isReaderFrontman: false,
+};
+
+export const vacantUserProfile: UserProfileType = {
+  id: -1,
+  avatarUrl: '',
+  name: '',
+  birthday: '2000-01-01',
+  gender: false,
+  positions: [],
+  areas: [],
+  genres: [],
+  description: '',
+  userPerformances: [],
+};
 
 interface PortfolioStoreType {
   bandPortfolio: BandProfileType;

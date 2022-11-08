@@ -3,13 +3,18 @@ import parser from 'html-react-parser';
 import DefaultBandImg from '../../assets/default/band_no_img.svg';
 import DefaultUserImg from '../../assets/default/man_no_img.svg';
 import GlobalFooter from '../../components/Footer';
-import GlobalNavBar from '../../components/NavBar';
+import GlobalNavBar from '../../components/NavBar/NavBar';
 import BandInfoCard from '../../components/BandInfoCard';
 import ApplyBox from './ApplyBox';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
 import { Link, useParams } from 'react-router-dom';
 import { useLoginStore } from '../../stores/LoginStore';
-import { BandMemberType, BandProfileType, PostType, UserProfileType } from '../../types/types';
+import {
+  BandMemberType,
+  BandProfileType,
+  PostType,
+  UserProfileType,
+} from '../../types/types';
 import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 import UserInfoCard from '../../components/UserInfoCard';
 import Button from '../../components/Button';
@@ -33,12 +38,12 @@ function BasicInfoBox(props: {
             src={props.authorPic}
             className='w-7 h-7 mr-2.5 object-cover rounded-full'
           />
-        ) : (
-          props.type ?
+        ) : props.type ? (
           <img
             src={DefaultBandImg}
             className='w-7 h-7 mr-2.5 object-cover rounded-full'
-          /> :
+          />
+        ) : (
           <img
             src={DefaultUserImg}
             className='w-7 h-7 mr-2.5 object-cover rounded-full'
@@ -101,8 +106,11 @@ function ReadRecruitPage() {
         .then((res) => {
           console.log(res.data);
           setBandInfo(res.data);
-          setAuthor(res.data.bandMembers.filter((
-            member: BandMemberType) => member.isFrontman)[0].email);
+          setAuthor(
+            res.data.bandMembers.filter(
+              (member: BandMemberType) => member.isFrontman,
+            )[0].email,
+          );
         })
         .catch((err) => {
           console.log(err);

@@ -1,119 +1,153 @@
-import { useEffect, useRef } from 'react';
-import { BandProfileType } from '../../../types/types';
-import usePortfolioStore from '../PortfolioStore';
-import { useReactToPrint } from 'react-to-print';
+import React, { useState, useEffect } from 'react';
+import { BandProfileType, PerformanceRecordType } from '../../../types/types';
 import {
-  PortfolioMemberItem,
-  PortfolioAlbumItem,
-  PortfolioRecordItem,
-} from '../PortfolioStyles';
-import { useNavigate } from 'react-router-dom';
+  PortfolioMakerAvatar,
+  PortfolioMakerText,
+  PortfolioMakerSelectList,
+  PortfolioMakerAreaList,
+  PortfolioMakerDescription,
+  PortfolioMakerRecordField,
+  PortfolioMakerAlbum,
+  PortfolioMakerMemberList,
+} from '../PortfolioMakerStyles';
+import { vacantBandProfile } from '../../BandProfile/initialBandProfile';
+import BandProfileAPI from '../../../apis/BandProfileAPI';
+import usePortfolioStore from '../../../stores/PortfolioStore';
+import EmptyBandProfile from '../../BandProfile/EmptyBandProfile';
 import DefaultBandImg from '../../../assets/default/band_no_img.svg';
+import BandPageTemplate from '../../../components/BandPageTemplate';
 
-function BandPortFolio({ portfolio }: { portfolio: BandProfileType }) {
-  return (
-    <main className='flex flex-col items-start'>
-      <h1 className='text-3xl'>우리는 {portfolio.name} 밴드입니다!</h1>
-      <div className='avatar'>
-        <div className='w-40 rounded-full border border-base-300'>
-          <img src={portfolio.avatarUrl ? portfolio.avatarUrl : DefaultBandImg} alt={portfolio.name + '프로필 사진'} />
-        </div>
-      </div>
-      <section>
-        <div className='flex flex-row items-center'>
-          {portfolio.bandMembers.map((member) => (
-            <PortfolioMemberItem key={member.id} member={member} />
-          ))}
-        </div>
-      </section>
-      <section>
-        <h2>우린 여기서 활동해요.</h2>
-        <div className='flex flex-row items-center'>
-          {portfolio.areas.map((area, index) => (
-            <div key={index} className='badge badge-secondary'>
-              {area.city + ' ' + area.district}
-            </div>
-          ))}
-        </div>
-      </section>
-      <section>
-        <h2>우린 이 요일마다 활동해요.</h2>
-        <div className='flex flex-row items-center'>
-          {portfolio.days.map((day, index) => (
-            <div key={index} className='badge badge-secondary'>
-              {day.name}
-            </div>
-          ))}
-        </div>
-      </section>
-      <section>
-        <h2>우린 이런 음악을 해요.</h2>
-        <div className='flex flex-row items-center'>
-          {portfolio.genres.map((genre, index) => (
-            <div key={index} className='badge badge-secondary'>
-              {genre.name}
-            </div>
-          ))}
-        </div>
-      </section>
-      <section>
-        <h2>우린 이런 사람들이에요.</h2>
-        {portfolio.description ? (
-          <div className='border border-base-200 rounded-lg p-3'>
-            {portfolio.description}
-          </div>
-        ) : null}
-      </section>
-      <section>
-        <h2>우리 밴드의 활동 사진</h2>
-        <div className='flex flex-row items-center'>
-          {portfolio.bandPhotos.map((photo) => (
-            <PortfolioAlbumItem key={photo.id} photo={photo} />
-          ))}
-        </div>
-      </section>
-      <section>
-        <h2>우리의 연습 기록</h2>
-        <div className='flex flex-col items-center'>
-          {portfolio.bandPractices.map((practice, index) => (
-            <PortfolioRecordItem key={index} record={practice} />
-          ))}
-        </div>
-      </section>
-      <section>
-        <h2>우리의 공연 기록</h2>
-        <div className='flex flex-col items-center'>
-          {portfolio.bandGigs.map((gig, index) => (
-            <PortfolioRecordItem key={index} record={gig} />
-          ))}
-        </div>
-      </section>
-    </main>
-  );
-}
+function BandPortfolioMaker() {
+  const [bandProfile, setBandProfile] =
+    useState<BandProfileType>(vacantBandProfile);
 
-function BandPortFolioPage() {
-  const portfolio = usePortfolioStore((state) => state.bandPortfolio);
+  const { bandPortfolio, setBandPortfolio } = usePortfolioStore();
 
-  const bandPortfolioRef = useRef(null);
-  const handlePrint = useReactToPrint({
-    content: () => bandPortfolioRef.current,
-  });
-  const navigate = useNavigate();
+  const onCheckboxClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    const { name, checked } = e.currentTarget;
+    if (checked) {
+      //체크박스가 체크됨
+      setBandPortfolio({
+        ...bandPortfolio,
+        [name]: bandProfile[name],
+      });
+    } else {
+      setBandPortfolio({
+        ...bandPortfolio,
+        [name]: vacantBandProfile[name],
+      });
+    }
+    console.log(bandPortfolio);
+  };
+
+  const onRecordCheckboxClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    const { name, checked, value } = e.currentTarget;
+    console.log(name, value);
+    if (
+      checked &&
+      bandPortfolio[name].find(
+        (record: PerformanceRecordType) => record.id === JSON.parse(value).id,
+      ) === undefined
+    ) {
+      //console.log(JSON.parse(value));
+      // 체크박스가 체크되었으며 기존에 없던 기록이 추가되었을 경우
+      setBandPortfolio({
+        ...bandPortfolio,
+        [name]: [...bandPortfolio[name], JSON.parse(value)],
+      });
+    } else if (!checked) {
+      // 체크박스가 체크되지 않음
+      setBandPortfolio({
+        ...bandPortfolio,
+        [name]: bandPortfolio[name].filter(
+          (record: PerformanceRecordType) => record.id !== JSON.parse(value).id,
+        ),
+      });
+    }
+    console.log(bandPortfolio);
+  };
 
   useEffect(() => {
-    console.log(portfolio);
-    if (bandPortfolioRef.current) {
-      handlePrint();
-    }
-    navigate('/portfolio');
+    BandProfileAPI.getBandProfileInfo()
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
+          setBandProfile(res.data);
+          setBandPortfolio(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
+  if (bandProfile.id === -1) {
+    return <EmptyBandProfile />;
+  }
   return (
-    <div className='flex justify-center' ref={bandPortfolioRef}>
-      <BandPortFolio portfolio={portfolio} />
+    <div>
+      <PortfolioMakerAvatar
+        avatarURL={
+          bandProfile.avatarUrl ? bandProfile.avatarUrl : DefaultBandImg
+        }
+      />
+      <PortfolioMakerText label='밴드 이름' text={bandProfile.name} />
+      <PortfolioMakerMemberList
+        label='밴드 멤버'
+        bandMembers={bandProfile.bandMembers}
+      />
+      <PortfolioMakerAreaList
+        label='지역'
+        areas={bandProfile.areas}
+        name='areas'
+        onCheckboxClick={onCheckboxClick}
+      />
+      <PortfolioMakerSelectList
+        label='활동 요일'
+        selections={bandProfile.days}
+        name='days'
+        onCheckboxClick={onCheckboxClick}
+      />
+      <PortfolioMakerSelectList
+        label='선호 장르'
+        selections={bandProfile.genres}
+        name='genres'
+        onCheckboxClick={onCheckboxClick}
+      />
+      <PortfolioMakerDescription
+        label='밴드 소개'
+        description={bandProfile.description || ''}
+        name='description'
+        onCheckboxClick={onCheckboxClick}
+      />
+      <PortfolioMakerAlbum
+        label='밴드 사진첩'
+        photos={bandProfile.bandPhotos}
+        name='bandPhotos'
+        onRecordCheckboxClick={onRecordCheckboxClick}
+      />
+      <PortfolioMakerRecordField
+        label='연습 기록'
+        records={bandProfile.bandPractices}
+        name='bandPractices'
+        onRecordCheckboxClick={onRecordCheckboxClick}
+      />
+      <PortfolioMakerRecordField
+        label='공연 기록'
+        records={bandProfile.bandGigs}
+        name='bandGigs'
+        onRecordCheckboxClick={onRecordCheckboxClick}
+      />
     </div>
   );
 }
 
-export default BandPortFolioPage;
+function BandPortfolioPage() {
+  return (
+    <BandPageTemplate>
+      <BandPortfolioMaker />
+    </BandPageTemplate>
+  );
+}
+
+export default BandPortfolioPage;
