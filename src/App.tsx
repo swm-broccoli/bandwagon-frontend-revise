@@ -10,7 +10,6 @@ import AccountEditPage from './pages/EditAccount';
 import RecruitPage from './pages/Recruit';
 import WriteRecruitPage from './pages/WriteRecruit';
 import ReadRecruitPage from './pages/ReadRecruit';
-import MyPortfolioPage from './pages/Portfolio';
 import FindPasswordPage from './pages/FindPassword';
 import FindEmailPage from './pages/FindEmail';
 import NotFoundPage from './pages/NotFound';
@@ -19,14 +18,16 @@ import BandRequest from './pages/BandRequest';
 import MyPostPage from './pages/MyPost';
 import ChatPage from './pages/Chat';
 import SongInfoPage from './pages/SongInfo';
-import UserPortfolioDisplay from './pages/Portfolio/UserDisplay';
 import SchedulePage from './pages/BandSchedule';
 import BandCommunityPage from './pages/BandCommunity';
-import BandPortfolioDisplay from './pages/Portfolio/BandDisplay';
 import OauthPage from './pages/Oauth';
 import RouteChangeTracker from './modules/RouteChangeTracker';
+import UserPortfolioPage from './pages/Portfolio/User';
+import BandPortfolioPage from './pages/Portfolio/Band';
 import UserPortFolioPrintPage from './pages/PortfolioPrint/User';
 import BandPortFolioPrintPage from './pages/PortfolioPrint/Band';
+import UserPortfolioDisplay from './pages/PortfolioDisplay/User';
+import BandPortfolioDisplay from './pages/PortfolioDisplay/Band';
 
 function App() {
   RouteChangeTracker();
@@ -44,7 +45,7 @@ function App() {
 
         <Route path='my'>
           <Route path='profile' element={<UserProfilePage />} />
-          <Route path='portfolio' element={<MyPortfolioPage />} />
+          <Route path='portfolio' element={<UserPortfolioPage />} />
           <Route path='account' element={<AccountEditPage />} />
           <Route path='password' element={<PasswordEditPage />} />
           <Route path='apply' element={<BandRequest />} />
@@ -56,7 +57,7 @@ function App() {
           <Route path='profile' element={<BandProfilePage />} />
           <Route path='schedule' element={<SchedulePage />} />
           <Route path='community' element={<BandCommunityPage />} />
-          <Route path='portfolio' element={<BandPortFolioPage />} />
+          <Route path='portfolio' element={<BandPortfolioPage />} />
           <Route path='apply' element={<BandRequest />} />
         </Route>
         <Route path='portfolio' element={<Outlet />}>
