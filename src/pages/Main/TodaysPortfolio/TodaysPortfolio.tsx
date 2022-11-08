@@ -58,9 +58,13 @@ function TodaysPortfolioItem({
             }
             alt={`${todayPortfolio.name} 사진`}
           />
-          <div className='card-body w-2/3 md:w-1/2 p-4 md:p-8'>
-            <h2 className='card-title font-sans-kr'>{todayPortfolio.name}</h2>
-            <p className='font-sans-kr'>{todayPortfolio.description}</p>
+          <div className='card-body w-2/3 md:w-1/2 p-2 md:p-4'>
+            <h2 className='card-title font-sans-kr text-base md:text-xl'>
+              {todayPortfolio.name}
+            </h2>
+            <p className='font-sans-kr text-sm md:text-base'>
+              {todayPortfolio.description}
+            </p>
           </div>
         </Link>
       );
