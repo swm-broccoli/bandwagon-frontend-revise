@@ -1,22 +1,23 @@
 import { useEffect, useRef } from 'react';
 import { BandProfileType } from '../../../types/types';
-import usePortfolioStore from '../PortfolioStore';
+import usePortfolioStore from '../../../stores/PortfolioStore';
 import { useReactToPrint } from 'react-to-print';
-import {
-  PortfolioMemberItem,
-  PortfolioAlbumItem,
-  PortfolioRecordItem,
-} from '../PortfolioStyles';
+import PortfolioAlbumItem from '../components/PortfolioAlbumItem';
+import PortfolioMemberItem from '../components/PortfolioMemberItem';
+import PortfolioRecordItem from '../components/PortfolioRecordItem';
 import { useNavigate } from 'react-router-dom';
 import DefaultBandImg from '../../../assets/default/band_no_img.svg';
 
-function BandPortFolio({ portfolio }: { portfolio: BandProfileType }) {
+function BandPortFolioPrint({ portfolio }: { portfolio: BandProfileType }) {
   return (
     <main className='flex flex-col items-start'>
       <h1 className='text-3xl'>우리는 {portfolio.name} 밴드입니다!</h1>
       <div className='avatar'>
         <div className='w-40 rounded-full border border-base-300'>
-          <img src={portfolio.avatarUrl ? portfolio.avatarUrl : DefaultBandImg} alt={portfolio.name + '프로필 사진'} />
+          <img
+            src={portfolio.avatarUrl ? portfolio.avatarUrl : DefaultBandImg}
+            alt={portfolio.name + '프로필 사진'}
+          />
         </div>
       </div>
       <section>
@@ -92,7 +93,7 @@ function BandPortFolio({ portfolio }: { portfolio: BandProfileType }) {
   );
 }
 
-function BandPortFolioPage() {
+function BandPortFolioPrintPage() {
   const portfolio = usePortfolioStore((state) => state.bandPortfolio);
 
   const bandPortfolioRef = useRef(null);
@@ -111,9 +112,9 @@ function BandPortFolioPage() {
 
   return (
     <div className='flex justify-center' ref={bandPortfolioRef}>
-      <BandPortFolio portfolio={portfolio} />
+      <BandPortFolioPrint portfolio={portfolio} />
     </div>
   );
 }
 
-export default BandPortFolioPage;
+export default BandPortFolioPrintPage;

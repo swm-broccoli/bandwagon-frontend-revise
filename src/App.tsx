@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import MainPage from './pages/Main';
 import LoginPage from './pages/Login';
-import UIPage from './pages/TempUI';
 import SignUpPage from './pages/SignUp';
 import BandProfilePage from './pages/BandProfile';
 import UserProfilePage from './pages/UserProfile';
@@ -11,8 +10,6 @@ import AccountEditPage from './pages/EditAccount';
 import RecruitPage from './pages/Recruit';
 import WriteRecruitPage from './pages/WriteRecruit';
 import ReadRecruitPage from './pages/ReadRecruit';
-import BandPortFolioPage from './pages/Portfolio/Band';
-import UserPortFolioPage from './pages/Portfolio/User';
 import MyPortfolioPage from './pages/Portfolio';
 import FindPasswordPage from './pages/FindPassword';
 import FindEmailPage from './pages/FindEmail';
@@ -28,6 +25,8 @@ import BandCommunityPage from './pages/BandCommunity';
 import BandPortfolioDisplay from './pages/Portfolio/BandDisplay';
 import OauthPage from './pages/Oauth';
 import RouteChangeTracker from './modules/RouteChangeTracker';
+import UserPortFolioPrintPage from './pages/PortfolioPrint/User';
+import BandPortFolioPrintPage from './pages/PortfolioPrint/Band';
 
 function App() {
   RouteChangeTracker();
@@ -61,9 +60,8 @@ function App() {
           <Route path='apply' element={<BandRequest />} />
         </Route>
         <Route path='portfolio' element={<Outlet />}>
-          <Route path='' element={<MyPortfolioPage />} />
-          <Route path='user' element={<UserPortFolioPage />} />
-          <Route path='band' element={<BandPortFolioPage />} />
+          <Route path='user/print' element={<UserPortFolioPrintPage />} />
+          <Route path='band/print' element={<BandPortFolioPrintPage />} />
           <Route path='user/:userEmail' element={<UserPortfolioDisplay />} />
           <Route path='band/:bandId' element={<BandPortfolioDisplay />} />
         </Route>
@@ -88,7 +86,6 @@ function App() {
         <Route path='chat' element={<ChatPage />} />
         <Route path='song' element={<SongInfoPage />} />
         <Route path='community' element={<BandCommunityPage />} />
-        <Route path='ui' element={<UIPage />} />
         <Route path='oauth2/redirect' element={<OauthPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
