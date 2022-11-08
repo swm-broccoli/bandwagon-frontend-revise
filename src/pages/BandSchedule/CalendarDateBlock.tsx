@@ -10,7 +10,11 @@ const eventTypeColor = [
 ];
 
 function DateEventBlock({ event }: { event: ScheduleType }) {
-  return <div className={`${eventTypeColor[event.type]}`}>{event.title}</div>;
+  return (
+    <div className={`${eventTypeColor[event.type]} text-xs md:text-sm`}>
+      {event.title}
+    </div>
+  );
 }
 
 function CalendarDateBlock({ eventDate }: { eventDate: CalendarDateType }) {
@@ -19,7 +23,7 @@ function CalendarDateBlock({ eventDate }: { eventDate: CalendarDateType }) {
       onClick={() => {
         console.log(eventDate.schedules);
       }}
-      className='border border-[#f1f1f1] h-16 flex flex-col'
+      className='border border-[#f1f1f1] h-20 flex flex-col'
     >
       <h3 className='place-self-start mx-1 my-0.5 text-sm md:text-base'>
         {eventDate.date.getDate()}
