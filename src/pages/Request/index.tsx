@@ -6,25 +6,14 @@ import { BandRequestType } from '../../types/types';
 import ApplyCard from './ApplyCard';
 import InviteCard from './InviteCard';
 
-function BandRequest() {
-  const [type, setType] = useState<boolean>(false);
+function RequestPage(props: {type: boolean}) {
   const [loadApply, setLoadApply] = useState<boolean>(false);
   const [loadInvite, setLoadInvite] = useState<boolean>(false);
   const [requestSet, setRequestSet] = useState(new Set<BandRequestType>([]));
   const [requestList, setRequestList] = useState<BandRequestType[]>([]);
 
-  useEffect(()  => {
-    BandProfileAPI.getBandProfileInfo()
-    .then((res) => {
-      if (res.status === 200) setType(true);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }, []);
-
   useEffect(() => {
-    BandRequestAPI.GetApplyRequest(type)
+    BandRequestAPI.GetApplyRequest(props.type)
     .then((res) => {
       console.log(res.data.requests);
       res.data.requests.map((request: BandRequestType) => {
@@ -36,7 +25,7 @@ function BandRequest() {
       console.log(err);
     })
 
-    BandRequestAPI.GetInviteRequest((type))
+    BandRequestAPI.GetInviteRequest((props.type))
     .then((res) => {
       console.log(res.data.requests);
       res.data.requests.map((request: BandRequestType) => {
@@ -47,7 +36,7 @@ function BandRequest() {
     .catch((err) => {
       console.log(err);
     })
-  }, [type]);
+  }, [props.type]);
 
   useEffect(() => {
     setRequestList(Array.from(requestSet))
@@ -64,8 +53,8 @@ function BandRequest() {
         key={index}
         className='w-full max-w-xl h-36 p-5 border-solid border-[#e9e9e9] border bg-white rounded-xl'>
         {request.type == 'APPLY' ? 
-        <ApplyCard type={type} request={request} /> :
-        <InviteCard type={type} request={request} />}
+        <ApplyCard type={props.type} request={request} /> :
+        <InviteCard type={props.type} request={request} />}
       </li>
       )}
       </ul>
@@ -74,4 +63,4 @@ function BandRequest() {
 
 }
 
-export default BandRequest
+export default RequestPage
