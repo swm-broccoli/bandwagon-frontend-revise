@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import BandProfileAPI from '../../apis/BandProfileAPI';
 import RequestAPI from '../../apis/RequestAPI';
+import BandPageTemplate from '../../components/BandPageTemplate';
 import MyPageTemplate from '../../components/MyPageTemplate';
 import { BandRequestType } from '../../types/types';
 import ApplyCard from './ApplyCard';
@@ -45,22 +46,39 @@ function RequestPage(props: {type: boolean}) {
     });
   }, [loadApply, loadInvite]); 
 
-  return (
-    <MyPageTemplate>
-      <ul className='flex flex-col gap-4'>
-      {requestList.map((request, index) =>
-      <li
-        key={index}
-        className='w-full max-w-xl h-36 p-5 border-solid border-[#e9e9e9] border bg-white rounded-xl'>
-        {request.type == 'APPLY' ? 
-        <ApplyCard type={props.type} request={request} /> :
-        <InviteCard type={props.type} request={request} />}
-      </li>
-      )}
-      </ul>
-    </MyPageTemplate>
-  )
-
+  if (props.type) {
+    return (
+      <BandPageTemplate>
+        <ul className='flex flex-col gap-4'>
+        {requestList.map((request, index) =>
+        <li
+          key={index}
+          className='w-full max-w-xl h-36 p-5 border-solid border-[#e9e9e9] border bg-white rounded-xl'>
+          {request.type == 'APPLY' ? 
+          <ApplyCard type={props.type} request={request} /> :
+          <InviteCard type={props.type} request={request} />}
+        </li>
+        )}
+        </ul>
+      </BandPageTemplate>
+    )
+  } else {
+    return (
+      <MyPageTemplate>
+        <ul className='flex flex-col gap-4'>
+        {requestList.map((request, index) =>
+        <li
+          key={index}
+          className='w-full max-w-xl h-36 p-5 border-solid border-[#e9e9e9] border bg-white rounded-xl'>
+          {request.type == 'APPLY' ? 
+          <ApplyCard type={props.type} request={request} /> :
+          <InviteCard type={props.type} request={request} />}
+        </li>
+        )}
+        </ul>
+      </MyPageTemplate>
+    )
+  }
 }
 
 export default RequestPage
