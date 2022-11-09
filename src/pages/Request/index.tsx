@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BandProfileAPI from '../../apis/BandProfileAPI';
-import BandRequestAPI from '../../apis/BandRequestAPI';
+import RequestAPI from '../../apis/RequestAPI';
 import MyPageTemplate from '../../components/MyPageTemplate';
 import { BandRequestType } from '../../types/types';
 import ApplyCard from './ApplyCard';
@@ -13,7 +13,7 @@ function RequestPage(props: {type: boolean}) {
   const [requestList, setRequestList] = useState<BandRequestType[]>([]);
 
   useEffect(() => {
-    BandRequestAPI.GetApplyRequest(props.type)
+    RequestAPI.GetApplyRequest(props.type)
     .then((res) => {
       console.log(res.data.requests);
       res.data.requests.map((request: BandRequestType) => {
@@ -25,7 +25,7 @@ function RequestPage(props: {type: boolean}) {
       console.log(err);
     })
 
-    BandRequestAPI.GetInviteRequest((props.type))
+    RequestAPI.GetInviteRequest((props.type))
     .then((res) => {
       console.log(res.data.requests);
       res.data.requests.map((request: BandRequestType) => {

@@ -8,7 +8,7 @@ import ico_x from '../../assets/ico_x.svg';
 import RecruitProcessAPI from '../../apis/RecruitProcessAPI';
 import { AreaType, PrequisiteResponseType, SelectionType } from '../../types/types';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
-import BandRequestAPI from '../../apis/BandRequestAPI';
+import RequestAPI from '../../apis/RequestAPI';
 import { Link, useParams } from 'react-router-dom';
 import { useLoginStore } from '../../stores/LoginStore';
 import SendbirdChat from '@sendbird/chat';
@@ -256,7 +256,7 @@ function ApplyBox (props: {
 
   function handleApplyClick (e: React.MouseEvent<HTMLButtonElement>) {
     if (checkedAll && postID) {
-      BandRequestAPI.ApplyBand(postID)
+      RequestAPI.ApplyBand(postID)
       .then((res) => {
         console.log(res);
         if (res) {window.alert('지원이 완료되었습니다!');}
