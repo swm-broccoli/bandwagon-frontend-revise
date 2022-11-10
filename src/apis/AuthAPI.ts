@@ -20,6 +20,7 @@ interface AuthApiType {
   }) => Promise<AxiosResponse>;
   checkEmail: (userInfo: { email: string }) => Promise<AxiosResponse>;
   checkToken: () => Promise<AxiosResponse>;
+  loadUserInfo: () => Promise<AxiosResponse>;
 }
 
 const AuthAPI: AuthApiType = {
@@ -37,6 +38,7 @@ const AuthAPI: AuthApiType = {
   signUp: (userInfo) => request.post('api/signup', userInfo),
   checkEmail: (userInfo) => request.post('api/duplicate', userInfo),
   checkToken: () => request.get(''),
+  loadUserInfo: () => request.get('api/users'),
 };
 
 export default AuthAPI;

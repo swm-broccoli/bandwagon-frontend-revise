@@ -1,8 +1,24 @@
 import GlobalNavBar from './NavBar/NavBar';
 import MyPageMenu, { myPageMenuItems } from './MyPageMenu';
 import GlobalFooter from './Footer';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AuthAPI from '../apis/AuthAPI';
 
 function MyPageTemplate({ children }: { children: React.ReactNode }) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    AuthAPI.loadUserInfo()
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        alert('로그인을 해야 이용할 수 있습니다.');
+        navigate('/login');
+      });
+  }, []);
+
   return (
     <div>
       <GlobalNavBar />

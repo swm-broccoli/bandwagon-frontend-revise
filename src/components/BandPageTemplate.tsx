@@ -13,6 +13,9 @@ import bandPortfolioIcon from '../assets/bandPageIcons/bandPortfolioIcon.png';
 import bandPortfolioIconActive from '../assets/bandPageIcons/bandPortfolioIconActive.png';
 import bandApplyIcon from '../assets/bandPageIcons/bandApplyIcon.png';
 import bandApplyIconActive from '../assets/bandPageIcons/bandApplyIconActive.png';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import AuthAPI from '../apis/AuthAPI';
 
 const bandPageMenuItems = [
   {
@@ -48,6 +51,19 @@ const bandPageMenuItems = [
 ];
 
 function BandPageTemplate({ children }: { children: React.ReactNode }) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    AuthAPI.loadUserInfo()
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        alert('로그인을 해야 이용할 수 있습니다.');
+        navigate('/login');
+      });
+  }, []);
+
   return (
     <div>
       <GlobalNavBar />
