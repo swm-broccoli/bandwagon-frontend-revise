@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import TagElement from './TagElement';
-import ExamplePic from '../assets/examplepic.png';
 import DefaultPostImg from '../assets/default/post_no_img.png';
 import DefaultBandImg from '../assets/default/band_no_img.svg';
 import DefaultUserImg from '../assets/default/man_no_img.svg';
@@ -8,6 +7,13 @@ import Heart from '../assets/ic_heart.svg';
 import CheckedHeart from '../assets/ic_heart_checked.svg';
 import { PostCardType } from '../types/types';
 import RecruitPostAPI from '../apis/RecruitPostAPI';
+
+function extractImageFromHtml(html: string): string {
+  const img = new DOMParser()
+    .parseFromString(html, 'text/html')
+    .querySelector('img');
+  return img ? img.src : DefaultPostImg;
+}
 
 function ArticleCard(props: { postInfo: PostCardType }) {
   const [isLiked, setIsLiked] = useState<boolean>(false);
@@ -24,29 +30,17 @@ function ArticleCard(props: { postInfo: PostCardType }) {
 
   return (
     <div className='w-full max-w-xl h-fit grid grid-cols-[15fr_40fr_3fr] grid-rows-[50px_44px_auto] gap-x-5 p-5 border-solid border-[#e9e9e9] border bg-white rounded-xl mt-5'>
-      {props.postInfo.dtype == 'Band' ? (
-        props.postInfo.bandAvatarUrl ? (
+      {extractImageFromHtml(props.postInfo.body) === '' ? (
           <img
             src={DefaultPostImg}
             className='w-[7.5rem] h-[7.5rem] row-start-1 row-end-4 col-start-1 mr-7 object-cover rounded-xl'
           />
         ) : (
           <img
-            src={DefaultPostImg}
+            src={extractImageFromHtml(props.postInfo.body)}
             className='w-[7.5rem] h-[7.5rem] row-start-1 row-end-4 col-start-1 mr-7 object-cover rounded-xl'
           />
-        )
-      ) : props.postInfo.userAvatarUrl ? (
-        <img
-          src={DefaultPostImg}
-          className='w-[7.5rem] h-[7.5rem] row-start-1 row-end-4 col-start-1 mr-7 object-cover rounded-xl'
-        />
-      ) : (
-        <img
-          src={DefaultPostImg}
-          className='w-[7.5rem] h-[7.5rem] row-start-1 row-end-4 col-start-1 mr-7 object-cover rounded-xl'
-        />
-      )}
+        )}
       <div className='row-start-1 col-start-2 w-full h-[1.625rem] mt-[0.625rem] mb-3.5 truncate font-medium text-lg text-accent'>
         {props.postInfo.title}
       </div>

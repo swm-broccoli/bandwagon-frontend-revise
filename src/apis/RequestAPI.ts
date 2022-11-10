@@ -2,7 +2,7 @@
 import { AxiosResponse } from 'axios';
 import { request } from './request';
 
-interface BandRequestApiType {
+interface RequestApiType {
   ApplyBand: (postId: string) => Promise<AxiosResponse>;
   InviteBand: (userId: number) => Promise<AxiosResponse>;
   GetApplyRequest: (type: boolean) => Promise<AxiosResponse>;
@@ -13,7 +13,7 @@ interface BandRequestApiType {
   DeleteInvite: (requestId: number) => Promise<AxiosResponse>;
 };
 
-const BandRequestAPI: BandRequestApiType = {
+const RequestAPI: RequestApiType = {
   ApplyBand: (postId) => {
     return request.post('api/request/apply?postId=' + postId);
   },
@@ -44,4 +44,4 @@ const BandRequestAPI: BandRequestApiType = {
   },
 };
 
-export default BandRequestAPI;
+export default RequestAPI;

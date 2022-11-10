@@ -14,7 +14,6 @@ import FindPasswordPage from './pages/FindPassword';
 import FindEmailPage from './pages/FindEmail';
 import NotFoundPage from './pages/NotFound';
 import LikedPost from './pages/LikedPost';
-import BandRequest from './pages/BandRequest';
 import MyPostPage from './pages/MyPost';
 import ChatPage from './pages/Chat';
 import SongInfoPage from './pages/SongInfo';
@@ -30,6 +29,7 @@ import UserPortfolioDisplay from './pages/PortfolioDisplay/User';
 import BandPortfolioDisplay from './pages/PortfolioDisplay/Band';
 import BandTempPage from './pages/BandTempPage';
 import TempPage from './pages/TempPage';
+import RequestPage from './pages/Request';
 
 function App() {
   RouteChangeTracker();
@@ -50,7 +50,7 @@ function App() {
           <Route path='portfolio' element={<UserPortfolioPage />} />
           <Route path='account' element={<AccountEditPage />} />
           <Route path='password' element={<PasswordEditPage />} />
-          <Route path='apply' element={<BandRequest />} />
+          <Route path='apply' element={<RequestPage type={false} />} />
           <Route path='post' element={<MyPostPage />} />
           <Route path='liked' element={<LikedPost />} />
         </Route>
@@ -62,7 +62,7 @@ function App() {
           <Route path='schedule' element={<BandTempPage />} />
           <Route path='community' element={<BandTempPage />} />
           <Route path='portfolio' element={<BandPortfolioPage />} />
-          <Route path='apply' element={<BandRequest />} />
+          <Route path='apply' element={<RequestPage type={true} />} />
         </Route>
         <Route path='portfolio' element={<Outlet />}>
           <Route path='user/print' element={<UserPortFolioPrintPage />} />
