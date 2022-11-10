@@ -103,7 +103,6 @@ function RequirementBox (props: {postId: string | undefined}) {
     <div className='flex flex-col gap-4'>
       <h3 className='text-accent text-base'>모집 정보</h3>
       <BandPrequisitesCard postId={props.postId} />
-      <BandFormCard />
     </div>
   );
 };
