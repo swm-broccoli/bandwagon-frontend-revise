@@ -9,7 +9,7 @@ import ProfileAddModal from '../../components/ProfileAddModal';
 import BandProfileAPI from '../../apis/BandProfileAPI';
 import { FaCrown } from 'react-icons/fa';
 import RecruitPostAPI from '../../apis/RecruitPostAPI';
-import BandRequestAPI from '../../apis/BandRequestAPI';
+import RequestAPI from '../../apis/RequestAPI';
 
 export function BandProfileAvatar({
   avatarURL,
@@ -220,7 +220,7 @@ function BandMemberAddButton({
     RecruitPostAPI.LoadUserInfo(newMemberEmail)
       .then((res) => {
         if (res.data.id) {
-          BandRequestAPI.InviteBand(res.data.id)
+          RequestAPI.InviteBand(res.data.id)
             .then((res) => {
               console.log(res);
               if (res) window.alert(newMemberEmail + '에게 초대를 보냈습니다!');

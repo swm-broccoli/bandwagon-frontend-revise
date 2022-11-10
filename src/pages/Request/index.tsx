@@ -1,30 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import BandProfileAPI from '../../apis/BandProfileAPI';
-import BandRequestAPI from '../../apis/BandRequestAPI';
+import RequestAPI from '../../apis/RequestAPI';
+import BandPageTemplate from '../../components/BandPageTemplate';
 import MyPageTemplate from '../../components/MyPageTemplate';
 import { BandRequestType } from '../../types/types';
 import ApplyCard from './ApplyCard';
 import InviteCard from './InviteCard';
 
-function BandRequest() {
-  const [type, setType] = useState<boolean>(false);
+function RequestPage(props: {type: boolean}) {
   const [loadApply, setLoadApply] = useState<boolean>(false);
   const [loadInvite, setLoadInvite] = useState<boolean>(false);
   const [requestSet, setRequestSet] = useState(new Set<BandRequestType>([]));
   const [requestList, setRequestList] = useState<BandRequestType[]>([]);
 
-  useEffect(()  => {
-    BandProfileAPI.getBandProfileInfo()
-    .then((res) => {
-      if (res.status === 200) setType(true);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }, []);
-
   useEffect(() => {
-    BandRequestAPI.GetApplyRequest(type)
+    RequestAPI.GetApplyRequest(props.type)
     .then((res) => {
       console.log(res.data.requests);
       res.data.requests.map((request: BandRequestType) => {
@@ -36,7 +26,7 @@ function BandRequest() {
       console.log(err);
     })
 
-    BandRequestAPI.GetInviteRequest((type))
+    RequestAPI.GetInviteRequest((props.type))
     .then((res) => {
       console.log(res.data.requests);
       res.data.requests.map((request: BandRequestType) => {
@@ -47,7 +37,7 @@ function BandRequest() {
     .catch((err) => {
       console.log(err);
     })
-  }, [type]);
+  }, [props.type]);
 
   useEffect(() => {
     setRequestList(Array.from(requestSet))
@@ -56,22 +46,39 @@ function BandRequest() {
     });
   }, [loadApply, loadInvite]); 
 
-  return (
-    <MyPageTemplate>
-      <ul className='flex flex-col gap-4'>
-      {requestList.map((request, index) =>
-      <li
-        key={index}
-        className='w-full max-w-xl h-36 p-5 border-solid border-[#e9e9e9] border bg-white rounded-xl'>
-        {request.type == 'APPLY' ? 
-        <ApplyCard type={type} request={request} /> :
-        <InviteCard type={type} request={request} />}
-      </li>
-      )}
-      </ul>
-    </MyPageTemplate>
-  )
-
+  if (props.type) {
+    return (
+      <BandPageTemplate>
+        <ul className='flex flex-col gap-4'>
+        {requestList.map((request, index) =>
+        <li
+          key={index}
+          className='w-full max-w-xl h-36 p-5 border-solid border-[#e9e9e9] border bg-white rounded-xl'>
+          {request.type == 'APPLY' ? 
+          <ApplyCard type={props.type} request={request} /> :
+          <InviteCard type={props.type} request={request} />}
+        </li>
+        )}
+        </ul>
+      </BandPageTemplate>
+    )
+  } else {
+    return (
+      <MyPageTemplate>
+        <ul className='flex flex-col gap-4'>
+        {requestList.map((request, index) =>
+        <li
+          key={index}
+          className='w-full max-w-xl h-36 p-5 border-solid border-[#e9e9e9] border bg-white rounded-xl'>
+          {request.type == 'APPLY' ? 
+          <ApplyCard type={props.type} request={request} /> :
+          <InviteCard type={props.type} request={request} />}
+        </li>
+        )}
+        </ul>
+      </MyPageTemplate>
+    )
+  }
 }
 
-export default BandRequest
+export default RequestPage

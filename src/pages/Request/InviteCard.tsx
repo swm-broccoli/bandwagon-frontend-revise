@@ -2,10 +2,11 @@ import React from 'react';
 import { BandRequestType } from '../../types/types';
 import DefaultBandImg from '../../assets/default/band_no_img.svg';
 import DefaultUserImg from '../../assets/default/man_no_img.svg';
-import BandRequestAPI from '../../apis/BandRequestAPI';
+import RequestAPI from '../../apis/RequestAPI';
 import { GroupChannelCreateParams, GroupChannelModule } from '@sendbird/chat/groupChannel';
 import SendbirdChat from '@sendbird/chat';
 import { useLoginStore } from '../../stores/LoginStore';
+import { Link } from 'react-router-dom';
 
 function InviteCard(props: {
   type: boolean
@@ -40,7 +41,7 @@ function InviteCard(props: {
   }
   
   function handleAcceptClick (e: React.MouseEvent<HTMLButtonElement>) {
-    BandRequestAPI.AcceptInvite(true, props.request.id)
+    RequestAPI.AcceptInvite(true, props.request.id)
     .then((res) => {
       window.alert(props.request.band.name + '의 멤버가 되었습니다!');
     })
@@ -50,7 +51,7 @@ function InviteCard(props: {
   }
   
   function handleRejectClick (e: React.MouseEvent<HTMLButtonElement>) {
-    BandRequestAPI.AcceptInvite(true, props.request.id)
+    RequestAPI.AcceptInvite(true, props.request.id)
     .then((res) => {
       window.alert('초대를 거절하였습니다');
     })
@@ -60,7 +61,7 @@ function InviteCard(props: {
   }
   
   function handleDeleteClick (e: React.MouseEvent<HTMLButtonElement>) {
-    BandRequestAPI.DeleteInvite(props.request.id)
+    RequestAPI.DeleteInvite(props.request.id)
     .then((res) => {
       window.alert('초대를 취소하였습니다');
     })
@@ -95,17 +96,21 @@ function InviteCard(props: {
       }
       {props.type ?
       <div className='row-start-2 col-start-1 col-end-3 md:col-start-2 h-8 self-end justify-self-end flex gap-2'>
-        <button
-          onClick={handleChatClick}
-          className='btn btn-ghost min-h-fit h-full text-sm'>채팅</button>
+        <Link to='/chat'>
+          <button
+            onClick={handleChatClick}
+            className='btn btn-ghost min-h-fit h-full text-sm'>채팅</button>
+        </Link>
         <button
           onClick={handleDeleteClick}
           className='btn bg-base-300 border-base-300 text-gray-700 min-h-fit h-8 row-start-2 col-start-2 self-end justify-self-end'>취소</button>
       </div> :
       <div className='row-start-2 col-start-1 col-end-3 md:col-start-2 h-8 self-end justify-self-end flex gap-2'>
-        <button
-          onClick={handleChatClick}
-          className='btn btn-ghost min-h-fit h-full text-sm'>채팅</button>
+        <Link to='/chat'>
+          <button
+            onClick={handleChatClick}
+            className='btn btn-ghost min-h-fit h-full text-sm'>채팅</button>
+        </Link>
         <button
           onClick={handleAcceptClick}
           className='btn btn-primary min-h-fit h-full text-sm'>수락</button>
