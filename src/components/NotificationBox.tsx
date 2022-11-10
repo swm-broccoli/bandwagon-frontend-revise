@@ -4,19 +4,22 @@ import RecruitProcessAPI from '../apis/RecruitProcessAPI';
 import { NotificationType } from '../types/types';
 
 function NotificationElement(props: { notification: NotificationType }) {
-  if (
-    props.notification.type == 'APPLY' ||
-    props.notification.type == 'INVITE'
-  ) {
+  if (props.notification.type == 'APPLY') {
     return (
       <li className='w-full h-fit'>
-        <Link to='/profile/request'>{props.notification.message}</Link>
+        <Link to='/band/apply'>{props.notification.message}</Link>
       </li>
     );
-  } else {
+  } else if (props.notification.type == 'INVITE') {
     return (
       <li className='w-full h-fit'>
-        <Link to='/profile/band'>{props.notification.message}</Link>
+        <Link to='/my/apply'>{props.notification.message}</Link>
+      </li>
+    );
+   } else {
+    return (
+      <li className='w-full h-fit'>
+        <Link to='/band/profile'>{props.notification.message}</Link>
       </li>
     );
   }
