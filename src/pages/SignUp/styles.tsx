@@ -145,7 +145,7 @@ function SignUpForm() {
         gender: signUpUserInput.gender === '남자' ? false : true,
       })
         .then((res) => {
-          alert(res.data.id + ' 로 회원가입 성공!');
+          alert('회원가입 성공! 로그인 후 이용해 주세요');
           navigate('/');
         })
         .catch(() => {
