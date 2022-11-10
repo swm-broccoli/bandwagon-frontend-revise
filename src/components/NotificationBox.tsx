@@ -13,15 +13,12 @@ function NotificationElement(props: { notification: NotificationType }) {
   } else if (props.notification.type == 'INVITE') {
     return (
       <li className='w-full h-fit'>
-<<<<<<< HEAD
         <Link to='/my/apply'>{props.notification.message}</Link>
       </li>
     );
-   } else {
+  } else {
     return (
-      <li className='w-full h-fit'>
-=======
->>>>>>> 01d1ea295f0cfcc35e325d460beae22940427cb0
+      <li>
         <Link to='/band/profile'>{props.notification.message}</Link>
       </li>
     );
