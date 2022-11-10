@@ -10,13 +10,13 @@ function NotificationElement(props: { notification: NotificationType }) {
   ) {
     return (
       <li className='w-full h-fit'>
-        <Link to='/profile/request'>{props.notification.message}</Link>
+        <Link to='/band/apply'>{props.notification.message}</Link>
       </li>
     );
   } else {
     return (
       <li className='w-full h-fit'>
-        <Link to='/profile/band'>{props.notification.message}</Link>
+        <Link to='/band/profile'>{props.notification.message}</Link>
       </li>
     );
   }
