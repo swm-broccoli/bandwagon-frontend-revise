@@ -57,10 +57,17 @@ function App() {
 
         <Route path='band'>
           <Route path='profile' element={<BandProfilePage />} />
-          {/*<Route path='schedule' element={<SchedulePage />} />
-          <Route path='community' element={<BandCommunityPage />} />*/}
-          <Route path='schedule' element={<BandTempPage />} />
-          <Route path='community' element={<BandTempPage />} />
+          {import.meta.env.PROD ? (
+            <>
+              <Route path='schedule' element={<BandTempPage />} />
+              <Route path='community' element={<BandTempPage />} />
+            </>
+          ) : (
+            <>
+              <Route path='schedule' element={<SchedulePage />} />
+              <Route path='community' element={<BandCommunityPage />} />
+            </>
+          )}
           <Route path='portfolio' element={<BandPortfolioPage />} />
           <Route path='apply' element={<RequestPage type={true} />} />
         </Route>
@@ -89,7 +96,11 @@ function App() {
           <Route path=':postID' element={<ReadRecruitPage />} />
         </Route>
         <Route path='chat' element={<ChatPage />} />
-        {/*<Route path='song' element={<SongInfoPage />} />*/}
+        {import.meta.env.PROD ? (
+          <Route path='temp' element={<TempPage />} />
+        ) : (
+          <Route path='song' element={<SongInfoPage />} />
+        )}
         <Route path='song' element={<TempPage />} />
         <Route path='oauth2/redirect' element={<OauthPage />} />
         <Route path='*' element={<NotFoundPage />} />
