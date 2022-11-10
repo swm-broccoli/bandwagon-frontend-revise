@@ -27,6 +27,8 @@ import UserPortFolioPrintPage from './pages/PortfolioPrint/User';
 import BandPortFolioPrintPage from './pages/PortfolioPrint/Band';
 import UserPortfolioDisplay from './pages/PortfolioDisplay/User';
 import BandPortfolioDisplay from './pages/PortfolioDisplay/Band';
+import BandTempPage from './pages/BandTempPage';
+import TempPage from './pages/TempPage';
 import RequestPage from './pages/Request';
 
 function App() {
@@ -55,8 +57,17 @@ function App() {
 
         <Route path='band'>
           <Route path='profile' element={<BandProfilePage />} />
-          <Route path='schedule' element={<SchedulePage />} />
-          <Route path='community' element={<BandCommunityPage />} />
+          {import.meta.env.PROD ? (
+            <>
+              <Route path='schedule' element={<BandTempPage />} />
+              <Route path='community' element={<BandTempPage />} />
+            </>
+          ) : (
+            <>
+              <Route path='schedule' element={<SchedulePage />} />
+              <Route path='community' element={<BandCommunityPage />} />
+            </>
+          )}
           <Route path='portfolio' element={<BandPortfolioPage />} />
           <Route path='apply' element={<RequestPage type={true} />} />
         </Route>
@@ -85,8 +96,12 @@ function App() {
           <Route path=':postID' element={<ReadRecruitPage />} />
         </Route>
         <Route path='chat' element={<ChatPage />} />
-        <Route path='song' element={<SongInfoPage />} />
-        <Route path='community' element={<BandCommunityPage />} />
+        {import.meta.env.PROD ? (
+          <Route path='temp' element={<TempPage />} />
+        ) : (
+          <Route path='song' element={<SongInfoPage />} />
+        )}
+        <Route path='song' element={<TempPage />} />
         <Route path='oauth2/redirect' element={<OauthPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
