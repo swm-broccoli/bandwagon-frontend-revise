@@ -118,7 +118,7 @@ function UserInfoCard(props: { type: boolean; userId: string | undefined }) {
             <h3 className='col-start-1 text-accent text-base'>유저 정보</h3>
             {props.type ? (
               <Link
-                to='/profile/user'
+                to='/my/profile'
                 className='col-start-2 justify-self-end text-sm text-primary'
               >
                 수정
