@@ -86,7 +86,6 @@ function App() {
         </Route>
         <Route path='chat' element={<ChatPage />} />
         <Route path='song' element={<SongInfoPage />} />
-        <Route path='community' element={<BandCommunityPage />} />
         <Route path='oauth2/redirect' element={<OauthPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
