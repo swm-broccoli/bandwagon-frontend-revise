@@ -58,7 +58,7 @@ function App() {
         <Route path='band'>
           <Route path='profile' element={<BandProfilePage />} />
           {/*<Route path='schedule' element={<SchedulePage />} />
-          <Route path='community' element={<BandCommunityPage />} />*/}
+          <Route path='community' element={<BandCommunityPage />} /> */}
           <Route path='schedule' element={<BandTempPage />} />
           <Route path='community' element={<BandTempPage />} />
           <Route path='portfolio' element={<BandPortfolioPage />} />
