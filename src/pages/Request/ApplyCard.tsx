@@ -3,7 +3,7 @@ import { BandRequestType } from '../../types/types';
 import DefaultBandImg from '../../assets/default/band_no_img.svg';
 import DefaultUserImg from '../../assets/default/man_no_img.svg';
 import { Link } from 'react-router-dom';
-import BandRequestAPI from '../../apis/BandRequestAPI';
+import RequestAPI from '../../apis/RequestAPI';
 import { GroupChannelCreateParams, GroupChannelModule } from '@sendbird/chat/groupChannel';
 import SendbirdChat from '@sendbird/chat';
 import { useLoginStore } from '../../stores/LoginStore';
@@ -41,7 +41,7 @@ function ApplyCard(props: {
   }
 
   function handleAcceptClick (e: React.MouseEvent<HTMLButtonElement>) {
-    BandRequestAPI.AcceptApply(true, props.request.id)
+    RequestAPI.AcceptApply(true, props.request.id)
     .then((res) => {
       window.alert(props.request.user.name + ' 님이 멤버가 되었습니다!');
     })
@@ -51,7 +51,7 @@ function ApplyCard(props: {
   }
 
   function handleRejectClick (e: React.MouseEvent<HTMLButtonElement>) {
-    BandRequestAPI.AcceptApply(true, props.request.id)
+    RequestAPI.AcceptApply(true, props.request.id)
     .then((res) => {
       window.alert('지원을 거절하였습니다');
     })
@@ -61,7 +61,7 @@ function ApplyCard(props: {
   }
 
   function handleDeleteClick (e: React.MouseEvent<HTMLButtonElement>) {
-    BandRequestAPI.DeleteApply(props.request.id)
+    RequestAPI.DeleteApply(props.request.id)
     .then((res) => {
       window.alert('지원을 취소하였습니다');
     })
@@ -101,9 +101,11 @@ function ApplyCard(props: {
       </Link>
       {props.type ?
       <div className='row-start-3 col-start-1 col-end-3 md:col-start-2 h-full justify-self-end flex gap-2'>
-        <button
-          onClick={handleChatClick}
-          className='btn btn-ghost min-h-fit h-full text-sm'>채팅</button>
+        <Link to='/chat'>
+          <button
+            onClick={handleChatClick}
+            className='btn btn-ghost min-h-fit h-full text-sm'>채팅</button>
+        </Link>
         <button
           onClick={handleAcceptClick}
           className='btn btn-primary min-h-fit h-full text-sm'>수락</button>
@@ -112,9 +114,11 @@ function ApplyCard(props: {
           className='btn btn-error min-h-fit h-full text-sm'>거절</button>
       </div> :
       <div className='row-start-3 col-start-1 col-end-3 md:col-start-2 h-full justify-self-end flex gap-2'>
-        <button
-          onClick={handleChatClick}
-          className='btn btn-ghost min-h-fit h-full text-sm'>채팅</button>
+        <Link to='/chat'>
+          <button
+            onClick={handleChatClick}
+            className='btn btn-ghost min-h-fit h-full text-sm'>채팅</button>
+        </Link>
         <button
           onClick={handleDeleteClick}
           className='btn bg-base-300 border-base-300 text-gray-700 min-h-fit h-full row-start-3 col-start-2 justify-self-end'>취소</button>

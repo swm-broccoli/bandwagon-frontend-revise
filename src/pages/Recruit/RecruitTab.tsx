@@ -22,7 +22,7 @@ function TabMenu (props: {label: string}) {
 // true: 구인, false: 구직
 function RecruitTab (props: {clicked: boolean}) {
   return (
-    <div className='flex flex-row gap-[0.375rem] row-start-1 col-start-2 w-[5.375rem] h-10 pt-12'>
+    <div className='flex flex-row gap-[0.375rem] w-[5.375rem] h-10'>
       {props.clicked ?
       <>
         <ClickedTabMenu label='구인' />
