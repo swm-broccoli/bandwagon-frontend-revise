@@ -94,7 +94,7 @@ function MemberInfo(props: { members: BandMemberType[] | undefined }) {
             ) : (
               <img src={DefaultUserImg} className='w-7 h-7 rounded-full' />
             )}
-            <p className='text-accent text-base font-medium'>{member.name}</p>
+            <p className='text-accent text-base font-medium'>{member.nickname}</p>
             {member.positions.length ? (
               <TagElement tag={member.positions[0].name} />
             ) : (

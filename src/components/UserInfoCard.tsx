@@ -51,7 +51,7 @@ function AreaInfo(props: { text: AreaType[] | undefined }) {
   return (
     <div className='flex flex-col gap-[0.325rem]'>
       <h3 className='text-[#888888] text-sm'>활동 지역</h3>
-      <ul className='flex gap-[0.325rem]'>
+      <ul className='flex gap-[0.325rem] flex-wrap'>
         {props.text?.map((label, index) => (
           <li key={index} className='text-accent text-base'>
             {label.city + ' ' + label.district}
@@ -130,7 +130,7 @@ function UserInfoCard(props: { type: boolean; userId: string | undefined }) {
           <div className='flex flex-col md:grid md:grid-cols-2 md:auto-rows-auto w-full h-fit px-[14%] py-7 border border-[#e5e5e5] border-solid rounded-xl gap-7'>
             <ProfilePic avatarUrl={userInfo?.avatarUrl} />
             <div className='md:row-start-1 md:col-start-2 md:self-end'>
-              <TextInfo label='닉네임' text={userInfo?.name} />
+              <TextInfo label='닉네임' text={userInfo?.nickname} />
             </div>
             <PositionInfo positions={userInfo?.positions} />
             <div className='md:row-start-3 md:col-start-1 md:self-end'>

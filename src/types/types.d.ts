@@ -56,6 +56,7 @@ export interface BandMemberType {
   email: string | null;
   avatarUrl: string;
   name: string;
+  nickname: string;
   birthday: string;
   positions: SelectionType[];
   avatarUrl: string;
