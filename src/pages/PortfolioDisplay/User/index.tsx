@@ -31,7 +31,7 @@ function UserPortfolioDisplay() {
           userProfile.avatarUrl ? userProfile.avatarUrl : DefaultUserImg
         }
       />
-      <PortfolioText label='이름' text={userProfile.name} />
+      <PortfolioText label='닉네임' text={userProfile.nickname} />
       <PortfolioText label='생년월일' text={userProfile.birthday} />
       <PortfolioText label='성별' text={userProfile.gender ? '여자' : '남자'} />
       <PortfolioSelectList
