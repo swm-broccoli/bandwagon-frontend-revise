@@ -40,6 +40,7 @@ export interface UserProfileType {
   id: number;
   avatarUrl: string;
   name: string;
+  nickname: string;
   birthday: string;
   gender: boolean;
   positions: SelectionType[];
@@ -176,7 +177,7 @@ export interface BandRequestType {
   id: number;
   user: BandRequestInfoType;
   band: BandRequestInfoType;
-  post: {id: number, name: string} | null;
+  post: { id: number; name: string } | null;
   type: string;
 }
 

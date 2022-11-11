@@ -8,6 +8,7 @@ export interface bandPortfolioBriefType {
   id: number;
   avatarUrl: string;
   name: string;
+  nickname: string;
   description: string;
   dtype: 'User' | 'Band';
   portfolioLink: string;
@@ -60,7 +61,7 @@ function TodaysPortfolioItem({
           />
           <div className='card-body w-2/3 md:w-1/2 p-2 md:p-4'>
             <h2 className='card-title font-sans-kr text-base md:text-xl'>
-              {todayPortfolio.name}
+              {todayPortfolio.nickname}
             </h2>
             <p className='font-sans-kr text-sm md:text-base'>
               {todayPortfolio.description}
@@ -234,9 +235,7 @@ export function TodayPortfolio() {
 
   return (
     <section className='w-full overflow-hidden flex flex-col items-center bg-gradient-to-br from-primary to-secondary'>
-      <h1 className='text-base-100 text-xl font-sans-kr'>
-        오늘의 밴드 포트폴리오
-      </h1>
+      <h1 className='text-base-100 text-xl font-sans-kr'>오늘의 포트폴리오</h1>
       <h2 className='text-base-100 text-md font-montserrat'>
         P O R T F O L I O
       </h2>

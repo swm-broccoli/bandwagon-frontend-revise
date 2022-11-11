@@ -4,6 +4,7 @@ export const vacantUserProfile: UserProfileType = {
   id: -1,
   avatarUrl: '',
   name: '',
+  nickname: '',
   birthday: '2000-01-01',
   gender: false,
   positions: [],

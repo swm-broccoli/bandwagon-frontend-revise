@@ -294,6 +294,7 @@ export function BandMemberList({
               email: email,
               avatarUrl: res.data.avatarUrl,
               name: res.data.name,
+              nickname: res.data.nickname,
               birthday: res.data.birthday,
               positions: [],
               isFrontman: false,
