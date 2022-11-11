@@ -155,7 +155,7 @@ function ReadRecruitPage() {
               type={false}
               title={postInfo?.title}
               authorPic={userInfo?.avatarUrl}
-              authorName={userInfo?.name}
+              authorName={userInfo?.nickname}
             />
           )}
           <div className='row-start-2 col-start-2'>
